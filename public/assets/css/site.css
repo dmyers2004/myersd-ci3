@@ -1,0 +1,77 @@
+a {
+	background-color: transparent;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a.no-link-look, a.no-link-look:hover {
+	text-decoration: none;
+	color: black;
+}
+
+table a i, table a:hover i {
+	text-decoration: none;
+}
+
+.form-horizontal span.help-block {
+	margin-top: 0px;
+	font-size: 85%;
+	padding-left: 6px;
+}
+
+h3 {
+	margin: 0 0 16px;
+}
+h3 small {
+	padding: 0 16px 0;
+}
+
+
+/* header padding */
+body {
+  position: relative;
+  padding-top: 60px;
+}
+
+/* Desktop
+------------------------- */
+@media (min-width: 979px) {
+  body {
+      padding-top: 60px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+  /* Remove any padding from the body */
+  body {
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Remove any padding from the body */
+  body {
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Remove padding above jumbotron */
+  body {
+    padding-top: 0;
+  }
+}
+
+.txt-ar {
+	text-align: right !important;
+}
+.txt-ac {
+	text-align: center !important;
+}
+.txt-al {
+	text-align: left !important;
+}
