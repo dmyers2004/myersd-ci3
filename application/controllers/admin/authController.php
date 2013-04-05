@@ -22,25 +22,14 @@ class authController extends MY_PublicController {
 	}
 	
 	protected function form_validate() {
-		$json = $this->ajax_validate();
-		return $json['err'];
+		return $this->ajax_validate('err');
 	}
 	
-	protected function ajax_validate() {
-		$json = array();
-
+	protected function ajax_validate($err=false) {
 		$this->form_validation->set_rules('login', 'Login', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('remember', 'Remember me', 'integer');
 
-		$this->form_validation->set_error_delimiters('', '<br/>');
-
-		$json['err'] = !$this->form_validation->run();
-
-		$errors = validation_errors();
-
-		$json['errors'] = '<strong id="form-error-shown">Validation Error'.((count(explode('<br/>',$errors)) < 3) ? '' : 's').'</strong><br/>'.$errors;
-
-		return $json;
+		return $this->form_validation->json($err);
 	}
 }

@@ -1,11 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class MY_AdminController extends MY_PublicController {
-
+class MY_AdminController extends MY_PublicController
+{
 	public $layout = 'admin/_templates/default';
 	public $subtitle = 'Admin';
 
-	public function __construct() {
+	public function __construct()
+	{
 		parent::__construct();
 		/* check security */
 		if (!$this->tank_auth->is_logged_in()) {

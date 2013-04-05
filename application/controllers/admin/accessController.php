@@ -90,27 +90,16 @@ class accessController extends MY_AdminController {
 		$this->load->json($data);
 	}
 	
-	protected function form_validate($id=-1) {
-		$json = $this->ajax_validate($id);
-		return $json['err'];
+	protected function form_validate() {
+		return $this->ajax_validate('err');
 	}
 
-	protected function ajax_validate($id=-1) {
-		$data = $json = array();
+	protected function ajax_validate($err=false) {
+		$this->form_validation->set_rules('id', 'Id', 'required|integer');
+		$this->form_validation->set_rules('resource', 'Resource', 'required');
+		$this->form_validation->set_rules('description', 'Description', 'required|xss_clean');
 
-		$this->form_validation->set_rules('upriv_id', 'Id', 'required|integer');
-		$this->form_validation->set_rules('upriv_name', 'Resource', 'required');
-		$this->form_validation->set_rules('upriv_desc', 'Description', 'required|xss_clean');
-
-		$this->form_validation->set_error_delimiters('', '<br/>');
-
-		$json['err'] = !$this->form_validation->run();
-
-		$errors = validation_errors();
-
-		$json['errors'] = '<strong id="form-error-shown">Validation Error'.((count(explode('<br/>',$errors)) < 3) ? '' : 's').'</strong><br/>'.$errors;
-
-		return $json;
+		return $this->form_validation->json($err);
 	}
 		
 }
