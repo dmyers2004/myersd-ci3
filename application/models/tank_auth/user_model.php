@@ -87,6 +87,11 @@ class User_model extends CI_Model
 		return NULL;
 	}
 
+	function get_users_by_group($group_id) {
+		$this->db->where('group_id=', $group_id);
+		return $this->db->get($this->table_name)->results();
+	}
+
 	/**
 	 * Check if username available for registering
 	 *
@@ -367,6 +372,12 @@ class User_model extends CI_Model
 			'banned'		=> 0,
 			'ban_reason'	=> NULL,
 		));
+	}
+	
+	public function get_users() {
+		$this->db->where('activated',1);
+		$this->db->order_by('email');
+		return $this->db->get($this->table_name)->result();
 	}
 
 	/**

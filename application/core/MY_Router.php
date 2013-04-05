@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class MY_Router extends CI_Router {
-
+class MY_Router extends CI_Router
+{
 	/**
 	 *  Parse Routes
 	 *
@@ -10,42 +10,38 @@ class MY_Router extends CI_Router {
 	 * determine if the class/method need to be remapped.
 	 *
 	 * ## auto add on request and is ajax so controller _remap isn't needed
-	 * 
+	 *
 	 * @access	private
 	 * @return	void
 	 */
-	function _parse_routes()
+	public function _parse_routes()
 	{
 		// Turn the segment array into a URI string
 		$uri = implode('/', $this->uri->segments);
 
 		// Is there a literal match?  If so we're done
-		if (isset($this->routes[$uri]))
-		{
+		if (isset($this->routes[$uri])) {
 			return $this->_set_request(explode('/', $this->routes[$uri]));
 		}
 
 		// Loop through the route array looking for wild-cards
-		foreach ($this->routes as $key => $val)
-		{
+		foreach ($this->routes as $key => $val) {
 			// Convert wild-cards to RegEx
 			$key = str_replace(':any', '.+', str_replace(':num', '[0-9]+', $key));
 
 			// Does the RegEx match?
-			if (preg_match('#^'.$key.'$#', $uri))
-			{
+			if (preg_match('#^'.$key.'$#', $uri)) {
 				// Do we have a back-reference?
-				if (strpos($val, '$') !== FALSE AND strpos($key, '(') !== FALSE)
-				{
+				if (strpos($val, '$') !== FALSE AND strpos($key, '(') !== FALSE) {
 					$val = preg_replace('#^'.$key.'$#', $val, $uri);
 				}
 
 				/* start */
 				$ajax = ($_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') ? 'Ajax' : '' ;
-		
+
 		 		$request = ucfirst(strtolower($_SERVER['REQUEST_METHOD']));
 				$request = ($request == 'Get') ? '' : $request;
-						
+
 				if ($request == 'Put') {
 					parse_str(file_get_contents('php://input'), $_POST);
 				}
@@ -62,6 +58,3 @@ class MY_Router extends CI_Router {
 	}
 
 }
-
-
-    

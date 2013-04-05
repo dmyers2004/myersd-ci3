@@ -159,7 +159,7 @@ class Tank_auth
 	 * @param	bool
 	 * @return	array
 	 */
-	function create_user($username, $email, $password, $email_activation)
+	function create_user($username, $email, $password, $group_id, $email_activation)
 	{
 		if ((strlen($username) > 0) AND !$this->ci->user_model->is_username_available($username)) {
 			$this->error = array('username' => 'auth_username_in_use');
@@ -178,12 +178,14 @@ class Tank_auth
 				'username'	=> $username,
 				'password'	=> $hashed_password,
 				'email'		=> $email,
+				'group_id' => $group_id,
 				'last_ip'	=> $this->ci->input->ip_address(),
 			);
 
 			if ($email_activation) {
 				$data['new_email_key'] = md5(rand().microtime());
 			}
+			
 			if (!is_null($res = $this->ci->user_model->create_user($data, !$email_activation))) {
 				$data['user_id'] = $res['user_id'];
 				$data['password'] = $password;
@@ -191,6 +193,7 @@ class Tank_auth
 				return $data;
 			}
 		}
+		
 		return NULL;
 	}
 
@@ -639,6 +642,18 @@ class Tank_auth
 					$this->ci->config->item('login_attempt_expire', 'tank_auth'));
 		}
 	}
+	
+	/* wrappers for the model pass thru */
+	public function __call($method, $arguments)
+	{
+		if (!method_exists( $this->ci->user_model, $method) )
+		{
+			throw new Exception('Undefined method user::' . $method . '() called');
+		}
+
+		return call_user_func_array( array($this->ci->user_model, $method), $arguments);
+	}
+	
 }
 
 /* End of file Tank_auth.php */

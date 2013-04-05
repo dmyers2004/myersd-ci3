@@ -2,21 +2,32 @@
 
 class MY_Form_validation extends CI_Form_validation {
 
-	private $flags = array(
-		'scheme' => 'FILTER_FLAG_SCHEME_REQUIRED',
-		'host' 	 => 'FILTER_FLAG_HOST_REQUIRED',
-		'path'	 => 'FILTER_FLAG_PATH_REQUIRED',
-		'query'	 => 'FILTER_FLAG_QUERY_REQUIRED'
-	);
+	/* make this public not protected */
+	public $_field_data = array();
 
-	public function __construct() {
-    parent::__construct();
+	public function json($err=false) {
+		$json = array();
+
+		$this->set_error_delimiters('', '<br/>');
+
+		$json['err'] = !$this->run();
+
+		$json['errors_raw'] = $errors = validation_errors();
+		$json['errors_array'] = $this->error_array();
+
+		$json['errors'] = '<strong id="form-error-shown">Validation Error'.((count(explode('<br/>',$errors)) < 3) ? '' : 's').'</strong><br/>'.$errors;
+		
+		if ($err) {
+			$json = $json['err'];
+		}
+
+		return $json;
 	}
 
 	/* test if it's 1 or 0 */
 	public function tf($str, $field) {
 		$this->CI->form_validation->set_message('tf', 'The %s is a invalid.');
-		return ($str == 1 || $str == 0) ? true : false;
+		return ((int)$str == 1 || (int)$str == 0) ? true : false;
 	}
 
 	/* exists */
@@ -254,67 +265,46 @@ class MY_Form_validation extends CI_Form_validation {
 		return (bool) ($str['size']<=$size);
 
 	}//end max_file_size()
-
-  /**
-	 * validate url with one optional flag: 'scheme', 'host', 'path', 'query'
-	 *
-	 * @param string $url
-	 * @param string $flag
-	 * @return bool
-	 */
-	public function valid_url($url,$flag = FALSE)
-	{
-		if (isset($flag) && ! empty($flag))
-		{
-			$this->CI->form_validation->set_message('valid_url', 'The %s does not contain a valid ' . $flag);
-			return (!filter_var($url,FILTER_VALIDATE_URL,$this->flags[$flag])) ? FALSE : TRUE;
-		}
-		else
-		{
-			$this->CI->form_validation->set_message('valid_url', 'The %s is not a valid url');
-			return (!filter_var($url,FILTER_VALIDATE_URL)) ? FALSE : TRUE;
-		}
-	}
 	
 	/* PHP input filters */
 	
-	public function filter_int($inp, $length = 2048) {
+	public function filter_int($inp, $length) {
 		return substr(filter_var($inp,FILTER_SANITIZE_NUMBER_INT),0,$length);
 	}
 
-	public function filter_bol($inp, $length = 2048) {
+	public function filter_bol($inp, $length) {
 		return substr(filter_var($inp,FILTER_VALIDATE_BOOLEAN),0,$length);
 	}
 
-	public function filter_float($inp, $length = 2048) {
+	public function filter_float($inp, $length) {
 		return substr(filter_var($inp,FILTER_SANITIZE_NUMBER_FLOAT),0,$length);
 	}
 
-	public function filter_string($inp, $length = 2048) {
+	public function filter_string($inp, $length) {
 		return substr(filter_var($inp,FILTER_SANITIZE_STRING),0,$length);
 	}
 
-	public function filter_url($inp, $length = 2048) {
+	public function filter_url($inp, $length) {
 		return substr(filter_var($inp,FILTER_SANITIZE_URL),0,$length);
 	}
 
-	public function filter_email($inp, $length = 2048) {
+	public function filter_email($inp, $length) {
 		return substr(filter_var($inp,FILTER_SANITIZE_EMAIL),0,$length);
 	}
 
-	public function filter_ip($inp, $length = 2048) {
+	public function filter_ip($inp, $length) {
 		return substr(filter_var($inp,FILTER_VALIDATE_IP),0,$length);
 	}
 
-	public function filter_encoded($inp, $length = 2048) {
+	public function filter_encoded($inp, $length) {
 		return substr(filter_var($inp,FILTER_SANITIZE_ENCODED),0,$length);
 	}
 
-	public function filter_special_chars($inp, $length = 2048) {
+	public function filter_special_chars($inp, $length) {
 		return substr(filter_var($inp,FILTER_SANITIZE_SPECIAL_CHARS),0,$length);
 	}
 
-	public function filter_raw($inp, $length = 4096) {
+	public function filter_raw($inp, $length) {
 		return substr(filter_var($inp,FILTER_UNSAFE_RAW),0,$length);
 	}	
 	
