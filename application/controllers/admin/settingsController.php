@@ -66,12 +66,16 @@ class settingsController extends MY_AdminController {
 
 	public function editPostAction() {
 		$data = array();
-		$id = $this->input->post('option_id');
+		$map = array(
+			'id>>>trim|integer|filter_int[5]',
+			'option_name>>>trim',
+			'option_value>>>trim',
+			'option_group>>>trim|alpha_numeric_spaces',
+			'auto_load>>0>tf|filter_int[1]'
+		);
 
-		$this->input->map($data,'option_name,option_value,option_group,auto_load>0');
-
-		if ($this->input->filter($id,'trim|integer|filter_int[5]',true)) {
-			if ($this->settings_model->update($id,$data)) {
+		if ($this->input->map($map,$data)) {
+			if ($this->settings_model->update($data['id'],$data)) {
 				$this->flash_msg->updated($this->title,'/admin/'.$this->controller);
 			}
 		}
@@ -83,7 +87,7 @@ class settingsController extends MY_AdminController {
 		$json['err'] = true;
 
 		/* can they delete? */
-		if ($this->input->filter($id,'trim|integer|filter_int[5]',true)) {
+		if ($this->input->filter($id,'trim|integer|filter_int[5]')) {
 			if ($this->settings_model->delete($id)) {
 				$json['err'] = false;
 			}
@@ -95,7 +99,7 @@ class settingsController extends MY_AdminController {
 	public function autoloadAjaxAction($id=null,$mode=null) {
 		$json['err'] = true;
 
-		if ($this->input->filter($id,'trim|integer|filter_int[5]',true) && $this->input->filter($mode,'trim|tf|filter_int[1]',true)) {
+		if ($this->input->filter($id,'trim|integer|filter_int[5]') && $this->input->filter($mode,'trim|tf|filter_int[1]')) {
 			if ($this->settings_model->update_autoload($id, $mode)) {
 				$json['err'] = false;
 			}

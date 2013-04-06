@@ -2,13 +2,36 @@
 
 class authController extends MY_PublicController {
 
+	public $rule = array(
+		array(
+			'field' => 'email',
+			'label' => 'Email',
+			'rules' => 'trim|required|xss_clean|filter_str[72]',
+		),
+		array(
+			'field' => 'password',
+			'label' => 'Password',
+			'rules' => 'trim|required|xss_clean|filter_str[72]',
+		),
+		array(
+			'field' => 'remember',
+			'label' => 'Remember Me',
+			'rules' => 'integer|filter_int[1]',
+			'default' => 0,
+		)
+	);
+	
 	public function indexAction() {
-		$this->load->template('/admin/auth/index',$this->data);
+		$this->load->template('/admin/auth/index');
+	}
+
+	public function loginValidatePostAjaxAction() {
+		$this->load->json($this->validate->post($this->rule));
 	}
 
 	public function loginPostAction() {
-		if ($this->form_validate() === false) {
-			if ($this->tank_auth->login($this->input->post('login'), $this->input->post('password'), $this->input->post('remember',0), false, true)) {
+		if ($this->validate->map($this->rule,$this->data)) {
+			if ($this->tank_auth->login($this->data['email'], $this->data['password'], $this->data['remember'], false, true)) {
 				$this->flash_msg->green('Login Passed','/admin/dashboard');
 			}
 		}
@@ -21,15 +44,4 @@ class authController extends MY_PublicController {
 		redirect('/');
 	}
 	
-	protected function form_validate() {
-		return $this->ajax_validate('err');
-	}
-	
-	protected function ajax_validate($err=false) {
-		$this->form_validation->set_rules('login', 'Login', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('remember', 'Remember me', 'integer');
-
-		return $this->form_validation->json($err);
-	}
 }

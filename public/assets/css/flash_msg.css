@@ -16,3 +16,6 @@
 	position: relative;
 	margin: 0 0 6px 0;
 }
+.notice-wrap p {
+	margin: 0;
+}
