@@ -2,28 +2,6 @@
 
 class MY_Form_validation extends CI_Form_validation {
 
-	/* make this public not protected */
-	public $_field_data = array();
-
-	public function json($err=false) {
-		$json = array();
-
-		$this->set_error_delimiters('', '<br/>');
-
-		$json['err'] = !$this->run();
-
-		$json['errors_raw'] = $errors = validation_errors();
-		$json['errors_array'] = $this->error_array();
-
-		$json['errors'] = '<strong id="form-error-shown">Validation Error'.((count(explode('<br/>',$errors)) < 3) ? '' : 's').'</strong><br/>'.$errors;
-		
-		if ($err) {
-			$json = $json['err'];
-		}
-
-		return $json;
-	}
-
 	/* test if it's 1 or 0 */
 	public function tf($str, $field) {
 		$this->CI->form_validation->set_message('tf', 'The %s is a invalid.');
@@ -95,9 +73,7 @@ class MY_Form_validation extends CI_Form_validation {
 
 	public function valid_date($field) {
 		$this->CI->form_validation->set_message('valid_date', '%s Invalid.');
-
 		$date = date_parse($this->posted[$field]);
-
 		return checkdate($date['month'],$date['day'],$date['year']);
 	}
 
@@ -197,7 +173,7 @@ class MY_Form_validation extends CI_Form_validation {
 			return FALSE;
 		}
 
-		$type = explode('|', $types);
+		$type = explode(',', $types);
 		$filetype = pathinfo($str['name'],PATHINFO_EXTENSION);
 
 		if (!in_array($filetype, $type))
@@ -266,7 +242,7 @@ class MY_Form_validation extends CI_Form_validation {
 
 	}//end max_file_size()
 	
-	/* PHP input filters */
+	/* PHP input filters - prepping */
 	
 	public function filter_int($inp, $length) {
 		return substr(filter_var($inp,FILTER_SANITIZE_NUMBER_INT),0,$length);
@@ -280,7 +256,7 @@ class MY_Form_validation extends CI_Form_validation {
 		return substr(filter_var($inp,FILTER_SANITIZE_NUMBER_FLOAT),0,$length);
 	}
 
-	public function filter_string($inp, $length) {
+	public function filter_str($inp, $length) {
 		return substr(filter_var($inp,FILTER_SANITIZE_STRING),0,$length);
 	}
 

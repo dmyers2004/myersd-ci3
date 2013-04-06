@@ -3,7 +3,7 @@
 class dashboardController extends MY_AdminController {
 
 	public function indexAction() {
-		$this->load->template('admin/dashboard/index',$this->data);
+		$this->load->template('admin/dashboard/index');
 	}
 
 	public function upAction() {

@@ -54,5 +54,10 @@ class MY_Controller extends CI_Controller
       $this->load->helper($helper);
     }
   }
+  
+  public function data($name,$value) {
+  	$this->data[$name] = $value;
+  	return $this;
+  }
 
 } /* end MY_Controller */

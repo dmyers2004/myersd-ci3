@@ -28,15 +28,28 @@ jQuery.fn.ajaxForm = function(debug) {
 		if ($('#form-error-shown').length > 0) {
 			$('#form-error-shown').closest('.notice-item-wrapper').fadeOut('fast',function(){
 				$(this).remove();
-				mvc.ajaxFormAdd('',reply.errors,1,'error');
+				reply = mvc.flash_msg_format(reply);
+				mvc.ajaxFormAdd('',reply.flash_msg,1,'error');
 			});
 		} else {
-			mvc.ajaxFormAdd('',reply.errors,1,'error');
+			reply = mvc.flash_msg_format(reply);
+			mvc.ajaxFormAdd('',reply.flash_msg,1,'error');
 		}
 		
 		return false;
 	});
 };
+
+mvc.flash_msg_format = function(reply) {
+	reply.count = 0;
+	for (var prop in reply.errors_array) {
+		reply.count++;
+	}
+	reply.plural = (reply.count > 1) ? 's' : '';
+	reply.flash_msg = '<strong id="form-error-shown">Validation Error' + reply.plural + '</strong><br/>' + reply.errors;
+
+	return reply;
+}
 
 mvc.ajaxFormRemove = function() {
 	$('#form-error-shown').closest('.notice-item-wrapper').remove();

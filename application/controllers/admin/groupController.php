@@ -10,33 +10,27 @@ class groupController extends MY_AdminController {
 	public function __construct() {
 		parent::__construct();
 		
-		$this->data['controller'] = $this->controller;
-		$this->data['title'] = $this->title;
-		$this->data['titles'] = $this->titles;
-		$this->data['description'] = $this->description;
+		$this->data('controller',$this->controller)->data('title',$this->title)->data('titles',$this->titles)->data('description',$this->description);
 	}
 
 	public function indexAction() {
-		$this->data['header'] = $this->load->view('admin/_partials/table_header',$this->data,true);
+		$this->data('header',$this->load->view('admin/_partials/table_header',$this->data,true))->data('records',$this->group_model->get_all());
 
-		$this->data['records'] = $this->flexi_auth->get_groups()->result();
-		
 		$this->load->template('/admin/'.$this->controller.'/index',$this->data);
 	}
 	
 	public function newAction() {
-		$this->data['title'] = 'New '.$this->title;
-		$this->data['action'] = '/admin/'.$this->controller.'/new';
-	
-		$this->data['record'] = (object)array('ugrp_id'=>-1);
-		$this->data['my_access'] = array();
-
-		$this->data['all_access'] = $this->format_privileges($this->flexi_auth->get_privileges()->result());
+		$this->data('title','New '.$this->title)
+			->data('action','/admin/'.$this->controller.'/new')
+			->data('record',(object)array('id'=>-1))
+			->data('my_access',array())
+			->data('all_access',$this->format_privileges($this->access_model->get_all()));
+		
 		$this->load->template('/admin/'.$this->controller.'/form',$this->data);
 	}
 
 	public function newValidatePostAjaxAction() {
-		$this->load->json($this->ajax_validate());
+		$this->load->json($this->validate->post($this->group_model->validate));
 	}
 
 	public function newPostAction() {
@@ -66,7 +60,7 @@ class groupController extends MY_AdminController {
 	}
 	
 	public function editValidatePostAjaxAction() {
-		$this->load->json($this->ajax_validate());
+		$this->load->json($this->validate->post($this->group_model->validate));
 	}
 	
 	public function editPostAction() {
@@ -94,24 +88,15 @@ class groupController extends MY_AdminController {
 		$this->load->json($json);
 	}
 	
-	protected function form_validate() {
-		return $this->ajax_validate('err');
-	}
-	
-	protected function ajax_validate($err=false) {
-		$this->form_validation->set_rules('ugrp_name', 'Group Name', 'required|xss_clean');
-		$this->form_validation->set_rules('ugrp_desc', 'Group Description', 'xss_clean');
-		$this->form_validation->set_rules('ugrp_id', 'Id', 'required|integer');
-
-		return $this->form_validation->json($err);
-	}
-	
 	protected function format_privileges($privileges) {
 		$formatted = array();
-
 		foreach ($privileges as $record) {
-			$namespace = array_splice(explode('/',$record->upriv_name), 1)[0];
-			$formatted[$namespace][] = $record;
+			$resource = $record->resource;
+			$len = strpos($resource,'/',1);
+			if ($len === false) {
+				$len = strpos($resource,' ',1);
+			}
+			$formatted[trim(substr($resource, 0, $len),' /')][] = $record;
 		}
 
 		return $formatted;

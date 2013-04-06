@@ -14,33 +14,60 @@ class mainController extends MY_PublicController {
 		$this->load->view('tank-auth/login_form');
 	}
 	
-	public function mapperAction() {
+	public function testAction() {
 		$data['name'] = ' Don Myers ';
 		$data['age'] = ' 23 ';
 		$data['id'] = 123;
-		$data['tf'] = 1;
+
+		$rules = array(
+			array(
+				'field' => 'name',
+				'label' => 'Name',
+				'rules' => 'trim|base64_encode',
+			),
+			array(
+				'field' => 'age',
+				'label' => 'Age',
+				'rules' => 'trim|integer',
+			),
+			array(
+				'field' => 'id',
+				'label' => 'Id',
+				'rules' => 'integer'
+			),
+			array(
+				'field' => 'empty',
+				'label' => 'Empty',
+				'rules' => 'alpha',
+				'default' => 'e'
+			),
+			array(
+				'field' => 'foo',
+				'label' => 'Empty',
+				'rules' => 'alpha',
+			)
+		);
+				
+
+		echo '<pre>';
+		echo 'Mapper'.chr(10);
 
 		$output = array();
 
-		$map = array('dbname>name>>trim|strtolower','age>>>trim|integer|filter_int[4]','tf>>>filter_int[1]','empty>>e');
-
-		echo '<pre>';
-
 		//  map($filter,&$output,&$input=null,$xss = true)
-		$x = $this->input->map($map,$output,$data);
+		$x = $this->validate->map($rules,$output,$data);
 		
 		var_dump($output);
 		
 		var_dump($x);
-	}
-	
-	public function filterAction() {
+
+		echo 'filter'.chr(10);
+
 		$data = ' Don Myers ';
 		$filter = 'trim|strtolower|base64_encode';
 		
-		$isgood = $output = $this->input->filter($data,$filter);
+		$isgood = $output = $this->validate->filter($data,$filter);
 		
-		echo '<pre>';
 		var_dump($isgood);
 		var_dump($data);
 		

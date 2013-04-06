@@ -4,7 +4,7 @@
     <legend>Login</legend>
     
     <label>Email</label>
-    <input type="text" name="login" value="admin@admin.com" placeholder="email">
+    <input type="text" name="email" value="admin@admin.com" placeholder="email">
 
     <label>Password</label>
 		<input type="password" name="password" value="password" placeholder="password">
