@@ -110,6 +110,17 @@ class Validate {
 		return true;
 	}
 	
+	public function remove(&$v,$name) {
+		foreach ($v as $key => $record) {
+			if ($v[$key]['field'] == $name) {
+				unset($v[$key]);
+				break;
+			}
+		}
+		
+		return $this;
+	}
+	
 	/* wrapper for CI instance */
 	public function __get($var)
 	{

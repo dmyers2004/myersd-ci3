@@ -26,10 +26,10 @@ jQuery.fn.combobox = function(options){
 			.after('<div class="btn-group"><a class="btn dropdown-toggle"><span class="caret"></span></a></div>')
 			.next()
 			.click(function(e) {
-				/* pause longer than bootstrap so the dropdown does cause the input field to lose focus 150 */
+				/* pause longer than bootstrap so the dropdown doesn't cause the input field to lose focus 150 */
 				setTimeout(function () {
-					jQuery(that).val('*').typeahead('lookup').val('');
-				}, 160);
+					jQuery(that).val('*').typeahead('lookup').val('').focus();
+				}, 300);
 		});
   });
 };
@@ -41,14 +41,14 @@ jQuery.fn.selectcombobox = function(options){
 	return this.each(function(){
 		var select = jQuery(this);
 
-  	var options = new Array();
+  	var options = [];
 		jQuery('option',this).each(function(i){
 			options[i] = jQuery(this).text();
 		});
 
 		var customclass = 'combopop' + Math.random().toString(36).substring(7);
 
-  	select.after('<input type="text" class="' + customclass + ' ' +(select.attr('class') || '')+'" value="' + jQuery('option:selected',this).text() + '" placeholder="'+(select.attr('placeholder') || '')+'" id="'+(select.attr('id') || '')+'" name="'+select.attr('name')+'">').remove();
+  	select.after('<input type="text" autocomplete="off" class="' + customclass + ' ' +(select.attr('class') || '')+'" value="' + jQuery('option:selected',this).text() + '" placeholder="'+(select.attr('placeholder') || '')+'" id="'+(select.attr('id') || '')+'" name="'+select.attr('name')+'">').remove();
 
 		/* call combobox */
 		jQuery('.' + customclass).combobox({ source: options });

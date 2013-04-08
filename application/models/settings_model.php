@@ -18,37 +18,29 @@ class settings_model extends MY_Model
   public $_table = 'settings';
   public $primary_key = 'option_id';
   
-  public $validate = array(
-		array('field'=>'option_id','label'=>'Id','rules'=>'required|integer'),
-  	array('field'=>'option_name','label'=>'Name','rules'=>'required|xss_clean'),
-  	array('field'=>'option_value','label'=>'Value','rules'=>'xss_clean'),
-  	array('field'=>'option_group','label'=>'Group','rules'=>'required|xss_clean'),
-  	array('field'=>'auto_load','label'=>'Autoload','rules'=>'integer|tf')
-  );
-	
-	public function ajax_validate() {
-		$json = array();
-		$this->form_validation->set_error_delimiters('', '<br/>');
-	
-		foreach ($this->validate as $rec) {
-			$data[$rec['field']] = $_POST[$rec['field']];
-		}
-	
-		$json['err'] = !parent::validate($data);
+  public $f_option_id = array('field'=>'option_id','label'=>'Id','rules'=>'required|integer');
+  public $f_option_name = array('field'=>'option_name','label'=>'Name','rules'=>'required|xss_clean');
+  public $f_option_value = array('field'=>'option_value','label'=>'Value','rules'=>'xss_clean');
+  public $f_option_group = array('field'=>'option_group','label'=>'Group','rules'=>'required|xss_clean');
+  public $f_auto_load = array('field'=>'auto_load','label'=>'Autoload','rules'=>'integer|tf');
+  
+  public $validate = array();
 
-		$errors = validation_errors();
-		$json['errors'] = '<strong id="form-error-shown">Validation Error'.((count(explode('<br/>',$errors)) < 3) ? '' : 's').'</strong><br/>'.$errors;
-
-		return $json;
-	}
-	
-	public function update_autoload($id,$mode) {
-		$this->validate = array(
-			array('field'=>'option_id','label'=>'Id','rules'=>'required|integer'),
-			array('field'=>'auto_load','label'=>'Active','rules'=>'integer|tf')
-		);
+	public function __construct() {
+		parent::__construct();
 		
-		return $this->update($id,array('option_id'=>$id,'auto_load'=>$mode));
+		/* default validation */
+		$this->validate = array($this->f_option_id,$this->f_option_name,$this->f_option_value,$this->f_option_group,$this->f_auto_load);
 	}
-	
+
+  public function insert($data,$skip_validation = false) {
+		/* dump off id since it's "empty" on insert */
+  	pop_off($data,'option_id');
+		
+		/* setup new validation - id is empty */
+		$this->validate = array($this->f_option_name,$this->f_option_value,$this->f_option_group,$this->f_auto_load);
+		
+  	return parent::insert($data,$skip_validation);
+  }
+
 }
