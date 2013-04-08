@@ -13,7 +13,9 @@ plugins.ajax_href.init = function() {
 				jQuery.noticeAdd({ text: text, stay: stay, type: type, stayTime: 2400 });	
 			}
 			if (data.href !== undefined) {
-				window.location.replace(data.href);
+				if (data.href !== '') {
+					window.location.replace(data.href);
+				}
 			}
 		}).error(function(data){
 			jQuery.noticeAdd({ text: 'Link Error', stay: '', type: 'notice', stayTime: 2400 });	

@@ -6,6 +6,7 @@ class groupController extends MY_AdminController {
 	public $title = 'Group';
 	public $titles = 'Groups';
 	public $description = '';
+	public $id_filter = 'trim|integer|filter_int[5]|exists[groups.id]';
 	
 	public function __construct() {
 		parent::__construct();
@@ -34,27 +35,30 @@ class groupController extends MY_AdminController {
 	}
 
 	public function newPostAction() {
-		if ($this->form_validate() === false) {
-			$id = $this->flexi_auth->insert_group($this->input->post('ugrp_name'), $this->input->post('ugrp_desc'));
-			$this->update_privilege($id);
-			$this->flash_msg->created($this->title,'/admin/'.$this->controller);
+		$data = array();
+		if ($this->validate->map($this->group_model->validate,$data)) {
+			if ($id = $this->group_model->insert($data)) {
+				$this->update_privilege($id);
+				$this->flash_msg->created($this->title,'/admin/'.$this->controller);
+			}
 		}
-		
+
 		$this->flash_msg->fail($this->title,'/admin/'.$this->controller);
 	}
 
 	public function editAction($id=null) {
-		$this->data['title'] = 'Edit '.$this->title;
-		$this->data['action'] = '/admin/'.$this->controller.'/edit';
-	
-		$this->data['record'] = $this->flexi_auth->get_groups('*',array('ugrp_id' => $id))->row();
+		/* if somebody is sending in bogus id's send them to a fiery death */
+		$this->validate->filter($id,$this->id_filter,false);
 
-		$privileges = $this->flexi_auth->get_user_group_privileges('*',array('upriv_groups_ugrp_fk'=>$id))->result();
+		$this->data('title','Edit '.$this->title)
+			->data('action','/admin/'.$this->controller.'/edit')
+			->data('record',$this->group_model->get($id))
+			->data('all_access',$this->format_privileges($this->access_model->get_all()));
+
+		$privileges = $this->group_model->get_group_access($id);
 		foreach ($privileges as $record) {
-			$this->data['my_access'][$record->upriv_groups_upriv_fk] = true;
+			$this->data['my_access'][$record->access_id] = true;
 		}
-
-		$this->data['all_access'] = $this->format_privileges($this->flexi_auth->get_privileges()->result());
 
 		$this->load->template('/admin/'.$this->controller.'/form',$this->data);
 	}
@@ -64,9 +68,14 @@ class groupController extends MY_AdminController {
 	}
 	
 	public function editPostAction() {
-		if ($this->form_validate() === false) {
-			$this->flexi_auth->update_group($this->input->post('ugrp_id'), array('ugrp_name'=>$this->input->post('ugrp_name'), 'ugrp_desc'=>$this->input->post('ugrp_desc')));
-			$this->update_privilege();
+		/* if somebody is sending in bogus id's send them to a fiery death */
+		$this->validate->filter($this->input->post('id'),$this->id_filter,false);
+	
+		$data = array();
+		
+		if ($this->validate->map($this->group_model->validate,$data)) {
+			$this->group_model->update($data['id'],$data);
+			$this->update_privilege($data['id']);
 			$this->flash_msg->updated($this->title,'/admin/'.$this->controller);
 		}
 		
@@ -74,18 +83,16 @@ class groupController extends MY_AdminController {
 	}
 	
 	public function deleteAjaxAction($id=null) {
+		$data['err'] = true;
+
 		/* can they delete? */
-		$json['err'] = true;
-		
-		if ($this->input->filter($id,'trim|integer|filter_int[5]',true)) {
-			/* if they don't have privs then nothing with be deleted and this will return false */
-			$this->flexi_auth->delete_user_group_privilege(array('upriv_groups_ugrp_fk'=>$id));
-			if ($this->flexi_auth->delete_group($id)) {
-				$json['err'] = false;
-			}
+		if ($this->validate->filter($id,$this->id_filter)) {
+			$this->group_model->delete($id);
+			$this->group_model->delete_group_access($id);
+			$data['err'] = false;
 		}
- 		
-		$this->load->json($json);
+		
+		$this->load->json($data);
 	}
 	
 	protected function format_privileges($privileges) {
@@ -102,11 +109,10 @@ class groupController extends MY_AdminController {
 		return $formatted;
 	}
 
-	protected function update_privilege($ugrp_id=null) {
-		$ugrp_id = ($ugrp_id) ? $ugrp_id : $this->input->post('ugrp_id');
-		$this->flexi_auth->delete_user_group_privilege(array('upriv_groups_ugrp_fk'=>$ugrp_id));
-		foreach ($this->input->post('uprivs') as $id => $foo) {
-			$this->flexi_auth->insert_user_group_privilege($ugrp_id, $id);			
+	protected function update_privilege($group_id) {
+		$this->group_model->delete_group_access($group_id);
+		foreach ($this->input->post('access') as $id => $foo) {
+			$this->group_model->insert_group_access($id, $group_id);			
 		}
 	}
 

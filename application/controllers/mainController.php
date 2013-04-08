@@ -74,4 +74,36 @@ class mainController extends MY_PublicController {
 		
 	}
 	
+	public function addAction() {
+		$validate = array(
+	  	array('field'=>'id','label'=>'Id','rules'=>'required|integer|filter_int[6]'),
+	  	array('field'=>'resource','label'=>'Resource','rules'=>'required|xss_clean|filter_string[128]'),
+	  	array('field'=>'text','label'=>'Text','rules'=>'required|xss_clean|filter_string[64]'),
+	  	array('field'=>'url','label'=>'Url','rules'=>'url|xss_clean|filter_string[128]'),
+	  	array('field'=>'sort','label'=>'Sort','rules'=>'numeric|max_length[6]|filter_float[6]'),
+	  	array('field'=>'active','label'=>'Active','rules'=>'integer|tf|filter_int[1]'),
+	  	array('field'=>'parent_id','label'=>'Parent Menu','rules'=>'required|integer|filter_int[5]'),
+	  	array('field'=>'class','label'=>'Class','rules'=>'xss_clean|filter_string[64]')
+	  );
+
+		echo '<pre>';
+		print_r($validate);
+
+		remove_validate($validate,'active');
+		
+		print_r($validate);
+		
+
+
+	}
+	
+}
+
+function remove_validate(&$v,$name) {
+	foreach ($v as $key => $record) {
+		if ($v[$key]['field'] == $name) {
+			unset($v[$key]);
+			break;
+		}
+	}
 }
