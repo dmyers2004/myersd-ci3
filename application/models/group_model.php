@@ -16,25 +16,18 @@ class group_model extends MY_Model
   public $_table = 'groups';
   public $group_access_table = 'group_access';
   
-	public $f_id = array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]');
-	public $f_name = array('field'=>'name','label'=>'Name','rules'=>'required|filter_str[64]');	
-	public $f_description = array('field'=>'description','label'=>'Description','rules'=>'required|filter_str[128]');
-
-  public $validate = array();
-
-	public function __construct() {
-		parent::__construct();
-		
-		/* default validation */
-		$this->validate = array($this->f_description,$this->f_name,$this->f_id);
-	}
+  public $validate = array(
+  	array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
+  	array('field'=>'name','label'=>'Name','rules'=>'required|filter_str[64]'),
+  	array('field'=>'description','label'=>'Description','rules'=>'required|filter_str[128]')
+  );
 
   public function insert($data,$skip_validation = false) {
 		/* dump off id since it's "empty" on insert */
   	pop_off($data,'id');
 		
 		/* setup new validation - id is empty */
-		$this->validate = array($this->f_name,$this->f_description);
+		$this->validate->remove($this->validate,'id');
 		
   	return parent::insert($data,$skip_validation);
   }

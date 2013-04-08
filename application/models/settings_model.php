@@ -38,7 +38,7 @@ class settings_model extends MY_Model
   	pop_off($data,'option_id');
 		
 		/* setup new validation - id is empty */
-		$this->validate = array($this->f_option_name,$this->f_option_value,$this->f_option_group,$this->f_auto_load);
+		$this->validate->remove($this->validate,'option_id');
 		
   	return parent::insert($data,$skip_validation);
   }
