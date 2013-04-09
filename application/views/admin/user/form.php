@@ -5,14 +5,14 @@
   <div class="control-group">
     <label class="control-label" for="inputFirstname">User Name</label>
     <div class="controls">
-      <input type="text" id="inputFirstname" placeholder="First Name" name="cd_first_name" value="<?php echo $record->username ?>">
+      <input type="text" id="inputFirstname" placeholder="User Name" name="username" value="<?php echo $record->username ?>">
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label" for="inputEmail">Email</label>
     <div class="controls">
-      <input type="text" id="inputEmail" placeholder="Email" name="uacc_email" value="<?php echo $record->email ?>">
+      <input type="text" id="inputEmail" placeholder="Email" name="email" value="<?php echo $record->email ?>">
     </div>
   </div>
 

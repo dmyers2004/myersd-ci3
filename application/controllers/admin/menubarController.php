@@ -32,13 +32,13 @@ class menubarController extends MY_AdminController {
 	}
 
 	public function newValidatePostAjaxAction() {
-		$this->load->json($this->validate->post($this->menubar_model->validate));
+		$this->load->json($this->menubar_model->post($this->menubar_model->validate));
 	}
 
 	public function newPostAction() {
 		$data = array();
 		
-		if ($this->validate->map($this->menubar_model->validate, $data)) {
+		if ($this->input->map($this->menubar_model->validate, $data)) {
 			if ($this->menubar_model->insert($data)) {
 				$this->flash_msg->created($this->title,'/admin/'.$this->controller);
 			}
@@ -49,7 +49,7 @@ class menubarController extends MY_AdminController {
 
 	public function editAction($id=null) {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->validate->filter($id,$this->id_filter,false);
+		$this->input->filter($id,$this->id_filter,false);
 
 		$this->data('title','Edit '.$this->title)
 			->data('action','/admin/'.$this->controller.'/edit')
@@ -60,16 +60,16 @@ class menubarController extends MY_AdminController {
 	}
 
 	public function editValidatePostAjaxAction() {
-		$this->load->json($this->validate->post($this->menubar_model->validate));
+		$this->load->json($this->menubar_model->validate($this->menubar_model->validate));
 	}
 
 	public function editPostAction() {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->validate->filter($this->input->post('id'),$this->id_filter,false);
+		$this->input->filter($this->input->post('id'),$this->id_filter,false);
 	
 		$data = array();
 		
-		if ($this->validate->map($this->menubar_model->validate, $data)) {
+		if ($this->input->map($this->menubar_model->validate, $data)) {
 			$this->menubar_model->update($data['id'], $data);
 			$this->flash_msg->updated($this->title,'/admin/'.$this->controller);
 		}
@@ -81,7 +81,7 @@ class menubarController extends MY_AdminController {
 		$data['err'] = true;
 
 		/* can they delete? */
-		if ($this->validate->filter($id,$this->id_filter)) {
+		if ($this->input->filter($id,$this->id_filter)) {
 			$this->settings_model->delete($id);
 			$data['err'] = false;
 		}
@@ -95,7 +95,7 @@ class menubarController extends MY_AdminController {
 		$data['href'] = '';
 		$data['notice'] = array('text'=>'Menubar Sort Error','type'=>'error','stay'=>true);
 		
-		if ($this->validate->filter($id,'trim|integer|filter_int[5]') && $this->validate->filter($dir,'trim|filter_str[4]')) {
+		if ($this->input->filter($id,'trim|integer|filter_int[5]') && $this->input->filter($dir,'trim|filter_str[4]')) {
 			$current = $this->menubar_model->get($id);
 
 			if ($dir == 'up') {
@@ -117,7 +117,7 @@ class menubarController extends MY_AdminController {
 	public function activateAjaxAction($id=null,$mode=null) {
 		$data['err'] = true;
 
-		if ($this->validate->filter($id,$this->id_filter) && $this->validate->filter($mode,'required|tf|filter_int[1]')) {
+		if ($this->input->filter($id,$this->id_filter) && $this->input->filter($mode,'required|tf|filter_int[1]')) {
 			if ($this->menubar_model->update($id, array('active'=>$mode), true)) {
 				$data['err'] = false;
 			}

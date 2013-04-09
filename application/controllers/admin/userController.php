@@ -6,58 +6,66 @@ class userController extends MY_AdminController {
 	public $title = 'User';
 	public $titles = 'Users';
 	public $description = '';
+	public $id_filter = 'trim|integer|filter_int[5]|exists[users.id]';
+	public $validate = array(
+		array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
+		array('field'=>'username','label'=>'User Name','rules'=>'required|xss_clean|filter_str[50]'),
+		array('field'=>'email','label'=>'Email','rules'=>'required|valid_email|filter_email[100]'),
+		array('field'=>'group_id','label'=>'Group Id','rules'=>'required|filter_int[5]'),
+		array('field'=>'confirm_password','label'=>'Confirmation Password','rules'=>'required'),
+		array('field'=>'password','label'=>'Password','rules'=>'required|min_length[8]|max_length[32]|matches[confirm_password]')
+	);
 	
 	public function __construct() {
 		parent::__construct();
 		
-		$this->data['controller'] = $this->controller;
-		$this->data['title'] = $this->title;
-		$this->data['titles'] = $this->titles;
-		$this->data['description'] = $this->description;
+		$this->load->library('validator');
+		
+		$this->data('controller',$this->controller)->data('title',$this->title)->data('titles',$this->titles)->data('description',$this->description);
 	}
 	
 	/* index view */
 	public function indexAction() {
-		$this->data['header'] = $this->load->view('admin/_partials/table_header',$this->data,true);
-
-		$this->data['records'] = $this->tank_auth->get_users();
-		$this->data['group_options'] = $this->get_groups();
+		$this->data('header',$this->load->view('admin/_partials/table_header',$this->data,true))
+			->data('records',$this->tank_auth->get_users())
+			->data('group_options',$this->get_groups());
 		
 		$this->load->template('/admin/'.$this->controller.'/index',$this->data);
 	}
 	
 	/* create new form */
 	public function newAction() {
-		$this->data['title'] = 'New '.$this->title;
-		$this->data['action'] = '/admin/'.$this->controller.'/new';
-	
-		$this->data['record'] = (object)array('activated'=>1,'id'=>-1);
-		$this->data['group_options'] = $this->get_groups();
+		$this->data('title','New '.$this->title)
+			->data('action','/admin/'.$this->controller.'/new')
+			->data('record',(object)array('activated'=>1,'id'=>-1))
+			->data('group_options',$this->get_groups());
 
 		$this->load->template('/admin/'.$this->controller.'/form',$this->data);
 	}
 
 	/* create new form validation */
 	public function newValidatePostAjaxAction() {
-		$this->load->json($this->ajax_validate());
+		$this->load->json($this->validator->post($this->validate));
 	}
 	
 	/* create new form post */
 	public function newPostAction() {
-		/* do we have a validation error? */
-		if ($this->form_validate() === false) {
+		$data = array();
 
-			$username = $this->input->post('username');
-			$email = $this->input->post('email');
-			$password = $this->input->post('password');
-			$group_id = $this->input->post('group_id');
-			$activate = $this->input->post('activated');
-						
+		if ($this->input->map($this->validate, $data)) {
+		
+		print_r($data);
+		die();
+		
+			list($id,$username,$email,$password,$group_id) = $data;
 			if ($this->tank_auth->create_user($username, $email, $password, $group_id, false)) {
 				$this->flash_msg->created($this->title,'/admin/'.$this->controller);
 			}
 		}
-		
+
+		print_r(validation_errors());
+		die();
+
 		$this->flash_msg->fail($this->title,'/admin/'.$this->controller);
 	}
 
@@ -77,40 +85,37 @@ class userController extends MY_AdminController {
 
 	/* edit form validate */
 	public function editValidatePostAjaxAction() {
-		$this->load->json($this->ajax_validate());
+		//$this->validate->remove_validation($this->validate,'id');
+		
+		$this->load->json($this->validator->post($this->validate));
 	}
 
 	/* edit form post */
 	public function editPostAction() {
-		/* do we have a validation error? */
-		if ($this->form_validate() === false) {
-			
-			$id = $this->input->post('uacc_id');
-			
-			if ($this->input->filter($id,'trim|integer|filter_int[5]|exists[user_accounts.uacc_id]','/admin/'.$this->controller)) {
-
-				$data = array();
-				$this->input->map($data,'cd_first_name,cd_last_name,uacc_email,uacc_group_fk,uacc_active>0');
+		/* if somebody is sending in bogus id's send them to a fiery death */
+		$this->input->filter($this->input->post('id'),$this->id_filter,false);
 	
-				if ($this->input->post('uacc_password') != '') {
-					$data['uacc_password'] = $this->input->post('uacc_password');
-				}
-
-				if ($this->flexi_auth->update_user($id, $data)) {
-					$this->flash_msg->updated($this->title,'/admin/'.$this->controller);
-				}
-			}
+		$data = array();
+		if ($this->input->map($this->validate, $data)) {
+			$this->user_model->update($data['id'], $data);
+			$this->flash_msg->updated($this->title,'/admin/'.$this->controller);
 		}
 		
 		$this->flash_msg->fail($this->title,'/admin/'.$this->controller);
+
+/*
+if ($this->input->post('uacc_password') != '') {
+	$data['uacc_password'] = $this->input->post('uacc_password');
+}
+*/
 	}
 	
 	/* ajax activate */
 	public function activateAjaxAction($id=null,$mode=null) {
 		$data['err'] = true;
 		
-		if ($this->input->filter($id,'trim|integer|filter_int[5]|exists[user_accounts.uacc_id]',true) && $this->input->filter($mode,'trim|tf|filter_int[1]',true)) {
-			if ($this->flexi_auth->update_user($id, array('uacc_active'=>$mode))) {
+		if ($this->input->filter($id,$this->id_filter) && $this->input->filter($mode,'required|tf|filter_int[1]')) {
+			if ($this->user_model->update($id, array('active'=>$mode))) {
 				$data['err'] = false;
 			}
 		}
@@ -120,16 +125,14 @@ class userController extends MY_AdminController {
 	
 	/* ajax delete */
 	public function deleteAjaxAction($id=null) {		
-		/* can they delete? */
 		$data['err'] = true;
-		
-		if ($this->input->filter($id,'trim|integer|filter_int[5]|exists[users.id]',true)) {
+
+		/* can they delete? */
+		if ($this->input->filter($id,$this->id_filter)) {
+			$this->user_model->delete_user($id);
 			$data['err'] = false;
-			if ($this->flexi_auth->delete_user($id)) {
-				$data['err'] = false;
-			}
 		}
- 		
+		
 		$this->load->json($data);
 	}
 	
@@ -142,23 +145,4 @@ class userController extends MY_AdminController {
 		return (array)$data;
 	}
 	
-	protected function form_validate() {
-		return $this->ajax_validate('err');
-	}
-	
-	protected function ajax_validate($err=false) {
-
-		$id = $this->input->post('id');
-		$this->form_validation->set_rules('username', 'User Name', 'required|xss_clean');
-		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|unique[users.email.id.'.$id.']');
-		$this->form_validation->set_rules('group_id', 'Group', 'required|integer');
-		$this->form_validation->set_rules('id', 'Id', 'required|integer');
-
-		if ($this->input->post('id') == '-1' || ($this->input->post('password').$this->input->post('confirm_password') != '')) {
-			$this->form_validation->set_rules('password', 'Password', 'required|min_length[8]|max_length[32]|matches[confirm_password]');
-			$this->form_validation->set_rules('confirm_password', 'Confirmation Password', 'required');
-		}
-
-		return $this->form_validation->json($err);
-	}
 }

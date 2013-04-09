@@ -22,14 +22,14 @@ class group_model extends MY_Model
   	array('field'=>'description','label'=>'Description','rules'=>'required|filter_str[128]')
   );
 
-  public function insert($data,$skip_validation = false) {
+  public function insert($data, $skip_validation = false) {
 		/* dump off id since it's "empty" on insert */
   	pop_off($data,'id');
 		
 		/* setup new validation - id is empty */
 		$this->validate->remove($this->validate,'id');
 		
-  	return parent::insert($data,$skip_validation);
+  	return parent::insert($data, $skip_validation = false);
   }
 
 	public function get_group_access($group_id) {

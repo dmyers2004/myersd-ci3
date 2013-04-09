@@ -284,4 +284,24 @@ class MY_Form_validation extends CI_Form_validation {
 		return substr(filter_var($inp,FILTER_UNSAFE_RAW),0,$length);
 	}	
 	
+	public function post($rules) {
+		/* set all the rules sent in */
+		$this->form_validation->set_rules($rules);
+	
+		/* prep our return value */
+		$rtn = array();
+
+		/* run the validation */
+		$rtn['err'] = !$this->form_validation->run();
+
+		/* capture a raw responds */
+		$rtn['errors'] = validation_errors();
+
+		/* capture a array responds */
+		$rtn['errors_array'] = $this->form_validation->error_array();
+
+		/* return the error or array of errors */
+		return $rtn;
+	}
+	
 }
