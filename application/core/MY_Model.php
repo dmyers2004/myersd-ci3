@@ -79,6 +79,8 @@ class MY_Model extends CI_Model
      * as validation rules passed to the Form_validation library.
      */
     protected $validate = array();
+    
+    protected $validate_org = array();
 
     /**
      * Optionally skip the validation. Used in conjunction with
@@ -114,6 +116,8 @@ class MY_Model extends CI_Model
         array_unshift($this->before_update, 'protect_attributes');
 
         $this->_temporary_return_type = $this->return_type;
+        
+        $this->validate_org = $this->validate;
     }
 
     /* --------------------------------------------------------------
@@ -232,7 +236,7 @@ class MY_Model extends CI_Model
         $valid = TRUE;
 
         if ($skip_validation === FALSE) {
-            $data = $this->validate($data);
+            $data = $this->_validate($data);
         }
 
         if ($data !== FALSE) {
@@ -273,7 +277,7 @@ class MY_Model extends CI_Model
         $data = $this->trigger('before_update', $data);
 
         if ($skip_validation === FALSE) {
-            $data = $this->validate($data);
+            $data = $this->_validate($data);
         }
 
         if ($data !== FALSE) {
@@ -297,7 +301,7 @@ class MY_Model extends CI_Model
         $data = $this->trigger('before_update', $data);
 
         if ($skip_validation === FALSE) {
-            $data = $this->validate($data);
+            $data = $this->_validate($data);
         }
 
         if ($data !== FALSE) {
@@ -324,7 +328,7 @@ class MY_Model extends CI_Model
 
         $data = $this->trigger('before_update', $data);
 
-        if ($this->validate($data) !== FALSE) {
+        if ($this->_validate($data) !== FALSE) {
             $result = $this->_database->set($data)
                                ->update($this->_table);
             $this->trigger('after_update', array($data, $result));
@@ -738,7 +742,7 @@ class MY_Model extends CI_Model
     /**
      * Run validation on the passed data
      */
-    public function validate($data)
+    public function _validate($data)
     {
         if ($this->skip_validation) {
             return $data;
@@ -827,4 +831,41 @@ class MY_Model extends CI_Model
 
         return $this->_temporary_return_type == 'array' ? $method . '_array' : $method;
     }
+    
+		public function validate() {
+			/* set all the rules sent in */
+			$this->form_validation->set_rules($this->validate);
+		
+			/* prep our return value */
+			$rtn = array();
+	
+			/* run the validation */
+			$rtn['err'] = !$this->form_validation->run();
+	
+			/* capture a raw responds */
+			$rtn['errors'] = validation_errors();
+	
+			/* capture a array responds */
+			$rtn['errors_array'] = $this->form_validation->error_array();
+	
+			/* return the error or array of errors */
+			return $rtn;
+		}
+	    
+		protected function remove_validation($name) {
+			
+			foreach ($this->validate as $key => $record) {
+				if ($this->validate[$key]['field'] == $name) {
+					unset($this->validate[$key]);
+					break;
+				}
+			}
+			
+			return $this;
+		}
+    
+    protected function reset_validation() {
+    	$this->validate = $this->validate_org;
+    }
+    
 }

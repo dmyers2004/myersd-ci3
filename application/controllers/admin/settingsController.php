@@ -32,13 +32,13 @@ class settingsController extends MY_AdminController {
 	}
 
 	public function newValidatePostAjaxAction() {
-		$this->load->json($this->validate->post($this->settings_model->validate));
+		$this->load->json($this->setting_model->validate($this->settings_model->validate));
 	}
 
 	public function newPostAction() {
 		$data = array();
 		
-		if ($this->validate->map($this->settings_model->validate, $data)) {
+		if ($this->input->map($this->settings_model->validate, $data)) {
 			if ($this->settings_model->insert($data)) {
 				$this->flash_msg->created($this->title,'/admin/'.$this->controller);
 			}
@@ -49,7 +49,7 @@ class settingsController extends MY_AdminController {
 
 	public function editAction($id=null) {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->validate->filter($id,$this->id_filter,false);
+		$this->input->filter($id,$this->id_filter,false);
 
 		$this->data('title','Edit '.$this->title)
 			->data('action','/admin/'.$this->controller.'/edit')
@@ -60,16 +60,16 @@ class settingsController extends MY_AdminController {
 	}
 
 	public function editValidatePostAjaxAction() {
-		$this->load->json($this->validate->post($this->settings_model->validate));
+		$this->load->json($this->settings_model->validate($this->settings_model->validate));
 	}
 
 	public function editPostAction() {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->validate->filter($this->input->post('option_id'),$this->id_filter,false);
+		$this->input->filter($this->input->post('option_id'),$this->id_filter,false);
 	
 		$data = array();
 		
-		if ($this->validate->map($this->settings_model->validate, $data)) {
+		if ($this->input->map($this->settings_model->validate, $data)) {
 			$this->settings_model->update($data['id'], $data);
 			$this->flash_msg->updated($this->title,'/admin/'.$this->controller);
 		}
@@ -81,7 +81,7 @@ class settingsController extends MY_AdminController {
 		$data['err'] = true;
 
 		/* can they delete? */
-		if ($this->validate->filter($id,$this->id_filter)) {
+		if ($this->input->filter($id,$this->id_filter)) {
 			$this->settings_model->delete($id);
 			$data['err'] = false;
 		}
@@ -92,7 +92,7 @@ class settingsController extends MY_AdminController {
 	public function autoloadAjaxAction($id=null,$mode=null) {
 		$data['err'] = true;
 
-		if ($this->validate->filter($id,$this->id_filter) && $this->validate->filter($mode,'required|tf|filter_int[1]')) {
+		if ($this->input->filter($id,$this->id_filter) && $this->input->filter($mode,'required|tf|filter_int[1]')) {
 			if ($this->settings_model->update($id, array('auto_load'=>$mode), true)) {
 				$data['err'] = false;
 			}

@@ -26,7 +26,7 @@ class menubar_model extends MY_Model
   	array('field'=>'parent_id','label'=>'Parent Menu','rules'=>'required|integer|filter_int[5]'),
   	array('field'=>'sort','label'=>'Sort','rules'=>'numeric|max_length[6]|filter_float[6]'),
   	array('field'=>'class','label'=>'Class','rules'=>'xss_clean|filter_str[64]'),
-  	array('field'=>'active','label'=>'Active','rules'=>'integer|tf|filter_int[1]')
+  	array('field'=>'active','label'=>'Active','rules'=>'integer|tf|filter_int[1]','default'=>0)
   );
   
 	public function read_parents() {
@@ -43,14 +43,14 @@ class menubar_model extends MY_Model
 		return $option;
 	}
 
-  public function insert($data,$skip_validation = false) {
+  public function insert($data, $skip_validation = false) {
 		/* dump off id since it's "empty" on insert */
   	pop_off($data,'id');
 		
 		/* setup new validation - id is empty */
 		$this->validate->remove($this->validate,'id');
 		
-  	return parent::insert($data,$skip_validation);
+  	return parent::insert($data, $skip_validation = false);
   }
 	
 	public function get_active() {

@@ -31,12 +31,12 @@ class groupController extends MY_AdminController {
 	}
 
 	public function newValidatePostAjaxAction() {
-		$this->load->json($this->validate->post($this->group_model->validate));
+		$this->load->json($this->group_model->validate($this->group_model->validate));
 	}
 
 	public function newPostAction() {
 		$data = array();
-		if ($this->validate->map($this->group_model->validate,$data)) {
+		if ($this->input->map($this->group_model->validate,$data)) {
 			if ($id = $this->group_model->insert($data)) {
 				$this->update_privilege($id);
 				$this->flash_msg->created($this->title,'/admin/'.$this->controller);
@@ -48,7 +48,7 @@ class groupController extends MY_AdminController {
 
 	public function editAction($id=null) {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->validate->filter($id,$this->id_filter,false);
+		$this->input->filter($id,$this->id_filter,false);
 
 		$this->data('title','Edit '.$this->title)
 			->data('action','/admin/'.$this->controller.'/edit')
@@ -64,16 +64,16 @@ class groupController extends MY_AdminController {
 	}
 	
 	public function editValidatePostAjaxAction() {
-		$this->load->json($this->validate->post($this->group_model->validate));
+		$this->load->json($this->group_model->validate($this->group_model->validate));
 	}
 	
 	public function editPostAction() {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->validate->filter($this->input->post('id'),$this->id_filter,false);
+		$this->input->filter($this->input->post('id'),$this->id_filter,false);
 	
 		$data = array();
 		
-		if ($this->validate->map($this->group_model->validate,$data)) {
+		if ($this->input->map($this->group_model->validate,$data)) {
 			$this->group_model->update($data['id'],$data);
 			$this->update_privilege($data['id']);
 			$this->flash_msg->updated($this->title,'/admin/'.$this->controller);
@@ -86,7 +86,7 @@ class groupController extends MY_AdminController {
 		$data['err'] = true;
 
 		/* can they delete? */
-		if ($this->validate->filter($id,$this->id_filter)) {
+		if ($this->input->filter($id,$this->id_filter)) {
 			$this->group_model->delete($id);
 			$this->group_model->delete_group_access($id);
 			$data['err'] = false;

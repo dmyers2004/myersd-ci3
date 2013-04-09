@@ -27,12 +27,12 @@ class accessController extends MY_AdminController {
 	}
 
 	public function newValidatePostAjaxAction() {
-		$this->load->json($this->validate->post($this->access_model->validate));
+		$this->load->json($this->access_model->validate());
 	}
 
 	public function newPostAction() {
 		$data = array();
-		if ($this->validate->map($this->access_model->validate, $data)) {
+		if ($this->input->map($this->access_model->validate, $data)) {
 			if ($this->access_model->insert($data)) {
 				$this->flash_msg->created($this->title,'/admin/'.$this->controller);
 			}
@@ -43,7 +43,7 @@ class accessController extends MY_AdminController {
 
 	public function editAction($id=null) {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->validate->filter($id,$this->id_filter,false);
+		$this->input->filter($id,$this->id_filter,false);
 	
 		$this->data('title','Edit '.$this->title)
 			->data('action','/admin/'.$this->controller.'/edit')
@@ -53,15 +53,15 @@ class accessController extends MY_AdminController {
 	}
 	
 	public function editValidatePostAjaxAction() {
-		$this->load->json($this->validate->post($this->access_model->validate));
+		$this->load->json($this->access_model->validate());
 	}
 
 	public function editPostAction() {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->validate->filter($this->input->post('id'),$this->id_filter,false);
+		$this->input->filter($this->input->post('id'),$this->id_filter,false);
 	
 		$data = array();
-		if ($this->validate->map($this->access_model->validate, $data)) {
+		if ($this->input->map($this->access_model->validate, $data)) {
 			$this->access_model->update($data['id'], $data);
 			$this->flash_msg->updated($this->title,'/admin/'.$this->controller);
 		}
@@ -73,7 +73,7 @@ class accessController extends MY_AdminController {
 	public function activateAjaxAction($id=null,$mode=null) {
 		$data['err'] = true;
 		
-		if ($this->validate->filter($id,$this->id_filter) && $this->validate->filter($mode,'required|tf|filter_int[1]')) {
+		if ($this->input->filter($id,$this->id_filter) && $this->input->filter($mode,'required|tf|filter_int[1]')) {
 			if ($this->access_model->update($id, array('active'=>$mode), true)) {
 				$data['err'] = false;
 			}
@@ -86,7 +86,7 @@ class accessController extends MY_AdminController {
 		$data['err'] = true;
 
 		/* can they delete? */
-		if ($this->validate->filter($id,$this->id_filter)) {
+		if ($this->input->filter($id,$this->id_filter)) {
 			$this->access_model->delete($id);
 			$this->group_model->delete_access($id);
 			$data['err'] = false;

@@ -403,6 +403,11 @@ class User_model extends CI_Model
 		$this->db->where('user_id', $user_id);
 		$this->db->delete($this->profile_table_name);
 	}
+	
+	public function update_user($id,$data) {
+		$this->db->where('id', $id);
+		return $this->db->update($this->table_name, $data); 
+	}
 }
 
 /* End of file users.php */
