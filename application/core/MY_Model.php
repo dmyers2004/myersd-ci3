@@ -852,12 +852,14 @@ class MY_Model extends CI_Model
 			return $rtn;
 		}
 	    
-		protected function remove_validation($name) {
-			
-			foreach ($this->validate as $key => $record) {
-				if ($this->validate[$key]['field'] == $name) {
-					unset($this->validate[$key]);
-					break;
+		protected function remove_validation($names) {
+			$names = explode(',',$names);
+			foreach ($names as $name) {			
+				foreach ($this->validate as $key => $record) {
+					if ($this->validate[$key]['field'] == $name) {
+						unset($this->validate[$key]);
+						break;
+					}
 				}
 			}
 			

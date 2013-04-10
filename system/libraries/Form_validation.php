@@ -1006,8 +1006,6 @@ class CI_Form_validation {
 	 */
 	public function matches($str, $field)
 	{
-		echo '<pre>';
-		print_r($this->_field_data);
 		return isset($this->_field_data[$field], $this->_field_data[$field]['postdata'])
 			? ($str === $this->_field_data[$field]['postdata'])
 			: FALSE;

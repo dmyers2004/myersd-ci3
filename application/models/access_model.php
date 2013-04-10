@@ -51,9 +51,9 @@ class access_model extends MY_Model {
   	pop_off($data,'id');
 		
 		/* setup new validation - id is empty */
-		$this->validate->remove($this->validate,'id');
+		$this->remove_validation('id');
 		
-  	return parent::insert($data, $skip_validation = false);
+  	return parent::insert($data, $skip_validation);
   }
   
 }

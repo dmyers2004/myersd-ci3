@@ -69,7 +69,8 @@ class groupController extends MY_AdminController {
 	
 	public function editPostAction() {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->input->filter($this->input->post('id'),$this->id_filter,false);
+		$this->input->post('id');
+		$this->input->filter($id,$this->id_filter,false);
 	
 		$data = array();
 		

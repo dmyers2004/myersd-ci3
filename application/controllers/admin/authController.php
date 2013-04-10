@@ -2,7 +2,7 @@
 
 class authController extends MY_PublicController {
 
-	public $rule = array(
+	public $validate = array(
 		array(
 			'field' => 'email',
 			'label' => 'Email',
@@ -26,11 +26,13 @@ class authController extends MY_PublicController {
 	}
 
 	public function loginValidatePostAjaxAction() {
-		$this->load->json($this->validate->post($this->rule));
+		$this->load->library('validator');
+
+		$this->load->json($this->validator->post($this->validate));
 	}
 
 	public function loginPostAction() {
-		if ($this->validate->map($this->rule,$this->data)) {
+		if ($this->input->map($this->validate,$this->data)) {
 			if ($this->tank_auth->login($this->data['email'], $this->data['password'], $this->data['remember'], false, true)) {
 				$this->flash_msg->green('Login Passed','/admin/dashboard');
 			}
