@@ -27,9 +27,9 @@ class group_model extends MY_Model
   	pop_off($data,'id');
 		
 		/* setup new validation - id is empty */
-		$this->validate->remove($this->validate,'id');
-		
-  	return parent::insert($data, $skip_validation = false);
+		$this->remove_validation('id');
+
+  	return parent::insert($data, $skip_validation);
   }
 
 	public function get_group_access($group_id) {

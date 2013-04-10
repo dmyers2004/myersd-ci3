@@ -20,7 +20,7 @@ class Tank_auth
 {
 	private $error = array();
 
-	function __construct()
+	public function __construct()
 	{
 		$this->ci =& get_instance();
 
@@ -43,7 +43,7 @@ class Tank_auth
 	 * @param	bool
 	 * @return	bool
 	 */
-	function login($login, $password, $remember, $login_by_username, $login_by_email)
+	public function login($login, $password, $remember, $login_by_username, $login_by_email)
 	{
 		if ((strlen($login) > 0) AND (strlen($password) > 0)) {
 
@@ -108,7 +108,7 @@ class Tank_auth
 	 *
 	 * @return	void
 	 */
-	function logout()
+	public function logout()
 	{
 		$this->delete_autologin();
 
@@ -124,7 +124,7 @@ class Tank_auth
 	 * @param	bool
 	 * @return	bool
 	 */
-	function is_logged_in($activated = TRUE)
+	public function is_logged_in($activated = TRUE)
 	{
 		return $this->ci->session->userdata('status') === ($activated ? STATUS_ACTIVATED : STATUS_NOT_ACTIVATED);
 	}
@@ -134,7 +134,7 @@ class Tank_auth
 	 *
 	 * @return	string
 	 */
-	function get_user_id()
+	public function get_user_id()
 	{
 		return $this->ci->session->userdata('user_id');
 	}
@@ -144,7 +144,7 @@ class Tank_auth
 	 *
 	 * @return	string
 	 */
-	function get_username()
+	public function get_username()
 	{
 		return $this->ci->session->userdata('username');
 	}
@@ -159,7 +159,7 @@ class Tank_auth
 	 * @param	bool
 	 * @return	array
 	 */
-	function create_user($username, $email, $password, $group_id, $email_activation)
+	public function create_user($username, $email, $password, $group_id, $email_activation)
 	{
 		if ((strlen($username) > 0) AND !$this->ci->user_model->is_username_available($username)) {
 			$this->error = array('username' => 'auth_username_in_use');
@@ -204,7 +204,7 @@ class Tank_auth
 	 * @param	string
 	 * @return	bool
 	 */
-	function is_username_available($username)
+	public function is_username_available($username)
 	{
 		return ((strlen($username) > 0) AND $this->ci->user_model->is_username_available($username));
 	}
@@ -216,7 +216,7 @@ class Tank_auth
 	 * @param	string
 	 * @return	bool
 	 */
-	function is_email_available($email)
+	public function is_email_available($email)
 	{
 		return ((strlen($email) > 0) AND $this->ci->user_model->is_email_available($email));
 	}
@@ -229,7 +229,7 @@ class Tank_auth
 	 * @param	string
 	 * @return	array
 	 */
-	function change_email($email)
+	public function change_email($email)
 	{
 		$user_id = $this->ci->session->userdata('user_id');
 
@@ -264,7 +264,7 @@ class Tank_auth
 	 * @param	bool
 	 * @return	bool
 	 */
-	function activate_user($user_id, $activation_key, $activate_by_email = TRUE)
+	public function activate_user($user_id, $activation_key, $activate_by_email = TRUE)
 	{
 		$this->ci->user_model->purge_na($this->ci->config->item('email_activation_expire', 'tank_auth'));
 
@@ -282,7 +282,7 @@ class Tank_auth
 	 * @param	string
 	 * @return	array
 	 */
-	function forgot_password($login)
+	public function forgot_password($login)
 	{
 		if (strlen($login) > 0) {
 			if (!is_null($user = $this->ci->user_model->get_user_by_login($login))) {
@@ -311,7 +311,7 @@ class Tank_auth
 	 * @param	string
 	 * @return	bool
 	 */
-	function can_reset_password($user_id, $new_pass_key)
+	public function can_reset_password($user_id, $new_pass_key)
 	{
 		if ((strlen($user_id) > 0) AND (strlen($new_pass_key) > 0)) {
 			return $this->ci->user_model->can_reset_password(
@@ -330,7 +330,7 @@ class Tank_auth
 	 * @param	string
 	 * @return	bool
 	 */
-	function reset_password($user_id, $new_pass_key, $new_password)
+	public function reset_password($user_id, $new_pass_key, $new_password)
 	{
 		if ((strlen($user_id) > 0) AND (strlen($new_pass_key) > 0) AND (strlen($new_password) > 0)) {
 
@@ -371,7 +371,7 @@ class Tank_auth
 	 * @param	string
 	 * @return	bool
 	 */
-	function change_password($old_pass, $new_pass)
+	public function change_password($old_pass, $new_pass)
 	{
 		$user_id = $this->ci->session->userdata('user_id');
 
@@ -406,7 +406,7 @@ class Tank_auth
 	 * @param	string
 	 * @return	array
 	 */
-	function set_new_email($new_email, $password)
+	public function set_new_email($new_email, $password)
 	{
 		$user_id = $this->ci->session->userdata('user_id');
 
@@ -453,7 +453,7 @@ class Tank_auth
 	 * @param	string
 	 * @return	bool
 	 */
-	function activate_new_email($user_id, $new_email_key)
+	public function activate_new_email($user_id, $new_email_key)
 	{
 		if ((strlen($user_id) > 0) AND (strlen($new_email_key) > 0)) {
 			return $this->ci->user_model->activate_new_email(
@@ -469,7 +469,7 @@ class Tank_auth
 	 * @param	string
 	 * @return	bool
 	 */
-	function delete_user($password)
+	public function delete_user($password)
 	{
 		$user_id = $this->ci->session->userdata('user_id');
 
@@ -498,7 +498,7 @@ class Tank_auth
 	 *
 	 * @return	string
 	 */
-	function get_error_message()
+	public function get_error_message()
 	{
 		return $this->error;
 	}
@@ -598,7 +598,7 @@ class Tank_auth
 	 * @param	string
 	 * @return	bool
 	 */
-	function is_max_login_attempts_exceeded($login)
+	public function is_max_login_attempts_exceeded($login)
 	{
 		if ($this->ci->config->item('login_count_attempts', 'tank_auth')) {
 			$this->ci->load->model('tank_auth/login_attempts_model');

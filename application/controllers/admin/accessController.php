@@ -11,17 +11,23 @@ class accessController extends MY_AdminController {
 	public function __construct() {
 		parent::__construct();
 		
-		$this->data('controller',$this->controller)->data('title',$this->title)->data('titles',$this->titles)->data('description',$this->description);
+		$this->data('controller',$this->controller)
+			->data('title',$this->title)
+			->data('titles',$this->titles)
+			->data('description',$this->description);
 	}
 
 	public function indexAction() {
-		$this->data('header',$this->load->view('admin/_partials/table_header',$this->data,true))->data('records',$this->access_model->get_all());
+		$this->data('header',$this->load->view('admin/_partials/table_header',$this->data,true))
+			->data('records',$this->access_model->get_all());
 
 		$this->load->template('/admin/'.$this->controller.'/index',$this->data);
 	}
 	
 	public function newAction() {
-		$this->data('title','New '.$this->title)->data('action','/admin/'.$this->controller.'/new')->data('record',(object)array('id'=>-1,'active'=>1));
+		$this->data('title','New '.$this->title)
+			->data('action','/admin/'.$this->controller.'/new')
+			->data('record',(object)array('id'=>-1,'active'=>1));
 
 		$this->load->template('/admin/'.$this->controller.'/form',$this->data);
 	}
@@ -58,7 +64,8 @@ class accessController extends MY_AdminController {
 
 	public function editPostAction() {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->input->filter($this->input->post('id'),$this->id_filter,false);
+		$id = $this->input->post('id');
+		$this->input->filter($id,$this->id_filter,false);
 	
 		$data = array();
 		if ($this->input->map($this->access_model->validate, $data)) {

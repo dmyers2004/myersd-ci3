@@ -37,8 +37,11 @@ class MY_Input extends CI_Input
 	returns pass (true) / fail (false)
 	*/
 
-	public function map($rules,&$output,&$input=null,$xss = true,$return=true)
+	public function map($rules,&$output,&$input = null,$xss = true,$return=true)
 	{		
+		$CI = get_instance();
+		$CI->load->library('form_validation');
+
 		/* did they send in input? if not use post with xss by default */
 		$input = ($input) ? $input : $this->post(NULL, $xss); /* XSS cleaned */
 
@@ -54,14 +57,18 @@ class MY_Input extends CI_Input
 			$value = $prevalue = (isset($input[$dbfield])) ? $input[$dbfield] : $r['default'];
 
 			/* run the filter on this value using return if sent in */
-			if ($this->filter($value,$r['rules'],$return) === false) {
-				/* if it fails then return immediately */
+			$CI->form_validation->reset_validation();
+			$CI->form_validation->set_data($input);
+			$CI->form_validation->set_rules($r['rules']);
+
+			/* run the validation if fail (false) return pronto */
+			if ($CI->form_validation->run() === false) {
 				log_message('info','Validate::map '.$prevalue.'/'.$value.'/'.validation_errors().'/'.$r['rules']);
-				return false; /* fail */
+				return false;
 			}
 
 			/* if not then build the output array (passed by ref) with the new value (prepping for example) */
-			$output[$dbfield] = $value;
+			$output[$dbfield] = set_value($field);
 		}
 		
 		/* return true because all validations passed */
@@ -93,7 +100,7 @@ class MY_Input extends CI_Input
 		$pass = $CI->form_validation->run(); /* true = pass */
 
 		/* recapture the processed variable */
-		$value = $CI->form_validation->set_value($bogus);
+		$value = set_value($bogus);
 
 		/* log the error if any */
 		if ($pass === false ) {
