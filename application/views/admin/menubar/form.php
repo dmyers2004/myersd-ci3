@@ -1,4 +1,4 @@
-<h4 class="fancy-title"><?php echo $title ?></h4>
+<?php echo $header ?>
 <?php echo form_open($action,array('class'=>'form-horizontal','data-validate'=>'true')) ?>
 	<input type="hidden" name="id" value="<?php echo $record->id ?>">
 	<input type="hidden" name="old_resource" value="<?php echo $record->resource ?>">

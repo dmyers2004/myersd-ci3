@@ -1,18 +1,17 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class menubarController extends MY_AdminController {
+class settingController extends MY_AdminController {
 
-	public $controller = 'menubar';
-	public $title = 'Menu';
-	public $titles = 'Menus';
-	public $description = 'The Menubar Page allows you to create navigation groups and use them in your layouts.';
-	public $default_model = 'menubar_model';
-	public $path = '/admin/menubar/';		
+	public $controller = 'setting';
+	public $title = 'Setting';
+	public $titles = 'Settings';
+	public $description = 'The settings page is where all module settings are located.';
+	public $default_model = 'setting_model';
+	public $path = '/admin/setting/';	
 	
 	public function indexAction() {
 		$this->data('header',$this->load->view('admin/_partials/table_header',$this->data,true))
-			->data('records',$this->default_model->order_by('parent_id,sort')->get_all())
-			->data('parent_options',$this->default_model->dropdown('id','text'));
+			->data('records',$this->default_model->order_by('option_group')->get_all());
 
 		$this->load->template($this->path.'index');
 	}
@@ -22,7 +21,7 @@ class menubarController extends MY_AdminController {
 			->data('action',$this->path.'new')
 			->data('record',(object)array('option_id'=>-1,'active'=>1))
 			->data('header',$this->load->view('admin/_partials/form_header',$this->data,true))
-			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents());
+			->data('option_group',$this->default_model->dropdown('option_group','option_group'));
 
 		$this->load->template($this->path.'form');
 	}
@@ -32,7 +31,7 @@ class menubarController extends MY_AdminController {
 	}
 
 	public function newPostAction() {
-
+		
 		if ($this->default_model->map($this->data)) {
 			if ($this->default_model->insert($this->data)) {
 				$this->flash_msg->created($this->title,$this->path);
@@ -50,7 +49,7 @@ class menubarController extends MY_AdminController {
 			->data('action',$this->path.'edit/'.$id)
 			->data('record',$this->default_model->get($id))
 			->data('header',$this->load->view('admin/_partials/form_header',$this->data,true))
-			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents());
+			->data('option_group',$this->default_model->dropdown('option_group','option_group'));
 
 		$this->load->template($this->path.'form');
 	}
@@ -59,7 +58,7 @@ class menubarController extends MY_AdminController {
 		$this->load->json($this->default_model->validate());
 	}
 
-	public function editPostAction() {
+	public function editPostAction($id=null) {
 		/* if somebody is sending in bogus id's send them to a fiery death */
 		$this->default_model->filter_id($this->input->post('id'),false);
 			
@@ -83,39 +82,15 @@ class menubarController extends MY_AdminController {
 		$this->load->json($data);
 	}
 
-	public function sortAjaxAction($dir=null,$id=null) {		
-		$data['href'] = '';
-		$data['notice'] = array('text'=>'Menubar Sort Error','type'=>'error','stay'=>true);
-		
-		if ($this->default_model->filter_id($id) && $this->default_model->filter_mode($dir)) {
-			$current = $this->default_model->get($id);
-
-			if ($dir == 'up') {
-				++$current->sort;
-			} elseif($dir == 'down')  {
-				--$current->sort;
-			}
-			
-			if ($this->default_model->update($id, array('sort'=>$current->sort), true)) {
-				$this->flash_msg->blue($this->title.' Status Changed');
-				$data['href'] = '/admin/menubar';
-				$data['notice'] = '';
-			}
-		}
-
-		$this->load->json($data);
-	}
-
-	public function activateAjaxAction($id=null,$mode=null) {
+	public function autoloadAjaxAction($id=null,$mode=null) {
 		$data['err'] = true;
 
 		if ($this->default_model->filter_id($id) && $this->default_model->filter_mode($mode)) {
-			if ($this->default_model->update($id, array('active'=>$mode), true)) {
+			if ($this->default_model->update($id, array('auto_load'=>$mode), true)) {
 				$data['err'] = false;
 			}
 		}
 
 		$this->load->json($data);
 	}
-
 }

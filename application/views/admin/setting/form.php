@@ -1,4 +1,4 @@
-<h3><?php echo $title ?><small><?echo $description ?></small></h3>
+<?php echo $header ?>
 <?php echo form_open($action,array('class'=>'form-horizontal','data-validate'=>'true')) ?>
 	<input type="hidden" name="option_id" value="<?php echo $record->option_id ?>">
 

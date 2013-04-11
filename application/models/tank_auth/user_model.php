@@ -15,6 +15,21 @@ class User_model extends CI_Model
 	private $table_name = 'users';			// user accounts
 	private $profile_table_name	= 'user_profiles';	// user profiles
 
+	public $validate = array(
+		array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
+		array('field'=>'username','label'=>'User Name','rules'=>'required|xss_clean|filter_str[50]'),
+		array('field'=>'email','label'=>'Email','rules'=>'required|valid_email|filter_email[100]'),
+		array('field'=>'password','label'=>'Password','rules'=>'required|min_length[8]|max_length[32]|matches[confirm_password]'),
+		array('field'=>'group_id','label'=>'Group Id','rules'=>'required|filter_int[5]'),
+		array('field'=>'confirm_password','label'=>'Confirmation Password','rules'=>'required')
+	);
+
+	public $login_validate = array(
+		array('field' => 'email','label' => 'Email','rules' => 'trim|required|xss_clean|filter_str[72]'),
+		array('field' => 'password','label' => 'Password','rules' => 'trim|required|xss_clean|filter_str[72]'),
+		array('field' => 'remember','label' => 'Remember Me', 'rules' => 'integer|filter_int[1]','default' => 0)
+	);
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -22,6 +37,23 @@ class User_model extends CI_Model
 		$ci =& get_instance();
 		$this->table_name			= $ci->config->item('db_table_prefix', 'tank_auth').$this->table_name;
 		$this->profile_table_name	= $ci->config->item('db_table_prefix', 'tank_auth').$this->profile_table_name;
+
+		/* set the default rules */
+		$this->form_validation->set_rules($this->validate);
+	}
+	
+	public function remove_password_rules() {
+		$this->form_validation->remove_rules('password,confirm_password');
+	}
+	
+	public function validate_login() {
+		$this->form_validation->reset_validation();
+		$this->form_validation->set_rules($this->login_validate);
+		return $this->form_validation->run_array();
+	}
+	
+	public function validate() {
+		return $this->form_validation->run_array();
 	}
 	
 	public function get_users() {

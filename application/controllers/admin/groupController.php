@@ -6,90 +6,83 @@ class groupController extends MY_AdminController {
 	public $title = 'Group';
 	public $titles = 'Groups';
 	public $description = '';
-	public $id_filter = 'trim|integer|filter_int[5]|exists[groups.id]';
-	
-	public function __construct() {
-		parent::__construct();
-		
-		$this->data('controller',$this->controller)->data('title',$this->title)->data('titles',$this->titles)->data('description',$this->description);
-	}
+	public $default_model = 'group_model';
+	public $path = '/admin/group/';		
 
 	public function indexAction() {
-		$this->data('header',$this->load->view('admin/_partials/table_header',$this->data,true))->data('records',$this->group_model->get_all());
+		$this->data('header',$this->load->view('admin/_partials/table_header',$this->data,true))->data('records',$this->default_model->get_all());
 
-		$this->load->template('/admin/'.$this->controller.'/index',$this->data);
+		$this->load->template($this->path.'index');
 	}
 	
 	public function newAction() {
 		$this->data('title','New '.$this->title)
-			->data('action','/admin/'.$this->controller.'/new')
+			->data('action',$this->path.'new')
 			->data('record',(object)array('id'=>-1))
 			->data('my_access',array())
-			->data('all_access',$this->format_privileges($this->access_model->get_all()));
-		
-		$this->load->template('/admin/'.$this->controller.'/form',$this->data);
+			->data('all_access',$this->format_privileges($this->access_model->get_all()))
+			->data('header',$this->load->view('admin/_partials/form_header',$this->data,true));
+
+		$this->load->template($this->path.'form');
 	}
 
 	public function newValidatePostAjaxAction() {
-		$this->load->json($this->group_model->validate($this->group_model->validate));
+		$this->load->json($this->default_model->validate());
 	}
 
 	public function newPostAction() {
-		$data = array();
-		if ($this->input->map($this->group_model->validate,$data)) {
-			if ($id = $this->group_model->insert($data)) {
+		if ($this->default_model->map($this->data)) {
+			if ($id = $this->default_model->insert($this->data)) {
 				$this->update_privilege($id);
-				$this->flash_msg->created($this->title,'/admin/'.$this->controller);
+				$this->flash_msg->created($this->title,$this->path);
 			}
 		}
 
-		$this->flash_msg->fail($this->title,'/admin/'.$this->controller);
+		$this->flash_msg->fail($this->title,$this->path);
 	}
 
-	public function editAction($id=null) {
+	public function editAction() {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->input->filter($id,$this->id_filter,false);
+		$this->default_model->filter_id($this->input->post('id'),false);
 
 		$this->data('title','Edit '.$this->title)
-			->data('action','/admin/'.$this->controller.'/edit')
-			->data('record',$this->group_model->get($id))
+			->data('action',$this->path.'edit/'.$id)
+			->data('record',$this->default_model->get($id))
+			->data('header',$this->load->view('admin/_partials/form_header',$this->data,true))
 			->data('all_access',$this->format_privileges($this->access_model->get_all()));
 
-		$privileges = $this->group_model->get_group_access($id);
+		$privileges = $this->default_model->get_group_access($id);
 		foreach ($privileges as $record) {
 			$this->data['my_access'][$record->access_id] = true;
 		}
 
-		$this->load->template('/admin/'.$this->controller.'/form',$this->data);
+		$this->load->template($this->path.'form',$this->data);
 	}
 	
 	public function editValidatePostAjaxAction() {
-		$this->load->json($this->group_model->validate($this->group_model->validate));
+		$this->load->json($this->default_model->validate());
 	}
 	
 	public function editPostAction() {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->input->post('id');
-		$this->input->filter($id,$this->id_filter,false);
+		$this->default_model->filter_id($this->input->post('id'),false);
 	
-		$data = array();
-		
-		if ($this->input->map($this->group_model->validate,$data)) {
-			$this->group_model->update($data['id'],$data);
-			$this->update_privilege($data['id']);
-			$this->flash_msg->updated($this->title,'/admin/'.$this->controller);
+		if ($this->default_model->map($this->data)) {
+			$this->default_model->update($this->data['id'],$this->data);
+			$this->update_privilege($this->data['id']);
+			$this->flash_msg->updated($this->title,$this->path);
 		}
 		
-		$this->flash_msg->fail($this->title,'/admin/'.$this->controller);
+		$this->flash_msg->fail($this->title,$this->path);
 	}
 	
 	public function deleteAjaxAction($id=null) {
 		$data['err'] = true;
 
 		/* can they delete? */
-		if ($this->input->filter($id,$this->id_filter)) {
-			$this->group_model->delete($id);
-			$this->group_model->delete_group_access($id);
+		if ($this->default_model->filter($id)) {
+			$this->default_model->delete($id);
+			$this->default_model->delete_group_access($id);
 			$data['err'] = false;
 		}
 		
@@ -99,21 +92,34 @@ class groupController extends MY_AdminController {
 	protected function format_privileges($privileges) {
 		$formatted = array();
 		foreach ($privileges as $record) {
+		
+			$name = '';
 			$resource = $record->resource;
+			
 			$len = strpos($resource,'/',1);
+			
 			if ($len === false) {
 				$len = strpos($resource,' ',1);
 			}
-			$formatted[trim(substr($resource, 0, $len),' /')][] = $record;
+			
+			if ($len === false) {
+				$name = '*Generic';
+			}
+			
+			$namespace = ($name != '') ? $name : trim(substr($resource, 0, $len),' /');
+			
+			$formatted[$namespace][] = $record;
 		}
+
+		asort($formatted);
 
 		return $formatted;
 	}
 
 	protected function update_privilege($group_id) {
-		$this->group_model->delete_group_access($group_id);
+		$this->default_model->delete_group_access($group_id);
 		foreach ($this->input->post('access') as $id => $foo) {
-			$this->group_model->insert_group_access($id, $group_id);			
+			$this->default_model->insert_group_access($id, $group_id);			
 		}
 	}
 

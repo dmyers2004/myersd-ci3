@@ -22,12 +22,14 @@ class group_model extends MY_Model
   	array('field'=>'description','label'=>'Description','rules'=>'required|filter_str[128]')
   );
 
+	public $filters = array(
+		'id'=>'trim|integer|filter_int[5]|exists[groups.id]',
+		'mode'=>'trim|tf|filter_int[1]'
+	);
+
   public function insert($data, $skip_validation = false) {
-		/* dump off id since it's "empty" on insert */
-  	pop_off($data,'id');
-		
-		/* setup new validation - id is empty */
-		$this->remove_validation('id');
+  	unset($data['id']);
+  	unset($this->validate[0]);
 
   	return parent::insert($data, $skip_validation);
   }
@@ -44,5 +46,13 @@ class group_model extends MY_Model
 		$this->db->delete($this->group_access_table, array('group_id' => $group_id));
 		return true;
 	}
+	
+  public function filter_id(&$id,$return=false) {
+  	return $this->input->filter($id,$this->filters['id'],$return);
+  }
+
+  public function filter_mode(&$mode,$return=false) {
+  	return $this->input->filter($mode,$this->filters['mode'],$return);
+  }
 	
 }

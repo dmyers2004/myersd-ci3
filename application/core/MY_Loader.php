@@ -35,6 +35,10 @@ class MY_Loader extends CI_Loader
     /* final output */
     $this->view($layout, array('container'=>$this->view($view,$data,true)), false);
 	}
+	
+	public function partial($view) {
+		return $this->view($view,array(),true);
+	}
 
 	public function json($data)
 	{
