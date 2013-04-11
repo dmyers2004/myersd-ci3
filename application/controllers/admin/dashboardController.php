@@ -2,8 +2,10 @@
 
 class dashboardController extends MY_AdminController {
 
+	public $path = '/admin/dashboard/';	
+
 	public function indexAction() {
-		$this->load->template('admin/dashboard/index');
+		$this->load->template($this->path.'index');
 	}
 
 	public function upAction() {

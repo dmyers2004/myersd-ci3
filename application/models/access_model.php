@@ -30,6 +30,11 @@ class access_model extends MY_Model {
 		array('field'=>'active','label'=>'Active','rules'=>'filter_int[1]','default'=>0)
 	);
 	
+	public $filters = array(
+		'id'=>'trim|integer|filter_int[5]|exists[access.id]',
+		'mode'=>'trim|tf|filter_int[1]'
+	);
+	
   public function get_resource_id($resource) {
 		/* did they send in a integer? then it must be the resource id already */
   	if ((int)$resource > 0) {
@@ -47,13 +52,18 @@ class access_model extends MY_Model {
   }
   
   public function insert($data, $skip_validation = false) {
-		/* dump off id since it's "empty" on insert */
-  	pop_off($data,'id');
-		
-		/* setup new validation - id is empty */
-		$this->remove_validation('id');
+  	unset($data['id']);
+		unset($this->validate[0]);
 		
   	return parent::insert($data, $skip_validation);
+  }
+  
+  public function filter_id(&$id,$return=false) {
+  	return $this->input->filter($id,$this->filters['id'],$return);
+  }
+
+  public function filter_mode(&$mode,$return=false) {
+  	return $this->input->filter($mode,$this->filters['mode'],$return);
   }
   
 }

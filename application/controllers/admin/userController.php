@@ -5,116 +5,99 @@ class userController extends MY_AdminController {
 	public $controller = 'user';
 	public $title = 'User';
 	public $titles = 'Users';
-	public $description = '';
-	public $id_filter = 'trim|integer|filter_int[5]|exists[users.id]';
-	public $validate = array(
-		array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
-		array('field'=>'username','label'=>'User Name','rules'=>'required|xss_clean|filter_str[50]'),
-		array('field'=>'email','label'=>'Email','rules'=>'required|valid_email|filter_email[100]'),
-		array('field'=>'password','label'=>'Password','rules'=>'required|min_length[8]|max_length[32]|matches[confirm_password]'),
-		array('field'=>'group_id','label'=>'Group Id','rules'=>'required|filter_int[5]'),
-		array('field'=>'confirm_password','label'=>'Confirmation Password','rules'=>'required')
-	);
-	
-	public function __construct() {
-		parent::__construct();
-		
-		$this->load->library('validator');
-		
-		$this->data('controller',$this->controller)->data('title',$this->title)->data('titles',$this->titles)->data('description',$this->description);
-	}
-	
+	public $description = 'The users page is where you manage your sites users.';
+	public $default_model = 'user_model';
+	public $path = '/admin/user/';	
+
 	/* index view */
 	public function indexAction() {
 		$this->data('header',$this->load->view('admin/_partials/table_header',$this->data,true))
 			->data('records',$this->tank_auth->get_users())
 			->data('group_options',$this->get_groups());
 		
-		$this->load->template('/admin/'.$this->controller.'/index',$this->data);
+		$this->load->template($this->path.'index');
 	}
 	
 	/* create new form */
 	public function newAction() {
 		$this->data('title','New '.$this->title)
-			->data('action','/admin/'.$this->controller.'/new')
+			->data('action',$this->path.'new')
 			->data('record',(object)array('activated'=>1,'id'=>-1))
+			->data('header',$this->load->view('admin/_partials/form_header',null,true))
 			->data('group_options',$this->get_groups());
 
-		$this->load->template('/admin/'.$this->controller.'/form',$this->data);
+		$this->load->template($this->path.'form');
 	}
 
 	/* create new form validation */
 	public function newValidatePostAjaxAction() {
-		$this->load->json($this->validator->post($this->validate));
+		$this->load->json($this->default_model->validate());
 	}
 	
 	/* create new form post */
 	public function newPostAction() {
-		$data = array();
 
-		if ($this->input->map($this->validate, $data)) {
-			extract($data);			
+		if ($this->default_model->map($this->data)) {
+			extract($this->data);			
 			if ($this->tank_auth->create_user($username, $email, $password, $group_id, false)) {
-				$this->flash_msg->created($this->title,'/admin/'.$this->controller);
+				$this->flash_msg->created($this->title,$this->path);
 			}
 		}
 
-		$this->flash_msg->fail($this->title,'/admin/'.$this->controller);
+		$this->flash_msg->fail($this->title,$this->path);
 	}
 
 	/* edit form */
-	public function editAction($id=null) {
+	public function editAction() {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->input->filter($id,$this->id_filter,false);
+		$this->default_model->filter_id($this->input->post('id'),false);
 
 		$this->data('title','Edit '.$this->title)
-			->data('action','/admin/'.$this->controller.'/edit')
-			->data('record',$this->user_model->get_user($id))
+			->data('action',$this->path.'edit/'.$id)
+			->data('record',$this->default_model->get_user($id))
+			->data('header',$this->load->view('admin/_partials/form_header',$this->data,true))
 			->data('group_options',$this->get_groups());
 		
-		$this->load->template('/admin/'.$this->controller.'/form',$this->data);
+		$this->load->template($this->path.'form');
 	}
 
 	/* edit form validate */
 	public function editValidatePostAjaxAction() {
 		// do the password thing
 		if ($this->input->post('password').$this->input->post('confirm_password') == '') {
-			$this->validator->remove($this->validate,'password,confirm_password');
+			$this->default_model->remove_password_rules();
 		}
-		$this->load->json($this->validator->post($this->validate));
+		$this->load->json($this->default_model->validate());
 	}
 
 	/* edit form post */
 	public function editPostAction() {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$id = $this->input->post('id');
-		$this->input->filter($id,$this->id_filter,false);
+		$this->default_model->filter_id($this->input->post('id'),false);
 	
-		$data = array();
-		
-		if ($this->input->map($this->validate, $data)) {
+		if ($this->default_model->map($this->data)) {
 			/* we don't need these in the update because they are handled differently */
-			unset($data['confirm_password']);
-			unset($data['password']);
-			$this->user_model->update_user($data['id'], $data);
+			unset($this->data['confirm_password']);
+			unset($this->data['password']);
+			$this->default_model->update_user($this->data['id'], $this->data);
 
 			/* did they change the password? update it */
 			if ($this->input->post('password') != '') {
-				$this->user_model->change_password($data['id'], $this->input->post('password'));
+				$this->default_model->change_password($data['id'], $this->input->post('password'));
 			}
 
-			$this->flash_msg->updated($this->title,'/admin/'.$this->controller);
+			$this->flash_msg->updated($this->title,$this->path);
 		}
 		
-		$this->flash_msg->fail($this->title,'/admin/'.$this->controller);
+		$this->flash_msg->fail($this->title,$this->path);
 	}
 	
 	/* ajax activate */
 	public function activateAjaxAction($id=null,$mode=null) {
 		$data['err'] = true;
 		
-		if ($this->input->filter($id,$this->id_filter) && $this->input->filter($mode,'required|tf|filter_int[1]')) {
-			if ($this->user_model->update_user($id, array('activated'=>$mode))) {
+		if ($this->default_model->filter_id($id) && $this->default_model->filter_mode($mode)) {
+			if ($this->default_model->update_user($id, array('activated'=>$mode))) {
 				$data['err'] = false;
 			}
 		}
@@ -127,8 +110,8 @@ class userController extends MY_AdminController {
 		$data['err'] = true;
 
 		/* can they delete? */
-		if ($this->input->filter($id,$this->id_filter)) {
-			$this->user_model->delete_user($id);
+		if ($this->default_model->filter_id($id)) {
+			$this->default_model->delete_user($id);
 			$data['err'] = false;
 		}
 		

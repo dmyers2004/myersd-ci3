@@ -18,8 +18,7 @@ class MY_Controller extends CI_Controller
 	public $models = array();
 	public $model_string = 'm%';
 
-  public function __construct()
-  {
+  public function __construct() {
     parent::__construct();
 
 		$this->_load_models();
@@ -36,27 +35,24 @@ class MY_Controller extends CI_Controller
 		$this->load->b4e1eb53c674ea593cfcd9df316443ff = $this->layout;
 	}
 
-  private function _load_models()
-  {
+  private function _load_models() {
     foreach ($this->models as $model) {
       $this->load->model($this->_model_name($model), $model);
     }
   }
 
-  protected function _model_name($model)
-  {
+  protected function _model_name($model) {
     return str_replace('%', $model, $this->model_string);
   }
 
-  private function _load_helpers()
-  {
+  private function _load_helpers() {
     foreach ($this->helpers as $helper) {
       $this->load->helper($helper);
     }
   }
   
-  public function data($name,$value) {
-  	$this->data[$name] = $value;
+  public function data($variable,$value) {
+	  $this->load->vars(array($variable=>$value));
   	return $this;
   }
 
