@@ -10,21 +10,20 @@ class menubarController extends MY_AdminController {
 	public $path = '/admin/menubar/';		
 	
 	public function indexAction() {
-		$this->data('header',$this->load->view('admin/_partials/table_header',$this->data,true))
+		$this->data('header',$this->load->partial('admin/_partials/table_header'))
 			->data('records',$this->default_model->order_by('parent_id,sort')->get_all())
-			->data('parent_options',$this->default_model->dropdown('id','text'));
-
-		$this->load->template($this->path.'index');
+			->data('parent_options',$this->default_model->dropdown('id','text'))
+			->load->template($this->path.'index');
 	}
 
 	public function newAction() {
 		$this->data('title','New '.$this->title)
 			->data('action',$this->path.'new')
 			->data('record',(object)array('option_id'=>-1,'active'=>1))
-			->data('header',$this->load->view('admin/_partials/form_header',$this->data,true))
-			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents());
-
-		$this->load->template($this->path.'form');
+			->data('header',$this->load->partial('admin/_partials/form_header'))
+			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents())
+			
+			->load->template($this->path.'form');
 	}
 
 	public function newValidatePostAjaxAction() {
@@ -42,17 +41,17 @@ class menubarController extends MY_AdminController {
 		$this->flash_msg->fail($this->title,$this->path);
 	}
 
-	public function editAction() {
+	public function editAction($id=null) {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->default_model->filter_id($this->input->post('id'),false);
+		$this->default_model->filter_id($id,false);
 
 		$this->data('title','Edit '.$this->title)
-			->data('action',$this->path.'edit/'.$id)
+			->data('action',$this->path.'edit')
 			->data('record',$this->default_model->get($id))
-			->data('header',$this->load->view('admin/_partials/form_header',$this->data,true))
-			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents());
-
-		$this->load->template($this->path.'form');
+			->data('header',$this->load->partial('admin/_partials/form_header'))
+			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents())
+			
+			->load->template($this->path.'form');
 	}
 
 	public function editValidatePostAjaxAction() {
@@ -61,7 +60,8 @@ class menubarController extends MY_AdminController {
 
 	public function editPostAction() {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->default_model->filter_id($this->input->post('id'),false);
+		$id = $this->input->post('id');
+		$this->default_model->filter_id($id,false);
 			
 		if ($this->default_model->map($this->data)) {
 			$this->default_model->update($this->data['id'], $this->data);

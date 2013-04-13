@@ -11,11 +11,11 @@ class userController extends MY_AdminController {
 
 	/* index view */
 	public function indexAction() {
-		$this->data('header',$this->load->view('admin/_partials/table_header',$this->data,true))
+		$this->data('header',$this->load->partial('admin/_partials/table_header'))
 			->data('records',$this->tank_auth->get_users())
-			->data('group_options',$this->get_groups());
-		
-		$this->load->template($this->path.'index');
+			->data('group_options',$this->get_groups())
+			
+			->load->template($this->path.'index');
 	}
 	
 	/* create new form */
@@ -23,10 +23,10 @@ class userController extends MY_AdminController {
 		$this->data('title','New '.$this->title)
 			->data('action',$this->path.'new')
 			->data('record',(object)array('activated'=>1,'id'=>-1))
-			->data('header',$this->load->view('admin/_partials/form_header',null,true))
-			->data('group_options',$this->get_groups());
+			->data('header',$this->load->partial('admin/_partials/form_header'))
+			->data('group_options',$this->get_groups())
 
-		$this->load->template($this->path.'form');
+			->load->template($this->path.'form');
 	}
 
 	/* create new form validation */
@@ -48,17 +48,17 @@ class userController extends MY_AdminController {
 	}
 
 	/* edit form */
-	public function editAction() {
+	public function editAction($id=null) {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->default_model->filter_id($this->input->post('id'),false);
+		$this->default_model->filter_id($id,false);
 
 		$this->data('title','Edit '.$this->title)
-			->data('action',$this->path.'edit/'.$id)
+			->data('action',$this->path.'edit')
 			->data('record',$this->default_model->get_user($id))
-			->data('header',$this->load->view('admin/_partials/form_header',$this->data,true))
-			->data('group_options',$this->get_groups());
+			->data('header',$this->load->partial('admin/_partials/form_header'))
+			->data('group_options',$this->get_groups())
 		
-		$this->load->template($this->path.'form');
+			->load->template($this->path.'form');
 	}
 
 	/* edit form validate */
@@ -73,7 +73,8 @@ class userController extends MY_AdminController {
 	/* edit form post */
 	public function editPostAction() {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->default_model->filter_id($this->input->post('id'),false);
+		$id = $this->input->post('id');
+		$this->default_model->filter_id($id,false);
 	
 		if ($this->default_model->map($this->data)) {
 			/* we don't need these in the update because they are handled differently */

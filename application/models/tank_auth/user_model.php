@@ -30,6 +30,11 @@ class User_model extends CI_Model
 		array('field' => 'remember','label' => 'Remember Me', 'rules' => 'integer|filter_int[1]','default' => 0)
 	);
 
+	public $filters = array(
+		'id'=>'trim|integer|filter_int[5]|exists[users.id]',
+		'mode'=>'trim|tf|filter_int[1]'
+	);
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -41,6 +46,14 @@ class User_model extends CI_Model
 		/* set the default rules */
 		$this->form_validation->set_rules($this->validate);
 	}
+	
+  public function filter_id(&$id,$return=false) {
+  	return $this->input->filter($id,$this->filters['id'],$return);
+  }
+  
+  public function filter_mode(&$mode,$return=false) {
+  	return $this->input->filter($mode,$this->filters['mode'],$return);
+  }
 	
 	public function remove_password_rules() {
 		$this->form_validation->remove_rules('password,confirm_password');

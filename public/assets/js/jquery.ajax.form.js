@@ -11,12 +11,7 @@ jQuery.fn.ajaxForm = function(debug) {
 		var form = $(this);
 		
 		/* call and wait */
-		var form_url = form.attr('action');
-		var foo = form_url.split('/');
-		foo.pop();
-		var form_url = foo.join('/');
-		
-		var reply = mvc.request({data: form.mvcForm2Obj(), url: form_url + 'Validate', dataType: 'json'});
+		var reply = mvc.request({data: form.mvcForm2Obj(), url: form.attr('action') + 'Validate', dataType: 'json'});
 
 		if (reply === undefined) {
 			mvc.ajaxFormRemove()
