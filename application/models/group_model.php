@@ -15,6 +15,7 @@ class group_model extends MY_Model
 {
   public $_table = 'groups';
   public $group_access_table = 'group_access';
+  public $admin_group_id = 1;
   
   public $validate = array(
   	array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
@@ -33,6 +34,29 @@ class group_model extends MY_Model
 
   	return parent::insert($data, $skip_validation);
   }
+
+	public function get_roles($group_id) {
+		if ($group_id == $this->admin_group_id) {
+			return array('/*');
+		}
+	
+    $this->db->select('resource');
+    $this->db->join('access','access.id = group_access.access_id');
+    $this->db->where('group_id',$group_id);
+		
+		$access_results = $this->db->get($this->group_access_table );
+		
+		$roles = array();
+		if ($access_results->num_rows() > 0)
+		{
+		  foreach ($access_results->result() as $row)
+		  {
+		    $roles[] = $row->resource;
+		  }
+		}
+		
+		return $roles;
+	}
 
 	public function get_group_access($group_id) {
 		return $query = $this->db->get_where($this->group_access_table, array('group_id' => $group_id))->result();

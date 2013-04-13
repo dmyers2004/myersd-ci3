@@ -8,11 +8,9 @@ class Access {
 	  $role = '/user/delete/*|/isadmin';
 	  $role = '/user/delete/*&/isadmin';  
   */
-  public function has_role_by_group($role=NULL,$group_id=null)
+  public function has_role_by_group($access=NULL,$group_id=null)
   {
-    if (empty($role) || $group_id == null) return FALSE;
-
-		$access = $this->get_by_group($group_id);
+    if (!is_array($access) || $group_id == null) return FALSE;
 
     /* string, string|string (or), string&string (and) */
     $match = NULL;

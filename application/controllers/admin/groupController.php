@@ -10,9 +10,9 @@ class groupController extends MY_AdminController {
 	public $path = '/admin/group/';		
 
 	public function indexAction() {
-		$this->data('header',$this->load->view('admin/_partials/table_header',$this->data,true))->data('records',$this->default_model->get_all());
-
-		$this->load->template($this->path.'index');
+		$this->data('header',$this->load->partial('admin/_partials/table_header'))
+			->data('records',$this->default_model->get_all())
+			->load->template($this->path.'index');
 	}
 	
 	public function newAction() {
@@ -21,9 +21,9 @@ class groupController extends MY_AdminController {
 			->data('record',(object)array('id'=>-1))
 			->data('my_access',array())
 			->data('all_access',$this->format_privileges($this->access_model->get_all()))
-			->data('header',$this->load->view('admin/_partials/form_header',$this->data,true));
+			->data('header',$this->load->partial('admin/_partials/form_header'))
 
-		$this->load->template($this->path.'form');
+			->load->template($this->path.'form');
 	}
 
 	public function newValidatePostAjaxAction() {
@@ -41,22 +41,23 @@ class groupController extends MY_AdminController {
 		$this->flash_msg->fail($this->title,$this->path);
 	}
 
-	public function editAction() {
+	public function editAction($id=null) {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->default_model->filter_id($this->input->post('id'),false);
+		$this->default_model->filter_id($id,false);
 
 		$this->data('title','Edit '.$this->title)
-			->data('action',$this->path.'edit/'.$id)
+			->data('action',$this->path.'edit')
 			->data('record',$this->default_model->get($id))
-			->data('header',$this->load->view('admin/_partials/form_header',$this->data,true))
+			->data('header',$this->load->partial('admin/_partials/form_header'))
 			->data('all_access',$this->format_privileges($this->access_model->get_all()));
 
 		$privileges = $this->default_model->get_group_access($id);
 		foreach ($privileges as $record) {
-			$this->data['my_access'][$record->access_id] = true;
+			$access[$record->access_id] = true;
 		}
-
-		$this->load->template($this->path.'form',$this->data);
+		
+		$this->data('my_access',(array)$access)
+			->load->template($this->path.'form');
 	}
 	
 	public function editValidatePostAjaxAction() {
@@ -65,7 +66,8 @@ class groupController extends MY_AdminController {
 	
 	public function editPostAction() {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->default_model->filter_id($this->input->post('id'),false);
+		$id = $this->input->post('id');
+		$this->default_model->filter_id($id,false);
 	
 		if ($this->default_model->map($this->data)) {
 			$this->default_model->update($this->data['id'],$this->data);
@@ -111,7 +113,7 @@ class groupController extends MY_AdminController {
 			$formatted[$namespace][] = $record;
 		}
 
-		asort($formatted);
+		ksort($formatted);
 
 		return $formatted;
 	}

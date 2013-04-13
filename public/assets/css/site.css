@@ -76,3 +76,13 @@ body {
 .txt-al {
 	text-align: left !important;
 }
+
+.admin.group legend {
+	font-size: 120%;
+	line-height: 1.2;
+	margin-bottom: 5px;
+	padding-top: 5px;
+}
+.admin.group .resource {
+	font-size: 100%;
+}

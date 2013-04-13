@@ -10,20 +10,20 @@ class settingController extends MY_AdminController {
 	public $path = '/admin/setting/';	
 	
 	public function indexAction() {
-		$this->data('header',$this->load->view('admin/_partials/table_header',$this->data,true))
-			->data('records',$this->default_model->order_by('option_group')->get_all());
-
-		$this->load->template($this->path.'index');
+		$this->data('header',$this->load->partial('admin/_partials/table_header'))
+			->data('records',$this->default_model->order_by('option_group')->get_all())
+			
+			->load->template($this->path.'index');
 	}
 
 	public function newAction() {
 		$this->data('title','New '.$this->title)
 			->data('action',$this->path.'new')
 			->data('record',(object)array('option_id'=>-1,'active'=>1))
-			->data('header',$this->load->view('admin/_partials/form_header',$this->data,true))
-			->data('option_group',$this->default_model->dropdown('option_group','option_group'));
+			->data('header',$this->load->partial('admin/_partials/form_header'))
+			->data('option_group',$this->default_model->dropdown('option_group','option_group'))
 
-		$this->load->template($this->path.'form');
+			->load->template($this->path.'form');
 	}
 
 	public function newValidatePostAjaxAction() {
@@ -41,17 +41,17 @@ class settingController extends MY_AdminController {
 		$this->flash_msg->fail($this->title,$this->path);
 	}
 
-	public function editAction() {
+	public function editAction($id=null) {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->default_model->filter_id($this->input->post('id'),false);
+		$this->default_model->filter_id($id,false);
 
 		$this->data('title','Edit '.$this->title)
-			->data('action',$this->path.'edit/'.$id)
+			->data('action',$this->path.'edit')
 			->data('record',$this->default_model->get($id))
-			->data('header',$this->load->view('admin/_partials/form_header',$this->data,true))
-			->data('option_group',$this->default_model->dropdown('option_group','option_group'));
+			->data('header',$this->load->partial('admin/_partials/form_header'))
+			->data('option_group',$this->default_model->dropdown('option_group','option_group'))
 
-		$this->load->template($this->path.'form');
+			->load->template($this->path.'form');
 	}
 
 	public function editValidatePostAjaxAction() {
@@ -60,7 +60,8 @@ class settingController extends MY_AdminController {
 
 	public function editPostAction($id=null) {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->default_model->filter_id($this->input->post('id'),false);
+		$id = $this->input->post('id');
+		$this->default_model->filter_id($id,false);
 			
 		if ($this->default_model->map($this->data)) {
 			$this->default_model->update($this->data['id'], $this->data);

@@ -28,7 +28,7 @@ class MY_Loader extends CI_Loader
 		return $settings;
 	}
 
-  public function template($view, $data=array(),$layout=null)
+  public function template($view,$layout=null)
   {
     $layout = ($layout) ? $layout : $this->b4e1eb53c674ea593cfcd9df316443ff;
 
