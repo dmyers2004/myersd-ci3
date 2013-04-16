@@ -29,7 +29,13 @@ class MY_Controller extends CI_Controller
 		$this->load->vars(array('site_title'=>$this->title.(($this->subtitle) ? $this->title_sep.$this->subtitle : '')));
 
 		$menu = $this->menubar->get_active();
-		$roles = $this->auth->get_roles();
+		$roles = $this->auth->get_user_roles();
+
+		/* if your not logged in so the default login */
+		if ($roles === null) {
+			$roles = array('/nav/login');
+			$menu[] = array('id'=>1,'resource'=>'/nav/login','url'=>'/admin/auth','text'=>'Login','parent_id'=>0,'sort'=>0,'class'=>'','active'=>1);
+		}
 
 		$this->load->vars(array('navigation_menu'=>$this->menubar->render($roles,$menu)));
 
