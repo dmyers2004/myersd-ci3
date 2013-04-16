@@ -40,8 +40,8 @@ class User_model extends CI_Model
 		parent::__construct();
 
 		$ci =& get_instance();
-		$this->table_name			= $ci->config->item('db_table_prefix', 'tank_auth').$this->table_name;
-		$this->profile_table_name	= $ci->config->item('db_table_prefix', 'tank_auth').$this->profile_table_name;
+		$this->table_name			= $ci->config->item('db_table_prefix', 'auth').$this->table_name;
+		$this->profile_table_name	= $ci->config->item('db_table_prefix', 'auth').$this->profile_table_name;
 
 		/* set the default rules */
 		$this->form_validation->set_rules($this->validate);
@@ -333,9 +333,7 @@ class User_model extends CI_Model
 	 */
 	public function change_password($user_id, $new_pass)
 	{
-		$hasher = new PasswordHash(
-				$this->config->item('phpass_hash_strength', 'tank_auth'),
-				$this->config->item('phpass_hash_portable', 'tank_auth'));
+		$hasher = new PasswordHash($this->config->item('phpass_hash_strength', 'auth'),$this->config->item('phpass_hash_portable', 'auth'));
 
 		// Hash new password using phpass
 		$hashed_password = $hasher->HashPassword($new_pass);

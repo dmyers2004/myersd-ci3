@@ -52,7 +52,7 @@ class menubar {
 	public function render($privs = null,$menus = null) {
 		/* let's pad the select all below */
 		$p = array();
-		foreach ($privs as $r) {
+		foreach ((array)$privs as $r) {
 			if (substr($r,-1) == '*') {
 				$p[] = $r . '/*/*/*/*';
 			} else {

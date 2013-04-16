@@ -25,12 +25,13 @@ class MY_Controller extends CI_Controller
 		$this->_load_helpers();
 
 		$this->load->vars(array('body_class'=>strtolower(str_replace('/',' ',uri_string()))));
-		$this->load->vars(array('logged_in'=>$this->tank_auth->is_logged_in()));
+		$this->load->vars(array('logged_in'=>$this->auth->is_logged_in()));
 		$this->load->vars(array('site_title'=>$this->title.(($this->subtitle) ? $this->title_sep.$this->subtitle : '')));
 
 		$menu = $this->menubar->get_active();
+		$roles = $this->auth->get_roles();
 
-		$this->load->vars(array('navigation_menu'=>$this->menubar->render(array('/*'),$menu)));
+		$this->load->vars(array('navigation_menu'=>$this->menubar->render($roles,$menu)));
 
 		$this->load->b4e1eb53c674ea593cfcd9df316443ff = $this->layout;
 	}

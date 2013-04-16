@@ -6,12 +6,12 @@ class accessController extends MY_AdminController {
 	public $title = 'Access';
 	public $titles = 'Access';
 	public $description = '';
-	public $default_model = 'access_model';
+	public $controller_model = 'access_model';
 	public $path = '/admin/access/';	
 
 	public function indexAction() {
 		$this->data('header',$this->load->partial('admin/_partials/table_header'))
-			->data('records',$this->default_model->get_all())
+			->data('records',$this->controller_model->get_all())
 			->load->template($this->path.'index');
 	}
 	
@@ -25,12 +25,12 @@ class accessController extends MY_AdminController {
 	}
 
 	public function newValidatePostAjaxAction() {
-		$this->load->json($this->default_model->validate());
+		$this->load->json($this->controller_model->validate());
 	}
 
 	public function newPostAction() {
-		if ($this->default_model->map($this->data)) {
-			if ($this->default_model->insert($this->data)) {
+		if ($this->controller_model->map($this->data)) {
+			if ($this->controller_model->insert($this->data)) {
 				$this->flash_msg->created($this->title,$this->path);
 			}
 		}
@@ -40,27 +40,27 @@ class accessController extends MY_AdminController {
 
 	public function editAction($id=null) {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->default_model->filter_id($id,false);
+		$this->controller_model->filter_id($id,false);
 	
 		$this->data('title','Edit '.$this->title)
 			->data('action',$this->path.'edit')
-			->data('record',$this->default_model->get($id))
+			->data('record',$this->controller_model->get($id))
 			->data('header',$this->load->partial('admin/_partials/form_header'))
 			
 			->template($this->path.'form');
 	}
 	
 	public function editValidatePostAjaxAction() {
-		$this->load->json($this->default_model->validate());
+		$this->load->json($this->controller_model->validate());
 	}
 
 	public function editPostAction() {
 		/* if somebody is sending in bogus id's send them to a fiery death */
 		$id = $this->input->post('id');
-		$this->default_model->filter_id($id,false);
+		$this->controller_model->filter_id($id,false);
 	
-		if ($this->default_model->map($this->data)) {
-			$this->default_model->update($this->data['id'], $this->data);
+		if ($this->controller_model->map($this->data)) {
+			$this->controller_model->update($this->data['id'], $this->data);
 			$this->flash_msg->updated($this->title,$this->path);
 		}
 		
@@ -71,8 +71,8 @@ class accessController extends MY_AdminController {
 	public function activateAjaxAction($id=null,$mode=null) {
 		$data['err'] = true;
 		
-		if ($this->default_model->filter_id($id) && $this->default_model->filter_mode($mode)) {
-			if ($this->default_model->update($id, array('active'=>$mode), true)) {
+		if ($this->controller_model->filter_id($id) && $this->controller_model->filter_mode($mode)) {
+			if ($this->controller_model->update($id, array('active'=>$mode), true)) {
 				$data['err'] = false;
 			}
 		}
@@ -84,8 +84,8 @@ class accessController extends MY_AdminController {
 		$data['err'] = true;
 
 		/* can they delete? */
-		if ($this->default_model->filter_id($id)) {
-			$this->default_model->delete($id);
+		if ($this->controller_model->filter_id($id)) {
+			$this->controller_model->delete($id);
 			$this->group_model->delete_access($id);
 			$data['err'] = false;
 		}
