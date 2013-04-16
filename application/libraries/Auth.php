@@ -654,9 +654,8 @@ class auth
 	}
 
 	/* handle roles */
-	public function get_roles() {
-		$user = get_instance()->session->all_userdata();
-		return $user['group_roles'];
+	public function get_user_roles() {
+		return $this->ci->session->userdata('group_roles');
 	}
 
   /*

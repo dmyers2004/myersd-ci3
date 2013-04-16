@@ -15,7 +15,6 @@ class group_model extends MY_Model
 {
   public $_table = 'groups';
   public $group_access_table = 'group_access';
-  public $admin_group_id = 1;
   
   public $validate = array(
   	array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
@@ -36,7 +35,8 @@ class group_model extends MY_Model
   }
 
 	public function get_roles($group_id) {
-		if ($group_id == $this->admin_group_id) {
+		if ($group_id == $this->config->item('admin_group_id', 'auth')) {
+			/* access to everything */
 			return array('/*');
 		}
 	

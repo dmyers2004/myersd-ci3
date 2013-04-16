@@ -18,7 +18,7 @@ class User_model extends CI_Model
 	public $validate = array(
 		array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
 		array('field'=>'username','label'=>'User Name','rules'=>'required|xss_clean|filter_str[50]'),
-		array('field'=>'email','label'=>'Email','rules'=>'required|valid_email|filter_email[100]'),
+		array('field'=>'email','label'=>'Email','rules'=>'required|valid_email|filter_email[72]'),
 		array('field'=>'password','label'=>'Password','rules'=>'required|min_length[8]|max_length[32]|matches[confirm_password]'),
 		array('field'=>'group_id','label'=>'Group Id','rules'=>'required|filter_int[5]'),
 		array('field'=>'confirm_password','label'=>'Confirmation Password','rules'=>'required')
@@ -26,8 +26,8 @@ class User_model extends CI_Model
 
 	public $login_validate = array(
 		array('field' => 'email','label' => 'Email','rules' => 'trim|required|xss_clean|filter_str[72]'),
-		array('field' => 'password','label' => 'Password','rules' => 'trim|required|xss_clean|filter_str[72]'),
-		array('field' => 'remember','label' => 'Remember Me', 'rules' => 'integer|filter_int[1]','default' => 0)
+		array('field' => 'password','label' => 'Password','rules' => 'trim|required|xss_clean|filter_str[32]'),
+		array('field' => 'remember','label' => 'Remember Me', 'rules' => 'integer|tf|filter_int[1]','default' => 0)
 	);
 
 	public $filters = array(

@@ -140,6 +140,8 @@ $config['recaptcha_private_key'] = '';
 */
 $config['db_table_prefix'] = '';
 
+/* admin group id number */
+$config['admin_group_id'] = 1;
 
 /* End of file tank_auth.php */
 /* Location: ./application/config/tank_auth.php */
