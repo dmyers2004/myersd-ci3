@@ -16,7 +16,7 @@ define('STATUS_NOT_ACTIVATED', '0');
  * @based on	DX Auth by Dexcell (http://dexcell.shinsengumiteam.com/dx_auth)
  * @license		MIT License Copyright (c) 2008 Erick Hartanto
  */
-class Tank_auth
+class auth
 {
 	private $error = array();
 
@@ -24,11 +24,11 @@ class Tank_auth
 	{
 		$this->ci =& get_instance();
 
-		$this->ci->load->config('tank_auth', TRUE);
+		$this->ci->load->config('auth', TRUE);
 
 		$this->ci->load->database();
 		$this->ci->load->driver('session');
-		$this->ci->load->model('tank_auth/user_model');
+		$this->ci->load->model('user_model');
 
 		// Try to autologin
 		$this->autologin();
@@ -59,14 +59,11 @@ class Tank_auth
 			if (!is_null($user = $this->ci->user_model->$get_user_func($login))) {	// login ok
 
 				// Does password match hash in database?
-				$hasher = new PasswordHash(
-						$this->ci->config->item('phpass_hash_strength', 'tank_auth'),
-						$this->ci->config->item('phpass_hash_portable', 'tank_auth'));
+				$hasher = new PasswordHash($this->ci->config->item('phpass_hash_strength', 'auth'),$this->ci->config->item('phpass_hash_portable', 'auth'));
 				if ($hasher->CheckPassword($password, $user->password)) {		// password ok
 
-					if ($user->banned == 1) {									// fail - banned
+					if ($user->banned == 1) { // fail - banned
 						$this->error = array('banned' => $user->ban_reason);
-
 					} else {
 						$this->ci->session->set_userdata(array(
 								'user_id'	=> $user->id,
@@ -88,8 +85,8 @@ class Tank_auth
 
 							$this->ci->user_model->update_login_info(
 									$user->id,
-									$this->ci->config->item('login_record_ip', 'tank_auth'),
-									$this->ci->config->item('login_record_time', 'tank_auth'));
+									$this->ci->config->item('login_record_ip', 'auth'),
+									$this->ci->config->item('login_record_time', 'auth'));
 							return TRUE;
 						}
 					}
@@ -172,8 +169,8 @@ class Tank_auth
 		} else {
 			// Hash password using phpass
 			$hasher = new PasswordHash(
-					$this->ci->config->item('phpass_hash_strength', 'tank_auth'),
-					$this->ci->config->item('phpass_hash_portable', 'tank_auth'));
+					$this->ci->config->item('phpass_hash_strength', 'auth'),
+					$this->ci->config->item('phpass_hash_portable', 'auth'));
 			$hashed_password = $hasher->HashPassword($password);
 
 			$data = array(
@@ -268,7 +265,7 @@ class Tank_auth
 	 */
 	public function activate_user($user_id, $activation_key, $activate_by_email = TRUE)
 	{
-		$this->ci->user_model->purge_na($this->ci->config->item('email_activation_expire', 'tank_auth'));
+		$this->ci->user_model->purge_na($this->ci->config->item('email_activation_expire', 'auth'));
 
 		if ((strlen($user_id) > 0) AND (strlen($activation_key) > 0)) {
 			return $this->ci->user_model->activate_user($user_id, $activation_key, $activate_by_email);
@@ -319,7 +316,7 @@ class Tank_auth
 			return $this->ci->user_model->can_reset_password(
 				$user_id,
 				$new_pass_key,
-				$this->ci->config->item('forgot_password_expire', 'tank_auth'));
+				$this->ci->config->item('forgot_password_expire', 'auth'));
 		}
 		return FALSE;
 	}
@@ -340,18 +337,18 @@ class Tank_auth
 
 				// Hash password using phpass
 				$hasher = new PasswordHash(
-						$this->ci->config->item('phpass_hash_strength', 'tank_auth'),
-						$this->ci->config->item('phpass_hash_portable', 'tank_auth'));
+						$this->ci->config->item('phpass_hash_strength', 'auth'),
+						$this->ci->config->item('phpass_hash_portable', 'auth'));
 				$hashed_password = $hasher->HashPassword($new_password);
 
 				if ($this->ci->user_model->reset_password(
 						$user_id,
 						$hashed_password,
 						$new_pass_key,
-						$this->ci->config->item('forgot_password_expire', 'tank_auth'))) {	// success
+						$this->ci->config->item('forgot_password_expire', 'auth'))) {	// success
 
 					// Clear all user's autologins
-					$this->ci->load->model('tank_auth/user_autologin_model');
+					$this->ci->load->model('user_autologin_model');
 					$this->ci->user_autologin_model->clear($user->id);
 
 					return array(
@@ -381,8 +378,8 @@ class Tank_auth
 
 			// Check if old password correct
 			$hasher = new PasswordHash(
-					$this->ci->config->item('phpass_hash_strength', 'tank_auth'),
-					$this->ci->config->item('phpass_hash_portable', 'tank_auth'));
+					$this->ci->config->item('phpass_hash_strength', 'auth'),
+					$this->ci->config->item('phpass_hash_portable', 'auth'));
 			if ($hasher->CheckPassword($old_pass, $user->password)) {			// success
 
 				// Hash new password using phpass
@@ -416,8 +413,8 @@ class Tank_auth
 
 			// Check if password correct
 			$hasher = new PasswordHash(
-					$this->ci->config->item('phpass_hash_strength', 'tank_auth'),
-					$this->ci->config->item('phpass_hash_portable', 'tank_auth'));
+					$this->ci->config->item('phpass_hash_strength', 'auth'),
+					$this->ci->config->item('phpass_hash_portable', 'auth'));
 			if ($hasher->CheckPassword($password, $user->password)) {			// success
 
 				$data = array(
@@ -479,8 +476,8 @@ class Tank_auth
 
 			// Check if password correct
 			$hasher = new PasswordHash(
-					$this->ci->config->item('phpass_hash_strength', 'tank_auth'),
-					$this->ci->config->item('phpass_hash_portable', 'tank_auth'));
+					$this->ci->config->item('phpass_hash_strength', 'auth'),
+					$this->ci->config->item('phpass_hash_portable', 'auth'));
 			if ($hasher->CheckPassword($password, $user->password)) {			// success
 
 				$this->ci->user_model->delete_user($user_id);
@@ -516,14 +513,14 @@ class Tank_auth
 		$this->ci->load->helper('cookie');
 		$key = substr(md5(uniqid(rand().get_cookie($this->ci->config->item('sess_cookie_name')))), 0, 16);
 
-		$this->ci->load->model('tank_auth/user_autologin_model');
+		$this->ci->load->model('user_autologin_model');
 		$this->ci->user_autologin_model->purge($user_id);
 
 		if ($this->ci->user_autologin->set($user_id, md5($key))) {
 			set_cookie(array(
-					'name' 		=> $this->ci->config->item('autologin_cookie_name', 'tank_auth'),
+					'name' 		=> $this->ci->config->item('autologin_cookie_name', 'auth'),
 					'value'		=> serialize(array('user_id' => $user_id, 'key' => $key)),
-					'expire'	=> $this->ci->config->item('autologin_cookie_life', 'tank_auth'),
+					'expire'	=> $this->ci->config->item('autologin_cookie_life', 'auth'),
 			));
 			return TRUE;
 		}
@@ -538,14 +535,14 @@ class Tank_auth
 	private function delete_autologin()
 	{
 		$this->ci->load->helper('cookie');
-		if ($cookie = get_cookie($this->ci->config->item('autologin_cookie_name', 'tank_auth'), TRUE)) {
+		if ($cookie = get_cookie($this->ci->config->item('autologin_cookie_name', 'auth'), TRUE)) {
 
 			$data = unserialize($cookie);
 
-			$this->ci->load->model('tank_auth/user_autologin_model');
+			$this->ci->load->model('user_autologin_model');
 			$this->ci->user_autologin_model->delete($data['user_id'], md5($data['key']));
 
-			delete_cookie($this->ci->config->item('autologin_cookie_name', 'tank_auth'));
+			delete_cookie($this->ci->config->item('autologin_cookie_name', 'auth'));
 		}
 	}
 
@@ -559,13 +556,13 @@ class Tank_auth
 		if (!$this->is_logged_in() AND !$this->is_logged_in(FALSE)) {			// not logged in (as any user)
 
 			$this->ci->load->helper('cookie');
-			if ($cookie = get_cookie($this->ci->config->item('autologin_cookie_name', 'tank_auth'), TRUE)) {
+			if ($cookie = get_cookie($this->ci->config->item('autologin_cookie_name', 'auth'), TRUE)) {
 
 				$data = unserialize($cookie);
 
 				if (isset($data['key']) AND isset($data['user_id'])) {
 
-					$this->ci->load->model('tank_auth/user_autologin_model');
+					$this->ci->load->model('user_autologin_model');
 					if (!is_null($user = $this->ci->user_autologin_model->get($data['user_id'], md5($data['key'])))) {
 
 						// Login user
@@ -577,15 +574,15 @@ class Tank_auth
 
 						// Renew users cookie to prevent it from expiring
 						set_cookie(array(
-								'name' 		=> $this->ci->config->item('autologin_cookie_name', 'tank_auth'),
+								'name' 		=> $this->ci->config->item('autologin_cookie_name', 'auth'),
 								'value'		=> $cookie,
-								'expire'	=> $this->ci->config->item('autologin_cookie_life', 'tank_auth'),
+								'expire'	=> $this->ci->config->item('autologin_cookie_life', 'auth'),
 						));
 
 						$this->ci->user_model->update_login_info(
 								$user->id,
-								$this->ci->config->item('login_record_ip', 'tank_auth'),
-								$this->ci->config->item('login_record_time', 'tank_auth'));
+								$this->ci->config->item('login_record_ip', 'auth'),
+								$this->ci->config->item('login_record_time', 'auth'));
 						return TRUE;
 					}
 				}
@@ -602,10 +599,10 @@ class Tank_auth
 	 */
 	public function is_max_login_attempts_exceeded($login)
 	{
-		if ($this->ci->config->item('login_count_attempts', 'tank_auth')) {
-			$this->ci->load->model('tank_auth/login_attempts_model');
+		if ($this->ci->config->item('login_count_attempts', 'auth')) {
+			$this->ci->load->model('login_attempts_model');
 			return $this->ci->login_attempts_model->get_attempts_num($this->ci->input->ip_address(), $login)
-					>= $this->ci->config->item('login_max_attempts', 'tank_auth');
+					>= $this->ci->config->item('login_max_attempts', 'auth');
 		}
 		return FALSE;
 	}
@@ -619,9 +616,9 @@ class Tank_auth
 	 */
 	private function increase_login_attempt($login)
 	{
-		if ($this->ci->config->item('login_count_attempts', 'tank_auth')) {
+		if ($this->ci->config->item('login_count_attempts', 'auth')) {
 			if (!$this->is_max_login_attempts_exceeded($login)) {
-				$this->ci->load->model('tank_auth/login_attempts_model');
+				$this->ci->load->model('login_attempts_model');
 				$this->ci->login_attempts_model->increase_attempt($this->ci->input->ip_address(), $login);
 			}
 		}
@@ -636,12 +633,12 @@ class Tank_auth
 	 */
 	private function clear_login_attempts($login)
 	{
-		if ($this->ci->config->item('login_count_attempts', 'tank_auth')) {
-			$this->ci->load->model('tank_auth/login_attempts_model');
+		if ($this->ci->config->item('login_count_attempts', 'auth')) {
+			$this->ci->load->model('login_attempts_model');
 			$this->ci->login_attempts_model->clear_attempts(
 					$this->ci->input->ip_address(),
 					$login,
-					$this->ci->config->item('login_attempt_expire', 'tank_auth'));
+					$this->ci->config->item('login_attempt_expire', 'auth'));
 		}
 	}
 	
@@ -655,6 +652,85 @@ class Tank_auth
 
 		return call_user_func_array( array($this->ci->user_model, $method), $arguments);
 	}
+
+	/* handle roles */
+	public function get_roles() {
+		$user = get_instance()->session->all_userdata();
+		return $user['group_roles'];
+	}
+
+  /*
+	  $role = '/user/delete/*';
+	  $role = '/user/delete/*|/isadmin';
+	  $role = '/user/delete/*&/isadmin';  
+  
+		$access = array('/nav/test','/user/delete');  
+  */
+  public function has_role_by_group($role=null,$access=null)
+  {
+		if ($role == null) {
+			return FALSE;
+		}
+	
+		if ($access == null) {
+			$access = $this->get_roles();
+		}
+
+    /* string, string|string (or), string&string (and) */
+    $match = NULL;
+
+    if (strpos($role,'|') !== FALSE) {
+      $responds = FALSE;
+      /* or each */
+      $parts = explode('|',$role);
+      foreach ($parts as $part) {
+        $responds = $this->in_access($part,$access) || $responds;
+      }
+      $match = $responds;
+    }
+
+    if (strpos($role,'&') !== FALSE) {
+      $responds = TRUE;
+      /* and each */
+      $parts = explode('&',$role);
+      foreach ($parts as $part) {
+        $responds = $this->in_access($part,$access) && $responds;
+      }
+      $match = $responds;
+    }
+
+    if ($match == NULL) {
+      $match = $this->in_access($role,$access);
+    }
+
+    return $match;
+  }
+
+	/*
+		Single Test
+		$role = '/user/add'
+		$access = array of $roles
+	*/
+  protected function in_access($role,$access)
+  {
+    $exact = (substr($role,-1) == '*') ? FALSE : TRUE;
+
+    if (!is_array($access)) return FALSE;
+
+    if ($exact) {
+      return in_array($role,$access);
+    }
+
+    $role = substr($role,0,-1);
+    foreach ($access as $a) {
+      if ($role == substr($a,0,strlen($role))) {
+        return TRUE;
+      }
+    }
+
+    return FALSE;
+  }
+
 	
 }
 

@@ -7,7 +7,7 @@ class mainController extends MY_PublicController {
 	}
 
 	public function createAdminAction() {
-		//var_dump($this->tank_auth->create_user('dmyers', 'admin@admin@.com', 'password', false));
+		//var_dump($this->auth->create_user('dmyers', 'admin@admin@.com', 'password', false));
 	}
 	
 	public function viewAction() {
