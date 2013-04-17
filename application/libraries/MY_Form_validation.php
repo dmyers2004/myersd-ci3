@@ -4,7 +4,7 @@ class MY_Form_validation extends CI_Form_validation {
 
 	/* test if it's 1 or 0 */
 	public function tf($str, $field) {
-		$this->CI->form_validation->set_message('tf', 'The %s is a invalid.');
+		$this->CI->form_validation->set_message('tf', 'The %s is invalid.');
 		return ((int)$str == 1 || (int)$str == 0) ? true : false;
 	}
 
