@@ -16,14 +16,14 @@
 			<td><?php echo $record->email ?></td>
 			<td><?php echo anchor('/admin/group/edit/'.$record->group_id, $group_options[$record->group_id]) ?></td>
 			<td class="txt-ac">
-				<a href="/admin/<?php echo $controller ?>/activate/<?php echo $record->id ?>/<?php echo ($record->activated) ? 0 : 1 ?>" class="activate_handler"><i style="font-size: 120%" class="<?php echo ($record->activated) ? 'icon-ok-circle' : 'icon-circle-blank' ?>"></i></a>
+				<a href="/admin/<?php echo $controller ?>/activate/<?php echo $record->id ?>/<?php echo (int)$record->activated ?>" class="activate_handler"><i style="font-size: 120%" class="<?php flipflop($record->activated,'icon-ok-circle|icon-circle-blank') ?>"></i></a>
 			</td>
 			<td>
 				<div class="btn-group">
 				  <button class="btn"><a class="no-link-look" href="/admin/<?php echo $controller ?>/edit/<?php echo $record->id ?>">Edit</a></button>
 				  <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
 				  <ul class="dropdown-menu">
-				    <li><a href="/admin/<?php echo $controller ?>/activate/<?php echo $record->id ?>/<?php echo ($record->activated) ? 0 : 1 ?>" class="activate_handler"><?php echo ($record->activated) ? 'Deactivate' : 'Activate' ?></a></li>
+				    <li><a href="/admin/<?php echo $controller ?>/activate/<?php echo $record->id ?>/<?php echo (int)$record->activated ?>" class="activate_handler"><?php echo flipflop($record->activated,'Deactivate|Activate') ?></a></li>
 				    <li><a href="/admin/<?php echo $controller ?>/delete/<?php echo $record->id ?>" class="delete_handler">Delete</a></li>
 				  </ul>
 				</div>

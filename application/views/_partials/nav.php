@@ -14,6 +14,8 @@
 						<ul class="nav pull-right">
 <?php if ($logged_in) { ?>
 						<li><a href="/admin/auth/logout">Logout</a></li>
+<?php } else { ?>
+						<li><a href="/admin/auth">Login</a></li>
 <?php } ?>
  						</ul>
           </div>
