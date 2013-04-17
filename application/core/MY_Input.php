@@ -19,7 +19,7 @@ class MY_Input extends CI_Input
 	public function _fetch_from_array(&$array, $index = '', $xss_clean = FALSE)
 	{
 		if ( ! isset($array[$index])) {
-			return $xss_clean;
+			return $xss_clean; /* return it as a default */
 		}
 
 		if ($xss_clean === TRUE) {
