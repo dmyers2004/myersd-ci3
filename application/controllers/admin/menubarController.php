@@ -22,7 +22,7 @@ class menubarController extends MY_AdminController {
 			->data('record',(object)array('option_id'=>-1,'active'=>1))
 			->data('header',$this->load->partial('admin/_partials/form_header'))
 			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents())
-			
+			->data('endform',$this->load->partial('admin/_partials/endform'))
 			->load->template($this->path.'form');
 	}
 
@@ -50,7 +50,7 @@ class menubarController extends MY_AdminController {
 			->data('record',$this->controller_model->get($id))
 			->data('header',$this->load->partial('admin/_partials/form_header'))
 			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents())
-			
+			->data('endform',$this->load->partial('admin/_partials/endform'))
 			->load->template($this->path.'form');
 	}
 

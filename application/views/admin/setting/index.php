@@ -17,7 +17,7 @@
 			<td><?php echo substr(htmlspecialchars($record->option_value),0,64) ?></td>
 			<td><?php echo $record->option_group ?></td>
 			<td class="txt-ac">
-				<a href="/admin/<?php echo $controller ?>/autoload/<?php echo $record->option_id ?>/<?php echo ($record->auto_load) ? 0 : 1 ?>" class="activate_handler"><i style="font-size: 120%" class="<?php echo ($record->auto_load) ? 'icon-ok-circle' : 'icon-circle-blank' ?>"></i></a>
+				<a href="/admin/<?php echo $controller ?>/autoload/<?php echo $record->option_id ?>/<?php echo (int)$record->auto_load ?>" class="activate_handler"><i class="<?php enum($record->auto_load,'icon-ok-circle|icon-circle-blank') ?>"></i></a>
 			</td>
 			<td>
 				<div class="btn-group">
@@ -28,7 +28,7 @@
 				    <span class="caret"></span>
 				  </button>
 				  <ul class="dropdown-menu">
-				    <li><a href="/admin/<?php echo $controller ?>/autoload/<?php echo $record->option_id ?>/<?php echo ($record->auto_load) ? 0 : 1 ?>" class="activate_handler"><?php echo ($record->auto_load) ? 'Deactivate' : 'Activate' ?></a></li>
+				    <li><a href="/admin/<?php echo $controller ?>/autoload/<?php echo $record->option_id ?>/<?php echo (int)$record->auto_load ?>" class="activate_handler"><?php enum($record->auto_load,'Deactivate|Activate') ?></a></li>
 				    <li><a href="/admin/<?php echo $controller ?>/delete/<?php echo $record->option_id ?>" class="delete_handler">Delete</a></li>
 				  </ul>
 				</div>

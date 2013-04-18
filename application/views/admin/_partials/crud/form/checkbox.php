@@ -1,0 +1,1 @@
+<div class="control-group"><div class="controls"><label class="checkbox" for="inputActivate"><?php echo $element ?> <?php echo $description ?></label><?php echo $help ?></div></div>

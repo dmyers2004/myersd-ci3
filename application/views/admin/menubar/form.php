@@ -1,61 +1,15 @@
-<?php echo $header ?>
-<?php echo form_open($action,array('class'=>'form-horizontal','data-validate'=>'true')) ?>
-	<input type="hidden" name="id" value="<?php echo $record->id ?>">
-	<input type="hidden" name="old_resource" value="<?php echo $record->resource ?>">
+<?php
+echo $header
+echo form_open($action,array('class'=>'form-horizontal','data-validate'=>'true'))
+echo form_hidden('id', $record->id);
+echo form_hidden('old_resource', $record->resource);
 
-  <div class="control-group">
-    <label class="control-label" for="inputText">Text</label>
-    <div class="controls">
-      <input type="text" class="input-small" id="inputText" placeholder="Display" name="text" value="<?php echo $record->text ?>">
-    </div>
-  </div>
+echo crud_field('Text',form_input2('text',$record->text,'input-small','Display'));
+echo crud_field('Resource',form_input2('resource',$record->resource,'input-xlarge','/nav/...'));
+echo crud_field('URL',form_input2('url',$record->url,'input-xlarge','/'));
+echo crud_field('Sort',form_input2('sort',$record->sort,'input-mini','0','data-mask="float" maxlength="6"'));
+echo crud_field('Class',form_input2('class',$record->class));
+echo crud_field('Parent Menu',form_dropdown('parent_id', $options, $record->parent_id, 'class="chosen"'));
+echo crud_field('Active',form_checkbox('active', 1, $record->active));
 
-  <div class="control-group">
-    <label class="control-label" for="inputResource">Resource</label>
-    <div class="controls">
-      <input type="text" id="inputResource" class="input-xlarge" placeholder="/menu/..." name="resource" value="<?php echo $record->resource ?>">
-    </div>
-  </div>
-
-  <div class="control-group">
-    <label class="control-label" for="inputUrl">URL</label>
-    <div class="controls">
-      <input type="text" id="inputUrl" class="input-xlarge" placeholder="/" name="url" value="<?php echo $record->url ?>">
-    </div>
-  </div>
-
-  <div class="control-group">
-    <label class="control-label" for="inputSort">Sort</label>
-    <div class="controls">
-      <input type="text" class="input-mini" id="inputSort" placeholder="0" name="sort" data-mask="float" maxlength="6" value="<?php echo $record->sort ?>">
-    </div>
-  </div>
-
-  <div class="control-group">
-    <label class="control-label" for="inputClass">Class</label>
-    <div class="controls">
-      <input type="text" id="inputClass" placeholder="" name="class" value="<?php echo $record->class ?>">
-    </div>
-  </div>
-
-  <div class="control-group">
-    <label class="control-label" for="inputConfirmPassword">Parent Menu</label>
-    <div class="controls">
-      <?php echo form_dropdown('parent_id', $options, $record->parent_id, 'class="chosen"') ?>
-    </div>
-  </div>
-
-  <div class="control-group">
-    <div class="controls">
-      <label class="checkbox" for="inputActivate">
-				<?php echo form_checkbox('active', 1, $record->active) ?> Active
-			</label>
-    </div>
-  </div>
-
-	<div class="form-actions">
-		<button type="submit" class="btn btn-primary">Save</button>
-		<a href="/admin/<?php echo $controller ?>" class="btn">Cancel</a>
-	</div>
-
-</form>
+echo $endform;
