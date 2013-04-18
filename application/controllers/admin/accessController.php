@@ -12,6 +12,7 @@ class accessController extends MY_AdminController {
 	public function indexAction() {
 		$this->data('header',$this->load->partial('admin/_partials/table_header'))
 			->data('records',$this->controller_model->get_all())
+			
 			->load->template($this->path.'index');
 	}
 	
@@ -20,6 +21,7 @@ class accessController extends MY_AdminController {
 			->data('action',$this->path.'new')
 			->data('record',(object)array('id'=>-1,'active'=>1))
 			->data('header',$this->load->partial('admin/_partials/form_header'))
+			->data('endform',$this->load->partial('admin/_partials/endform'))
 
 			->template($this->path.'form');
 	}
@@ -46,8 +48,9 @@ class accessController extends MY_AdminController {
 			->data('action',$this->path.'edit')
 			->data('record',$this->controller_model->get($id))
 			->data('header',$this->load->partial('admin/_partials/form_header'))
+			->data('endform',$this->load->partial('admin/_partials/endform'))
 			
-			->template($this->path.'form');
+			->load->template($this->path.'form');
 	}
 	
 	public function editValidatePostAjaxAction() {

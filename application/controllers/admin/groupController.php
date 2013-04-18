@@ -22,7 +22,7 @@ class groupController extends MY_AdminController {
 			->data('my_access',array())
 			->data('all_access',$this->format_privileges($this->access_model->get_all()))
 			->data('header',$this->load->partial('admin/_partials/form_header'))
-
+			->data('endform',$this->load->partial('admin/_partials/endform'))
 			->load->template($this->path.'form');
 	}
 
@@ -49,8 +49,9 @@ class groupController extends MY_AdminController {
 			->data('action',$this->path.'edit')
 			->data('record',$this->controller_model->get($id))
 			->data('header',$this->load->partial('admin/_partials/form_header'))
-			->data('all_access',$this->format_privileges($this->access_model->get_all()));
-
+			->data('all_access',$this->format_privileges($this->access_model->get_all()))
+			->data('endform',$this->load->partial('admin/_partials/endform'));
+			
 		$privileges = $this->controller_model->get_group_access($id);
 		foreach ($privileges as $record) {
 			$access[$record->access_id] = true;

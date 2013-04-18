@@ -1,0 +1,1 @@
+	<a href="/admin/<?php echo $controller ?>/activate/<?php echo $record->id ?>/<?php echo (int)$record->active ?>" class="activate_handler"><i class="<?php enum($record->active,'icon-circle-blank|icon-ok-circle') ?>"></i></a>

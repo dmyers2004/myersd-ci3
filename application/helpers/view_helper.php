@@ -1,6 +1,6 @@
 <?php 
 
-function flipflop($input,$string) {
-	list($one,$zero) = explode('|',$string);
-	return ($input) ? $one : $zero;
+function enum($input,$string) {
+	$enum = explode('|',$string);
+	echo $enum[(int)$input];
 }

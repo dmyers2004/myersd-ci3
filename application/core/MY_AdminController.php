@@ -5,6 +5,7 @@ class MY_AdminController extends MY_PublicController
 	public $layout = 'admin/_templates/default';
 	public $subtitle = 'Admin';
 	public $controller_model = null;
+	public $helpers = array('admin_crud');
 
 	public function __construct()
 	{

@@ -25,7 +25,7 @@ class userController extends MY_AdminController {
 			->data('record',(object)array('activated'=>1,'id'=>-1))
 			->data('header',$this->load->partial('admin/_partials/form_header'))
 			->data('group_options',$this->get_groups())
-
+			->data('endform',$this->load->partial('admin/_partials/endform'))
 			->load->template($this->path.'form');
 	}
 
@@ -57,7 +57,7 @@ class userController extends MY_AdminController {
 			->data('record',$this->controller_model->get_user($id))
 			->data('header',$this->load->partial('admin/_partials/form_header'))
 			->data('group_options',$this->get_groups())
-		
+			->data('endform',$this->load->partial('admin/_partials/endform'))
 			->load->template($this->path.'form');
 	}
 

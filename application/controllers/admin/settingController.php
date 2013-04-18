@@ -22,7 +22,7 @@ class settingController extends MY_AdminController {
 			->data('header',$this->load->partial('admin/_partials/form_header'))
 			->data('record',(object)array('option_id'=>-1,'active'=>1))
 			->data('option_group',$this->controller_model->dropdown('option_group','option_group'))
-
+			->data('endform',$this->load->partial('admin/_partials/endform'))
 			->load->template($this->path.'form');
 	}
 
@@ -50,7 +50,7 @@ class settingController extends MY_AdminController {
 			->data('header',$this->load->partial('admin/_partials/form_header'))
 			->data('record',$this->controller_model->get($id))
 			->data('option_group',$this->controller_model->dropdown('option_group','option_group'))
-
+			->data('endform',$this->load->partial('admin/_partials/endform'))
 			->load->template($this->path.'form');
 	}
 

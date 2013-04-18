@@ -275,12 +275,13 @@ switch (ENVIRONMENT)
 	define('VIEWPATH', $view_folder);
 
 /* patch in a cool error handler! */
+/*
 require_once APPPATH.'third_party/php_error.php';
 $options = array(
 	'error_reporting_on' => error_reporting()
 );
 \php_error\reportErrors($options);
-
+*/
 
 /*
  * --------------------------------------------------------------------
