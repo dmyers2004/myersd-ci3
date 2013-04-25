@@ -11,8 +11,6 @@
     <meta name="viewport" content="width=device-width">
     <?php echo $metatags ?>
 
-
-
 		<script>var plugins = {}; var baseurl = '<?php echo $base_url ?>';</script>
 
     <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">

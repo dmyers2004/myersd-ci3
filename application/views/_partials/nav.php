@@ -1,4 +1,4 @@
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -8,7 +8,7 @@
           </button>
           <div class="nav-collapse collapse">
 	          <ul class="nav">
-						<li><a class="brand" href="/"><?php echo $view_brand ?></a></li>          
+						<li><a class="brand" href="/"><?php echo $brand ?></a></li>          
 <?php echo $navigation_menu ?>
 						</ul>
 						<ul class="nav pull-right">

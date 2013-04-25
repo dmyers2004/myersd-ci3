@@ -1,1 +1,0 @@
-<div class="control-group"><label class="control-label" for="<?php echo $id ?>"><?php echo $description ?></label><div class="controls"><?php echo $element.$help ?></div></div>

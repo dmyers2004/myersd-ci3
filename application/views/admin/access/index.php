@@ -1,27 +1,18 @@
 <?php 
-echo $header;
-echo crud_table_start(array('Description','Resource','txt-ac'=>'Active','Action'));
+$crud->table_header();
+$crud->table_start(array('Description','Resource','Active'=>'txt-ac'));
 foreach ($records as $record) {
-?>
-<tr>
-	<td><?php echo $record->description ?></td>
-	<td><?php echo $record->resource ?></td>
-	<td class="txt-ac">
-		<a href="/admin/<?php echo $controller ?>/activate/<?php echo $record->id ?>/<?php echo (int)$record->active ?>" class="activate_handler"><i class="<?php enum($record->active,'icon-circle-blank|icon-ok-circle') ?>"></i></a>
-	</td>
-	<td>
-		<div class="btn-group">
-		  <button class="btn"><a class="no-link-look" href="/admin/<?php echo $controller ?>/edit/<?php echo $record->id ?>">Edit</a></button>
-		  <button class="btn dropdown-toggle" data-toggle="dropdown">
-		    <span class="caret"></span>
-		  </button>
-		  <ul class="dropdown-menu">
-		    <li><a href="/admin/<?php echo $controller ?>/delete/<?php echo $record->id ?>" class="delete_handler">Delete</a></li>
-		  </ul>
-		</div>
-	</td>
-</tr>
-<?php
+	$crud->table_body_start();
+	
+	$crud->table_body_row($record->description);
+	$crud->table_body_row($record->resource);
+	$crud->table_body_row($crud->return_table_body_active($record->id,$record->active),'txt-ac');
+	
+	$crud->table_action_start($record->id);
+	$crud->table_action_row($crud->return_table_action_activate($record->id,$record->active));
+	$crud->table_action_row($crud->return_table_action_delete($record->id));
+	$crud->table_action_end();
+	
+	$crud->table_body_end();
 }
-echo crud_table_end();
-?>
+$crud->table_end();

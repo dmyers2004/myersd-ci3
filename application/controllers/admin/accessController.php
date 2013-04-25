@@ -5,14 +5,12 @@ class accessController extends MY_AdminController {
 	public $controller = 'access';
 	public $title = 'Access';
 	public $titles = 'Access';
-	public $description = '';
+	public $description = 'You can create custom permissions for different users by assigning them to groups in the Users.';
 	public $controller_model = 'access_model';
 	public $path = '/admin/access/';	
 
 	public function indexAction() {
-		$this->data('header',$this->load->partial('admin/_partials/table_header'))
-			->data('records',$this->controller_model->get_all())
-			
+		$this->data('records',$this->controller_model->get_all())
 			->load->template($this->path.'index');
 	}
 	
@@ -20,10 +18,8 @@ class accessController extends MY_AdminController {
 		$this->data('title','New '.$this->title)
 			->data('action',$this->path.'new')
 			->data('record',(object)array('id'=>-1,'active'=>1))
-			->data('header',$this->load->partial('admin/_partials/form_header'))
-			->data('endform',$this->load->partial('admin/_partials/endform'))
 
-			->template($this->path.'form');
+			->load->template($this->path.'form');
 	}
 
 	public function newValidatePostAjaxAction() {
@@ -47,8 +43,6 @@ class accessController extends MY_AdminController {
 		$this->data('title','Edit '.$this->title)
 			->data('action',$this->path.'edit')
 			->data('record',$this->controller_model->get($id))
-			->data('header',$this->load->partial('admin/_partials/form_header'))
-			->data('endform',$this->load->partial('admin/_partials/endform'))
 			
 			->load->template($this->path.'form');
 	}

@@ -73,6 +73,7 @@ class menubar {
 	protected function build_tbs_menu($menu) {
 		if (is_array($menu)) {
 			/* now generate the bootstrap menu */
+			$html = '';
 			foreach ($menu[0] as $key => $item) {
 				if (isset($menu[$key])) {
 					/* has children */

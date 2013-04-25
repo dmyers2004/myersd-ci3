@@ -37,7 +37,7 @@ class MY_Router extends CI_Router
 				}
 
 				/* start */
-				$ajax = ($_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') ? 'Ajax' : '' ;
+				$ajax = (@$_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') ? 'Ajax' : '' ;
 
 		 		$request = ucfirst(strtolower($_SERVER['REQUEST_METHOD']));
 				$request = ($request == 'Get') ? '' : $request;

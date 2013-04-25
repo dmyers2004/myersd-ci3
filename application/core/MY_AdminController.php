@@ -5,7 +5,6 @@ class MY_AdminController extends MY_PublicController
 	public $layout = 'admin/_templates/default';
 	public $subtitle = 'Admin';
 	public $controller_model = null;
-	public $helpers = array('admin_crud');
 
 	public function __construct()
 	{
@@ -15,6 +14,9 @@ class MY_AdminController extends MY_PublicController
 			//redirect them to the login page
 			$this->flash_msg->red('Access Denied','/admin/auth');
 		}
+
+		$this->load->library('admin_gui');
+		$this->data('crud',$this->admin_gui);
 
 		/* setup a default model */
 		if (isset($this->controller_model)) {		

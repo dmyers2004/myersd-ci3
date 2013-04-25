@@ -10,19 +10,15 @@ class settingController extends MY_AdminController {
 	public $path = '/admin/setting/';	
 	
 	public function indexAction() {
-		$this->data('header',$this->load->partial('admin/_partials/table_header'))
-			->data('records',$this->controller_model->order_by('option_group')->get_all())
-			
+		$this->data('records',$this->controller_model->order_by('option_group')->get_all())
 			->load->template($this->path.'index');
 	}
 
 	public function newAction() {
 		$this->data('title','New '.$this->title)
 			->data('action',$this->path.'new')
-			->data('header',$this->load->partial('admin/_partials/form_header'))
 			->data('record',(object)array('option_id'=>-1,'active'=>1))
 			->data('option_group',$this->controller_model->dropdown('option_group','option_group'))
-			->data('endform',$this->load->partial('admin/_partials/endform'))
 			->load->template($this->path.'form');
 	}
 
@@ -47,10 +43,8 @@ class settingController extends MY_AdminController {
 
 		$this->data('title','Edit '.$this->title)
 			->data('action',$this->path.'edit')
-			->data('header',$this->load->partial('admin/_partials/form_header'))
 			->data('record',$this->controller_model->get($id))
 			->data('option_group',$this->controller_model->dropdown('option_group','option_group'))
-			->data('endform',$this->load->partial('admin/_partials/endform'))
 			->load->template($this->path.'form');
 	}
 
@@ -83,7 +77,7 @@ class settingController extends MY_AdminController {
 		$this->load->json($data);
 	}
 
-	public function autoloadAjaxAction($id=null,$mode=null) {
+	public function activateAjaxAction($id=null,$mode=null) {
 		$data['err'] = true;
 
 		if ($this->controller_model->filter_id($id) && $this->controller_model->filter_mode($mode)) {
