@@ -15,7 +15,7 @@ class MY_AdminController extends MY_PublicController
 			$this->flash_msg->red('Access Denied','/admin/auth');
 		}
 
-		$this->load->library('admin_gui');
+		$this->load->library('Scaffold');
 		$this->data('crud',$this->admin_gui);
 
 		/* setup a default model */
