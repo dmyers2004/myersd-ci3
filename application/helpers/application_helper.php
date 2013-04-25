@@ -50,3 +50,8 @@ function shorten($text,$length) {
 	 if (strlen($text) > $length) return substr($text,0,$length).'...';
 	 return $text;
 }
+
+function enum($input,$string) {
+	$enum = explode('|',$string);
+	echo $enum[(int)$input];
+}

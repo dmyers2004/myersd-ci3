@@ -1,11 +1,16 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Admin_gui {
+class Scaffold {
+
+	public $folder = 'admin/_partials/Scaffold/';
 
 	public $defaults = array(
 		'form/start'=>array('arg1'=>'','arg2'=>'id'),
 		'table/body/row'=>array('arg1'=>'','arg2'=>''),
 		'table/action/row'=>array(),
+		'table/body/active'=>array('arg1'=>'','arg2'=>'','arg3'=>'icon-circle-blank|icon-ok-circle'),
+		'table/action/delete'=>array('arg1'=>'','arg2'=>'Delete'),
+		'table/action/activate'=>array('arg1'=>'','arg2'=>'','arg3'=>'Activate|Deactivate')
 		
 	);
 	
@@ -24,7 +29,7 @@ class Admin_gui {
 
 		$view = str_replace('_','/',$name);
 
-		return get_instance()->load->view('admin/_partials/crud/'.$view,array_merge((array)$this->defaults[$view], $arguments),$return);
+		return get_instance()->load->view($this->$folder.$view,array_merge((array)$this->defaults[$view], $arguments),$return);
 	}
 
 	/* bootstrap field direct output */
