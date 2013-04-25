@@ -5,13 +5,12 @@ class groupController extends MY_AdminController {
 	public $controller = 'group';
 	public $title = 'Group';
 	public $titles = 'Groups';
-	public $description = '';
+	public $description = 'Users can be placed into groups to manage permissions.';
 	public $controller_model = 'group_model';
 	public $path = '/admin/group/';		
 
 	public function indexAction() {
-		$this->data('header',$this->load->partial('admin/_partials/table_header'))
-			->data('records',$this->controller_model->get_all())
+		$this->data('records',$this->controller_model->get_all())
 			->load->template($this->path.'index');
 	}
 	
@@ -21,8 +20,6 @@ class groupController extends MY_AdminController {
 			->data('record',(object)array('id'=>-1))
 			->data('my_access',array())
 			->data('all_access',$this->format_privileges($this->access_model->get_all()))
-			->data('header',$this->load->partial('admin/_partials/form_header'))
-			->data('endform',$this->load->partial('admin/_partials/endform'))
 			->load->template($this->path.'form');
 	}
 
@@ -48,9 +45,7 @@ class groupController extends MY_AdminController {
 		$this->data('title','Edit '.$this->title)
 			->data('action',$this->path.'edit')
 			->data('record',$this->controller_model->get($id))
-			->data('header',$this->load->partial('admin/_partials/form_header'))
-			->data('all_access',$this->format_privileges($this->access_model->get_all()))
-			->data('endform',$this->load->partial('admin/_partials/endform'));
+			->data('all_access',$this->format_privileges($this->access_model->get_all()));
 			
 		$privileges = $this->controller_model->get_group_access($id);
 		foreach ($privileges as $record) {

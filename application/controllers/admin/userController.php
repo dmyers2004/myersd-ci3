@@ -11,10 +11,8 @@ class userController extends MY_AdminController {
 
 	/* index view */
 	public function indexAction() {
-		$this->data('header',$this->load->partial('admin/_partials/table_header'))
-			->data('records',$this->auth->get_users())
+		$this->data('records',$this->auth->get_users())
 			->data('group_options',$this->get_groups())
-			
 			->load->template($this->path.'index');
 	}
 	
@@ -23,9 +21,7 @@ class userController extends MY_AdminController {
 		$this->data('title','New '.$this->title)
 			->data('action',$this->path.'new')
 			->data('record',(object)array('activated'=>1,'id'=>-1))
-			->data('header',$this->load->partial('admin/_partials/form_header'))
 			->data('group_options',$this->get_groups())
-			->data('endform',$this->load->partial('admin/_partials/endform'))
 			->load->template($this->path.'form');
 	}
 
@@ -55,9 +51,7 @@ class userController extends MY_AdminController {
 		$this->data('title','Edit '.$this->title)
 			->data('action',$this->path.'edit')
 			->data('record',$this->controller_model->get_user($id))
-			->data('header',$this->load->partial('admin/_partials/form_header'))
 			->data('group_options',$this->get_groups())
-			->data('endform',$this->load->partial('admin/_partials/endform'))
 			->load->template($this->path.'form');
 	}
 

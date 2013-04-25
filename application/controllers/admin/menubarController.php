@@ -10,9 +10,8 @@ class menubarController extends MY_AdminController {
 	public $path = '/admin/menubar/';		
 	
 	public function indexAction() {
-		$this->data('header',$this->load->partial('admin/_partials/table_header'))
-			->data('records',$this->controller_model->order_by('parent_id,sort')->get_all())
-			->data('parent_options',$this->controller_model->dropdown('id','text'))
+		$this->data('records',$this->controller_model->order_by('parent_id,sort')->get_all())
+			->data('parent_options',array(0=>'<i class="icon-upload"></i>') + $this->controller_model->dropdown('id','text'))
 			->load->template($this->path.'index');
 	}
 
@@ -20,9 +19,7 @@ class menubarController extends MY_AdminController {
 		$this->data('title','New '.$this->title)
 			->data('action',$this->path.'new')
 			->data('record',(object)array('option_id'=>-1,'active'=>1))
-			->data('header',$this->load->partial('admin/_partials/form_header'))
 			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents())
-			->data('endform',$this->load->partial('admin/_partials/endform'))
 			->load->template($this->path.'form');
 	}
 
@@ -48,9 +45,7 @@ class menubarController extends MY_AdminController {
 		$this->data('title','Edit '.$this->title)
 			->data('action',$this->path.'edit')
 			->data('record',$this->controller_model->get($id))
-			->data('header',$this->load->partial('admin/_partials/form_header'))
 			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents())
-			->data('endform',$this->load->partial('admin/_partials/endform'))
 			->load->template($this->path.'form');
 	}
 

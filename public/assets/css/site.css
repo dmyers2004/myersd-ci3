@@ -86,3 +86,7 @@ body {
 .admin.group .resource {
 	font-size: 100%;
 }
+.admin tbody i {
+	font-size: 140%;
+	font-weight: normal;
+}

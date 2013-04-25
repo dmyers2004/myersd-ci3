@@ -1,4 +1,5 @@
 <form action="/admin/auth/reset" method="post" data-validate="true">
+
   <fieldset>
     <legend>Reset Password</legend>
     
@@ -16,6 +17,7 @@
 		</p>
 
   </fieldset>
+
 </form>
 
 

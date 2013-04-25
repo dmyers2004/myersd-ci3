@@ -1,4 +1,5 @@
 <form action="/admin/auth/forgot" method="post" data-validate="true">
+
   <fieldset>
     <legend>Forgot Password</legend>
     
@@ -10,6 +11,7 @@
 		</p>
 
   </fieldset>
+
 </form>
 
 

@@ -1,0 +1,1 @@
+<input type="text" id="input_<? echo $arg1 ?>" name="<? echo $arg1 ?>" class="<? echo $arg2 ?>" placeholder="<? echo $arg3 ?>" value="<? echo $arg4 ?>" <? echo $arg5 ?>>

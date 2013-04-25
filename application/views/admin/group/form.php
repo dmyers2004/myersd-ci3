@@ -1,12 +1,11 @@
 <?php
-echo $header;
-echo form_open($action,array('class'=>'form-horizontal','data-validate'=>'true'));
-echo form_hidden('id', $record->id);
-echo crud_field('Name',form_input2('name',$record->name,'input-xxlarge'));
-echo crud_field('Description',form_input2('description',$record->description,'input-xxlarge','Description'));
-?>
+$crud->form_start($record->id);
 
-<?php foreach ($all_access as $namespace => $foo) { ?>
+$crud->field('Name',form_text('name',$record->name,'input-xxlarge'));
+$crud->field('Description',form_text('description',$record->description,'input-xxlarge','Description'));
+
+foreach ($all_access as $namespace => $foo) {
+?>
 	<fieldset>
     <legend><?php echo ucwords($namespace) ?></legend>
  	</fieldset>
@@ -20,6 +19,7 @@ echo crud_field('Description',form_input2('description',$record->description,'in
     </div>
  	<?php } ?>
   </div>
-	<?php } ?>
+	<?php
+}
 
-<?php echo $endform ?>
+$crud->form_end();

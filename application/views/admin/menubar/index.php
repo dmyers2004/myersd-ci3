@@ -1,45 +1,22 @@
-<?php echo $header ?>
-
-<table class="table table-hover table-fixed-header">
-  <thead class='header'>
-		<tr>
-			<th>Text</th>
-			<th>URL</th>
-			<th>Resource</th>
-			<th class="txt-ac">Sort</th>
-			<th class="txt-ac">Active</th>
-			<th class="txt-ac">Parent</th>
-			<th>Action</th>
-		</tr>
-	</thead>
-  <tbody>
-	<?php foreach ($records as $record) { ?>
-		<tr>
-			<td><?php echo $record->text ?></td>
-			<td><?php echo $record->url ?></td>
-			<td><?php echo $record->resource ?></td>
-			<td class="txt-ac"><?php echo $record->sort ?></td>
-			<td class="txt-ac">
-				<a href="/admin/<?php echo $controller ?>/activate/<?php echo $record->id ?>/<?php echo(int)$record->active ?>" class="activate_handler"><i class="<?php enum($record->active,'icon-ok-circle|icon-circle-blank') ?>"></i></a>
-			</td>
-			<td class="txt-ac"><?php echo ($record->parent_id == 0) ? '<i class="icon-upload"></i>' : $parent_options[$record->parent_id] ?></td>
-			<td>
-				<div class="btn-group">
-				  <button class="btn">
-				  	<a class="no-link-look" href="/admin/<?php echo $controller ?>/edit/<?php echo $record->id ?>">Edit</a>
-				  </button>
-				  <button class="btn dropdown-toggle" data-toggle="dropdown">
-				    <span class="caret"></span>
-				  </button>
-				  <ul class="dropdown-menu">
-				    <li><a href="/admin/<?php echo $controller ?>/activate/<?php echo $record->id ?>/<?php echo(int)$record->active ?>" class="activate_handler"><?php enum($record->active,'Deactivate|Activate') ?></a></li>
-				    <li><a href="/admin/<?php echo $controller ?>/sort/up/<?php echo $record->id ?>" class="ajax-href" >Sort Up</a></li>
-				    <li><a href="/admin/<?php echo $controller ?>/sort/down/<?php echo $record->id ?>" class="ajax-href" >Sort Down</a></li>
-				    <li><a href="/admin/<?php echo $controller ?>/delete/<?php echo $record->id ?>" class="delete_handler">Delete</a></li>
-				  </ul>
-				</div>
-			</td>			
-		</tr>
-	<?php } ?>
-	</tbody>
-</table>
+<?php 
+$crud->table_header();
+$crud->table_start(array('Text','URL','Sort'=>'txt-ac','Active'=>'txt-ac','Parent'=>'txt-ac'));
+foreach ($records as $record) {
+	$crud->table_body_start();
+	
+	$crud->table_body_row($record->text);
+	$crud->table_body_row($record->url);
+	$crud->table_body_row($record->sort,'txt-ac');
+	$crud->table_body_row($crud->return_table_body_active($record->id,$record->active),'txt-ac');
+	$crud->table_body_row($parent_options[$record->parent_id],'txt-ac');
+	
+	$crud->table_action_start($record->id);
+	$crud->table_action_row($crud->return_table_action_activate($record->id,$record->active));
+	$crud->table_action_row($crud->return_table_action_ajax_href('/admin/'.$controller.'/sort/up/'.$record->id,'Sort Up'));
+	$crud->table_action_row($crud->return_table_action_ajax_href('/admin/'.$controller.'/sort/down/'.$record->id,'Sort Down'));
+	$crud->table_action_row($crud->return_table_action_delete($record->id));
+	$crud->table_action_end();
+	
+	$crud->table_body_end();
+}
+$crud->table_end();
