@@ -1,0 +1,3251 @@
+////// 2013-04-26 15:22:52 cron.php --run=/
+
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined property: mainController::$_db_group</p>
+<p>Filename: core/Model.php</p>
+<p>Line Number: 63</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 814<br />
+			Function: __get			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 112<br />
+			Function: _set_database			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Menubar.php<br />
+			Line: 49<br />
+			Function: model			</p>
+
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 24<br />
+			Function: __construct			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined property: mainController::$_db_group</p>
+<p>Filename: core/Model.php</p>
+<p>Line Number: 63</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 814<br />
+			Function: __get			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 112<br />
+			Function: _set_database			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Menubar.php<br />
+			Line: 49<br />
+			Function: model			</p>
+
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 24<br />
+			Function: __construct			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  unserialize(): Error at offset 0 of 1 bytes</p>
+<p>Filename: libraries/Auth.php</p>
+<p>Line Number: 561</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Auth.php<br />
+			Line: 561<br />
+			Function: unserialize			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Auth.php<br />
+			Line: 34<br />
+			Function: autologin			</p>
+
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 24<br />
+			Function: __construct			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined property: mainController::$_db_group</p>
+<p>Filename: core/Model.php</p>
+<p>Line Number: 63</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 814<br />
+			Function: __get			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 112<br />
+			Function: _set_database			</p>
+
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 24<br />
+			Function: __construct			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined property: mainController::$_db_group</p>
+<p>Filename: core/Model.php</p>
+<p>Line Number: 63</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 814<br />
+			Function: __get			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 112<br />
+			Function: _set_database			</p>
+
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 24<br />
+			Function: __construct			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined property: mainController::$_db_group</p>
+<p>Filename: core/Model.php</p>
+<p>Line Number: 63</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 814<br />
+			Function: __get			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 112<br />
+			Function: _set_database			</p>
+
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 24<br />
+			Function: __construct			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: menu</p>
+<p>Filename: libraries/Menubar.php</p>
+<p>Line Number: 70</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Menubar.php<br />
+			Line: 70<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 45<br />
+			Function: render			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: html</p>
+<p>Filename: libraries/Menubar.php</p>
+<p>Line Number: 93</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Menubar.php<br />
+			Line: 93<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Menubar.php<br />
+			Line: 70<br />
+			Function: build_tbs_menu			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 45<br />
+			Function: render			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: data</p>
+<p>Filename: core/MY_Loader.php</p>
+<p>Line Number: 36</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Loader.php<br />
+			Line: 36<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/controllers/mainController.php<br />
+			Line: 6<br />
+			Function: template			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div><!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"> <!--<![endif]-->
+	<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Shelly</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: metatags</p>
+<p>Filename: _partials/meta.php</p>
+<p>Line Number: 12</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_partials/meta.php<br />
+			Line: 12<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_templates/default.php<br />
+			Line: 1<br />
+			Function: include			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Loader.php<br />
+			Line: 36<br />
+			Function: view			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/controllers/mainController.php<br />
+			Line: 6<br />
+			Function: template			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>		<script>var plugins = {}; var baseurl = '
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: base_url</p>
+<p>Filename: _partials/meta.php</p>
+<p>Line Number: 13</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_partials/meta.php<br />
+			Line: 13<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_templates/default.php<br />
+			Line: 1<br />
+			Function: include			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Loader.php<br />
+			Line: 36<br />
+			Function: view			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/controllers/mainController.php<br />
+			Line: 6<br />
+			Function: template			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>';</script>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/site.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: stylesheets</p>
+<p>Filename: _partials/header.php</p>
+<p>Line Number: 6</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_partials/header.php<br />
+			Line: 6<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_templates/default.php<br />
+			Line: 2<br />
+			Function: include			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Loader.php<br />
+			Line: 36<br />
+			Function: view			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/controllers/mainController.php<br />
+			Line: 6<br />
+			Function: template			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+    <script src="/assets/js/modernizr-2.6.2.min.js"></script>
+	</head>
+	<body class="">
+		<!--[if lt IE 7]>
+		<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+		<![endif]-->
+	
+		<div class="container">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="nav-collapse collapse">
+	          <ul class="nav">
+						<li><a class="brand" href="/">Shell</a></li>          
+						</ul>
+						<ul class="nav pull-right">
+						<li><a href="/admin/auth">Login</a></li>
+ 						</ul>
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="container">
+<h3 class="brand">Status Page</h3>
+
+</div>
+</div> <!-- /container -->
+    <script src="/assets/jquery/jquery-1.9.1.min.js"></script>
+		<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+
+		<script src="/assets/js/plugins.js"></script>
+		<script src="/assets/js/site.js"></script>
+		<script src="/assets/js/onready.js"></script>
+		<script src="/assets/chosen/chosen.jquery.min.js"></script>
+		<script src="/assets/js/jquery.ajax.form.js"></script>
+		<script src="/assets/js/jquery.ajax.link.js"></script>
+		<script src="/assets/js/jquery.combobox.js"></script>
+		<script src="/assets/js/jquery.filter_input.js"></script>
+		<script src="/assets/table-fixed-header/table-fixed-header.js"></script>
+		
+		<script src="/assets/js/jquery.bootstrap.growl.js" type="text/javascript"></script><link rel="stylesheet" href="/assets/css/flash_msg.css">		
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: javascript</p>
+<p>Filename: _partials/footer.php</p>
+<p>Line Number: 16</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_partials/footer.php<br />
+			Line: 16<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_templates/default.php<br />
+			Line: 7<br />
+			Function: include			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Loader.php<br />
+			Line: 36<br />
+			Function: view			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/controllers/mainController.php<br />
+			Line: 6<br />
+			Function: template			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>	</body>
+</html>
+
+////// 
+
+////// 2013-04-26 15:23:06 cron.php --run=/ --show-output
+
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined property: mainController::$_db_group</p>
+<p>Filename: core/Model.php</p>
+<p>Line Number: 63</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 814<br />
+			Function: __get			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 112<br />
+			Function: _set_database			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Menubar.php<br />
+			Line: 49<br />
+			Function: model			</p>
+
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 24<br />
+			Function: __construct			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined property: mainController::$_db_group</p>
+<p>Filename: core/Model.php</p>
+<p>Line Number: 63</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 814<br />
+			Function: __get			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 112<br />
+			Function: _set_database			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Menubar.php<br />
+			Line: 49<br />
+			Function: model			</p>
+
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 24<br />
+			Function: __construct			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  unserialize(): Error at offset 0 of 1 bytes</p>
+<p>Filename: libraries/Auth.php</p>
+<p>Line Number: 561</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Auth.php<br />
+			Line: 561<br />
+			Function: unserialize			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Auth.php<br />
+			Line: 34<br />
+			Function: autologin			</p>
+
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 24<br />
+			Function: __construct			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined property: mainController::$_db_group</p>
+<p>Filename: core/Model.php</p>
+<p>Line Number: 63</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 814<br />
+			Function: __get			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 112<br />
+			Function: _set_database			</p>
+
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 24<br />
+			Function: __construct			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined property: mainController::$_db_group</p>
+<p>Filename: core/Model.php</p>
+<p>Line Number: 63</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 814<br />
+			Function: __get			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 112<br />
+			Function: _set_database			</p>
+
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 24<br />
+			Function: __construct			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined property: mainController::$_db_group</p>
+<p>Filename: core/Model.php</p>
+<p>Line Number: 63</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 814<br />
+			Function: __get			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 112<br />
+			Function: _set_database			</p>
+
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 24<br />
+			Function: __construct			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: menu</p>
+<p>Filename: libraries/Menubar.php</p>
+<p>Line Number: 70</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Menubar.php<br />
+			Line: 70<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 45<br />
+			Function: render			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: html</p>
+<p>Filename: libraries/Menubar.php</p>
+<p>Line Number: 93</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Menubar.php<br />
+			Line: 93<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Menubar.php<br />
+			Line: 70<br />
+			Function: build_tbs_menu			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 45<br />
+			Function: render			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: data</p>
+<p>Filename: core/MY_Loader.php</p>
+<p>Line Number: 36</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Loader.php<br />
+			Line: 36<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/controllers/mainController.php<br />
+			Line: 6<br />
+			Function: template			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div><!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"> <!--<![endif]-->
+	<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Shelly</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: metatags</p>
+<p>Filename: _partials/meta.php</p>
+<p>Line Number: 12</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_partials/meta.php<br />
+			Line: 12<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_templates/default.php<br />
+			Line: 1<br />
+			Function: include			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Loader.php<br />
+			Line: 36<br />
+			Function: view			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/controllers/mainController.php<br />
+			Line: 6<br />
+			Function: template			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>		<script>var plugins = {}; var baseurl = '
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: base_url</p>
+<p>Filename: _partials/meta.php</p>
+<p>Line Number: 13</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_partials/meta.php<br />
+			Line: 13<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_templates/default.php<br />
+			Line: 1<br />
+			Function: include			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Loader.php<br />
+			Line: 36<br />
+			Function: view			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/controllers/mainController.php<br />
+			Line: 6<br />
+			Function: template			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>';</script>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/site.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: stylesheets</p>
+<p>Filename: _partials/header.php</p>
+<p>Line Number: 6</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_partials/header.php<br />
+			Line: 6<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_templates/default.php<br />
+			Line: 2<br />
+			Function: include			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Loader.php<br />
+			Line: 36<br />
+			Function: view			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/controllers/mainController.php<br />
+			Line: 6<br />
+			Function: template			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+    <script src="/assets/js/modernizr-2.6.2.min.js"></script>
+	</head>
+	<body class="">
+		<!--[if lt IE 7]>
+		<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+		<![endif]-->
+	
+		<div class="container">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="nav-collapse collapse">
+	          <ul class="nav">
+						<li><a class="brand" href="/">Shell</a></li>          
+						</ul>
+						<ul class="nav pull-right">
+						<li><a href="/admin/auth">Login</a></li>
+ 						</ul>
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="container">
+<h3 class="brand">Status Page</h3>
+
+</div>
+</div> <!-- /container -->
+    <script src="/assets/jquery/jquery-1.9.1.min.js"></script>
+		<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+
+		<script src="/assets/js/plugins.js"></script>
+		<script src="/assets/js/site.js"></script>
+		<script src="/assets/js/onready.js"></script>
+		<script src="/assets/chosen/chosen.jquery.min.js"></script>
+		<script src="/assets/js/jquery.ajax.form.js"></script>
+		<script src="/assets/js/jquery.ajax.link.js"></script>
+		<script src="/assets/js/jquery.combobox.js"></script>
+		<script src="/assets/js/jquery.filter_input.js"></script>
+		<script src="/assets/table-fixed-header/table-fixed-header.js"></script>
+		
+		<script src="/assets/js/jquery.bootstrap.growl.js" type="text/javascript"></script><link rel="stylesheet" href="/assets/css/flash_msg.css">		
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: javascript</p>
+<p>Filename: _partials/footer.php</p>
+<p>Line Number: 16</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_partials/footer.php<br />
+			Line: 16<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_templates/default.php<br />
+			Line: 7<br />
+			Function: include			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Loader.php<br />
+			Line: 36<br />
+			Function: view			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/controllers/mainController.php<br />
+			Line: 6<br />
+			Function: template			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>	</body>
+</html>
+
+////// 
+
+////// 2013-04-26 15:23:18 cron.php --run=/main/index --show-output
+
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined index: REQUEST_METHOD</p>
+<p>Filename: core/MY_Router.php</p>
+<p>Line Number: 40</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Router.php<br />
+			Line: 40<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined property: mainController::$_db_group</p>
+<p>Filename: core/Model.php</p>
+<p>Line Number: 63</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 814<br />
+			Function: __get			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 112<br />
+			Function: _set_database			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Menubar.php<br />
+			Line: 49<br />
+			Function: model			</p>
+
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 24<br />
+			Function: __construct			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined property: mainController::$_db_group</p>
+<p>Filename: core/Model.php</p>
+<p>Line Number: 63</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 814<br />
+			Function: __get			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 112<br />
+			Function: _set_database			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Menubar.php<br />
+			Line: 49<br />
+			Function: model			</p>
+
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 24<br />
+			Function: __construct			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  unserialize(): Error at offset 0 of 1 bytes</p>
+<p>Filename: libraries/Auth.php</p>
+<p>Line Number: 561</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Auth.php<br />
+			Line: 561<br />
+			Function: unserialize			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Auth.php<br />
+			Line: 34<br />
+			Function: autologin			</p>
+
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 24<br />
+			Function: __construct			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined property: mainController::$_db_group</p>
+<p>Filename: core/Model.php</p>
+<p>Line Number: 63</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 814<br />
+			Function: __get			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 112<br />
+			Function: _set_database			</p>
+
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 24<br />
+			Function: __construct			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined property: mainController::$_db_group</p>
+<p>Filename: core/Model.php</p>
+<p>Line Number: 63</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 814<br />
+			Function: __get			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 112<br />
+			Function: _set_database			</p>
+
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 24<br />
+			Function: __construct			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined property: mainController::$_db_group</p>
+<p>Filename: core/Model.php</p>
+<p>Line Number: 63</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 814<br />
+			Function: __get			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Model.php<br />
+			Line: 112<br />
+			Function: _set_database			</p>
+
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 24<br />
+			Function: __construct			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: menu</p>
+<p>Filename: libraries/Menubar.php</p>
+<p>Line Number: 70</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Menubar.php<br />
+			Line: 70<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 45<br />
+			Function: render			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: html</p>
+<p>Filename: libraries/Menubar.php</p>
+<p>Line Number: 93</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Menubar.php<br />
+			Line: 93<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/libraries/Menubar.php<br />
+			Line: 70<br />
+			Function: build_tbs_menu			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Controller.php<br />
+			Line: 45<br />
+			Function: render			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_PublicController.php<br />
+			Line: 7<br />
+			Function: __construct			</p>
+
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: data</p>
+<p>Filename: core/MY_Loader.php</p>
+<p>Line Number: 36</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Loader.php<br />
+			Line: 36<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/controllers/mainController.php<br />
+			Line: 6<br />
+			Function: template			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div><!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"> <!--<![endif]-->
+	<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Shelly</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: metatags</p>
+<p>Filename: _partials/meta.php</p>
+<p>Line Number: 12</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_partials/meta.php<br />
+			Line: 12<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_templates/default.php<br />
+			Line: 1<br />
+			Function: include			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Loader.php<br />
+			Line: 36<br />
+			Function: view			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/controllers/mainController.php<br />
+			Line: 6<br />
+			Function: template			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>		<script>var plugins = {}; var baseurl = '
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: base_url</p>
+<p>Filename: _partials/meta.php</p>
+<p>Line Number: 13</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_partials/meta.php<br />
+			Line: 13<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_templates/default.php<br />
+			Line: 1<br />
+			Function: include			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Loader.php<br />
+			Line: 36<br />
+			Function: view			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/controllers/mainController.php<br />
+			Line: 6<br />
+			Function: template			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>';</script>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/site.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: stylesheets</p>
+<p>Filename: _partials/header.php</p>
+<p>Line Number: 6</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_partials/header.php<br />
+			Line: 6<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_templates/default.php<br />
+			Line: 2<br />
+			Function: include			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Loader.php<br />
+			Line: 36<br />
+			Function: view			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/controllers/mainController.php<br />
+			Line: 6<br />
+			Function: template			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>
+    <script src="/assets/js/modernizr-2.6.2.min.js"></script>
+	</head>
+	<body class="main index">
+		<!--[if lt IE 7]>
+		<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+		<![endif]-->
+	
+		<div class="container">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="nav-collapse collapse">
+	          <ul class="nav">
+						<li><a class="brand" href="/">Shell</a></li>          
+						</ul>
+						<ul class="nav pull-right">
+						<li><a href="/admin/auth">Login</a></li>
+ 						</ul>
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="container">
+<h3 class="brand">Status Page</h3>
+
+</div>
+</div> <!-- /container -->
+    <script src="/assets/jquery/jquery-1.9.1.min.js"></script>
+		<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+
+		<script src="/assets/js/plugins.js"></script>
+		<script src="/assets/js/site.js"></script>
+		<script src="/assets/js/onready.js"></script>
+		<script src="/assets/chosen/chosen.jquery.min.js"></script>
+		<script src="/assets/js/jquery.ajax.form.js"></script>
+		<script src="/assets/js/jquery.ajax.link.js"></script>
+		<script src="/assets/js/jquery.combobox.js"></script>
+		<script src="/assets/js/jquery.filter_input.js"></script>
+		<script src="/assets/table-fixed-header/table-fixed-header.js"></script>
+		
+		<script src="/assets/js/jquery.bootstrap.growl.js" type="text/javascript"></script><link rel="stylesheet" href="/assets/css/flash_msg.css">		
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined variable: javascript</p>
+<p>Filename: _partials/footer.php</p>
+<p>Line Number: 16</p>
+
+
+	<p>Backtrace: </p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_partials/footer.php<br />
+			Line: 16<br />
+			Function: _exception_handler			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/views/_templates/default.php<br />
+			Line: 7<br />
+			Function: include			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/core/MY_Loader.php<br />
+			Line: 36<br />
+			Function: view			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/application/controllers/mainController.php<br />
+			Line: 6<br />
+			Function: template			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/public/index.php<br />
+			Line: 293<br />
+			Function: require_once			</p>
+
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /Applications/MAMP/htdocs/ci3/cron.php<br />
+			Line: 100<br />
+			Function: require			</p>
+
+		
+	</p>
+
+
+</div>	</body>
+</html>
+
+////// 
+

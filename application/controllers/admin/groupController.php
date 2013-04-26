@@ -3,27 +3,27 @@
 class groupController extends MY_AdminController {
 
 	public $controller = 'group';
-	public $title = 'Group';
-	public $titles = 'Groups';
-	public $description = 'Users can be placed into groups to manage permissions.';
+	public $page_title = 'Group';
+	public $page_titles = 'Groups';
+	public $page_description = 'Users can be placed into groups to manage permissions.';
 	public $controller_model = 'group_model';
-	public $path = '/admin/group/';		
+	public $controller_path = '/admin/group/';
 
 	public function indexAction() {
 		$this->data('records',$this->controller_model->get_all())
-			->load->template($this->path.'index');
+			->load->template($this->controller_path.'index');
 	}
 	
 	public function newAction() {
 		$this->data('title','New '.$this->title)
-			->data('action',$this->path.'new')
+			->data('action',$this->controller_path.'new')
 			->data('record',(object)array('id'=>-1))
 			->data('my_access',array())
 			->data('all_access',$this->format_privileges($this->access_model->get_all()))
-			->load->template($this->path.'form');
+			->load->template($this->controller_path.'form');
 	}
 
-	public function newValidatePostAjaxAction() {
+	public function newValidatePostAction() {
 		$this->load->json($this->controller_model->validate());
 	}
 
@@ -31,11 +31,11 @@ class groupController extends MY_AdminController {
 		if ($this->controller_model->map($this->data)) {
 			if ($id = $this->controller_model->insert($this->data)) {
 				$this->update_privilege($id);
-				$this->flash_msg->created($this->title,$this->path);
+				$this->flash_msg->created($this->title,$this->controller_path);
 			}
 		}
 
-		$this->flash_msg->fail($this->title,$this->path);
+		$this->flash_msg->fail($this->title,$this->controller_path);
 	}
 
 	public function editAction($id=null) {
@@ -43,7 +43,7 @@ class groupController extends MY_AdminController {
 		$this->controller_model->filter_id($id,false);
 
 		$this->data('title','Edit '.$this->title)
-			->data('action',$this->path.'edit')
+			->data('action',$this->controller_path.'edit')
 			->data('record',$this->controller_model->get($id))
 			->data('all_access',$this->format_privileges($this->access_model->get_all()));
 			
@@ -53,10 +53,10 @@ class groupController extends MY_AdminController {
 		}
 		
 		$this->data('my_access',(array)$access)
-			->load->template($this->path.'form');
+			->load->template($this->controller_path.'form');
 	}
 	
-	public function editValidatePostAjaxAction() {
+	public function editValidatePostAction() {
 		$this->load->json($this->controller_model->validate());
 	}
 	
@@ -68,13 +68,13 @@ class groupController extends MY_AdminController {
 		if ($this->controller_model->map($this->data)) {
 			$this->controller_model->update($this->data['id'],$this->data);
 			$this->update_privilege($this->data['id']);
-			$this->flash_msg->updated($this->title,$this->path);
+			$this->flash_msg->updated($this->title,$this->controller_path);
 		}
 		
-		$this->flash_msg->fail($this->title,$this->path);
+		$this->flash_msg->fail($this->title,$this->controller_path);
 	}
 	
-	public function deleteAjaxAction($id=null) {
+	public function deleteAction($id=null) {
 		$data['err'] = true;
 
 		/* can they delete? */

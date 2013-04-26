@@ -3,37 +3,37 @@
 class accessController extends MY_AdminController {
 
 	public $controller = 'access';
-	public $title = 'Access';
-	public $titles = 'Access';
-	public $description = 'You can create custom permissions for different users by assigning them to groups in the Users.';
+	public $page_title = 'Access';
+	public $page_titles = 'Access';
+	public $page_description = 'You can create custom permissions for different users by assigning them to groups in the Users.';
 	public $controller_model = 'access_model';
-	public $path = '/admin/access/';	
+	public $controller_path = '/admin/access/';	
 
 	public function indexAction() {
 		$this->data('records',$this->controller_model->get_all())
-			->load->template($this->path.'index');
+			->load->template($this->controller_path.'index');
 	}
 	
 	public function newAction() {
 		$this->data('title','New '.$this->title)
-			->data('action',$this->path.'new')
+			->data('action',$this->controller_path.'new')
 			->data('record',(object)array('id'=>-1,'active'=>1))
 
-			->load->template($this->path.'form');
+			->load->template($this->controller_path.'form');
 	}
 
-	public function newValidatePostAjaxAction() {
+	public function newValidatePostAction() {
 		$this->load->json($this->controller_model->validate());
 	}
 
 	public function newPostAction() {
 		if ($this->controller_model->map($this->data)) {
 			if ($this->controller_model->insert($this->data)) {
-				$this->flash_msg->created($this->title,$this->path);
+				$this->flash_msg->created($this->title,$this->controller_path);
 			}
 		}
 
-		$this->flash_msg->fail($this->title,$this->path);
+		$this->flash_msg->fail($this->title,$this->controller_path);
 	}
 
 	public function editAction($id=null) {
@@ -41,13 +41,13 @@ class accessController extends MY_AdminController {
 		$this->controller_model->filter_id($id,false);
 	
 		$this->data('title','Edit '.$this->title)
-			->data('action',$this->path.'edit')
+			->data('action',$this->controller_path.'edit')
 			->data('record',$this->controller_model->get($id))
 			
-			->load->template($this->path.'form');
+			->load->template($this->controller_path.'form');
 	}
 	
-	public function editValidatePostAjaxAction() {
+	public function editValidatePostAction() {
 		$this->load->json($this->controller_model->validate());
 	}
 
@@ -58,14 +58,14 @@ class accessController extends MY_AdminController {
 	
 		if ($this->controller_model->map($this->data)) {
 			$this->controller_model->update($this->data['id'], $this->data);
-			$this->flash_msg->updated($this->title,$this->path);
+			$this->flash_msg->updated($this->title,$this->controller_path);
 		}
 		
-		$this->flash_msg->fail($this->title,$this->path);
+		$this->flash_msg->fail($this->title,$this->controller_path);
 	}
 
 	/* ajax activate */
-	public function activateAjaxAction($id=null,$mode=null) {
+	public function activateAction($id=null,$mode=null) {
 		$data['err'] = true;
 		
 		if ($this->controller_model->filter_id($id) && $this->controller_model->filter_mode($mode)) {
@@ -77,7 +77,7 @@ class accessController extends MY_AdminController {
 		$this->load->json($data);
 	}
 	
-	public function deleteAjaxAction($id=null) {
+	public function deleteAction($id=null) {
 		$data['err'] = true;
 
 		/* can they delete? */

@@ -15,7 +15,7 @@ class Flash_msg {
     'block'=>'block',
     'success'=>'success'
   );
-  public $staytime = 3; /* setup the initial pause time seconds */
+  public $staytime = 9; /* setup the initial pause time seconds */
 
 	public function __construct() {
 		/* drivers load late therefore load it here */
@@ -71,17 +71,17 @@ class Flash_msg {
 	}
 	
 	public function created($title,$redirect) {
-		$this->add($title.' Created','green');
+		$this->add($title.' Created','success');
 		$this->redirect($redirect);
 	}
 	
 	public function updated($title,$redirect) {
-		$this->add($title.' Updated','green');
+		$this->add($title.' Updated','success');
 		$this->redirect($redirect);
 	}
 	
 	public function fail($title,$redirect) {
-		$this->add('Record '.$title.' Error','yellow');
+		$this->add('Record '.$title.' Error','error');
 		$this->redirect($redirect);
 	}
 	

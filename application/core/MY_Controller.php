@@ -8,10 +8,11 @@ class MY_Controller extends CI_Controller
 {
 	public $layout = '_templates/default';
 
-	public $title = 'Super Site';
-	public $title_sep = ' - ';
-	public $subtitle = null; /* Append to sitename */
-	public $brand = 'Shell';
+	public $window_title = 'Shelly';
+	public $window_title_sep = ' - ';
+	public $window_title_sub = null; /* Append to sitename */
+	
+	public $page_brand = 'Shell';
 
 	public $data = array(); /* controller view storage */
 
@@ -27,8 +28,8 @@ class MY_Controller extends CI_Controller
 
 		$this->load->vars(array('body_class'=>strtolower(str_replace('/',' ',uri_string()))));
 		$this->load->vars(array('logged_in'=>$this->auth->is_logged_in()));
-		$this->load->vars(array('site_title'=>$this->title.(($this->subtitle) ? $this->title_sep.$this->subtitle : '')));
-		$this->load->vars(array('brand'=>$this->brand));
+		$this->load->vars(array('window_title'=>$this->window_title.(($this->window_title_sub) ? $this->window_title_sep.$this->window_title_sub : '')));
+		$this->load->vars(array('page_brand'=>$this->page_brand));
 
 		$menu = $this->menubar->get_active();
 		$roles = $this->auth->get_user_roles();

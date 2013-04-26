@@ -3,26 +3,26 @@
 class settingController extends MY_AdminController {
 
 	public $controller = 'setting';
-	public $title = 'Setting';
-	public $titles = 'Settings';
-	public $description = 'The settings page is where all module settings are located.';
+	public $page_title = 'Setting';
+	public $page_titles = 'Settings';
+	public $page_description = 'The settings page is where all module settings are located.';
 	public $controller_model = 'setting_model';
-	public $path = '/admin/setting/';	
+	public $controller_path = '/admin/setting/';	
 	
 	public function indexAction() {
 		$this->data('records',$this->controller_model->order_by('option_group')->get_all())
-			->load->template($this->path.'index');
+			->load->template($this->controller_path.'index');
 	}
 
 	public function newAction() {
 		$this->data('title','New '.$this->title)
-			->data('action',$this->path.'new')
+			->data('action',$this->controller_path.'new')
 			->data('record',(object)array('option_id'=>-1,'active'=>1))
 			->data('option_group',$this->controller_model->dropdown('option_group','option_group'))
-			->load->template($this->path.'form');
+			->load->template($this->controller_path.'form');
 	}
 
-	public function newValidatePostAjaxAction() {
+	public function newValidatePostAction() {
 		$this->load->json($this->controller_model->validate());
 	}
 
@@ -30,11 +30,11 @@ class settingController extends MY_AdminController {
 		
 		if ($this->controller_model->map($this->data)) {
 			if ($this->controller_model->insert($this->data)) {
-				$this->flash_msg->created($this->title,$this->path);
+				$this->flash_msg->created($this->title,$this->controller_path);
 			}
 		}
 
-		$this->flash_msg->fail($this->title,$this->path);
+		$this->flash_msg->fail($this->title,$this->controller_path);
 	}
 
 	public function editAction($id=null) {
@@ -42,13 +42,13 @@ class settingController extends MY_AdminController {
 		$this->controller_model->filter_id($id,false);
 
 		$this->data('title','Edit '.$this->title)
-			->data('action',$this->path.'edit')
+			->data('action',$this->controller_path.'edit')
 			->data('record',$this->controller_model->get($id))
 			->data('option_group',$this->controller_model->dropdown('option_group','option_group'))
-			->load->template($this->path.'form');
+			->load->template($this->controller_path.'form');
 	}
 
-	public function editValidatePostAjaxAction() {
+	public function editValidatePostAction() {
 		$this->load->json($this->controller_model->validate());
 	}
 
@@ -59,13 +59,13 @@ class settingController extends MY_AdminController {
 			
 		if ($this->controller_model->map($this->data)) {
 			$this->controller_model->update($this->data['id'], $this->data);
-			$this->flash_msg->updated($this->title,$this->path);
+			$this->flash_msg->updated($this->title,$this->controller_path);
 		}
 		
-		$this->flash_msg->fail($this->title,$this->path);
+		$this->flash_msg->fail($this->title,$this->controller_path);
 	}
 
-	public function deleteAjaxAction($id=null) {
+	public function deleteAction($id=null) {
 		$data['err'] = true;
 
 		/* can they delete? */
@@ -77,7 +77,7 @@ class settingController extends MY_AdminController {
 		$this->load->json($data);
 	}
 
-	public function activateAjaxAction($id=null,$mode=null) {
+	public function activateAction($id=null,$mode=null) {
 		$data['err'] = true;
 
 		if ($this->controller_model->filter_id($id) && $this->controller_model->filter_mode($mode)) {

@@ -70,19 +70,19 @@ $route['404_override'] = '';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
 
-$route['admin/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2PREFIX/$3/$4/$5/$6/$7";
-$route['admin/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2PREFIX/$3/$4/$5/$6";
-$route['admin/(:any)/(:any)/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2PREFIX/$3/$4/$5";
-$route['admin/(:any)/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2PREFIX/$3/$4";
-$route['admin/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2PREFIX/$3";
-$route['admin/(:any)/(:any)'] = "admin/$1Controller/$2PREFIX";
+$route['admin/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2SUFFIX/$3/$4/$5/$6/$7";
+$route['admin/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2SUFFIX/$3/$4/$5/$6";
+$route['admin/(:any)/(:any)/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2SUFFIX/$3/$4/$5";
+$route['admin/(:any)/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2SUFFIX/$3/$4";
+$route['admin/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2SUFFIX/$3";
+$route['admin/(:any)/(:any)'] = "admin/$1Controller/$2SUFFIX";
 $route['admin/(:any)'] = "admin/$1Controller/indexAction";
 $route['admin'] = "admin/authController/indexAction";
 
-$route['(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "$1Controller/$2PREFIX/$3/$4/$5/$6";
-$route['(:any)/(:any)/(:any)/(:any)/(:any)'] = "$1Controller/$2PREFIX/$3/$4/$5";
-$route['(:any)/(:any)/(:any)/(:any)'] = "$1Controller/$2PREFIX/$3/$4";
-$route['(:any)/(:any)/(:any)'] = "$1Controller/$2PREFIX/$3";
-$route['(:any)/(:any)'] = "$1Controller/$2PREFIX";
+$route['(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "$1Controller/$2SUFFIX/$3/$4/$5/$6";
+$route['(:any)/(:any)/(:any)/(:any)/(:any)'] = "$1Controller/$2SUFFIX/$3/$4/$5";
+$route['(:any)/(:any)/(:any)/(:any)'] = "$1Controller/$2SUFFIX/$3/$4";
+$route['(:any)/(:any)/(:any)'] = "$1Controller/$2SUFFIX/$3";
+$route['(:any)/(:any)'] = "$1Controller/$2SUFFIX";
 $route['(:any)'] = "$1Controller/indexAction";
 

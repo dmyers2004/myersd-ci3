@@ -8,7 +8,7 @@
           </button>
           <div class="nav-collapse collapse">
 	          <ul class="nav">
-						<li><a class="brand" href="/"><?php echo $brand ?></a></li>          
+						<li><a class="brand" href="/"><?php echo $page_brand ?></a></li>          
 <?php echo $navigation_menu ?>
 						</ul>
 						<ul class="nav pull-right">
