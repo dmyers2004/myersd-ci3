@@ -6,8 +6,5 @@
   },
   "require-dev": {
     "mikey179/vfsStream": "*"
-  },
-  "require": {
-    "filp/whoops": "1.*"
   }
 }

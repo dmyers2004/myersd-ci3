@@ -10,8 +10,8 @@ class Scaffold {
 		'table/action/row'=>array(),
 		'table/body/active'=>array('arg1'=>'','arg2'=>'','arg3'=>'icon-circle-blank|icon-ok-circle'),
 		'table/action/delete'=>array('arg1'=>'','arg2'=>'Delete'),
-		'table/action/activate'=>array('arg1'=>'','arg2'=>'','arg3'=>'Activate|Deactivate')
-		
+		'table/action/activate'=>array('arg1'=>'','arg2'=>'','arg3'=>'Activate|Deactivate'),
+		'table/body/enum'=>array('arg1'=>'','arg2'=>'','arg3'=>'activate','arg4'=>'Activate|Deactivate','arg5'=>'""')
 	);
 	
 	public function __call($name, $arguments) {
@@ -19,7 +19,7 @@ class Scaffold {
 
 		if (substr($name,0,7) == 'return_') {
 			$return = true;
-			$name = substr($name,6);	
+			$name = substr($name,7);	
 		}
 		
 		foreach ($arguments as $k => $v) {
@@ -28,8 +28,7 @@ class Scaffold {
 		}
 
 		$view = str_replace('_','/',$name);
-
-		return get_instance()->load->view($this->$folder.$view,array_merge((array)$this->defaults[$view], $arguments),$return);
+		return get_instance()->load->view($this->folder.$view,array_merge((array)$this->defaults[$view], $arguments),$return);
 	}
 
 	/* bootstrap field direct output */

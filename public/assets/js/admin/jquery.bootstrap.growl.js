@@ -19,7 +19,10 @@ modified to do a bootstrap bottom left growl notice
 			noticeWrapAll	= (!jQuery('.notice-wrap').length) ? jQuery('<div></div>').addClass('notice-wrap').appendTo('body') : jQuery('.notice-wrap');
 			noticeItemOuter	= jQuery('<div></div>').addClass('notice-item-wrapper');
 			noticeItemInner	= jQuery('<div></div>').hide().addClass('notice-item alert alert-' + options.type).attr('data-dismiss','alert').appendTo(noticeWrapAll).html(options.text).animate(options.inEffect, options.inEffectDuration).wrap(noticeItemOuter);
-			noticeItemClose	= jQuery('<div></div>').addClass('close').prependTo(noticeItemInner).html('&times;').click(function(e) { e.stopPropagation(); jQuery.noticeRemove(noticeItemInner) });
+			noticeItemClose	= jQuery('<div></div>').addClass('close').prependTo(noticeItemInner).html('&times;').click(function(e) {
+				e.stopPropagation();
+				jQuery.noticeRemove(noticeItemInner)
+			});
 			
 			if(navigator.userAgent.match(/MSIE 6/i)) {
 	    	noticeWrapAll.css({top: document.documentElement.scrollTop});

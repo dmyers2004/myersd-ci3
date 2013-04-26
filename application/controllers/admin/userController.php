@@ -3,30 +3,30 @@
 class userController extends MY_AdminController {
 
 	public $controller = 'user';
-	public $title = 'User';
-	public $titles = 'Users';
-	public $description = 'The users page is where you manage your sites users.';
+	public $page_title = 'User';
+	public $page_titles = 'Users';
+	public $page_description = 'The users page is where you manage your sites users.';
 	public $controller_model = 'user_model';
-	public $path = '/admin/user/';	
+	public $controller_path = '/admin/user/';	
 
 	/* index view */
 	public function indexAction() {
 		$this->data('records',$this->auth->get_users())
 			->data('group_options',$this->get_groups())
-			->load->template($this->path.'index');
+			->load->template($this->controller_path.'index');
 	}
 	
 	/* create new form */
 	public function newAction() {
 		$this->data('title','New '.$this->title)
-			->data('action',$this->path.'new')
+			->data('action',$this->controller_path.'new')
 			->data('record',(object)array('activated'=>1,'id'=>-1))
 			->data('group_options',$this->get_groups())
-			->load->template($this->path.'form');
+			->load->template($this->controller_path.'form');
 	}
 
 	/* create new form validation */
-	public function newValidatePostAjaxAction() {
+	public function newValidatePostAction() {
 		$this->load->json($this->controller_model->validate());
 	}
 	
@@ -36,11 +36,11 @@ class userController extends MY_AdminController {
 		if ($this->controller_model->map($this->data)) {
 			extract($this->data);			
 			if ($this->auth->create_user($username, $email, $password, $group_id, false)) {
-				$this->flash_msg->created($this->title,$this->path);
+				$this->flash_msg->created($this->title,$this->controller_path);
 			}
 		}
 
-		$this->flash_msg->fail($this->title,$this->path);
+		$this->flash_msg->fail($this->title,$this->controller_path);
 	}
 
 	/* edit form */
@@ -49,14 +49,14 @@ class userController extends MY_AdminController {
 		$this->controller_model->filter_id($id,false);
 
 		$this->data('title','Edit '.$this->title)
-			->data('action',$this->path.'edit')
+			->data('action',$this->controller_path.'edit')
 			->data('record',$this->controller_model->get_user($id))
 			->data('group_options',$this->get_groups())
-			->load->template($this->path.'form');
+			->load->template($this->controller_path.'form');
 	}
 
 	/* edit form validate */
-	public function editValidatePostAjaxAction() {
+	public function editValidatePostAction() {
 		// do the password thing
 		if ($this->input->post('password').$this->input->post('confirm_password') == '') {
 			$this->controller_model->remove_password_rules();
@@ -81,14 +81,14 @@ class userController extends MY_AdminController {
 				$this->controller_model->change_password($data['id'], $this->input->post('password'));
 			}
 
-			$this->flash_msg->updated($this->title,$this->path);
+			$this->flash_msg->updated($this->title,$this->controller_path);
 		}
 		
-		$this->flash_msg->fail($this->title,$this->path);
+		$this->flash_msg->fail($this->title,$this->controller_path);
 	}
 	
 	/* ajax activate */
-	public function activateAjaxAction($id=null,$mode=null) {
+	public function activateAction($id=null,$mode=null) {
 		$data['err'] = true;
 		
 		if ($this->controller_model->filter_id($id) && $this->controller_model->filter_mode($mode)) {
@@ -101,7 +101,7 @@ class userController extends MY_AdminController {
 	}
 	
 	/* ajax delete */
-	public function deleteAjaxAction($id=null) {		
+	public function deleteAction($id=null) {		
 		$data['err'] = true;
 
 		/* can they delete? */

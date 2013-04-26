@@ -36,9 +36,7 @@ class MY_Router extends CI_Router
 					$val = preg_replace('#^'.$key.'$#', $val, $uri);
 				}
 
-				/* start */
-				$ajax = (@$_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') ? 'Ajax' : '' ;
-
+				/* start my custom code */
 		 		$request = ucfirst(strtolower($_SERVER['REQUEST_METHOD']));
 				$request = ($request == 'Get') ? '' : $request;
 
@@ -46,8 +44,8 @@ class MY_Router extends CI_Router
 					parse_str(file_get_contents('php://input'), $_POST);
 				}
 
-		    $val = str_replace('PREFIX',$request.$ajax.'Action',$val);
-				/* end */
+		    $val = str_replace('SUFFIX',$request.'Action',$val);
+				/* end my custom code */
 
 				return $this->_set_request(explode('/', $val));
 			}

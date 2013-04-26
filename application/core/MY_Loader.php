@@ -36,13 +36,13 @@ class MY_Loader extends CI_Loader
     $this->view($layout, array('container'=>$this->view($view,$data,true)), false);
 	}
 	
-	public function partial($view) {
-		return $this->view($view,array(),true);
+	public function partial($view,$data=array()) {
+		return $this->view($view,$data,true);
 	}
 
-	public function json($data)
+	public function json($data=array())
 	{
-		echo json_encode($data);
+		get_instance()->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
 }

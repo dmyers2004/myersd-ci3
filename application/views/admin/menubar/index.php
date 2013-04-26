@@ -7,7 +7,7 @@ foreach ($records as $record) {
 	$crud->table_body_row($record->text);
 	$crud->table_body_row($record->url);
 	$crud->table_body_row($record->sort,'txt-ac');
-	$crud->table_body_row($crud->return_table_body_active($record->id,$record->active),'txt-ac');
+	$crud->table_body_row($crud->return_table_body_enum($record->id,$record->active,'activate','icon-circle-blank|icon-ok-circle'),'txt-ac');
 	$crud->table_body_row($parent_options[$record->parent_id],'txt-ac');
 	
 	$crud->table_action_start($record->id);
