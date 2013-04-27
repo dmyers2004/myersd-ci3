@@ -57,7 +57,7 @@ class menubarController extends MY_AdminController {
 		/* if somebody is sending in bogus id's send them to a fiery death */
 		$id = $this->input->post('id');
 		$this->controller_model->filter_id($id,false);
-			
+
 		if ($this->controller_model->map($this->data)) {
 			$this->controller_model->update($this->data['id'], $this->data);
 			$this->flash_msg->updated($this->title,$this->controller_path);

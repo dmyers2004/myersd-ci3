@@ -44,33 +44,26 @@ class MY_Input extends CI_Input
 
 		/* did they send in input? if not use post with xss by default */
 		$input = ($input) ? $input : $this->post(NULL, $xss); /* XSS cleaned */
-
 		/* loop through all the form validation rules with the additional map rules! */
-		foreach ($rules as $r) {
-			/* form field */
-			$field = $r['field'];
-
-			/* if database field not filled in use form field */
-			$dbfield = ($r['dbfield']) ? $r['dbfield'] : $field;
-
-			/* insert the default if the input field is invalid (good for checkboxes!) */
-			$value = $prevalue = (isset($input[$field])) ? $input[$field] : $r['default'];
-
+		foreach ($rules as $rule) {
 			/* run the filter on this value using return if sent in */
 			$CI->form_validation->reset_validation();
 			$CI->form_validation->set_data($input);
-			$CI->form_validation->set_rules($r['rules']);
+			$CI->form_validation->set_rules($rule['field'],$rule['label'],$rule['rules']);
 
 			/* run the validation if fail (false) return pronto */
 			if ($CI->form_validation->run() === false) {
-				log_message('info','MY_Input::map '.$prevalue.'/'.$value.'/'.validation_errors().'/'.$r['rules']);
+				log_message('info','MY_Input::map '.$rule['field'].'/'.validation_errors().'/'.$rule['rules']);
 				return false;
 			}
 
+			/* if database field not filled in use form field */
+			$dbfield = ($rule['dbfield']) ? $rule['dbfield'] : $rule['field'];
+
 			/* if not then build the output array (passed by ref) with the new value (prepping for example) */
-			$output[$dbfield] = set_value($field);
+			$output[$dbfield] = set_value($rule['field'],$rule['default']);
 		}
-		
+
 		/* return true because all validations passed */
 		return true;
 	}
