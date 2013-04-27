@@ -1,4 +1,4 @@
-    <link rel="stylesheet" href="/assets/bootstrap/css/united-bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/cerulean-bootstrap.min.css">
     <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-responsive.min.css">
     <link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/assets/chosen/chosen.css">
