@@ -45,11 +45,11 @@ class User_model extends CI_Model
 	}
 	
   public function filter_id(&$id,$return=false) {
-  	return $this->filter($this->filters['id'],$id,$return);
+  	return $this->input->filter($this->filters['id'],$id,$return);
   }
   
   public function filter_mode(&$mode,$return=false) {
-  	return $this->filter($this->filters['mode'],$mode,$return);
+  	return $this->input->filter($this->filters['mode'],$mode,$return);
   }
 	
 	public function remove_password_rules() {

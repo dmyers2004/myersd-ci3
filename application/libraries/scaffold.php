@@ -37,7 +37,13 @@ class Scaffold {
 		$help = ($help) ? '<span class="help-block">'.$help.'</span>' : '';
 
 		$type = $this->between('type="','"',$element);
-		$view = ($type == '') ? 'form_text' : 'form_'.$type;
+		switch ($type) {
+			case 'checkbox':
+				$view = 'form_checkbox';
+			break;
+			default:
+				$view = 'form_text';
+		}
 
 		$this->$view($id,$label,$element,$help);
 	}
