@@ -4,7 +4,8 @@
     <link rel="stylesheet" href="/assets/chosen/chosen.css">
     <link rel="stylesheet" href="/assets/table-fixed-header/table-fixed-header.css">
     <link rel="stylesheet" href="/assets/css/site.css">
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/admin/css/admin.css">
+    <link rel="stylesheet" href="/assets/css/flash_msg.css">    
     <?php echo $stylesheets ?>
 
     <script src="/assets/js/modernizr-2.6.2.min.js"></script>
