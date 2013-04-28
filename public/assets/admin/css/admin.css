@@ -1,0 +1,41 @@
+.admin.group legend {
+	font-size: 120%;
+	line-height: 1.2;
+	margin-bottom: 5px;
+	padding-top: 5px;
+}
+
+.admin.group .resource {
+	font-size: 100%;
+}
+
+.admin tbody i {
+	font-size: 140%;
+	font-weight: normal;
+	display: inline-block;
+	width: 24px;
+}
+
+.admin a.no-link-look, a.no-link-look:hover {
+	text-decoration: none;
+	color: black;
+}
+
+.admin table a i, table a:hover i {
+	text-decoration: none;
+}
+
+.admin .form-horizontal span.help-block {
+	margin-top: 0px;
+	font-size: 85%;
+	padding-left: 6px;
+}
+
+.admin h3 {
+	margin: 0 0 16px;
+}
+
+.admin h3 small {
+	padding: 0 16px 0;
+	font-size: 55%;
+}

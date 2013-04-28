@@ -40,6 +40,8 @@ class userController extends MY_AdminController {
 			}
 		}
 
+		// $err = $this->auth->get_error_message();
+
 		$this->flash_msg->fail($this->title,$this->controller_path);
 	}
 
@@ -61,6 +63,7 @@ class userController extends MY_AdminController {
 		if ($this->input->post('password').$this->input->post('confirm_password') == '') {
 			$this->controller_model->remove_password_rules();
 		}
+		
 		$this->load->json($this->controller_model->validate());
 	}
 

@@ -5,13 +5,14 @@
 		<script src="/assets/chosen/chosen.jquery.min.js"></script>
 		<script src="/assets/table-fixed-header/table-fixed-header.js"></script>
 
-		<script src="/assets/js/admin/plugins.js"></script>
-		<script src="/assets/js/admin/site.js"></script>
-		<script src="/assets/js/admin/onready.js"></script>
-		<script src="/assets/js/admin/jquery.ajax.form.js"></script>
-		<script src="/assets/js/admin/jquery.ajax.link.js"></script>
-		<script src="/assets/js/admin/jquery.combobox.js"></script>
-		<script src="/assets/js/admin/jquery.filter_input.js"></script>
+		<script src="/assets/admin/js/jquery.ajax.form.js"></script>
+		<script src="/assets/admin/js/jquery.ajax.link.js"></script>
+		<script src="/assets/admin/js/jquery.combobox.js"></script>
+		<script src="/assets/admin/js/jquery.filter_input.js"></script>
+
+		<script src="/assets/admin/js/plugins.js"></script>
+		<script src="/assets/admin/js/site.js"></script>
+		<script src="/assets/admin/js/onready.js"></script>
 		
 		<?php echo $flash_msg ?>
 		<?php echo $javascript ?>

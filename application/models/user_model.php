@@ -10,10 +10,12 @@
  * @package	Tank_auth
  * @author	Ilya Konyukhov (http://konyukhov.com/soft/)
  */
-class User_model extends CI_Model
+class User_model extends MY_Model
 {
 	private $table_name = 'users';			// user accounts
 	private $profile_table_name	= 'user_profiles';	// user profiles
+	
+	private $remove_password_rules = false;
 
 	public $validate = array(
 		array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
@@ -35,8 +37,7 @@ class User_model extends CI_Model
 		'mode'=>'trim|tf|filter_int[1]'
 	);
 
-	public function __construct()
-	{
+	public function __construct()	{
 		parent::__construct();
 
 		$ci =& get_instance();
@@ -45,15 +46,15 @@ class User_model extends CI_Model
 	}
 	
   public function filter_id(&$id,$return=false) {
-  	return $this->input->filter($this->filters['id'],$id,$return);
+  	return $this->filter($this->filters['id'],$id,$return);
   }
   
   public function filter_mode(&$mode,$return=false) {
-  	return $this->input->filter($this->filters['mode'],$mode,$return);
+  	return $this->filter($this->filters['mode'],$mode,$return);
   }
 	
 	public function remove_password_rules() {
-		$this->form_validation->remove_rules('password,confirm_password');
+		$this->remove_password_rules = true;
 	}
 	
 	public function validate_login() {
@@ -63,6 +64,13 @@ class User_model extends CI_Model
 	}
 	
 	public function validate() {
+		$this->form_validation->reset_validation();
+		$this->form_validation->set_rules($this->validate);
+		
+		if ($this->remove_password_rules) {
+			$this->form_validation->remove_rules('password,confirm_password');
+		}
+		
 		return $this->form_validation->run_array();
 	}
 	
