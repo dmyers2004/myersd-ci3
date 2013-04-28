@@ -42,17 +42,14 @@ class User_model extends CI_Model
 		$ci =& get_instance();
 		$this->table_name			= $ci->config->item('db_table_prefix', 'auth').$this->table_name;
 		$this->profile_table_name	= $ci->config->item('db_table_prefix', 'auth').$this->profile_table_name;
-
-		/* set the default rules */
-		$this->form_validation->set_rules($this->validate);
 	}
 	
   public function filter_id(&$id,$return=false) {
-  	return $this->input->filter($id,$this->filters['id'],$return);
+  	return $this->filter($this->filters['id'],$id,$return);
   }
   
   public function filter_mode(&$mode,$return=false) {
-  	return $this->input->filter($mode,$this->filters['mode'],$return);
+  	return $this->filter($this->filters['mode'],$mode,$return);
   }
 	
 	public function remove_password_rules() {

@@ -89,4 +89,6 @@ body {
 .admin tbody i {
 	font-size: 140%;
 	font-weight: normal;
+	display: inline-block;
+	width: 24px;
 }

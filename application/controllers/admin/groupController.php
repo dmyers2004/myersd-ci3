@@ -78,7 +78,7 @@ class groupController extends MY_AdminController {
 		$data['err'] = true;
 
 		/* can they delete? */
-		if ($this->controller_model->filter($id)) {
+		if ($this->controller_model->filter_id($id)) {
 			$this->controller_model->delete($id);
 			$this->controller_model->delete_group_access($id);
 			$data['err'] = false;

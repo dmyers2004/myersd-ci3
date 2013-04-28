@@ -125,14 +125,14 @@ class MY_Model extends CI_Model
 			return $this->form_validation->run_array();
 		}
 
-		public function map(&$output,&$input = null,$xss = true,$return=true) {
+		public function map(&$output,&$input = null,$xss = true) {
 			$this->load->library('input');
-			return $this->input->map($this->validate,$output,$input,$xss,$return);
+			return $this->input->map($this->validate,$output,$input,$xss);
 		}
 		
-		public function filter(&$value,$filter,$return=true) {
+		public function filter($rule,&$value,$return=true) {
 			$this->load->library('input');
-			return $this->input->filter($value,$filter,$return);
+			return $this->input->filter($rule,$value,$return);
 		}
 
     /* --------------------------------------------------------------

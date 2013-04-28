@@ -66,7 +66,7 @@ class mainController extends MY_PublicController {
 		$data = ' Don Myers ';
 		$filter = 'trim|strtolower|base64_encode';
 		
-		$isgood = $output = $this->validate->filter($data,$filter);
+		$isgood = $output = $this->validate->filter($filter,$data);
 		
 		var_dump($isgood);
 		var_dump($data);
