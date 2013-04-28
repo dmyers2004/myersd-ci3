@@ -44,7 +44,7 @@ class MY_Router extends CI_Router
 					parse_str(file_get_contents('php://input'), $_POST);
 				}
 
-		    $val = str_replace('SUFFIX',$request.'Action',$val);
+		    $val = str_replace('Action',$request.'Action',$val);
 				/* end my custom code */
 
 				return $this->_set_request(explode('/', $val));

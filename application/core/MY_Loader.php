@@ -30,7 +30,7 @@ class MY_Loader extends CI_Loader
 
   public function template($view,$layout=null)
   {
-    $layout = ($layout) ? $layout : $this->b4e1eb53c674ea593cfcd9df316443ff;
+    $layout = ($layout) ? $layout : $this->page_base_layout;
 
     /* final output */
     $this->view($layout, array('container'=>$this->view($view,$data,true)), false);

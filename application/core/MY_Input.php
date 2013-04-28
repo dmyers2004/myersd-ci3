@@ -37,18 +37,23 @@ class MY_Input extends CI_Input
 	returns pass (true) / fail (false)
 	*/
 
-	public function map($rules,&$output,&$input = null,$xss = true,$return=true)
+	public function map($rules,&$output,&$input = null,$xss = true)
 	{		
 		$CI = get_instance();
 		$CI->load->library('form_validation');
 
 		/* did they send in input? if not use post with xss by default */
 		$input = ($input) ? $input : $this->post(NULL, $xss); /* XSS cleaned */
+		
 		/* loop through all the form validation rules with the additional map rules! */
 		foreach ($rules as $rule) {
-			/* run the filter on this value using return if sent in */
+			/* make sure it's reset - incase it's already loaded and used we need it empty */
 			$CI->form_validation->reset_validation();
+
+			/* setup a bogus array for testing - set_data before set_rule!! */
 			$CI->form_validation->set_data($input);
+	
+			/* setup our rule on the bogus array key for testing using the filter sent in - bogus name "input filter" */
 			$CI->form_validation->set_rules($rule['field'],$rule['label'],$rule['rules']);
 
 			/* run the validation if fail (false) return pronto */
@@ -73,7 +78,7 @@ class MY_Input extends CI_Input
 	optionally dying or returning true (pass) false (fail)
 	*/
 
-	public function filter(&$value,$filter,$return=true)
+	public function filter($rule,&$value,$return=true,$default=null)
 	{
 		$CI = get_instance();
 		$CI->load->library('form_validation');
@@ -87,13 +92,13 @@ class MY_Input extends CI_Input
 		$CI->form_validation->set_data(array($bogus=>$value));
 
 		/* setup our rule on the bogus array key for testing using the filter sent in - bogus name "input filter" */
-		$CI->form_validation->set_rules($bogus, 'input filter', $filter);
+		$CI->form_validation->set_rules($bogus, 'input filter', $rule);
 
-		/* run the validation and capture output */
-		$pass = $CI->form_validation->run(); /* true = pass */
+		/* run the validation and capture output fail (false) */
+		$pass = $CI->form_validation->run();
 
 		/* recapture the processed variable */
-		$value = set_value($bogus);
+		$value = set_value($bogus,$default);
 
 		/* log the error if any */
 		if ($pass === false ) {

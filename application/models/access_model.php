@@ -59,11 +59,11 @@ class access_model extends MY_Model {
   }
   
   public function filter_id(&$id,$return=false) {
-  	return $this->input->filter($id,$this->filters['id'],$return);
+  	return $this->filter($this->filters['id'],$id,$return);
   }
 
   public function filter_mode(&$mode,$return=false) {
-  	return $this->input->filter($mode,$this->filters['mode'],$return);
+  	return $this->filter($this->filters['mode'],$mode,$return);
   }
   
 }

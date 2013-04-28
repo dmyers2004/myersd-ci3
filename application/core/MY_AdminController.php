@@ -1,14 +1,21 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+/**
+ * Admin controllers are accessible by anyone who is logged in
+ * and extend public which load a lot of extra helpers and libs
+ * 
+ */
 
 class MY_AdminController extends MY_PublicController
 {
 	public $layout = 'admin/_templates/default';
+	
 	public $window_title_sub = 'Admin';
 	public $controller_model = null;
 
 	public function __construct()
 	{
 		parent::__construct();
+		
 		/* check security */
 		if (!$this->auth->is_logged_in()) {
 			//redirect them to the login page

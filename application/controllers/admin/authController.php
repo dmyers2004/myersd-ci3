@@ -13,7 +13,7 @@ class authController extends MY_PublicController {
 	}
 
 	public function loginPostAction() {
-		if ($this->input->map($this->user_model->validate,$this->data)) {
+		if ($this->input->map($this->user_model->login_validate,$this->data)) {
 			if ($this->auth->login($this->data['email'], $this->data['password'], $this->data['remember'], false, true)) {
 				$this->flash_msg->green('Login Passed','/admin/dashboard');
 			}
