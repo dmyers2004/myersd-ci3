@@ -6,10 +6,9 @@ foreach ($records as $record) {
 	
 	$crud->table_body_row($record->description);
 	$crud->table_body_row($record->resource);
-	$crud->table_body_row($crud->return_table_body_active($record->id,$record->active),'txt-ac');
+	$crud->table_body_row($crud->return_table_body_enum($record->id,$record->active),'txt-ac');
 	
 	$crud->table_action_start($record->id);
-	$crud->table_action_row($crud->return_table_action_activate($record->id,$record->active));
 	$crud->table_action_row($crud->return_table_action_delete($record->id));
 	$crud->table_action_end();
 	

@@ -11,7 +11,7 @@ class Scaffold {
 		'table/body/active'=>array('arg1'=>'','arg2'=>'','arg3'=>'icon-circle-blank|icon-ok-circle'),
 		'table/action/delete'=>array('arg1'=>'','arg2'=>'Delete'),
 		'table/action/activate'=>array('arg1'=>'','arg2'=>'','arg3'=>'Activate|Deactivate'),
-		'table/body/enum'=>array('arg1'=>'','arg2'=>'','arg3'=>'activate','arg4'=>'Activate|Deactivate','arg5'=>'""')
+		'table/body/enum'=>array('arg1'=>'','arg2'=>'','arg3'=>'activate','arg4'=>'icon-circle-blank|icon-ok-circle')
 	);
 	
 	public function __call($name, $arguments) {
@@ -27,7 +27,8 @@ class Scaffold {
 			unset($arguments[$k]);
 		}
 
-		$view = str_replace('_','/',$name);
+		$view = str_replace('_','/',$name); /* PSR-0-ish */
+		
 		return get_instance()->load->view($this->folder.$view,array_merge((array)$this->defaults[$view], $arguments),$return);
 	}
 
@@ -60,6 +61,6 @@ class Scaffold {
 } /* end admin_gui */
 
 /* make built in form_input better! */
-function form_text($name,$value,$class='',$placeholder='',$extra='') {
+function form_text($name,$value='',$class='',$placeholder='',$extra='') {
 	return '<input type="text" id="input_'.$name.'" name="'.$name.'" class="'.$class.'" placeholder="'.$placeholder.'" value="'.$value.'" '.$extra.'>';
 }

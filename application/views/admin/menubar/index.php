@@ -7,11 +7,10 @@ foreach ($records as $record) {
 	$crud->table_body_row($record->text);
 	$crud->table_body_row($record->url);
 	$crud->table_body_row($record->sort,'txt-ac');
-	$crud->table_body_row($crud->return_table_body_enum($record->id,$record->active,'activate','icon-circle-blank|icon-ok-circle'),'txt-ac');
+	$crud->table_body_row($crud->return_table_body_enum($record->id,$record->active),'txt-ac');
 	$crud->table_body_row($parent_options[$record->parent_id],'txt-ac');
 	
 	$crud->table_action_start($record->id);
-	$crud->table_action_row($crud->return_table_action_activate($record->id,$record->active));
 	$crud->table_action_row($crud->return_table_action_ajax_href('/admin/'.$controller.'/sort/up/'.$record->id,'Sort Up'));
 	$crud->table_action_row($crud->return_table_action_ajax_href('/admin/'.$controller.'/sort/down/'.$record->id,'Sort Down'));
 	$crud->table_action_row($crud->return_table_action_delete($record->id));
