@@ -253,7 +253,7 @@ class MY_Form_validation extends CI_Form_validation {
 	}
 
 	public function filter_float($inp, $length) {
-		return substr(filter_var($inp,FILTER_SANITIZE_NUMBER_FLOAT),0,$length);
+		return substr(filter_var($inp,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND | FILTER_FLAG_ALLOW_SCIENTIFIC),0,$length);
 	}
 
 	public function filter_str($inp, $length) {
