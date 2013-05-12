@@ -33,8 +33,10 @@ $(document).ready(function(){
     } 
 	});
 
+	/*
 	$('.admin .table-hover tr').click(function(event) {
 		window.location.replace($(this).find("a:contains('Edit')").attr('href'));
 	});
+	*/
 
 });
