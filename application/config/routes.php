@@ -70,6 +70,14 @@ $route['404_override'] = '';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
 
+/* bring in the modules */
+$modules = glob(APPPATH.'modules/*');
+
+foreach ($modules as $module) {
+	@include($module.'/config/routes.php');
+}
+
+/* bring in our admin defaults */
 $route['admin/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2Action/$3/$4/$5/$6/$7";
 $route['admin/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2Action/$3/$4/$5/$6";
 $route['admin/(:any)/(:any)/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2Action/$3/$4/$5";
@@ -79,10 +87,10 @@ $route['admin/(:any)/(:any)'] = "admin/$1Controller/$2Action";
 $route['admin/(:any)'] = "admin/$1Controller/indexAction";
 $route['admin'] = "admin/authController/indexAction";
 
+/* bring in our defaults */
 $route['(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "$1Controller/$2Action/$3/$4/$5/$6";
 $route['(:any)/(:any)/(:any)/(:any)/(:any)'] = "$1Controller/$2Action/$3/$4/$5";
 $route['(:any)/(:any)/(:any)/(:any)'] = "$1Controller/$2Action/$3/$4";
 $route['(:any)/(:any)/(:any)'] = "$1Controller/$2Action/$3";
 $route['(:any)/(:any)'] = "$1Controller/$2Action";
 $route['(:any)'] = "$1Controller/indexAction";
-
