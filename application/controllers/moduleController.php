@@ -42,7 +42,7 @@ class ModuleController extends CI_Controller {
 
 	private function _get_defaults($default) {
 		if (strpos($default,'/') === false) {
-			return array($default,'indexAction');
+			return array($default,'index');
 		} else {
 			return explode('/',$default);
 		}
