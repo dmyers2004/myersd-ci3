@@ -1,1 +1,0 @@
-<h2>This is the admin index html</h2>
