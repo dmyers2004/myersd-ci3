@@ -1,27 +1,27 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ModuleController extends CI_Controller {
+class Module extends CI_Controller {
 
 	public function _remap($module_folder, $options = array()) {
 		/* let's find the controller */
 		
 		$foo = $this->config->config['modules_locations'];
 		$module_base = ($foo) ? $foo : APPPATH.'modules/';
-
-		list($controller,$method) = $this->_get_defaults($this->router->routes['default_controller']);
-
-		$params = array();
 		
 		switch(count($options)) {
 			case 0:
-				// use as is
+				list($controller,$method) = $this->_get_defaults($this->router->routes['default_controller']);
+				$params = array();
 			break;
 			case 1:
+				list($controller,$method) = $this->_get_defaults($this->router->routes['default_controller']);
 				$controller = array_shift($options);
+				$params = array();
 			break;
 			case 2:
 				$controller = array_shift($options);
 				$method = array_shift($options);
+				$params = array();
 			break;
 			default:
 				$controller = array_shift($options);
@@ -40,15 +40,11 @@ class ModuleController extends CI_Controller {
 		return $this->_load_controller($module_base.$module_folder,$controller,$method,$params,false);
 	}
 
-	private function _get_defaults($default) {
-		if (strpos($default,'/') === false) {
-			return array($default,'index');
-		} else {
-			return explode('/',$default);
-		}
+	private function _get_defaults($default='') {
+		return (strpos($default,'/') === false) ? array($default,'index') : explode('/',$default);
 	}
 	
-	private function _load_controller($folder,$controller,$method,$params,$die=false) {
+	private function _load_controller($folder,$controller,$method='index',$params=array()) {
 		$file = $folder.'/controllers/'.$controller.'.php';
 		
 		if (file_exists($file)) {
