@@ -1,24 +1,24 @@
-Welcome to <?php echo $site_name; ?>,
+Welcome to <?=$site_name; ?>,
 
-Thanks for joining <?php echo $site_name; ?>. We listed your sign in details below, make sure you keep them safe.
+Thanks for joining <?=$site_name; ?>. We listed your sign in details below, make sure you keep them safe.
 To verify your email address, please follow this link:
 
-<?php echo site_url('/auth/activate/'.$user_id.'/'.$new_email_key); ?>
+<?=site_url('/auth/activate/'.$user_id.'/'.$new_email_key); ?>
 
 
-Please verify your email within <?php echo $activation_period; ?> hours, otherwise your registration will become invalid and you will have to register again.
+Please verify your email within <?=$activation_period; ?> hours, otherwise your registration will become invalid and you will have to register again.
 <?php if (strlen($username) > 0) { ?>
 
-Your username: <?php echo $username; ?>
+Your username: <?=$username; ?>
 <?php } ?>
 
-Your email address: <?php echo $email; ?>
+Your email address: <?=$email; ?>
 <?php if (isset($password)) { /* ?>
 
-Your password: <?php echo $password; ?>
+Your password: <?=$password; ?>
 <?php */ } ?>
 
 
 
 Have fun!
-The <?php echo $site_name; ?> Team
+The <?=$site_name; ?> Team

@@ -6,8 +6,8 @@
 	<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title><?php echo $window_title ?></title>
+    <title><?=$window_title ?></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <?php echo $metatags ?>
-		<script>var plugins = {}; var baseurl = '<?php echo base_url() ?>';</script>
+    <?=$metatags ?>
+		<script>var plugins = {}; var baseurl = '<?=base_url() ?>';</script>

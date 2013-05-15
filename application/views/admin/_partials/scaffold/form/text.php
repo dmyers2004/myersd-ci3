@@ -1,1 +1,0 @@
-<div class="control-group"><label class="control-label" for="<?php echo $arg1 ?>"><?php echo $arg2 ?></label><div class="controls"><?php echo $arg3.$arg4 ?></div></div>

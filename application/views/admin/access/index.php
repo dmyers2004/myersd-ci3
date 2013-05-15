@@ -1,6 +1,7 @@
 <?php 
 $crud->table_header();
 $crud->table_start(array('Description','Resource','Active'=>'txt-ac'));
+
 foreach ($records as $record) {
 	$crud->table_body_start();
 	
@@ -14,4 +15,5 @@ foreach ($records as $record) {
 	
 	$crud->table_body_end();
 }
+
 $crud->table_end();

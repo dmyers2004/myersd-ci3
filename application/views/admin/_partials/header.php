@@ -6,11 +6,11 @@
     <link rel="stylesheet" href="/assets/css/site.css">
     <link rel="stylesheet" href="/assets/admin/css/admin.css">
     <link rel="stylesheet" href="/assets/css/flash_msg.css">    
-    <?php echo $stylesheets ?>
+    <?=$stylesheets ?>
 
     <script src="/assets/js/modernizr-2.6.2.min.js"></script>
 	</head>
-	<body class="<?php echo $body_class ?>">
+	<body class="<?=$body_class ?>">
 		<!--[if lt IE 7]>
 		<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
 		<![endif]-->

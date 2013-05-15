@@ -10,7 +10,7 @@
     <input type="text" name="new_confirm" value="" placeholder="password">
 
 
-		<input type="hidden" name="hash" value="<?php echo $hash ?>">
+		<input type="hidden" name="hash" value="<?=$hash ?>">
 
     <p>
 	    <button type="submit" class="btn">Submit</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/admin/auth">Back to Login</a>

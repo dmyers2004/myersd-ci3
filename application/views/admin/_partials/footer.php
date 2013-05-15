@@ -14,7 +14,7 @@
 		<script src="/assets/admin/js/site.js"></script>
 		<script src="/assets/admin/js/onready.js"></script>
 		
-		<?php echo $flash_msg ?>
-		<?php echo $javascript ?>
+		<?=$flash_msg ?>
+		<?=$javascript ?>
 	</body>
 </html>

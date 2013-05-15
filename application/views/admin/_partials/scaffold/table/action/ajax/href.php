@@ -1,1 +1,0 @@
-<a href="<?php echo $arg1 ?>" class="ajax-href"><?php echo $arg2 ?></a>

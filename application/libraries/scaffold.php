@@ -2,16 +2,14 @@
 
 class Scaffold {
 
-	public $folder = 'admin/_partials/Scaffold/';
+	public $folder = '_scaffold/';
 
 	public $defaults = array(
-		'form/start'=>array('arg1'=>'','arg2'=>'id'),
-		'table/body/row'=>array('arg1'=>'','arg2'=>''),
-		'table/action/row'=>array(),
-		'table/body/active'=>array('arg1'=>'','arg2'=>'','arg3'=>'icon-circle-blank|icon-ok-circle'),
-		'table/action/delete'=>array('arg1'=>'','arg2'=>'Delete'),
-		'table/action/activate'=>array('arg1'=>'','arg2'=>'','arg3'=>'Activate|Deactivate'),
-		'table/body/enum'=>array('arg1'=>'','arg2'=>'','arg3'=>'activate','arg4'=>'icon-circle-blank|icon-ok-circle')
+		'form/start'=>array('','id'),
+		'table/body/active'=>array('','','icon-circle-blank|icon-ok-circle'),
+		'table/action/delete'=>array('','Delete'),
+		'table/action/activate'=>array('','','Activate|Deactivate'),
+		'table/body/enum'=>array('','','activate','icon-circle-blank|icon-ok-circle'),
 	);
 	
 	public function __call($name, $arguments) {
@@ -22,43 +20,21 @@ class Scaffold {
 			$name = substr($name,7);	
 		}
 		
-		foreach ($arguments as $k => $v) {
-			$arguments['arg'.($k+1)] = $v;
-			unset($arguments[$k]);
-		}
-
 		$view = str_replace('_','/',$name); /* PSR-0-ish */
 		
-		return get_instance()->load->view($this->folder.$view,array_merge((array)$this->defaults[$view], $arguments),$return);
-	}
-
-	/* bootstrap field direct output */
-	public function field($label='',$element='',$help='') {
-		$id = $this->between('id="','"',$element);
-		$help = ($help) ? '<span class="help-block">'.$help.'</span>' : '';
-
-		$type = $this->between('type="','"',$element);
-		switch ($type) {
-			case 'checkbox':
-				$view = 'form_checkbox';
-			break;
-			default:
-				$view = 'form_text';
+		$new_arguments = array();
+		
+		for ($i = 0; $i <= 8; $i++) {
+			$default = isset($this->defaults[$view][$i]) ? $this->defaults[$view][$i] : '';
+			$new_arguments['arg'.($i+1)] = isset($arguments[$i]) ? $arguments[$i] : $default;
 		}
-
-		$this->$view($id,$label,$element,$help);
-	}
-
-	private function between($start, $end, $string){
-		$string = ' '.$string;
-		$ini = strpos($string,$start);
-		if ($ini == 0) return '';
-		$ini += strlen($start);   
-		$len = strpos($string,$end,$ini) - $ini;
-		return substr($string,$ini,$len);
+		
+		unset($arguments);
+		
+		return get_instance()->load->view($this->folder.$view,$new_arguments,$return);
 	}
 	
-} /* end admin_gui */
+} /* end Scaffold */
 
 /* make built in form_input better! */
 function form_text($name,$value='',$class='',$placeholder='',$extra='') {
