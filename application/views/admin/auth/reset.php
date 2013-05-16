@@ -9,7 +9,6 @@
     <label>Confirm New Password</label>
     <input type="text" name="new_confirm" value="" placeholder="password">
 
-
 		<input type="hidden" name="hash" value="<?=$hash ?>">
 
     <p>
@@ -19,5 +18,3 @@
   </fieldset>
 
 </form>
-
-

@@ -2,7 +2,7 @@
 
 class Scaffold {
 
-	public $folder = '_scaffold/';
+	public $folder;
 
 	public $defaults = array(
 		'form/start'=>array('','id'),
@@ -11,6 +11,10 @@ class Scaffold {
 		'table/action/activate'=>array('','','Activate|Deactivate'),
 		'table/body/enum'=>array('','','activate','icon-circle-blank|icon-ok-circle'),
 	);
+	
+	public function __construct($folder=null) {
+		$this->folder = ($folder) ? $folder : '_scaffold/';	
+	}
 	
 	public function __call($name, $arguments) {
 		$return = false;
