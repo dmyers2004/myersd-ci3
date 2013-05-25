@@ -1,11 +1,22 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-function append_data($variable,$value) {
-	get_instance()->load->vars(array($variable=>get_instance()->load->get_var($variable).$value));
-}
+/**
+ * add data to the view from any where with 3 modes
+ * replace (default)
+ * append
+ * prepend
+ */
+function data($name,$value,$where='replace') {
+	switch ($where) {
+		case 'prepend':
+			$value = $value.get_instance()->load->_ci_cached_vars[$name];
+		break;
+		case 'append':
+			$value = get_instance()->load->_ci_cached_vars[$name].$value;
+		break;
+	}
 
-function insert_data($variable,$value) {
-	get_instance()->load->vars(array($variable=>$value));
+	get_instance()->load->_ci_cached_vars[$name] = $value;
 }
 
 function after($tag,$searchthis) {

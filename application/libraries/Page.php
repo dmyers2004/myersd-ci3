@@ -32,6 +32,8 @@ class Page
 		/* can only be one */
 		$this->settings['template'] = ($this->config[$name]['template']) ? $this->config[$name]['template'] : $this->settings['template'];
 		$this->settings['body_class'] = ($this->config[$name]['body_class']) ? $this->config[$name]['body_class'] : $this->settings['body_class'];
+		
+		return $this;
 	}
 
   public function css($href='',$append=array(),$first=false)
@@ -71,7 +73,7 @@ class Page
   /* append onto current title */
   public function title($title=null)
   {
-		$this->settings['title'] = ($title) ? $this->settings['title_separator'].$title : '';
+		$this->settings['title'] = ($title) ? $this->settings['title'].$this->settings['title_separator'].$title : $this->settings['title'];
 
     $this->CI->load->_ci_cached_vars[$this->config['variables']['title']] = $this->settings['title'];
 
@@ -88,14 +90,19 @@ class Page
 	/* load a template (always returned) optional load into view variable */
 	public function partial($view,$data=array(),$name=null)
 	{
+		/* build everything */
 		$this->prep();
 		
+		/* always return */
 		$temp = $this->view($view,$data,true);
 		
+		/* if name is provided then place directly into the view variable */
 		if ($name) {
 			$this->CI->load->_ci_cached_vars[$name] = $temp;
+			return $this; /* allow chaining */
 		}
 		
+		/* return the partial */
 		return $temp;
 	}
 
@@ -104,15 +111,20 @@ class Page
   {
 		$this->prep();
 
+		$this->CI->load->_ci_cached_vars[$this->config['variables']['container']] = $this->CI->load->view($view,null,true);
+		$template = ($layout) ? $layout : $this->settings['template'];
+
     /* final output */
-    $this->CI->load->view((($layout) ? $layout : $this->settings['template']), array($this->config['variables']['container']=>$this->CI->load->view($view,array(),true)), false);
+    $this->CI->load->view($template, array(), false);
+    
+		return $this;    
 	}
 
 	private function add($which,$what,$where='after') {
 		$md5 = md5($what);
-		
+
 		if ($where == 'after') {
-    	$this->$which[$md5] = $what;
+    	$this->{$which}[$md5] = $what;
 		} else {
 			/* unset where every it is now */
 			unset($this->$which[$md5]);
@@ -121,7 +133,9 @@ class Page
 			$this->$which = $this->$which[$md5] + array($md5=>$this->$what);
 		}
 
-		$this->CI->_ci_cached_vars[$this->config['variables'][$which]] = implode(chr(10),$this->$which);
+		$this->CI->load->_ci_cached_vars[$this->config['variables'][$which]] = implode(chr(10),$this->$which);
+
+		return $this;		
 	}
 
 	private function prep()
@@ -139,15 +153,12 @@ class Page
     	$this->meta($meta);
     }
 
-		foreach ($this->settings as $key => $value) {
+		foreach ($this->settings['data'] as $key => $value) {
 			$this->CI->load->_ci_cached_vars[$key] = $value;
 		}
-
 		/* can only be one */
-		$this->CI->_ci_cached_vars[$this->config['variables']['title']] = $this->settings['title'];
-		$this->CI->_ci_cached_vars[$this->config['variables']['body_class']] = $this->settings['body_class'];
-		
-		print_r($this->CI->_ci_cached_vars);
+		$this->CI->load->_ci_cached_vars[$this->config['variables']['title']] = $this->settings['title'];
+		$this->CI->load->_ci_cached_vars[$this->config['variables']['body_class']] = $this->settings['body_class'];
 	}
 
   private function _ary2attr($array)
@@ -165,9 +176,9 @@ class Page
     if (substr($input,0,4) == 'http') {
       return $input;
     } elseif ($input{0} == '/') {
-      return base_url().$this->folder.$input;
+			return $input;
     } else {
-      return base_url().$input;
+      return $this->config['assets'].$input;
     }
   }
 

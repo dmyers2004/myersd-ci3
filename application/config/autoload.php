@@ -79,7 +79,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'email', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('data','database','auth');
+$autoload['libraries'] = array('database','auth');
 
 
 /*

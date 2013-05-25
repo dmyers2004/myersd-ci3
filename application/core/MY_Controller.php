@@ -10,6 +10,11 @@ require 'MY_AdminController.php';
 
 class MY_Controller extends CI_Controller
 {
+	public $libraries = array();
+	public $helpers = array();
+	public $models = array();
+	public $data = array();
+
 	public $controller_model = null;
 
 	public function __construct() {
@@ -18,12 +23,16 @@ class MY_Controller extends CI_Controller
 		if ($this->config->item('site_open') === FALSE) {
 			show_error('Sorry the site is shut for now.');
 		}
+
+		$this->load->model($this->models);
+		$this->load->helpers($this->helpers);
+		$this->load->library($this->libraries);
 	}
 	
-	/* chain-able wrapper for adding data */
-	public function data($name,$value) {
-		$this->data[$name] = $value;
+	/* make chain-able data */
+	public function data($name,$value,$where='replace') {
+		data($name,$value,$where);
 		return $this;	
 	}
-
+	
 } /* end MY_Controller */

@@ -36,7 +36,7 @@ class MY_Router extends CI_Router
 					$val = preg_replace('#^'.$key.'$#', $val, $uri);
 				}
 
-				/* start my custom code */
+				/* --- start my custom code --- */
 		 		$request = ucfirst(strtolower($_SERVER['REQUEST_METHOD']));
 				$request = ($request == 'Get') ? '' : $request;
 
@@ -45,7 +45,7 @@ class MY_Router extends CI_Router
 				}
 
 		    $val = str_replace('Action',$request.'Action',$val);
-				/* end my custom code */
+				/* --- end my custom code --- */
 
 				return $this->_set_request(explode('/', $val));
 			}
