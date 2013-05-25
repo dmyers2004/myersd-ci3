@@ -19,10 +19,10 @@ class Page
 
     $this->CI->load->config('page',TRUE);
     $this->config = $this->CI->config->item('page');
-		
+
 		/* set the title */
 		$this->setVar($this->config['variables']['title'],$this->config['application']['title']);
-		
+
 		/* load in our defaults */
 		$this->load('default');
   }
@@ -139,7 +139,7 @@ class Page
 		$template = ($layout) ? $layout : $this->template;
 
     /* final output */
-    $this->CI->load->view($template, null, false);
+    $this->CI->load->view($template,null,false);
 
 		return $this;
 	}
@@ -148,15 +148,15 @@ class Page
 	public function add($which,$what,$where='after')
 	{
 		$var = $this->getDefault($this->config['variables'][$which],$which);
-		
+
 		switch ($where) {
 			case 'before':
 				/* remove it if it's already there */
 				$content = str_replace($what,'',$this->getVar($var));
-				$this->setVar($var,$what.$content);			
+				$this->setVar($var,$what.$content);
 			break;
 			case 'overwrite':
-				$this->setVar($var,$what);			
+				$this->setVar($var,$what);
 			break;
 			default: /* append */
 				/* remove it if it's already there */
@@ -188,7 +188,7 @@ class Page
     }
   }
 
-  /* standard libs  getVar, setVar, setDefault */
+  /* standard libs  getVar, setVar, getDefaultArray, getDefault */
   private function getVar($name)
   {
 		return $this->CI->load->_ci_cached_vars[$name];
@@ -200,15 +200,12 @@ class Page
 		return $this;
   }
 
-	private function getDefaultArray($array,$key,$default)
-	{
+	private function getDefaultArray($array,$key,$default) {
 		return ($array[$key]) ? $array[$key] : $default;
 	}
 
-	private function getDefault($input,$default)
-	{
+	private function getDefault($input,$default) {
 		return ($input) ? $input : $default;
 	}
-
 
 } /* end class */

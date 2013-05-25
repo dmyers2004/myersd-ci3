@@ -60,7 +60,7 @@ $config['admin']['css'] = array(
 	'admin/css/admin.css',
 	'css/site.css',
 	'chosen/chosen.css',
-	'table-fixed-header/table-fixed-header.css'		
+	'table-fixed-header/table-fixed-header.css'
 );
 $config['admin']['js'] = array(
 	'chosen/chosen.jquery.min.js',
