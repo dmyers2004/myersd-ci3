@@ -15,69 +15,63 @@
  * body_class - class added to <body> element overwritten
  */
 
-$menu = get_instance()->menubar->get_active();
-$roles = get_instance()->auth->get_user_roles();
-
 /* where are the assets by default */
 $config['assets'] = '/assets/';
 
 /* what view variable to attach the page partials to */
-$config['variables'] = array(
-	'js' => 'page_js',
-	'css' => 'page_css',
-	'meta' => 'page_meta',
-	'title' => 'meta_title',
-	'body_class' => 'page_body_class',
-	'container' => 'container'
-);
+$config['variables']['js'] = 'page_js';
+$config['variables']['css'] = 'page_css';
+$config['variables']['meta'] = 'page_meta';
+$config['variables']['title'] = 'meta_title';
+$config['variables']['body_class'] = 'page_body_class';
+$config['variables']['container'] = 'container';
+
+$menu = get_instance()->menubar->get_active();
+$roles = get_instance()->auth->get_user_roles();
 
 /* default set */
-$config['default'] = array(
-	'js' => array(),
-	'css' => array(),
-	'meta' => array(),
-	'data' => array(
-		'logged_in' => get_instance()->auth->is_logged_in(),
-		'navigation_menu' => get_instance()->menubar->render($roles,$menu)
-	),
-	'template' => '_templates/default',
-	'title' => 'Apple 64',
-	'title_separator' => ' - ',
-	'body_class' => 'default'
+$config['default']['js'] = array();
+$config['default']['css'] = array();
+$config['default']['meta'] = array();
+$config['default']['data'] = array(
+	'logged_in' 			=> get_instance()->auth->is_logged_in(),
+	'navigation_menu' => get_instance()->menubar->render($roles,$menu)
 );
+$config['default']['template'] = '_templates/default';
+$config['default']['title'] = 'Apple 64';
+$config['default']['title_separator'] = ' - ';
+$config['default']['body_class'] = 'default';
+
 
 /* public group */
-$config['public'] = array(
-	'css' => array(
-		'css/site.css',
-    'css/style.css'
-	),
-	'js' => array(
-		'js/onready.js'
-	),
-	'body_class' => 'public'
+$config['public']['css'] = array(
+	'css/site.css',
+	'css/style.css'
 );
+$config['public']['js'] = array(
+	'js/onready.js'
+);
+$config['public']['body_class'] = 'public';
+
 
 /* admin group */
-$config['admin'] = array(
-	'css' => array(
-		'admin/css/admin.css',
-		'css/site.css',
-		'chosen/chosen.css',
-		'table-fixed-header/table-fixed-header.css'		
-	),
-	'js' => array(
-		'chosen/chosen.jquery.min.js',
-		'table-fixed-header/table-fixed-header.js',
-		'admin/js/jquery.ajax.form.js',
-		'admin/js/jquery.ajax.link.js',
-		'admin/js/jquery.combobox.js',
-		'admin/js/jquery.filter_input.js',
-		'admin/js/admin_onready.js'
-	),
-	'body_class' => 'admin',
-	'template' => 'admin/_templates/default'
+$config['admin']['css'] = array(
+	'admin/css/admin.css',
+	'css/site.css',
+	'chosen/chosen.css',
+	'table-fixed-header/table-fixed-header.css'		
 );
+$config['admin']['js'] = array(
+	'chosen/chosen.jquery.min.js',
+	'table-fixed-header/table-fixed-header.js',
+	'admin/js/jquery.ajax.form.js',
+	'admin/js/jquery.ajax.link.js',
+	'admin/js/jquery.combobox.js',
+	'admin/js/jquery.filter_input.js',
+	'admin/js/admin_onready.js'
+);
+$config['admin']['body_class'] = 'admin';
+$config['admin']['template'] = 'admin/_templates/default';
 
 /* additional groups below */
 

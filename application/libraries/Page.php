@@ -120,17 +120,19 @@ class Page
 		return $this;    
 	}
 
-	private function add($which,$what,$where='after') {
+	/* Add to css, js, meta before or after what already in there */
+	public function add($which,$what,$where='after') {
 		$md5 = md5($what);
 
 		if ($where == 'after') {
+			/* append to array */
     	$this->{$which}[$md5] = $what;
 		} else {
-			/* unset where every it is now */
-			unset($this->$which[$md5]);
+			/* unset if it's there now */
+			unset($this->{$which}[$md5]);
 			
 			/* append to front */
-			$this->$which = $this->$which[$md5] + array($md5=>$this->$what);
+			$this->{$which} = $this->{$which}[$md5] + array($md5 => $this->$what);
 		}
 
 		$this->CI->load->_ci_cached_vars[$this->config['variables'][$which]] = implode(chr(10),$this->$which);
