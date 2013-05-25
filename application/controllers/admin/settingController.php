@@ -11,7 +11,7 @@ class settingController extends MY_AdminController {
 	
 	public function indexAction() {
 		$this->data('records',$this->controller_model->order_by('option_group')->get_all())
-			->load->template($this->controller_path.'index');
+			->page->build($this->controller_path.'index');
 	}
 
 	public function newAction() {
@@ -19,7 +19,7 @@ class settingController extends MY_AdminController {
 			->data('action',$this->controller_path.'new')
 			->data('record',(object)array('option_id'=>-1,'active'=>1))
 			->data('option_group',$this->controller_model->dropdown('option_group','option_group'))
-			->load->template($this->controller_path.'form');
+			->page->build($this->controller_path.'form');
 	}
 
 	public function newValidatePostAction() {
@@ -45,7 +45,7 @@ class settingController extends MY_AdminController {
 			->data('action',$this->controller_path.'edit')
 			->data('record',$this->controller_model->get($id))
 			->data('option_group',$this->controller_model->dropdown('option_group','option_group'))
-			->load->template($this->controller_path.'form');
+			->page->build($this->controller_path.'form');
 	}
 
 	public function editValidatePostAction() {

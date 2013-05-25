@@ -11,7 +11,7 @@ class accessController extends MY_AdminController {
 
 	public function indexAction() {
 		$this->data('records',$this->controller_model->get_all())
-			->load->template($this->controller_path.'index');
+			->page->build($this->controller_path.'index');
 	}
 	
 	public function newAction() {
@@ -19,7 +19,7 @@ class accessController extends MY_AdminController {
 			->data('action',$this->controller_path.'new')
 			->data('record',(object)array('id'=>-1,'active'=>1))
 
-			->load->template($this->controller_path.'form');
+			->page->build($this->controller_path.'form');
 	}
 
 	public function newValidatePostAction() {
@@ -44,7 +44,7 @@ class accessController extends MY_AdminController {
 			->data('action',$this->controller_path.'edit')
 			->data('record',$this->controller_model->get($id))
 			
-			->load->template($this->controller_path.'form');
+			->page->build($this->controller_path.'form');
 	}
 	
 	public function editValidatePostAction() {

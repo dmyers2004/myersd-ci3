@@ -40,7 +40,7 @@ $menu[] = array('id'=>13,'resource'=>'/windows/b','url'=>'/windows/b','text'=>'W
 $menu[] = array('id'=>14,'resource'=>'/windows/c','url'=>'/windows/c','text'=>'Window C','parent_id'=>11);
 $menu[] = array('id'=>15,'resource'=>'/windows/d','url'=>'/windows/d','text'=>'Window D','parent_id'=>11);
 
-*/
+*/ 
 class menubar {
 
 	protected $filtered = array(); /*	 filtered menu array */

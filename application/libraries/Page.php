@@ -1,22 +1,20 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-/*
-  $this->template->link(href/array,array); - CSS
-  $this->template->script(file/array,array); - SCRIPT
-  $this->template->meta(name/array,content,array); - Meta Tags
-  $this->template->extra(string) ; - anything else
-*/
 class Page
 {
   private $CI;
 
+	public $settings = array();
+
   public $js = array();
   public $css = array();
   public $meta = array();
-  public $extra = array();
+
+	public $default_css = array('rel'=>'stylesheet','type'=>'text/css','href'=>'');
+	public $default_js = array('src'=>'');
+	public $default_meta = array('name'=>'','content'=>'');
+
   public $config = array();
-  public $template = 'default';
-  public $body_id = '';
 
   public function __construct()
   {
@@ -24,109 +22,133 @@ class Page
 
     $this->CI->load->config('page',TRUE);
     $this->config = $this->CI->config->item('page');
-
-    $this->title();
-    $this->template();
-
-    /* run the autoloaders */
-    foreach ($this->config['autoload.css'] as $css) $this->link($css);
-    foreach ($this->config['autoload.js'] as $js) $this->script($js);
-    foreach ($this->config['autoload.meta'] as $meta) $this->meta($meta);
+		
+		$this->settings = $this->config['default'];
   }
 
-  public function css($href='',$append=array())
+	public function load($name) {
+		$this->settings = array_merge_recursive($this->settings,$this->config[$name]);
+		
+		/* can only be one */
+		$this->settings['template'] = ($this->config[$name]['template']) ? $this->config[$name]['template'] : $this->settings['template'];
+		$this->settings['body_class'] = ($this->config[$name]['body_class']) ? $this->config[$name]['body_class'] : $this->settings['body_class'];
+	}
+
+  public function css($href='',$append=array(),$first=false)
   {
     return $this->link($href,$append);
   }
   
-  public function link($href='',$append=array())
+  public function link($href='',$append=array(),$after='after')
   {
-    $merged = (is_array($href)) ? $href : array_merge($this->config['default.css'],array('href'=>$this->_prefix($href,$this->config['css.folder'])),$append);
-    $this->css[md5(serialize($merged))] = '<link '.$this->_ary2attr($merged).' />';
-    $this->CI->data->page_css = implode(chr(10),$this->css);
+    $merged = (is_array($href)) ? $href : array_merge($this->default_css,array('href'=>$this->_prefix($href)),$append);
+    $this->add('css','<link '.$this->_ary2attr($merged).' />',$after);
 
     return $this;
   }
 
-  public function js($file='',$append=array())
+  public function js($file='',$append=array(),$first=false)
   {
     return $this->script($file,$append);
   }
   
-  public function script($file='',$append=array())
+  public function script($file='',$append=array(),$after='after')
   {
-    $merged = (is_array($file)) ? $file : array_merge($this->config['default.js'],array('src'=>$this->_prefix($file,$this->config['js.folder'])),$append);
-    $this->js[md5(serialize($merged))] = '<script '.$this->_ary2attr($merged).'></script>';
-    $this->CI->data->page_js = implode(chr(10),$this->js);
+    $merged = (is_array($file)) ? $file : array_merge($this->default_js,array('src'=>$this->_prefix($file)),$append);
+    $this->add('js','<script '.$this->_ary2attr($merged).'></script>',$after);
 
     return $this;
   }
 
-  public function meta($name='',$content='',$append=array())
+  public function meta($name='',$content='',$append=array(),$after='after')
   {
-    $merged = (is_array($name)) ? $name : array_merge($this->config['default.meta'],array('name'=>$name,'content'=>$content),$append);
-    $this->meta[md5(serialize($merged))] = '<meta '.$this->_ary2attr($merged).'>';
-    $this->CI->data->page_meta = implode(chr(10),$this->meta);
+    $merged = (is_array($name)) ? $name : array_merge($this->default_meta,array('name'=>$name,'content'=>$content),$append);
+    $this->add('js','<meta '.$this->_ary2attr($merged).'>',$after);
 
     return $this;
   }
 
-  public function extra($extra='')
-  {
-    $this->extra[md5(serialize($extra))] = $extra;
-    $this->CI->data->page_extra = implode(chr(10),$this->extra);
-
-    return $this;
-  }
-
+  /* append onto current title */
   public function title($title=null)
   {
-    $this->CI->data->page_title = ($title) ? $title : $this->config['title'];
+		$this->settings['title'] = ($title) ? $this->settings['title_separator'].$title : '';
+
+    $this->CI->load->_ci_cached_vars[$this->config['variables']['title']] = $this->settings['title'];
 
     return $this;
   }
 
+  /* change the template */
   public function template($name=null)
   {
-    $this->template = ($name) ? $name : $this->config['default.template'];
-
+    $this->settings['template'] = $name;
     return $this;
   }
 
-  public function body($view,$name=null)
+	/* load a template (always returned) optional load into view variable */
+	public function partial($view,$data=array(),$name=null)
+	{
+		$this->prep();
+		
+		$temp = $this->view($view,$data,true);
+		
+		if ($name) {
+			$this->CI->load->_ci_cached_vars[$name] = $temp;
+		}
+		
+		return $temp;
+	}
+
+	/* final output */
+  public function build($view,$layout=null)
   {
-    if ($name === TRUE) return $this->CI->load->view('/'.$view, $this->CI->data, TRUE);
+		$this->prep();
+
+    /* final output */
+    $this->CI->load->view((($layout) ? $layout : $this->settings['template']), array($this->config['variables']['container']=>$this->CI->load->view($view,array(),true)), false);
+	}
+
+	private function add($which,$what,$where='after') {
+		$md5 = md5($what);
+		
+		if ($where == 'after') {
+    	$this->$which[$md5] = $what;
+		} else {
+			/* unset where every it is now */
+			unset($this->$which[$md5]);
+			
+			/* append to front */
+			$this->$which = $this->$which[$md5] + array($md5=>$this->$what);
+		}
+
+		$this->CI->_ci_cached_vars[$this->config['variables'][$which]] = implode(chr(10),$this->$which);
+	}
+
+	private function prep()
+	{
+    /* run the autoloaders */
+    foreach ($this->settings['css'] as $css) {
+    	$this->link($css);
+    }
     
-    $name = ($name) ? $name : $this->config['body'];
-    $this->CI->data->$name = $this->CI->load->view('/'.$view, $this->CI->data, TRUE);
-
-    return $this;
-  }
-
-  public function partial($view,$name)
-  {
-    if ($name === TRUE) return $this->body($this->config['partials.folder'].'/'.$view,TRUE);
-
-    $this->body($this->config['partials.folder'].'/'.$view,$name);
-
-    return $this;
-  }
-
-  public function build()
-  {
-    $class = substr($this->CI->router->class,0,-11);
-    $method = $this->CI->router->method;
+    foreach ($this->settings['js'] as $js) {
+    	$this->script($js);
+    }
     
-    $this->CI->data->page_body_id = (empty($this->body_id)) ? $class.'_'.$method : $this->body_id;
-        
-    $name = $this->config['body'];
+    foreach ($this->settings['meta'] as $meta) {
+    	$this->meta($meta);
+    }
 
-    if (empty($this->CI->data->$name)) $this->body($class.'/'.$method);
+		foreach ($this->settings as $key => $value) {
+			$this->CI->load->_ci_cached_vars[$key] = $value;
+		}
 
-    $this->CI->load->view($this->config['templates.folder'].'/'.$this->template, NULL , FALSE);
-    
-    return $this;
-  }
+		/* can only be one */
+		$this->CI->_ci_cached_vars[$this->config['variables']['title']] = $this->settings['title'];
+		$this->CI->_ci_cached_vars[$this->config['variables']['body_class']] = $this->settings['body_class'];
+		
+		print_r($this->CI->_ci_cached_vars);
+	}
 
   private function _ary2attr($array)
   {
@@ -138,14 +160,14 @@ class Page
     return trim($output);
   }
 
-  private function _prefix($input,$asset)
+  private function _prefix($input)
   {
     if (substr($input,0,4) == 'http') {
       return $input;
     } elseif ($input{0} == '/') {
       return base_url().$this->folder.$input;
     } else {
-      return base_url().$asset.$input;
+      return base_url().$input;
     }
   }
 

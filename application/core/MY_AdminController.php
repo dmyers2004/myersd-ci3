@@ -1,17 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * Admin controllers are accessible by anyone who is logged in
- * and extend public which load a lot of extra helpers and libs
+ * AdminController is accessible by anyone who is logged in
+ * and extends PublicController which has the abilities to autoload
+ * helpers, libraries, models
  * 
  */
 
 class MY_AdminController extends MY_PublicController
 {
-	public $layout = 'admin/_templates/default';
-	
-	public $window_title_sub = 'Admin';
-	public $controller_model = null;
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -28,6 +24,8 @@ class MY_AdminController extends MY_PublicController
 			$this->load->model($model_name);
 			$this->controller_model = $this->$model_name;
 		}
+
+		$this->page->load('admin');
 
 		$this->load->library('Scaffold');
 		

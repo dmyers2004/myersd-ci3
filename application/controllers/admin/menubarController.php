@@ -12,7 +12,7 @@ class menubarController extends MY_AdminController {
 	public function indexAction() {
 		$this->data('records',$this->controller_model->order_by('parent_id,sort')->get_all())
 			->data('parent_options',array(0=>'<i class="icon-upload"></i>') + $this->controller_model->dropdown('id','text'))
-			->load->template($this->controller_path.'index');
+			->page->build($this->controller_path.'index');
 	}
 
 	public function newAction() {
@@ -20,7 +20,7 @@ class menubarController extends MY_AdminController {
 			->data('action',$this->controller_path.'new')
 			->data('record',(object)array('option_id'=>-1,'active'=>1))
 			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents())
-			->load->template($this->controller_path.'form');
+			->page->build($this->controller_path.'form');
 	}
 
 	public function newValidatePostAction() {
@@ -46,7 +46,7 @@ class menubarController extends MY_AdminController {
 			->data('action',$this->controller_path.'edit')
 			->data('record',$this->controller_model->get($id))
 			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents())
-			->load->template($this->controller_path.'form');
+			->page->build($this->controller_path.'form');
 	}
 
 	public function editValidatePostAction() {

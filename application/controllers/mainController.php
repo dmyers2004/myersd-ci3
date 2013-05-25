@@ -3,7 +3,7 @@
 class mainController extends MY_PublicController {
 
 	public function indexAction() {
-		$this->load->template('main/index');
+		$this->page->build('main/index');
 	}
 
 	public function createAdminAction() {
@@ -11,7 +11,7 @@ class mainController extends MY_PublicController {
 	}
 	
 	public function viewAction() {
-		$this->load->view('tank-auth/login_form');
+		$this->page->build('tank-auth/login_form');
 	}
 	
 	public function testAction() {

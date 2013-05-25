@@ -11,7 +11,7 @@ class groupController extends MY_AdminController {
 
 	public function indexAction() {
 		$this->data('records',$this->controller_model->get_all())
-			->load->template($this->controller_path.'index');
+			->page->build($this->controller_path.'index');
 	}
 	
 	public function newAction() {
@@ -20,7 +20,7 @@ class groupController extends MY_AdminController {
 			->data('record',(object)array('id'=>-1))
 			->data('my_access',array())
 			->data('all_access',$this->format_privileges($this->access_model->get_all()))
-			->load->template($this->controller_path.'form');
+			->page->build($this->controller_path.'form');
 	}
 
 	public function newValidatePostAction() {
@@ -53,7 +53,7 @@ class groupController extends MY_AdminController {
 		}
 		
 		$this->data('my_access',(array)$access)
-			->load->template($this->controller_path.'form');
+			->page->build($this->controller_path.'form');
 	}
 	
 	public function editValidatePostAction() {

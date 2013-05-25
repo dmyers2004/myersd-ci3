@@ -8,17 +8,6 @@
 
 class MY_PublicController extends MY_Controller
 {
-	
-	public $layout = '_templates/default';
-
-	public $window_title = 'Shelly';
-	public $window_title_sep = ' - ';
-	public $window_title_sub = null; /* Append to window_title */
-	
-	public $page_brand = 'Shell';
-
-	public $data = array(); /* controller view storage */
-
 	public $libraries = array();
 	public $helpers = array();
 	public $models = array();
@@ -31,19 +20,20 @@ class MY_PublicController extends MY_Controller
 			$this->db->save_queries = FALSE;
 		}
 		
-		$this->_load_models();
+		/* autoload the models */
+		foreach ($this->models as $model) {
+			$this->load->model(str_replace('%', $model, $this->model_string), $model);
+		}
 
+		/* autoload helpers */
 		$this->load->helpers('language');
 		$this->load->helpers($this->helpers);
 		
-		$this->load->library(array('events','settings','flash_msg','form_validation','menubar'));
+		/* autoload libraries */
+		$this->load->library(array('page','events','settings','flash_msg','form_validation','menubar'));
 		$this->load->library($this->libraries);
 
-		$this->load->vars(array('body_class'=>strtolower(str_replace('/',' ',uri_string()))));
-		$this->load->vars(array('logged_in'=>$this->auth->is_logged_in()));
-		$this->load->vars(array('window_title'=>$this->window_title.(($this->window_title_sub) ? $this->window_title_sep.$this->window_title_sub : '')));
-		$this->load->vars(array('page_brand'=>$this->page_brand));
-
+		/* autoload the menubar */
 		$menu = $this->menubar->get_active();
 		$roles = $this->auth->get_user_roles();
 
@@ -55,20 +45,11 @@ class MY_PublicController extends MY_Controller
 		}
 		*/
 		
-		$this->load->vars(array('navigation_menu'=>$this->menubar->render($roles,$menu)));
-
-		$this->load->page_base_layout = $this->layout;
-	}
-
-	private function _load_models() {
-		foreach ($this->models as $model) {
-			$this->load->model(str_replace('%', $model, $this->model_string), $model);
-		}
-	}
-	
-	public function data($variable,$value) {
-		$this->load->vars(array($variable=>$value));
-		return $this;
+		/* load our menu partial */
+		$this->data('navigation_menu',$this->menubar->render($roles,$menu));
+		
+		/* set a logged in variable */
+		$this->data('logged_in',$this->auth->is_logged_in());
 	}
 
 } /* end MY_PublicController */

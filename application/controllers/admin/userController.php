@@ -13,7 +13,7 @@ class userController extends MY_AdminController {
 	public function indexAction() {
 		$this->data('records',$this->auth->get_users())
 			->data('group_options',$this->get_groups())
-			->load->template($this->controller_path.'index');
+			->page->build($this->controller_path.'index');
 	}
 	
 	/* create new form */
@@ -22,7 +22,7 @@ class userController extends MY_AdminController {
 			->data('action',$this->controller_path.'new')
 			->data('record',(object)array('activated'=>1,'id'=>-1))
 			->data('group_options',$this->get_groups())
-			->load->template($this->controller_path.'form');
+			->page->build($this->controller_path.'form');
 	}
 
 	/* create new form validation */
@@ -54,7 +54,7 @@ class userController extends MY_AdminController {
 			->data('action',$this->controller_path.'edit')
 			->data('record',$this->controller_model->get_user($id))
 			->data('group_options',$this->get_groups())
-			->load->template($this->controller_path.'form');
+			->page->build($this->controller_path.'form');
 	}
 
 	/* edit form validate */

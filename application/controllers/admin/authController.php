@@ -5,7 +5,7 @@ class authController extends MY_PublicController {
 	public $controller_path = '/admin/auth/';	
 
 	public function indexAction() {
-		$this->load->template($this->controller_path.'index');
+		$this->page->build($this->controller_path.'index');
 	}
 
 	public function loginValidatePostAction() {

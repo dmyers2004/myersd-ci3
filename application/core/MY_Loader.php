@@ -2,6 +2,8 @@
 
 class MY_Loader extends CI_Loader
 {
+	public $_ci_cached_vars = array();
+	
 	public function settings($group=null)
 	{
 		$settings = array();
@@ -26,18 +28,6 @@ class MY_Loader extends CI_Loader
 		}
 
 		return $settings;
-	}
-
-  public function template($view,$layout=null)
-  {
-    $layout = ($layout) ? $layout : $this->page_base_layout;
-
-    /* final output */
-    $this->view($layout, array('container'=>$this->view($view,$data,true)), false);
-	}
-	
-	public function partial($view,$data=array()) {
-		return $this->view($view,$data,true);
 	}
 
 	public function json($data=array())

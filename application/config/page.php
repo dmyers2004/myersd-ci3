@@ -1,23 +1,46 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$config['folder'] = 'assets/';
-$config['css.folder'] = 'assets/css/';
-$config['js.folder'] = 'assets/js/';
+/**
+ * Options include
+ *
+ * js - (Javascript) Array() merged
+ * css - (Cascading Style Sheet) Array() merged
+ * meta - (Meta Tags) Array() merged
+ *
+ * template - template file - path based of view folder String overwritten
+ * title - base template name String overwritten
+ * title_separator - when additional titles are added add this between them String overwritten
+ * data - key value pairs of data to add to the view $data array Array() merged
+ *
+ */
 
-$config['default.css'] = array('rel'=>'stylesheet','type'=>'text/css','href'=>'');
-$config['default.js'] = array('src'=>'');
-$config['default.meta'] = array('name'=>'','content'=>'');
+$config['variables'] = array(
+	'js' => 'page_js',
+	'css' => 'page_css',
+	'meta' => 'page_meta',
+	'title' => 'meta_title',
+	'body_class' => 'page_body_class',
+	'container' => 'container'
+);
 
-$config['autoload.css'] = array();
-$config['autoload.js'] = array();
-$config['autoload.meta'] = array();
+$config['default'] = array(
+	'js' 									=> array(),
+	'css'									=> array(),
+	'meta'								=> array(),
+	'template'						=> '_templates/default',
+	'title'								=> 'Apple 64',
+	'title_separator'			=> '-',
+	'body_class'					=> 'default',
+	'data'								=> array(
+		'foo'			=> 		'bar'
+	)
+);
 
-$config['default.template'] = 'default';
+$config['public'] = array(
+	'body_class' => 'public'
+);
 
-$config['template.folder'] = 'templates';
-
-$config['title'] = 'Apple 64';
-$config['title.splitter'] = ' - ';
-
-$config['title.sub'] = '';
-$config['body'] = '';
+$config['admin'] = array(
+	'body_class' => 'admin',
+	'template' => 'admin/_templates/default'
+);
