@@ -1,7 +1,7 @@
     <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-responsive.min.css">
     <link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.min.css">
-    <?=$page_css ?>
+    <?=$page_header ?>
 	  <script src="/assets/js/modernizr-2.6.2.min.js"></script>
 	</head>
 	<body class="<?=$page_body_class ?>">

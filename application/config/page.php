@@ -19,12 +19,14 @@
 $config['assets'] = '/assets/';
 
 /* what view variable to attach the page partials to */
-$config['variables']['js'] = 'page_js';
-$config['variables']['css'] = 'page_css';
-$config['variables']['meta'] = 'page_meta';
+$config['variables']['header'] = 'page_header';
 $config['variables']['title'] = 'meta_title';
-$config['variables']['body_class'] = 'page_body_class';
 $config['variables']['container'] = 'container';
+$config['variables']['footer'] = 'page_footer';
+
+$config['application']['title'] = 'Apple 64';
+$config['application']['title_separator'] = ' - ';
+
 
 $menu = get_instance()->menubar->get_active();
 $roles = get_instance()->auth->get_user_roles();
@@ -34,14 +36,12 @@ $config['default']['js'] = array();
 $config['default']['css'] = array();
 $config['default']['meta'] = array();
 $config['default']['data'] = array(
+	'foo'							=> 'bar',
 	'logged_in' 			=> get_instance()->auth->is_logged_in(),
-	'navigation_menu' => get_instance()->menubar->render($roles,$menu)
+	'navigation_menu' => get_instance()->menubar->render($roles,$menu),
+	'page_body_class'			=> 'default'
 );
 $config['default']['template'] = '_templates/default';
-$config['default']['title'] = 'Apple 64';
-$config['default']['title_separator'] = ' - ';
-$config['default']['body_class'] = 'default';
-
 
 /* public group */
 $config['public']['css'] = array(
@@ -51,8 +51,9 @@ $config['public']['css'] = array(
 $config['public']['js'] = array(
 	'js/onready.js'
 );
-$config['public']['body_class'] = 'public';
-
+$config['public']['data'] = array(
+	'page_body_class'			=> 'public'
+);
 
 /* admin group */
 $config['admin']['css'] = array(
@@ -70,7 +71,9 @@ $config['admin']['js'] = array(
 	'admin/js/jquery.filter_input.js',
 	'admin/js/admin_onready.js'
 );
-$config['admin']['body_class'] = 'admin';
+$config['admin']['data'] = array(
+	'page_body_class'			=> 'admin'
+);
 $config['admin']['template'] = 'admin/_templates/default';
 
 /* additional groups below */

@@ -3,7 +3,7 @@
 		<script src="/assets/bootstrap/js/bootstrap.min.js"></script>		
 		<script src="/assets/js/plugins.js"></script>
 		<script src="/assets/js/site.js"></script>
-		<?=$page_js ?>
+		<?=$page_footer ?>
 		<?=$flash_msg ?>
 	</body>
 </html>
