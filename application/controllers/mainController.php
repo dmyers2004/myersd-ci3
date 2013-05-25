@@ -3,7 +3,7 @@
 class mainController extends MY_PublicController {
 
 	public function indexAction() {
-		$this->page->build('main/index');
+		$this->page->build();
 	}
 
 	public function createAdminAction() {

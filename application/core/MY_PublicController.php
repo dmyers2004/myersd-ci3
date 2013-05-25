@@ -9,6 +9,8 @@
 class MY_PublicController extends MY_Controller
 {
 	
+	public $view_folder;
+	
 	public function __construct() {
 		parent::__construct();
 

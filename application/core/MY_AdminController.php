@@ -8,6 +8,9 @@
 
 class MY_AdminController extends MY_PublicController
 {
+	
+	public $controller_model = null;
+	
 	public function __construct()
 	{
 		parent::__construct();
@@ -26,6 +29,7 @@ class MY_AdminController extends MY_PublicController
 		}
 
 		$this->page->load('admin')
+			->folder('admin')
 			->title('Admin');
 
 		$this->load->library('Scaffold');

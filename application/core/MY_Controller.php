@@ -15,8 +15,6 @@ class MY_Controller extends CI_Controller
 	public $models = array();
 	public $data = array();
 
-	public $controller_model = null;
-
 	public function __construct() {
 		parent::__construct();
 

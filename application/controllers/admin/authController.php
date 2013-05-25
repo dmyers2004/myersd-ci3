@@ -2,7 +2,7 @@
 
 class authController extends MY_PublicController {
 
-	public $controller_path = '/admin/auth/';	
+	public $controller_path = '/admin/auth/';
 
 	public function indexAction() {
 		$this->page->build($this->controller_path.'index');

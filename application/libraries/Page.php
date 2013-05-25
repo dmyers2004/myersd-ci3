@@ -7,7 +7,8 @@ class Page
   public $config = array(); /* all config */
   public $settings = array('js'=>array(),'css'=>array(),'meta'=>array(),'data'=>array()); /* array of current settings */
 
-	public $template; /* template to use */
+	public $template = ''; /* template to use */
+	public $folder = ''; /* base view folder for auto loaded views */
 
 	public $default_css = array('rel'=>'stylesheet','type'=>'text/css','href'=>'');
 	public $default_js = array('src'=>'');
@@ -132,9 +133,16 @@ class Page
 		return $partial;
 	}
 
+	public function folder($folder) {
+		$this->folder = $folder;
+		return $this;
+	}
+
 	/* final output */
-  public function build($view,$layout=null)
+  public function build($view=null,$layout=null)
   {
+		$view = ($view) ? $view : $this->folder.'/'.str_replace('Controller','',$this->CI->uri->rsegments[1]).'/'.str_replace('Action','',$this->CI->uri->rsegments[2]);
+
 		$this->setVar($this->config['variables']['container'],$this->CI->load->view($view,null,true));
 		$template = ($layout) ? $layout : $this->template;
 
