@@ -111,25 +111,12 @@ class Page
     return $this;
   }
 
-	/* load a template (always returned) optional load into view variable */
+	/* wrapper for loader partial */
 	public function partial($view,$data=array(),$name=null)
 	{
-		/* always return */
-		$partial = $this->view($view,$data,true);
-
-		/*
-		if name is provided then place directly into the view variable
-		and return to allow chaining
-		*/
-		if ($name) {
-			$this->setVar($name,$partial);
-			return $this;
-		}
-
-		/* return the partial */
-		return $partial;
+		return $this->load->partial($view,$data,$name);
 	}
-
+	
 	public function folder($folder)
 	{
 		$this->folder = $folder;
@@ -141,7 +128,7 @@ class Page
   {
 		$view = ($view) ? $view : $this->folder.'/'.str_replace('Controller','',$this->uri->rsegments[1]).'/'.str_replace('Action','',$this->uri->rsegments[2]);
 
-		$this->setVar($this->config['variables.container'],$this->load->view($view,null,true));
+		$this->setVar($this->config['variables.container'],$this->load->partial($view));
 		$template = ($layout) ? $layout : $this->template;
 
     /* final output */

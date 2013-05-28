@@ -35,6 +35,7 @@ class setting_model extends MY_Model
   {
   	unset($data['option_id']);
   	unset($this->validate);
+  	
   	return parent::insert($data, $skip_validation);
   }
 

@@ -77,3 +77,10 @@ function enum($input,$string)
 	$enum = explode('|',$string);
 	echo $enum[(int) $input];
 }
+
+function is_ajax_method() {
+	if (!get_instance()->input->is_ajax_request()) {
+		show_error('FAIL: Incorrect HTTP Method',404);
+		die();
+	}
+}

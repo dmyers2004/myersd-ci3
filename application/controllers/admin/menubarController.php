@@ -27,6 +27,7 @@ class menubarController extends MY_AdminController
 
 	public function newValidatePostAction()
 	{
+		is_ajax_method();
 		$this->load->json($this->controller_model->validate());
 	}
 
@@ -55,6 +56,7 @@ class menubarController extends MY_AdminController
 
 	public function editValidatePostAction()
 	{
+		is_ajax_method();
 		$this->load->json($this->controller_model->validate());
 	}
 
@@ -74,6 +76,7 @@ class menubarController extends MY_AdminController
 
 	public function deleteAction($id=null)
 	{
+		is_ajax_method();
 		$data['err'] = true;
 
 		/* can they delete? */
@@ -87,6 +90,8 @@ class menubarController extends MY_AdminController
 
 	public function sortAction($dir=null,$id=null)
 	{
+		is_ajax_method();
+
 		$data['href'] = '';
 		$data['notice'] = array('text'=>'Menubar Sort Error','type'=>'error','stay'=>true);
 
@@ -111,6 +116,8 @@ class menubarController extends MY_AdminController
 
 	public function activateAction($id=null,$mode=null)
 	{
+		is_ajax_method();
+
 		$data['err'] = true;
 
 		if ($this->controller_model->filter_id($id) && $this->controller_model->filter_mode($mode)) {
