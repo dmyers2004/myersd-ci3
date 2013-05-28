@@ -1,20 +1,31 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class mainController extends MY_PublicController {
-
-	public function indexAction() {
+class mainController extends MY_PublicController
+{
+	public function indexAction()
+	{
 		$this->page->build();
 	}
 
-	public function createAdminAction() {
+	public function createAdminAction()
+	{
 		//var_dump($this->auth->create_user('dmyers', 'admin@admin@.com', 'password', false));
 	}
-	
-	public function viewAction() {
+
+	public function viewAction()
+	{
 		$this->page->build('tank-auth/login_form');
 	}
-	
-	public function testAction() {
+
+	public function testconfigAction()
+	{
+		$configs = $this->load->settings('page');
+		echo '<pre>';
+		print_r($configs);
+	}
+
+	public function testAction()
+	{
 		$data['name'] = ' Don Myers ';
 		$data['age'] = ' 23 ';
 		$data['id'] = 123;
@@ -47,7 +58,6 @@ class mainController extends MY_PublicController {
 				'rules' => 'alpha',
 			)
 		);
-				
 
 		echo '<pre>';
 		echo 'Mapper'.chr(10);
@@ -56,20 +66,20 @@ class mainController extends MY_PublicController {
 
 		//  map($filter,&$output,&$input=null,$xss = true)
 		$x = $this->validate->map($rules,$output,$data);
-		
+
 		var_dump($output);
-		
+
 		var_dump($x);
 
 		echo 'filter'.chr(10);
 
 		$data = ' Don Myers ';
 		$filter = 'trim|strtolower|base64_encode';
-		
+
 		$isgood = $output = $this->validate->filter($filter,$data);
-		
+
 		var_dump($isgood);
 		var_dump($data);
 	}
-	
+
 }

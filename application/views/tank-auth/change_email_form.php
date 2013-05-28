@@ -26,4 +26,4 @@ $email = array(
 	</tr>
 </table>
 <?=form_submit('change', 'Send confirmation email'); ?>
-<?=form_close(); ?>
+<?=form_close();

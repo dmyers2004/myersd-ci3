@@ -5,7 +5,6 @@ To verify your email address, please follow this link:
 
 <?=site_url('/auth/activate/'.$user_id.'/'.$new_email_key); ?>
 
-
 Please verify your email within <?=$activation_period; ?> hours, otherwise your registration will become invalid and you will have to register again.
 <?php if (strlen($username) > 0) { ?>
 
@@ -17,8 +16,6 @@ Your email address: <?=$email; ?>
 
 Your password: <?=$password; ?>
 <?php */ } ?>
-
-
 
 Have fun!
 The <?=$site_name; ?> Team

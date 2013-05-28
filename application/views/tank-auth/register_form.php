@@ -97,4 +97,4 @@ $captcha = array(
 	} ?>
 </table>
 <?=form_submit('register', 'Register'); ?>
-<?=form_close(); ?>
+<?=form_close();

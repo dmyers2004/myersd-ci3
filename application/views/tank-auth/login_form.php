@@ -8,7 +8,7 @@ $login = array(
 );
 if ($login_by_username AND $login_by_email) {
 	$login_label = 'Email or login';
-} else if ($login_by_username) {
+} elseif ($login_by_username) {
 	$login_label = 'Login';
 } else {
 	$login_label = 'Email';
@@ -90,4 +90,4 @@ $captcha = array(
 	</tr>
 </table>
 <?=form_submit('submit', 'Let me in'); ?>
-<?=form_close(); ?>
+<?=form_close();

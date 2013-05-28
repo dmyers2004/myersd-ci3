@@ -9,7 +9,7 @@ CREATE TABLE `nav` (
   `parent_id` int(11) unsigned DEFAULT NULL,
   `sort` tinyint(2) unsigned DEFAULT NULL,
   `class` varchar(64) DEFAULT NULL,
-  `active` tinyint(1) DEFAULT NULL,  
+  `active` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )
 
@@ -40,26 +40,28 @@ $menu[] = array('id'=>13,'resource'=>'/windows/b','url'=>'/windows/b','text'=>'W
 $menu[] = array('id'=>14,'resource'=>'/windows/c','url'=>'/windows/c','text'=>'Window C','parent_id'=>11);
 $menu[] = array('id'=>15,'resource'=>'/windows/d','url'=>'/windows/d','text'=>'Window D','parent_id'=>11);
 
-*/ 
-class menubar {
-
+*/
+class Menubar
+{
 	protected $filtered = array(); /*	 filtered menu array */
-	
-	public function __construct() {
+
+	public function __construct()
+	{
 		$this->load->model('menubar_model');
 	}
 
-	public function render($privs = null,$menus = null) {
+	public function render($privs = null,$menus = null)
+	{
 		/* let's pad the select all below */
 		$p = array();
-		foreach ((array)$privs as $r) {
+		foreach ((array) $privs as $r) {
 			if (substr($r,-1) == '*') {
 				$p[] = $r . '/*/*/*/*';
 			} else {
 				$p[] = $r;
 			}
 		}
-	
+
 		// recurse menus for access fills $this->filtered
 		$this->generate_access_list($p,$menus);
 
@@ -69,8 +71,9 @@ class menubar {
 
 		return $this->build_tbs_menu($menu);
 	}
-	
-	protected function build_tbs_menu($menu) {
+
+	protected function build_tbs_menu($menu)
+	{
 		if (is_array($menu)) {
 			/* now generate the bootstrap menu */
 			$html = '';
@@ -101,8 +104,9 @@ class menubar {
 	 * @param Integer (default: 0) parent
 	 * @return void
 	 */
-	protected function generate_access_list($privs,$menu,$parent=0) {
-		foreach($menu as $key => $value) {
+	protected function generate_access_list($privs,$menu,$parent=0)
+	{
+		foreach ($menu as $key => $value) {
 			if ($value['parent_id'] == $parent) {
 				foreach ($privs as $priv) {
 					if ($this->checkuri($value['resource'],$priv)) {
@@ -122,7 +126,8 @@ class menubar {
 	 * @param String URI /file/open
 	 * @param String /file/* or /file/open
 	 */
-	protected function checkuri($uri,$priv) {
+	protected function checkuri($uri,$priv)
+	{
 		$uri = explode('/',trim($uri,'/'));
 		$priv = explode('/',trim($priv,'/'));
 
@@ -139,19 +144,17 @@ class menubar {
 	/* wrappers for the model pass thru */
 	public function __call($method, $arguments)
 	{
-		if (!method_exists( $this->menubar_model, $method) )
-		{
+		if (!method_exists( $this->menubar_model, $method) ) {
 			throw new Exception('Undefined method menubar::' . $method . '() called');
 		}
 
 		return call_user_func_array( array($this->menubar_model, $method), $arguments);
 	}
-	
+
 	/* wrapper for CI instance */
 	public function __get($var)
 	{
 		return get_instance()->$var;
-	}	
-
+	}
 
 } /* end menubar class */

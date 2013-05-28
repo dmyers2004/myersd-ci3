@@ -1,11 +1,12 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class MY_Form_validation extends CI_Form_validation {
-
+class MY_Form_validation extends CI_Form_validation
+{
 	/* test if it's 1 or 0 */
-	public function tf($str, $field) {
+	public function tf($str, $field)
+	{
 		$this->CI->form_validation->set_message('tf', 'The %s is invalid.');
-		return ((int)$str == 1 || (int)$str == 0) ? true : false;
+		return ((int) $str == 1 || (int) $str == 0) ? true : false;
 	}
 
 	/* exists */
@@ -51,61 +52,73 @@ class MY_Form_validation extends CI_Form_validation {
 		return ($row->dupe > 0) ? FALSE : TRUE;
 	}
 
-	public function acl($str, $field) {
+	public function acl($str, $field)
+	{
 		$this->CI->form_validation->set_message('acl', 'The %s is a invalid acl resource.');
 		return ( ! preg_match("/^((?:\/[a-z0-9]+(?:_[a-z0-9]+)*(?:\-[a-z0-9]+)*)+)$/", $str)) ? FALSE : TRUE;
 	}
 
-	public function url($str, $field) {
+	public function url($str, $field)
+	{
 		$this->CI->form_validation->set_message('url', 'The %s is a invalid url.');
 		return ( ! preg_match('/^([\.\/-a-z0-9_-])+$/i', $str)) ? FALSE : TRUE;
 	}
 
-	public function min_date($field, $date) {
+	public function min_date($field, $date)
+	{
 		$this->CI->form_validation->set_message('min_date', '%s Out of Range.');
 		return (strtotime($this->posted[$field]) < strtotime($date)) ? false : true;
 	}
-	
-	public function max_date($field, $date) {
+
+	public function max_date($field, $date)
+	{
 		$this->CI->form_validation->set_message('max_date', '%s Out of Range.');
 		return (strtotime($this->posted[$field]) > strtotime($date)) ? false : true;
 	}
 
-	public function valid_date($field) {
+	public function valid_date($field)
+	{
 		$this->CI->form_validation->set_message('valid_date', '%s Invalid.');
 		$date = date_parse($this->posted[$field]);
 		return checkdate($date['month'],$date['day'],$date['year']);
 	}
 
-	public function dollars($field) {
+	public function dollars($field)
+	{
 		$this->CI->form_validation->set_message('dollars', 'The %s Out of Range.');
 		return (!preg_match('#^\$?\d+(\.(\d{2}))?$#', $field)) ? false : true;
 	}
 
-	public function percent($field) {
+	public function percent($field)
+	{
 		$this->CI->form_validation->set_message('percent', 'The %s Out of Range.');
 		return (!preg_match('#^\s*(\d{0,2})(\.?(\d*))?\s*\%?$#', $field)) ? false : true;
 	}
-	public function zip($field) {
+	public function zip($field)
+	{
 		$this->CI->form_validation->set_message('zip', 'The %s is invalid.');
 		return (!preg_match('#^\d{5}$|^\d{5}-\d{4}$#', $field)) ? false : true;
 	}
-	public function phone($field) {
+	public function phone($field)
+	{
 		$this->CI->form_validation->set_message('phone', 'The %s is invalid.');
 		return (!preg_match('/^\(?([2-9]\d{2})\)?[\.\s-]?([2-4|6-9]\d\d|5([0-4-|6-9]\d|\d[0-4|6-9]))[\.\s-]?(\d{4})$/', $field)) ? false : true;
 	}
 
-	public function hexcolor($field) {
+	public function hexcolor($field)
+	{
 		$this->CI->form_validation->set_message('hexcolor', 'The %s is invalid.');
 		return (!preg_match('/(^[\w\.!#$%"*+\/=?`{}|~^-]+)@(([-\w]+\.)+[A-Za-z]{2,})$/', $field)) ? false : true;
 	}
 
-	public function md5($field) {
+	public function md5($field)
+	{
 		$this->CI->form_validation->set_message('md5', 'The %s is invalid.');
 		return (!preg_match('/^([a-zA-Z0-9]{32})$/', $field)) ? false : true;
 	}
 
-	public function base64($field) {
+	public function base64($field)
+	{
 		$this->CI->form_validation->set_message('base64', 'The %s is invalid.');
 		return (bool) ! preg_match('/[^a-zA-Z0-9\/\+=]/', $field);
 	}
@@ -142,8 +155,7 @@ class MY_Form_validation extends CI_Form_validation {
 	 */
 	public function matches_pattern($str, $pattern)
 	{
-		if (preg_match('/^' . $pattern . '$/', $str))
-		{
+		if (preg_match('/^' . $pattern . '$/', $str)) {
 			return TRUE;
 		}
 
@@ -167,8 +179,7 @@ class MY_Form_validation extends CI_Form_validation {
 	 */
 	public function allowed_types($str, $types = NULL)
 	{
-		if (!$types)
-		{
+		if (!$types) {
 			log_message('debug', 'form_validation method allowed_types was called without any allowed types.');
 			return FALSE;
 		}
@@ -176,8 +187,7 @@ class MY_Form_validation extends CI_Form_validation {
 		$type = explode(',', $types);
 		$filetype = pathinfo($str['name'],PATHINFO_EXTENSION);
 
-		if (!in_array($filetype, $type))
-		{
+		if (!in_array($filetype, $type)) {
 			$this->CI->form_validation->set_message('allowed_types', '%s must contain one of the allowed selections.');
 			return FALSE;
 		}
@@ -199,8 +209,7 @@ class MY_Form_validation extends CI_Form_validation {
 	 */
 	public function one_of($str, $options = NULL)
 	{
-		if (!$options)
-		{
+		if (!$options) {
 			log_message('debug', 'form_validation method one_of was called without any possible values.');
 			return FALSE;
 		}
@@ -209,8 +218,7 @@ class MY_Form_validation extends CI_Form_validation {
 
 		$possible_values = explode(',', $options);
 
-		if (!in_array($str, $possible_values))
-		{
+		if (!in_array($str, $possible_values)) {
 			$this->CI->form_validation->set_message('one_of', '%s must contain one of the available selections.');
 			return FALSE;
 		}
@@ -232,8 +240,7 @@ class MY_Form_validation extends CI_Form_validation {
 	 */
 	public function max_file_size($str, $size = 0)
 	{
-		if ($size == 0)
-		{
+		if ($size == 0) {
 			log_message('error', 'Form_validation rule, max_file_size was called without setting a allowable file size.');
 			return FALSE;
 		}
@@ -241,64 +248,76 @@ class MY_Form_validation extends CI_Form_validation {
 		return (bool) ($str['size']<=$size);
 
 	}//end max_file_size()
-	
+
 	/* PHP input filters - prepping */
-	
-	public function filter_int($inp, $length) {
+
+	public function filter_int($inp, $length)
+	{
 		return substr(filter_var($inp,FILTER_SANITIZE_NUMBER_INT),0,$length);
 	}
 
-	public function filter_bol($inp, $length) {
+	public function filter_bol($inp, $length)
+	{
 		return substr(filter_var($inp,FILTER_VALIDATE_BOOLEAN),0,$length);
 	}
 
-	public function filter_float($inp, $length) {
+	public function filter_float($inp, $length)
+	{
 		return substr(filter_var($inp,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND | FILTER_FLAG_ALLOW_SCIENTIFIC),0,$length);
 	}
 
-	public function filter_str($inp, $length) {
+	public function filter_str($inp, $length)
+	{
 		return substr(filter_var($inp,FILTER_SANITIZE_STRING),0,$length);
 	}
 
-	public function filter_url($inp, $length) {
+	public function filter_url($inp, $length)
+	{
 		return substr(filter_var($inp,FILTER_SANITIZE_URL),0,$length);
 	}
 
-	public function filter_email($inp, $length) {
+	public function filter_email($inp, $length)
+	{
 		return substr(filter_var($inp,FILTER_SANITIZE_EMAIL),0,$length);
 	}
 
-	public function filter_ip($inp, $length) {
+	public function filter_ip($inp, $length)
+	{
 		return substr(filter_var($inp,FILTER_VALIDATE_IP),0,$length);
 	}
 
-	public function filter_encoded($inp, $length) {
+	public function filter_encoded($inp, $length)
+	{
 		return substr(filter_var($inp,FILTER_SANITIZE_ENCODED),0,$length);
 	}
 
-	public function filter_special_chars($inp, $length) {
+	public function filter_special_chars($inp, $length)
+	{
 		return substr(filter_var($inp,FILTER_SANITIZE_SPECIAL_CHARS),0,$length);
 	}
 
-	public function filter_raw($inp, $length) {
+	public function filter_raw($inp, $length)
+	{
 		return substr(filter_var($inp,FILTER_UNSAFE_RAW),0,$length);
-	}	
-	
+	}
+
 	/* special */
 	/* run form_validation but return a array containing everything important to it's success */
-	public function run_array($group = '') {
+	public function run_array($group = '')
+	{
 		return array('err'=>!$this->run($group),'errors'=>validation_errors(),'errors_array'=>$this->error_array());
 	}
-	
+
 	/* once a set of rules are added to form_validation you can remove one using this */
-	public function remove_rules($names) {
+	public function remove_rules($names)
+	{
 		$names = explode(',',$names);
-		
+
 		foreach ($names as $name) {
 			unset($this->_field_data[$name]);
 		}
-		
+
 		return $this;
 	}
-	
+
 }

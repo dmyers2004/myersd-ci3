@@ -14,4 +14,4 @@ $password = array(
 	</tr>
 </table>
 <?=form_submit('cancel', 'Delete account'); ?>
-<?=form_close(); ?>
+<?=form_close();

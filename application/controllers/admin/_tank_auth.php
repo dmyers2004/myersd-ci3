@@ -1,8 +1,8 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Auth extends CI_Controller
+class auth extends CI_Controller
 {
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -13,7 +13,7 @@ class Auth extends CI_Controller
 		$this->lang->load('tank_auth');
 	}
 
-	function index()
+	public function index()
 	{
 		if ($message = $this->session->flashdata('message')) {
 			$this->load->view('auth/general_message', array('message' => $message));
@@ -27,7 +27,7 @@ class Auth extends CI_Controller
 	 *
 	 * @return void
 	 */
-	function login()
+	public function login()
 	{
 		if ($this->tank_auth->is_logged_in()) {									// logged in
 			redirect('');
@@ -101,7 +101,7 @@ class Auth extends CI_Controller
 	 *
 	 * @return void
 	 */
-	function logout()
+	public function logout()
 	{
 		$this->tank_auth->logout();
 
@@ -113,7 +113,7 @@ class Auth extends CI_Controller
 	 *
 	 * @return void
 	 */
-	function register()
+	public function register()
 	{
 		if ($this->tank_auth->is_logged_in()) {									// logged in
 			redirect('');
@@ -197,7 +197,7 @@ class Auth extends CI_Controller
 	 *
 	 * @return void
 	 */
-	function send_again()
+	public function send_again()
 	{
 		if (!$this->tank_auth->is_logged_in(FALSE)) {							// not logged in or activated
 			redirect('/auth/login/');
@@ -234,7 +234,7 @@ class Auth extends CI_Controller
 	 *
 	 * @return void
 	 */
-	function activate()
+	public function activate()
 	{
 		$user_id		= $this->uri->segment(3);
 		$new_email_key	= $this->uri->segment(4);
@@ -254,7 +254,7 @@ class Auth extends CI_Controller
 	 *
 	 * @return void
 	 */
-	function forgot_password()
+	public function forgot_password()
 	{
 		if ($this->tank_auth->is_logged_in()) {									// logged in
 			redirect('');
@@ -294,7 +294,7 @@ class Auth extends CI_Controller
 	 *
 	 * @return void
 	 */
-	function reset_password()
+	public function reset_password()
 	{
 		$user_id		= $this->uri->segment(3);
 		$new_pass_key	= $this->uri->segment(4);
@@ -337,7 +337,7 @@ class Auth extends CI_Controller
 	 *
 	 * @return void
 	 */
-	function change_password()
+	public function change_password()
 	{
 		if (!$this->tank_auth->is_logged_in()) {								// not logged in or not activated
 			redirect('/auth/login/');
@@ -369,7 +369,7 @@ class Auth extends CI_Controller
 	 *
 	 * @return void
 	 */
-	function change_email()
+	public function change_email()
 	{
 		if (!$this->tank_auth->is_logged_in()) {								// not logged in or not activated
 			redirect('/auth/login/');
@@ -408,7 +408,7 @@ class Auth extends CI_Controller
 	 *
 	 * @return void
 	 */
-	function reset_email()
+	public function reset_email()
 	{
 		$user_id		= $this->uri->segment(3);
 		$new_email_key	= $this->uri->segment(4);
@@ -428,7 +428,7 @@ class Auth extends CI_Controller
 	 *
 	 * @return void
 	 */
-	function unregister()
+	public function unregister()
 	{
 		if (!$this->tank_auth->is_logged_in()) {								// not logged in or not activated
 			redirect('/auth/login/');
@@ -458,7 +458,7 @@ class Auth extends CI_Controller
 	 * @param	string
 	 * @return	void
 	 */
-	function _show_message($message)
+	public function _show_message($message)
 	{
 		$this->session->set_flashdata('message', $message);
 		redirect('/auth/');
@@ -472,7 +472,7 @@ class Auth extends CI_Controller
 	 * @param	array
 	 * @return	void
 	 */
-	function _send_email($type, $email, &$data)
+	public function _send_email($type, $email, &$data)
 	{
 		$this->load->library('email');
 		$this->email->from($this->config->item('webmaster_email', 'tank_auth'), $this->config->item('website_name', 'tank_auth'));
@@ -489,7 +489,7 @@ class Auth extends CI_Controller
 	 *
 	 * @return	string
 	 */
-	function _create_captcha()
+	public function _create_captcha()
 	{
 		$this->load->helper('captcha');
 
@@ -519,13 +519,13 @@ class Auth extends CI_Controller
 	 * @param	string
 	 * @return	bool
 	 */
-	function _check_captcha($code)
+	public function _check_captcha($code)
 	{
 		$time = $this->session->flashdata('captcha_time');
 		$word = $this->session->flashdata('captcha_word');
 
 		list($usec, $sec) = explode(" ", microtime());
-		$now = ((float)$usec + (float)$sec);
+		$now = ((float) $usec + (float) $sec);
 
 		if ($now - $time > $this->config->item('captcha_expire', 'tank_auth')) {
 			$this->form_validation->set_message('_check_captcha', $this->lang->line('auth_captcha_expired'));
@@ -545,7 +545,7 @@ class Auth extends CI_Controller
 	 *
 	 * @return	string
 	 */
-	function _create_recaptcha()
+	public function _create_recaptcha()
 	{
 		$this->load->helper('recaptcha');
 
@@ -563,7 +563,7 @@ class Auth extends CI_Controller
 	 *
 	 * @return	bool
 	 */
-	function _check_recaptcha()
+	public function _check_recaptcha()
 	{
 		$this->load->helper('recaptcha');
 

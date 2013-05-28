@@ -67,7 +67,6 @@
 $route['default_controller'] = 'mainController/indexAction';
 $route['404_override'] = '';
 
-
 /* bring in our admin defaults */
 $route['admin/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2Action/$3/$4/$5/$6/$7";
 $route['admin/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2Action/$3/$4/$5/$6";
@@ -85,4 +84,3 @@ $route['(:any)/(:any)/(:any)/(:any)'] = "$1Controller/$2Action/$3/$4";
 $route['(:any)/(:any)/(:any)'] = "$1Controller/$2Action/$3";
 $route['(:any)/(:any)'] = "$1Controller/$2Action";
 $route['(:any)'] = "$1Controller/indexAction";
-

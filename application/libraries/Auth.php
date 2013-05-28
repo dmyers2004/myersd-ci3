@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once('phpass/PasswordHash.php');
+require_once 'phpass/PasswordHash.php';
 
 define('STATUS_ACTIVATED', '1');
 define('STATUS_NOT_ACTIVATED', '0');
@@ -16,7 +16,7 @@ define('STATUS_NOT_ACTIVATED', '0');
  * @based on	DX Auth by Dexcell (http://dexcell.shinsengumiteam.com/dx_auth)
  * @license		MIT License Copyright (c) 2008 Erick Hartanto
  */
-class auth
+class Auth
 {
 	private $error = array();
 
@@ -50,7 +50,7 @@ class auth
 			// Which function to use to login (based on config)
 			if ($login_by_username AND $login_by_email) {
 				$get_user_func = 'get_user_by_login';
-			} else if ($login_by_username) {
+			} elseif ($login_by_username) {
 				$get_user_func = 'get_user_by_username';
 			} else {
 				$get_user_func = 'get_user_by_email';
@@ -184,7 +184,7 @@ class auth
 			if ($email_activation) {
 				$data['new_email_key'] = md5(rand().microtime());
 			}
-			
+
 			if (!is_null($res = $this->ci->user_model->create_user($data, !$email_activation))) {
 				$data['user_id'] = $res['user_id'];
 				$data['password'] = $password;
@@ -192,7 +192,7 @@ class auth
 				return $data;
 			}
 		}
-		
+
 		return NULL;
 	}
 
@@ -641,12 +641,11 @@ class auth
 					$this->ci->config->item('login_attempt_expire', 'auth'));
 		}
 	}
-	
+
 	/* wrappers for the model pass thru */
 	public function __call($method, $arguments)
 	{
-		if (!method_exists( $this->ci->user_model, $method) )
-		{
+		if (!method_exists( $this->ci->user_model, $method) ) {
 			throw new Exception('Undefined method user::' . $method . '() called');
 		}
 
@@ -654,23 +653,24 @@ class auth
 	}
 
 	/* handle roles */
-	public function get_user_roles() {
+	public function get_user_roles()
+	{
 		return $this->ci->session->userdata('group_roles');
 	}
 
   /*
 	  $role = '/user/delete/*';
 	  $role = '/user/delete/*|/isadmin';
-	  $role = '/user/delete/*&/isadmin';  
-  
-		$access = array('/nav/test','/user/delete');  
+	  $role = '/user/delete/*&/isadmin';
+
+		$access = array('/nav/test','/user/delete');
   */
   public function has_role_by_group($role=null,$access=null)
   {
 		if ($role == null) {
 			return FALSE;
 		}
-	
+
 		if ($access == null) {
 			$access = $this->get_roles();
 		}
@@ -730,7 +730,6 @@ class auth
     return FALSE;
   }
 
-	
 }
 
 /* End of file Tank_auth.php */

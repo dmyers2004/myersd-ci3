@@ -13,7 +13,7 @@ class Login_attempts_model extends CI_Model
 {
 	private $table_name = 'login_attempts';
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -28,7 +28,7 @@ class Login_attempts_model extends CI_Model
 	 * @param	string
 	 * @return	int
 	 */
-	function get_attempts_num($ip_address, $login)
+	public function get_attempts_num($ip_address, $login)
 	{
 		$this->db->select('1', FALSE);
 		$this->db->where('ip_address', $ip_address);
@@ -45,7 +45,7 @@ class Login_attempts_model extends CI_Model
 	 * @param	string
 	 * @return	void
 	 */
-	function increase_attempt($ip_address, $login)
+	public function increase_attempt($ip_address, $login)
 	{
 		$this->db->insert($this->table_name, array('ip_address' => $ip_address, 'login' => $login));
 	}
@@ -59,7 +59,7 @@ class Login_attempts_model extends CI_Model
 	 * @param	int
 	 * @return	void
 	 */
-	function clear_attempts($ip_address, $login, $expire_period = 86400)
+	public function clear_attempts($ip_address, $login, $expire_period = 86400)
 	{
 		$this->db->where(array('ip_address' => $ip_address, 'login' => $login));
 

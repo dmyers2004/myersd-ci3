@@ -28,8 +28,8 @@
 /**
  * Events Library
  */
-class Events {
-
+class Events
+{
 	/**
 	 * @var	array	An array of listeners
 	 */
@@ -79,12 +79,9 @@ class Events {
 
 		$calls = array();
 
-		if (self::has_listeners($event))
-		{
-			foreach (self::$_listeners[$event] as $listener)
-			{
-				if (is_callable($listener))
-				{
+		if (self::has_listeners($event)) {
+			foreach (self::$_listeners[$event] as $listener) {
+				if (is_callable($listener)) {
 					$calls[] = call_user_func($listener, $data);
 				}
 			}
@@ -109,8 +106,7 @@ class Events {
 	{
 		self::log_message('debug', 'Events::_format_return() - Formating calls in type "'.$return_type.'"');
 
-		switch ($return_type)
-		{
+		switch ($return_type) {
 			case 'json':
 				return json_encode($calls);
 				break;
@@ -119,8 +115,7 @@ class Events {
 				break;
 			case 'string':
 				$str = '';
-				foreach ($calls as $call)
-				{
+				foreach ($calls as $call) {
 					$str .= $call;
 				}
 				return $str;
@@ -148,8 +143,7 @@ class Events {
 	{
 		self::log_message('debug', 'Events::has_listeners() - Checking if event "'.$event.'" has listeners.');
 
-		if (isset(self::$_listeners[$event]) AND count(self::$_listeners[$event]) > 0)
-		{
+		if (isset(self::$_listeners[$event]) AND count(self::$_listeners[$event]) > 0) {
 			return TRUE;
 		}
 		return FALSE;
@@ -168,8 +162,7 @@ class Events {
 	 */
 	public static function log_message($type = 'debug', $message = '')
 	{
-		if (function_exists('log_message'))
-		{
+		if (function_exists('log_message')) {
 			log_message($type, $message);
 		}
 	}

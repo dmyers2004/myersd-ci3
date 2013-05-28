@@ -26,4 +26,4 @@ $confirm_new_password = array(
 	</tr>
 </table>
 <?=form_submit('change', 'Change Password'); ?>
-<?=form_close(); ?>
+<?=form_close();

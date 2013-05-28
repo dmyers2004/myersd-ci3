@@ -14,7 +14,7 @@ class User_model extends MY_Model
 {
 	private $table_name = 'users';			// user accounts
 	private $profile_table_name	= 'user_profiles';	// user profiles
-	
+
 	private $remove_password_rules = false;
 
 	public $validate = array(
@@ -37,49 +37,57 @@ class User_model extends MY_Model
 		'mode'=>'trim|tf|filter_int[1]'
 	);
 
-	public function __construct()	{
+	public function __construct()
+	{
 		parent::__construct();
 
 		$ci =& get_instance();
 		$this->table_name			= $ci->config->item('db_table_prefix', 'auth').$this->table_name;
 		$this->profile_table_name	= $ci->config->item('db_table_prefix', 'auth').$this->profile_table_name;
 	}
-	
-  public function filter_id(&$id,$return=false) {
+
+  public function filter_id(&$id,$return=false)
+  {
   	return $this->filter($this->filters['id'],$id,$return);
   }
-  
-  public function filter_mode(&$mode,$return=false) {
+
+  public function filter_mode(&$mode,$return=false)
+  {
   	return $this->filter($this->filters['mode'],$mode,$return);
   }
-	
-	public function remove_password_rules() {
+
+	public function remove_password_rules()
+	{
 		$this->remove_password_rules = true;
 	}
-	
-	public function validate_login() {
+
+	public function validate_login()
+	{
 		$this->form_validation->reset_validation();
 		$this->form_validation->set_rules($this->login_validate);
 		return $this->form_validation->run_array();
 	}
-	
-	public function validate() {
+
+	public function validate()
+	{
 		$this->form_validation->reset_validation();
 		$this->form_validation->set_rules($this->validate);
-		
+
 		if ($this->remove_password_rules) {
 			$this->form_validation->remove_rules('password,confirm_password');
 		}
-		
+
 		return $this->form_validation->run_array();
 	}
-	
-	public function get_users() {
+
+	public function get_users()
+	{
 		$this->db->order_by('email');
 		return $this->db->get($this->table_name)->result();
 	}
 
-	public function get_user($user_id) {
+	public function get_user($user_id)
+	{
 		$this->db->where('id', $user_id);
 
 		$query = $this->db->get($this->table_name);
@@ -150,7 +158,8 @@ class User_model extends MY_Model
 		return NULL;
 	}
 
-	public function get_users_by_group($group_id) {
+	public function get_users_by_group($group_id)
+	{
 		$this->db->where('group_id=', $group_id);
 		return $this->db->get($this->table_name)->results();
 	}
@@ -342,7 +351,7 @@ class User_model extends MY_Model
 
 		// Hash new password using phpass
 		$hashed_password = $hasher->HashPassword($new_pass);
-	
+
 		$this->db->set('password', $hashed_password);
 		$this->db->where('id', $user_id);
 
@@ -465,8 +474,9 @@ class User_model extends MY_Model
 		$this->db->where('user_id', $user_id);
 		$this->db->delete($this->profile_table_name);
 	}
-	
-	public function update_user($id,$data) {
+
+	public function update_user($id,$data)
+	{
 		$this->db->where('id', $id);
 		return $this->db->update($this->table_name, $data);
 	}

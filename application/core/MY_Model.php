@@ -79,7 +79,7 @@ class MY_Model extends CI_Model
      * as validation rules passed to the Form_validation library.
      */
     protected $validate = array();
-    
+
     protected $orginal_validate = array();
 
     /**
@@ -118,19 +118,22 @@ class MY_Model extends CI_Model
         $this->_temporary_return_type = $this->return_type;
     }
 
-		public function validate() {
+		public function validate()
+		{
 			$this->load->library('form_validation');
 			$this->form_validation->reset_validation();
 			$this->form_validation->set_rules($this->validate);
 			return $this->form_validation->run_array();
 		}
 
-		public function map(&$output,&$input = null,$xss = true) {
+		public function map(&$output,&$input = null,$xss = true)
+		{
 			$this->load->library('input');
 			return $this->input->map($this->validate,$output,$input,$xss);
 		}
-		
-		public function filter($rule,&$value,$return=true) {
+
+		public function filter($rule,&$value,$return=true)
+		{
 			$this->load->library('input');
 			return $this->input->filter($rule,$value,$return);
 		}
@@ -771,7 +774,7 @@ class MY_Model extends CI_Model
 						*/
 
 						$this->load->library('form_validation');
-		
+
 						$this->form_validation->set_data($data);
 
             if (is_array($this->validate)) {
@@ -846,5 +849,5 @@ class MY_Model extends CI_Model
 
         return $this->_temporary_return_type == 'array' ? $method . '_array' : $method;
     }
-    
+
 }

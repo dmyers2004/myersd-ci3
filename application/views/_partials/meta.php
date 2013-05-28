@@ -11,4 +11,3 @@
 	<meta name="viewport" content="width=device-width">
 	<?=$metatags ?>
 	<script>var plugins={}; var baseurl="<?=base_url() ?>";</script>
-	

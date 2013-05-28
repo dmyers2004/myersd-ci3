@@ -1,15 +1,15 @@
 <?php
- 
-class FormController extends CI_Controller
+
+class formController extends CI_Controller
 {
     const IMAGE_UPLOAD_DIR = 'assets/uploads/images';
- 
+
     public function __construct()
     {
       parent::__construct();
       $this->_supported_extensions = array('jpg', 'jpeg', 'gif', 'png', 'pdf');
     }
- 
+
     public function indexAction()
     {
 			$data['ckeditor'] = $this->_setup_ckeditor('content');
@@ -17,7 +17,7 @@ class FormController extends CI_Controller
 
       $this->load->view('form',$data);
     }
- 
+
     public function saveAction()
     {
       if (FALSE !== $this->input->post('content')) {
@@ -27,7 +27,7 @@ class FormController extends CI_Controller
       header('Location: /form/');
       exit();
     }
- 
+
     /**
      * Output CKEditor Javascript callback function for image file uploaded
      * in $_FILES['upload']. The GET parameters must also contain the
@@ -39,30 +39,30 @@ class FormController extends CI_Controller
         $callback = 'null';
         $url = '';
         $get = array();
- 
+
         // for form action, pull CKEditorFuncNum from GET string. e.g., 4 from
         // /form/upload?CKEditor=content&CKEditorFuncNum=4&langCode=en
         // Convert GET parameters to PHP variables
         $qry = $_SERVER['REQUEST_URI'];
         parse_str(substr($qry, strpos($qry, '?') + 1), $get);
- 
+
         if (!isset($_POST) || !isset($get['CKEditorFuncNum'])) {
             $msg = 'CKEditor instance not defined. Cannot upload image.';
         } else {
             $callback = $get['CKEditorFuncNum'];
- 
+
             try {
                 $url = $this->_move_image($_FILES['upload']);
                 $msg = "File uploaded successfully to: {$url}";
- 
+
                 // Persist additions to file manager CMS here.
- 
+
             } catch (Exception $e) {
                 $url = '';
                 $msg = $e->getMessage();
             }
         }
- 
+
         $output = '<html><body><script type="text/javascript">' .
             'window.parent.CKEDITOR.tools.callFunction(' .
             $callback .
@@ -71,10 +71,10 @@ class FormController extends CI_Controller
             '", "' .
             $msg .
             '");</script></body></html>';
- 
+
         echo $output;
     }
- 
+
     /**
      * Move uploaded file to the storage directory only if its MIME type is
      * accepted.
@@ -87,7 +87,7 @@ class FormController extends CI_Controller
         $filename = basename($temp_location['name']);
         $info = pathinfo($filename);
         $ext = strtolower($info['extension']);
- 
+
         if (isset($temp_location['tmp_name']) &&
             isset($info['extension']) &&
             in_array($ext, $this->_supported_extensions)) {
@@ -101,15 +101,15 @@ class FormController extends CI_Controller
                         'please consult your system administrator');
                 }
             }
- 
+
             if (move_uploaded_file($temp_location['tmp_name'], $new_file_path)) {
                 return '/' . $new_file_path;
             }
         }
- 
+
         throw new Exception('File could not be uploaded.');
     }
- 
+
     /**
      * Retrieve configuration properties for CKEditor instance. Ensure the
      * CodeIgniter helper has been copied to CI's system directory.
@@ -123,7 +123,7 @@ class FormController extends CI_Controller
     {
         $this->load->helper('url');
         $this->load->helper('ckeditor');
- 
+
         $ckeditor = array(
             'id' => $id,
             'path' => 'assets/ckeditor',
@@ -132,7 +132,7 @@ class FormController extends CI_Controller
                 'width' => '800px',
                 'height' => '400px',
                 'filebrowserImageUploadUrl' => '/form/upload'));
- 
+
         return $ckeditor;
     }
 }

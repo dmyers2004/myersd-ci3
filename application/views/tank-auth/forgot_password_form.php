@@ -21,4 +21,4 @@ if ($this->config->item('use_username', 'auth')) {
 	</tr>
 </table>
 <?=form_submit('reset', 'Get a new password'); ?>
-<?=form_close(); ?>
+<?=form_close();

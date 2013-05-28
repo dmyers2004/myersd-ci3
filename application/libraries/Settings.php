@@ -66,13 +66,11 @@ class Settings
 	public function get_settings()
 	{
 		// If the array is not empty we already have them.
-		if ( ! empty ($this->settings))
-		{
+		if ( ! empty ($this->settings)) {
 			return $this->settings;
 		}
 
-		if ( ! $this->_ci->db->table_exists('settings'))
-		{
+		if ( ! $this->_ci->db->table_exists('settings')) {
 			return FALSE;
 		}
 
@@ -82,13 +80,11 @@ class Settings
 
 		$query = $this->_ci->db->get();
 
-		if ($query->num_rows() == 0)
-		{
+		if ($query->num_rows() == 0) {
 			return FALSE;
 		}
 
-		foreach ($query->result() as $k => $row)
-		{
+		foreach ($query->result() as $k => $row) {
 			$this->settings[$row->option_name] = $row->option_value;
 			$this->_ci->config->set_item($row->option_name, $row->option_value);
 		}
@@ -116,14 +112,12 @@ class Settings
 	 */
 	public function get_setting($option_name)
 	{
-		if ( ! $option_name)
-		{
+		if (! $option_name) {
 			return FALSE;
 		}
 
 		// First check the auto loaded settings
-		if (isset($this->settings[$option_name]))
-		{
+		if (isset($this->settings[$option_name])) {
 			return $this->settings[$option_name];
 		}
 
@@ -134,8 +128,7 @@ class Settings
 
 		$query = $this->_ci->db->get();
 
-		if ($query->num_rows() > 0)
-		{
+		if ($query->num_rows() > 0) {
 			$row = $query->row();
 			// Add it to the main settings array
 			$this->settings[$option_name] = $row->option_value;
@@ -160,8 +153,7 @@ class Settings
 	 */
 	public function get_settings_by_group($option_group = '')
 	{
-		if ( ! $option_group)
-		{
+		if (! $option_group) {
 			return FALSE;
 		}
 
@@ -171,13 +163,11 @@ class Settings
 
 		$query = $this->_ci->db->get();
 
-		if ($query->num_rows() == 0)
-		{
+		if ($query->num_rows() == 0) {
 			return FALSE;
 		}
 
-		foreach ($query->result() as $k => $row)
-		{
+		foreach ($query->result() as $k => $row) {
 			$this->settings[$row->option_name] = $row->option_value;
 			$arr[$row->option_name] = $row->option_value;
 		}
@@ -199,8 +189,7 @@ class Settings
 		$this->_ci->db->where('option_name', $option_name);
 		$this->_ci->db->update('settings', array('option_value' => $option_value));
 
-		if ($this->_ci->db->affected_rows() == 0)
-		{
+		if ($this->_ci->db->affected_rows() == 0) {
 			return FALSE;
 		}
 
@@ -219,8 +208,7 @@ class Settings
 	{
 		$this->_ci->db->delete('settings', array('option_group' => $option_group));
 
-		if ($this->_ci->db->affected_rows() == 0)
-		{
+		if ($this->_ci->db->affected_rows() == 0) {
 			return FALSE;
 		}
 
@@ -249,8 +237,7 @@ class Settings
 
 		$query = $this->_ci->db->get();
 
-		if ($query->num_rows() > 0)
-		{
+		if ($query->num_rows() > 0) {
 			return $this->edit_setting($option_name, $option_value);
 		}
 
@@ -264,8 +251,7 @@ class Settings
 
 		$this->_ci->db->insert('settings', $data);
 
-		if ($this->_ci->db->affected_rows() == 0)
-		{
+		if ($this->_ci->db->affected_rows() == 0) {
 			return FALSE;
 		}
 
@@ -284,8 +270,7 @@ class Settings
 	{
 		$this->_ci->db->delete('settings', array('option_name' => $option_name));
 
-		if ($this->_ci->db->affected_rows() == 0)
-		{
+		if ($this->_ci->db->affected_rows() == 0) {
 			return FALSE;
 		}
 

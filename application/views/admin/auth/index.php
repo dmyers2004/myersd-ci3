@@ -2,7 +2,7 @@
 
   <fieldset>
     <legend>Login</legend>
-    
+
     <label>Email</label>
     <input type="text" name="email" value="admin@admin.com" placeholder="email">
 
@@ -16,6 +16,6 @@
     <p>
 	    <button type="submit" class="btn">Submit</button>
 		</p>
-		
+
   </fieldset>
 </form>

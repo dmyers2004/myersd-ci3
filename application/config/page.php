@@ -17,16 +17,14 @@
 
 /* where are the assets by default */
 $config['assets'] = '/assets/';
+$config['title'] = 'Apple 64';
+$config['title_separator'] = ' - ';
 
 /* what view variable to attach the page partials to */
-$config['variables']['header'] = 'page_header';
-$config['variables']['title'] = 'meta_title';
-$config['variables']['container'] = 'container';
-$config['variables']['footer'] = 'page_footer';
-
-$config['application']['title'] = 'Apple 64';
-$config['application']['title_separator'] = ' - ';
-
+$config['variables.header'] = 'page_header';
+$config['variables.title'] = 'meta_title';
+$config['variables.container'] = 'container';
+$config['variables.footer'] = 'page_footer';
 
 $menu = get_instance()->menubar->get_active();
 $roles = get_instance()->auth->get_user_roles();
@@ -57,8 +55,9 @@ $config['public']['data'] = array(
 
 /* admin group */
 $config['admin']['css'] = array(
-	'admin/css/admin.css',
 	'css/site.css',
+	'css/style.css',
+	'admin/css/admin.css',
 	'chosen/chosen.css',
 	'table-fixed-header/table-fixed-header.css'
 );

@@ -2,7 +2,7 @@
 
   <fieldset>
     <legend>Reset Password</legend>
-    
+
     <label>New Password</label>
     <input type="text" name="new" value="" placeholder="password">
 

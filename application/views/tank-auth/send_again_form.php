@@ -16,4 +16,4 @@ $email = array(
 	</tr>
 </table>
 <?=form_submit('send', 'Send'); ?>
-<?=form_close(); ?>
+<?=form_close();

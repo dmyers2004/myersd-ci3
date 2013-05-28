@@ -18,8 +18,8 @@ CREATE TABLE `group_access` (
 
 */
 
-class access_model extends MY_Model {
-
+class access_model extends MY_Model
+{
 	/* db table */
   public $_table = 'access';
 
@@ -29,41 +29,45 @@ class access_model extends MY_Model {
 		array('field'=>'description','label'=>'Description','rules'=>'required|filter_str[128]'),
 		array('field'=>'active','label'=>'Active','rules'=>'filter_int[1]','default'=>0)
 	);
-	
+
 	public $filters = array(
 		'id'=>'trim|integer|filter_int[5]|exists[access.id]',
 		'mode'=>'trim|tf|filter_int[1]'
 	);
-	
-  public function get_resource_id($resource) {
+
+  public function get_resource_id($resource)
+  {
 		/* did they send in a integer? then it must be the resource id already */
-  	if ((int)$resource > 0) {
-  		return (int)$resource;
+  	if ((int) $resource > 0) {
+  		return (int) $resource;
   	}
-  
+
   	$query = $this->db->get_where($this->_table, array('resource'=>$resource));
 
   	if ($query->num_rows() > 0) {
 	  	$row = $query->result();
-	  	return (int)$row[0]->id;
+	  	return (int) $row[0]->id;
   	}
 
   	return null;
   }
-  
-  public function insert($data, $skip_validation = false) {
+
+  public function insert($data, $skip_validation = false)
+  {
   	unset($data['id']);
 		unset($this->validate[0]);
-		
+
   	return parent::insert($data, $skip_validation);
   }
-  
-  public function filter_id(&$id,$return=false) {
+
+  public function filter_id(&$id,$return=false)
+  {
   	return $this->filter($this->filters['id'],$id,$return);
   }
 
-  public function filter_mode(&$mode,$return=false) {
+  public function filter_mode(&$mode,$return=false)
+  {
   	return $this->filter($this->filters['mode'],$mode,$return);
   }
-  
+
 }

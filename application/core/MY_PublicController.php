@@ -3,29 +3,26 @@
  * Public controllers are accessible by anyone and have a html view
  * because of this a bunch of extra helpers and libs are loaded that
  * wouldn't be needed in say ajax or something lighter
- * 
+ *
  */
 
 class MY_PublicController extends MY_Controller
 {
-	
+
 	public $view_folder;
-	
-	public function __construct() {
+
+	public function __construct()
+	{
 		parent::__construct();
 
 		if (ENVIRONMENT == 'production') {
 			$this->db->save_queries = FALSE;
 		}
-		
+
 		$this->load->helpers('language');
 		$this->load->library(array('events','settings','flash_msg','form_validation','menubar','page'));
-		
+
 		$this->page->load('public');
 	}
 
 } /* end MY_PublicController */
-
-
-
-

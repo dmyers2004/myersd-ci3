@@ -2,8 +2,6 @@
 
 class Page
 {
-  private $CI;
-
   public $config = array(); /* all config */
   public $settings = array('js'=>array(),'css'=>array(),'meta'=>array(),'data'=>array()); /* array of current settings */
 
@@ -16,13 +14,11 @@ class Page
 
   public function __construct()
   {
-    $this->CI = &get_instance();
-
-    $this->CI->load->config('page',TRUE);
-    $this->config = $this->CI->config->item('page');
+		/* load using the magic settings file / database */
+    $this->config = $this->load->settings('page');
 
 		/* set the title */
-		$this->setVar($this->config['variables']['title'],$this->config['application']['title']);
+		$this->setVar($this->config['variables.title'],$this->config['title']);
 
 		/* load in our defaults */
 		$this->load('default');
@@ -40,21 +36,21 @@ class Page
 		}
 
 		if (is_array($group['css'])) {
-			$this->settings['css'] = array_merge((array)$this->settings['css'],$group['css']);
+			$this->settings['css'] = array_merge((array) $this->settings['css'],$group['css']);
 			foreach ($this->settings['css'] as $value) {
 				$this->link($value);
 			}
 		}
 
 		if (is_array($group['meta'])) {
-			$this->settings['meta'] = array_merge((array)$this->settings['meta'],$group['meta']);
+			$this->settings['meta'] = array_merge((array) $this->settings['meta'],$group['meta']);
 			foreach ($this->settings['meta'] as $value) {
 				$this->meta($value);
 			}
 		}
 
 		if (is_array($group['data'])) {
-			$this->settings['data'] = array_merge((array)$this->settings['data'],$group['data']);
+			$this->settings['data'] = array_merge((array) $this->settings['data'],$group['data']);
 			foreach ($this->settings['data'] as $key => $value) {
 				$this->setVar($key,$value);
 			}
@@ -102,7 +98,7 @@ class Page
   /* append onto current title */
   public function title($title=null)
   {
-		$this->setVar($this->config['variables']['title'],$this->getVar($this->config['variables']['title']).$this->config['application']['title_separator'].$title);
+		$this->setVar($this->config['variables.title'],$this->getVar($this->config['variables.title']).$this->config['title_separator'].$title);
 
     return $this;
   }
@@ -111,6 +107,7 @@ class Page
   public function template($name=null)
   {
     $this->template = $name;
+
     return $this;
   }
 
@@ -133,7 +130,8 @@ class Page
 		return $partial;
 	}
 
-	public function folder($folder) {
+	public function folder($folder)
+	{
 		$this->folder = $folder;
 		return $this;
 	}
@@ -141,13 +139,13 @@ class Page
 	/* final output */
   public function build($view=null,$layout=null)
   {
-		$view = ($view) ? $view : $this->folder.'/'.str_replace('Controller','',$this->CI->uri->rsegments[1]).'/'.str_replace('Action','',$this->CI->uri->rsegments[2]);
+		$view = ($view) ? $view : $this->folder.'/'.str_replace('Controller','',$this->uri->rsegments[1]).'/'.str_replace('Action','',$this->uri->rsegments[2]);
 
-		$this->setVar($this->config['variables']['container'],$this->CI->load->view($view,null,true));
+		$this->setVar($this->config['variables.container'],$this->load->view($view,null,true));
 		$template = ($layout) ? $layout : $this->template;
 
     /* final output */
-    $this->CI->load->view($template,null,false);
+    $this->load->view($template,null,false);
 
 		return $this;
 	}
@@ -155,7 +153,7 @@ class Page
 	/* Add to css, js, meta, header, footer before or after what already in there */
 	public function add($which,$what,$where='after')
 	{
-		$var = $this->getDefault($this->config['variables'][$which],$which);
+		$var = $this->getDefault($this->config['variables.'.$which],$which);
 
 		switch ($where) {
 			case 'before':
@@ -166,7 +164,7 @@ class Page
 			case 'overwrite':
 				$this->setVar($var,$what);
 			break;
-			default: /* append */
+			default: /* append after */
 				/* remove it if it's already there */
 				$content = str_replace($what,'',$this->getVar($var));
 				$this->setVar($var,$content.$what);
@@ -199,21 +197,29 @@ class Page
   /* standard libs  getVar, setVar, getDefaultArray, getDefault */
   private function getVar($name)
   {
-		return $this->CI->load->_ci_cached_vars[$name];
+		return get_instance()->load->_ci_cached_vars[$name];
   }
 
   private function setVar($name,$value)
   {
-		$this->CI->load->_ci_cached_vars[$name] = $value;
+		get_instance()->load->_ci_cached_vars[$name] = $value;
 		return $this;
   }
 
-	private function getDefaultArray($array,$key,$default) {
+	private function getDefaultArray($array,$key,$default)
+	{
 		return ($array[$key]) ? $array[$key] : $default;
 	}
 
-	private function getDefault($input,$default) {
+	private function getDefault($input,$default)
+	{
 		return ($input) ? $input : $default;
+	}
+
+	/* wrapper for CI instance */
+	public function __get($var)
+	{
+		return get_instance()->$var;
 	}
 
 } /* end class */
