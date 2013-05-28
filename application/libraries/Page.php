@@ -6,7 +6,6 @@ class Page
   public $settings = array('js'=>array(),'css'=>array(),'meta'=>array(),'data'=>array()); /* array of current settings */
 
 	public $template = ''; /* template to use */
-	public $folder = ''; /* base view folder for auto loaded views */
 
 	public $default_css = array('rel'=>'stylesheet','type'=>'text/css','href'=>'');
 	public $default_js = array('src'=>'');
@@ -116,17 +115,33 @@ class Page
 	{
 		return $this->load->partial($view,$data,$name);
 	}
-	
+
 	public function folder($folder)
 	{
 		$this->folder = $folder;
 		return $this;
 	}
 
+	/* while the dynamic view finder is "slick" it does take a bit longer to process */
+	public function dynamic_view() {
+		$controller = str_replace('Controller','',$this->uri->rsegments[1]);
+		$viewpath = array($controller,str_replace('Action','',$this->uri->rsegments[2]));
+
+		foreach ($this->uri->segments as $seg) {
+			if ($seg !== $controller) {
+				array_unshift($viewpath,$seg);
+			} else {
+				break;
+			}
+		}
+
+		return implode('/',$viewpath);
+	}
+
 	/* final output */
   public function build($view=null,$layout=null)
   {
-		$view = ($view) ? $view : $this->folder.'/'.str_replace('Controller','',$this->uri->rsegments[1]).'/'.str_replace('Action','',$this->uri->rsegments[2]);
+		$view = ($view) ? $view : $this->dynamic_view();
 
 		$this->setVar($this->config['variables.container'],$this->load->partial($view));
 		$template = ($layout) ? $layout : $this->template;

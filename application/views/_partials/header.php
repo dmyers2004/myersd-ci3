@@ -1,6 +1,7 @@
     <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-responsive.min.css">
     <link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.min.css">
+		<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>    
     <?=$page_header ?>
 	  <script src="/assets/js/modernizr-2.6.2.min.js"></script>
 	</head>

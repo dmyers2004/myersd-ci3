@@ -6,7 +6,7 @@ class authController extends MY_PublicController
 
 	public function indexAction()
 	{
-		$this->page->build($this->controller_path.'index');
+		$this->page->build();
 	}
 
 	public function loginValidatePostAction()

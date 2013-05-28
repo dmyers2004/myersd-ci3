@@ -12,7 +12,7 @@ class settingController extends MY_AdminController
 	public function indexAction()
 	{
 		$this->data('records',$this->controller_model->order_by('option_group')->get_all())
-			->page->build($this->controller_path.'index');
+			->page->build();
 	}
 
 	public function newAction()

@@ -13,8 +13,8 @@ class userController extends MY_AdminController
 	public function indexAction()
 	{
 		$this->data('records',$this->auth->get_users())
-			->data('group_options',$this->get_groups())
-			->page->build($this->controller_path.'index');
+			->data('group_options',$this->_get_groups())
+			->page->build();
 	}
 
 	/* create new form */
@@ -23,7 +23,7 @@ class userController extends MY_AdminController
 		$this->data('title','New '.$this->title)
 			->data('action',$this->controller_path.'new')
 			->data('record',(object) array('activated'=>1,'id'=>-1))
-			->data('group_options',$this->get_groups())
+			->data('group_options',$this->_get_groups())
 			->page->build($this->controller_path.'form');
 	}
 
@@ -58,7 +58,7 @@ class userController extends MY_AdminController
 		$this->data('title','Edit '.$this->title)
 			->data('action',$this->controller_path.'edit')
 			->data('record',$this->controller_model->get_user($id))
-			->data('group_options',$this->get_groups())
+			->data('group_options',$this->_get_groups())
 			->page->build($this->controller_path.'form');
 	}
 
@@ -126,7 +126,7 @@ class userController extends MY_AdminController
 	}
 
 	/* Internal */
-	protected function get_groups()
+	protected function _get_groups()
 	{
 		$dbc = $this->group_model->get_all();
 		foreach ($dbc as $dbr) {

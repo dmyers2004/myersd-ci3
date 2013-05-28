@@ -12,7 +12,7 @@ class accessController extends MY_AdminController
 	public function indexAction()
 	{
 		$this->data('records',$this->controller_model->get_all())
-			->page->build($this->controller_path.'index');
+			->page->build();
 	}
 
 	public function newAction()

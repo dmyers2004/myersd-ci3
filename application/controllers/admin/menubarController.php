@@ -13,7 +13,7 @@ class menubarController extends MY_AdminController
 	{
 		$this->data('records',$this->controller_model->order_by('parent_id,sort')->get_all())
 			->data('parent_options',array(0=>'<i class="icon-upload"></i>') + $this->controller_model->dropdown('id','text'))
-			->page->build($this->controller_path.'index');
+			->page->build();
 	}
 
 	public function newAction()

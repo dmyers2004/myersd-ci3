@@ -37,13 +37,14 @@ $config['default']['data'] = array(
 	'foo'							=> 'bar',
 	'logged_in' 			=> get_instance()->auth->is_logged_in(),
 	'navigation_menu' => get_instance()->menubar->render($roles,$menu),
-	'page_body_class'			=> 'default'
+	'page_body_class'			=> 'default',
+	'page_brand'					=> 'GTags'
 );
 $config['default']['template'] = '_templates/default';
 
 /* public group */
 $config['public']['css'] = array(
-	'css/site.css',
+	'css/template.css',
 	'css/style.css'
 );
 $config['public']['js'] = array(
@@ -55,7 +56,7 @@ $config['public']['data'] = array(
 
 /* admin group */
 $config['admin']['css'] = array(
-	'css/site.css',
+	'css/template.css',
 	'css/style.css',
 	'admin/css/admin.css',
 	'chosen/chosen.css',
