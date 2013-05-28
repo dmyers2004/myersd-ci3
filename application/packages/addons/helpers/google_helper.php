@@ -40,12 +40,14 @@ http://codeigniter.com/forums/viewthread/56515/
 * @param    string
 * @return    string
 */
-function google_analytics($uacct = '')
+function google_analytics($uacct = '',$view_variable=null)
 {
 	$CI =& get_instance();
-	if (empty($uacct)) $uacct = $CI->config->item('google_uacct');
-	if (!empty($uacct))
-	{
+	if (empty($uacct)) {
+		$uacct = $CI->config->item('google_uacct');
+	}
+	
+	if (!empty($uacct)) {
 		$google_analytics_code = '
 			<script type="text/javascript">
 			  var _gaq = _gaq || [];
@@ -59,10 +61,13 @@ function google_analytics($uacct = '')
 			  })();
 			</script>
 		';
+		
+		if ($view_variable) {
+			$CI->load->_ci_cached_vars[$view_variable] = $google_analytics_code;
+		}
+		
 		return $google_analytics_code;
-	}
-	else
-	{
+	} else {
 		return FALSE;
 	}
     

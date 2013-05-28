@@ -64,7 +64,7 @@
 |
 */
 
-$autoload['packages'] = array();
+$autoload['packages'] = array(APPPATH.'packages/addons');
 
 /*
 | -------------------------------------------------------------------

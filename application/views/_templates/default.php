@@ -4,4 +4,4 @@
 <div class="container">
 <?=$container ?>
 </div>
-<?php include(APPPATH.'views/_partials/footer.php')
+<?php include(APPPATH.'views/_partials/footer.php') ?>

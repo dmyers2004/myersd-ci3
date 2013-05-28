@@ -114,7 +114,7 @@ function is_serialized_str($data)
 // --------------------------------------------------------------------
 
 /**
- * Print object in human-readible format
+ * Print object in human-readable format
  *
  * @param	object	object variable
  * @param	boolean	return as string if true
@@ -144,18 +144,37 @@ function print_obj($obj, $return = false)
 	echo $str;
 }
 
-// --------------------------------------------------------------------
+/**
+ * CodeIgniter Debug Helpers
+ *
+ * @author      PyroCMS Dev Team
+ * @copyright   Copyright (c) 2012, PyroCMS LLC
+ * @package		PyroCMS\Core\Helpers
+ */
 
 /**
- * Returns the global CI object
+ * Debug Helper
  *
- * @return 	object
+ * Outputs the given variable with formatting and location
  */
-function CI() {
-    if (!function_exists('get_instance')) return FALSE;
+function dump()
+{
+	list($callee) = debug_backtrace();
+	$arguments = $callee['args'];
+	$total_arguments = count($arguments);
 
-    $CI =& get_instance();
-    return $CI;
+	echo '<fieldset style="background: #fefefe !important; border:2px red solid; padding:5px">';
+	echo '<legend style="background:lightgrey; padding:5px;">'.$callee['file'].' @ line: '.$callee['line'].'</legend><pre>';
+
+	$i = 0;
+	foreach ($arguments as $argument)
+	{
+		echo '<br/><strong>Debug #'.(++$i).' of '.$total_arguments.'</strong>: ';
+		var_dump($argument);
+	}
+
+	echo '</pre>';
+	echo '</fieldset>';
 }
 
 /* End of file utility_helper.php */
