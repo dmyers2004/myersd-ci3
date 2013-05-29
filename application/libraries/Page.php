@@ -5,7 +5,8 @@ class Page
   public $config = array(); /* all config */
   public $settings = array('js'=>array(),'css'=>array(),'meta'=>array(),'data'=>array()); /* array of current settings */
 
-	public $template = ''; /* template to use */
+	public $template = ''; /* template to use on build */
+	public $folder = ''; /* folder to look in for all page view files */
 
 	public $default_css = array('rel'=>'stylesheet','type'=>'text/css','href'=>'');
 	public $default_js = array('src'=>'');
@@ -13,7 +14,7 @@ class Page
 
   public function __construct()
   {
-		/* load using the magic settings file / database */
+		/* load using the magic settings file -> database */
     $this->config = $this->load->settings('page');
 
 		/* set the title */
@@ -54,6 +55,8 @@ class Page
 				$this->setVar($key,$value);
 			}
 		}
+
+		$this->title($group['title']);
 
 		$this->template = $this->getDefault($group['template'],$this->template);
 
@@ -97,7 +100,9 @@ class Page
   /* append onto current title */
   public function title($title=null)
   {
-		$this->setVar($this->config['variables.title'],$this->getVar($this->config['variables.title']).$this->config['title_separator'].$title);
+		if ($title) {
+			$this->setVar($this->config['variables.title'],$this->getVar($this->config['variables.title']).$this->config['title.separator'].$title);
+		}
 
     return $this;
   }
@@ -110,44 +115,30 @@ class Page
     return $this;
   }
 
-	/* wrapper for loader partial */
-	public function partial($view,$data=array(),$name=null)
-	{
-		return $this->load->partial($view,$data,$name);
-	}
-
-	public function folder($folder)
+  /* change the view look up folder */
+	public function folder($folder=null)
 	{
 		$this->folder = $folder;
+
 		return $this;
 	}
 
-	/* while the dynamic view finder is "slick" it does take a bit longer to process */
-	public function dynamic_view() {
-		$controller = str_replace('Controller','',$this->uri->rsegments[1]);
-		$viewpath = array($controller,str_replace('Action','',$this->uri->rsegments[2]));
-
-		foreach ($this->uri->segments as $seg) {
-			if ($seg !== $controller) {
-				array_unshift($viewpath,$seg);
-			} else {
-				break;
-			}
-		}
-
-		return implode('/',$viewpath);
+	/* wrapper for load partial */
+	public function partial($view,$data=array(),$name=null)
+	{
+		return $this->load->partial($this->folder.$view,$data,$name);
 	}
 
 	/* final output */
   public function build($view=null,$layout=null)
   {
-		$view = ($view) ? $view : $this->dynamic_view();
+		/* while the dynamic view finder is uber cool it does take a bit longer to process */
+		$view = ($view) ? $view : trim($this->router->fetch_directory().str_replace('Controller','',$this->router->fetch_class()).'/'.str_replace('Action','',$this->router->fetch_method()),'/');
 
-		$this->setVar($this->config['variables.container'],$this->load->partial($view));
-		$template = ($layout) ? $layout : $this->template;
+		$this->setVar($this->config['variables.container'],$this->load->partial($this->folder.$view));
 
     /* final output */
-    $this->load->view($template,null,false);
+    $this->load->view((($layout) ? $layout : $this->folder.$this->template),null,false);
 
 		return $this;
 	}
@@ -173,6 +164,11 @@ class Page
 		}
 
 		return $this;
+	}
+	
+	/* add view data wrapper */
+	public function data($name,$value) {
+		return $this->setVar($name,$value);
 	}
 
   private function _ary2attr($array)

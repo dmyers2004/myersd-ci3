@@ -12,6 +12,9 @@ class mainController extends MY_PublicController
 		
 		$path = __DIR__.'/../libraries/status/';
 		
+		$ifconfig = file('/var/www/ifconfig.txt');
+		$ifconfig = between('inet addr:','  Bcast:',$ifconfig[1]);
+		
 		require($path.'cpu.php');
 		require($path.'memory.php');
 		require($path.'network.php');
@@ -35,7 +38,16 @@ class mainController extends MY_PublicController
 		$uptime = \lib\uptime::uptime();
 		$connected = \lib\users::connected();
 	
-		$tweet = date('Y-m-d H:i ').' Uptime:'.$uptime.' Distro:'.$distribution.' '.\lib\Rbpi::webServer().' '.intval((9/5)* $heat['degrees'] + 32).'F '.$cpu['current'];
+		$uptime = str_replace(' day','d',$uptime);
+		$uptime = str_replace(' hours','h',$uptime);
+		$uptime = str_replace(' minutes','m',$uptime);
+		$uptime = str_replace(' seconds','s',$uptime);
+	
+		$tweet  = date('Y-m-d H:i ').$ifconfig.' Uptime:'.$uptime.' '.intval((9/5)* $heat['degrees'] + 32).'F '.$cpu['current'];
+		$tweet .= ' HD:'.$hdd[0]['total'].'/'.$hdd[0]['free'].'/'.$hdd[0]['used'].' '.$hdd[0]['percentage'].'% Memory:'.$ram['total'].'/'.$ram['free'].'/'.$ram['used'].' '.$ram['percentage'].'%';
+
+		$tweet = substr($tweet,0,140);
+		
 		echo $tweet.chr(10);
 				
 		echo '<pre>';
@@ -58,6 +70,24 @@ class mainController extends MY_PublicController
 		echo $tweet.chr(10);
 		
 		$this->twitter->send($tweet);
+	}
+
+	public function weatherAction() {
+		$this->load->library('Twitter');
+
+		$url = 'http://weather.yahooapis.com/forecastrss?w=12765655';
+
+		$handle = fopen($url, "rb");
+		$xml = stream_get_contents($handle);
+		fclose($handle);
+			
+		$weatherData = simplexml_load_string($xml,'SimpleXMLElement',LIBXML_NOCDATA);
+
+		$tweet = substr(trim(substr(strip_tags($weatherData->channel->item->description),0,-66)),0,140);
+		
+		echo $tweet.chr(10);
+		$this->twitter->send($tweet);
+		
 	}
 
 	public function createAdminAction()

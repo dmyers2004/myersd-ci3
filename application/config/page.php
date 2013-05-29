@@ -17,8 +17,8 @@
 
 /* where are the assets by default */
 $config['assets'] = '/assets/';
-$config['title'] = 'Apple 64';
-$config['title_separator'] = ' - ';
+$config['title'] = 'Apple 64'; /* base site title */
+$config['title.separator'] = ' - '; /* separator between title additions */
 
 /* what view variable to attach the page partials to */
 $config['variables.header'] = 'page_header';
@@ -28,6 +28,13 @@ $config['variables.footer'] = 'page_footer';
 
 $menu = get_instance()->menubar->get_active();
 $roles = get_instance()->auth->get_user_roles();
+
+/*
+if ($roles === null) {
+	$roles = array('/nav/login');
+	$menu[] = array('id'=>1,'resource'=>'/nav/login','url'=>'/admin/auth','text'=>'Login','parent_id'=>0,'sort'=>0,'class'=>'','active'=>1);
+}
+*/
 
 /* default set */
 $config['default']['js'] = array();
@@ -75,13 +82,6 @@ $config['admin']['data'] = array(
 	'page_body_class'			=> 'admin'
 );
 $config['admin']['template'] = 'admin/_templates/default';
+$config['admin']['title'] = 'Admin';
 
 /* additional groups below */
-
-/* if your not logged in so the default login */
-/*
-if ($roles === null) {
-	$roles = array('/nav/login');
-	$menu[] = array('id'=>1,'resource'=>'/nav/login','url'=>'/admin/auth','text'=>'Login','parent_id'=>0,'sort'=>0,'class'=>'','active'=>1);
-}
-*/
