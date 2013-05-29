@@ -35,8 +35,8 @@ class mainController extends MY_PublicController
 		$uptime = \lib\uptime::uptime();
 		$connected = \lib\users::connected();
 	
-		$tweet = date('Y-m-d H:i ').$uptime.' '.$distribution.' '.$connected['ip'].$cpu['current'].' '.intval((9/5)* $heat['degrees'] + 32).'F '.$hostname;
-		echo $tweet;
+		$tweet = date('Y-m-d H:i ').' Uptime:'.$uptime.' Distro:'.$distribution.' '.\lib\Rbpi::webServer().' '.intval((9/5)* $heat['degrees'] + 32).'F '.$cpu['current'];
+		echo $tweet.chr(10);
 				
 		echo '<pre>';
 		
@@ -55,7 +55,7 @@ class mainController extends MY_PublicController
 		var_dump($uptime);
 		var_dump($connected);
 
-		
+		echo $tweet.chr(10);
 		
 		$this->twitter->send($tweet);
 	}
