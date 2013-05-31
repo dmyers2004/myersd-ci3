@@ -38,12 +38,13 @@ class mainController extends MY_PublicController
 		$uptime = \lib\uptime::uptime();
 		$connected = \lib\users::connected();
 	
+		$uptime = str_replace(' days','d',$uptime);
 		$uptime = str_replace(' day','d',$uptime);
 		$uptime = str_replace(' hours','h',$uptime);
 		$uptime = str_replace(' minutes','m',$uptime);
 		$uptime = str_replace(' seconds','s',$uptime);
 	
-		$tweet  = date('dmy H:i ').$ifconfig.' Uptime:'.$uptime.' '.intval((9/5)* $heat['degrees'] + 32).'F '.$cpu['current'];
+		$tweet  = date('mdy H:i ').$ifconfig.' Uptime:'.$uptime.' '.intval((9/5)* $heat['degrees'] + 32).'F '.$cpu['current'];
 		$tweet .= ' HD:'.$hdd[0]['total'].'/'.$hdd[0]['free'].'/'.$hdd[0]['used'].' '.$hdd[0]['percentage'].'% RAM:'.$ram['total'].'/'.$ram['free'].'/'.$ram['used'].' '.$ram['percentage'].'%';
 
 		$tweet = substr($tweet,0,140);

@@ -16,15 +16,37 @@
  */
 
 /* where are the assets by default */
-$config['assets'] = '/assets/';
-$config['title'] = 'Apple 64'; /* base site title */
 $config['title.separator'] = ' - '; /* separator between title additions */
 
 /* what view variable to attach the page partials to */
-$config['variables.header'] = 'page_header';
-$config['variables.title'] = 'meta_title';
+$config['variables.title'] = 'meta_title'; /* base site title */
+$config['variables.meta'] = 'page_meta'; /* before <body> */
+$config['variables.header'] = 'page_header'; /* after <body> */
 $config['variables.container'] = 'container';
-$config['variables.footer'] = 'page_footer';
+$config['variables.footer'] = 'page_footer'; /* before </body> */
+
+$config['base'] = array(
+	'variables.title' => 'Apple 64',
+	
+	'variables.meta' => '	<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width">
+		<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-responsive.min.css">
+		<link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.min.css">
+		<link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">    
+	  <script src="/assets/js/modernizr-2.6.2.min.js"></script>',
+	
+	'variables.header' => '<!--[if lt IE 8]>
+		<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+		<![endif]-->',
+	
+	'variables.footer' => '<script src="/assets/jquery/jquery-1.9.1.min.js"></script>
+		<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+		<script src="/assets/js/plugins.js">
+		</script><script src="/assets/js/site.js"></script>'
+);
 
 $menu = get_instance()->menubar->get_active();
 $roles = get_instance()->auth->get_user_roles();
@@ -48,6 +70,8 @@ $config['default']['data'] = array(
 	'page_brand'					=> 'GTags'
 );
 $config['default']['template'] = '_templates/default';
+$config['default']['assets'] = '/assets/';
+$config['default']['folder'] = '';
 
 /* public group */
 $config['public']['css'] = array(

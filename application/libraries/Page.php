@@ -7,6 +7,7 @@ class Page
 
 	public $template = ''; /* template to use on build */
 	public $folder = ''; /* folder to look in for all page view files */
+	public $assets = '';
 
 	public $default_css = array('rel'=>'stylesheet','type'=>'text/css','href'=>'');
 	public $default_js = array('src'=>'');
@@ -17,12 +18,18 @@ class Page
 		/* load using the magic settings file -> database */
     $this->config = $this->load->settings('page');
 
-		/* set the title */
-		$this->setVar($this->config['variables.title'],$this->config['title']);
+		/* raw base value (strings) injected into view variables */
+		$this->base();
 
 		/* load in our defaults */
 		$this->load('default');
   }
+
+	private function base() {
+		foreach ($this->config['base'] as $key => $value) {
+			$this->setVar($this->config[$key],$value);
+		}
+	}
 
 	public function load($grouping)
 	{
@@ -59,6 +66,8 @@ class Page
 		$this->title($group['title']);
 
 		$this->template = $this->getDefault($group['template'],$this->template);
+		$this->assets = $this->getDefault($group['assets'],$this->assets);
+		$this->folder = $this->getDefault($group['folder'],$this->folder);
 
 		return $this;
 	}
@@ -71,7 +80,7 @@ class Page
   public function link($href='',$additional_attributes=array(),$after='after')
   {
     $merged = (is_array($href)) ? $href : array_merge($this->default_css,array('href'=>$this->_prefix($href)),$additional_attributes);
-    $this->add('header','<link '.$this->_ary2attr($merged).' />',$after);
+    $this->add('meta','<link '.$this->_ary2attr($merged).' />',$after);
 
     return $this;
   }
@@ -92,7 +101,7 @@ class Page
   public function meta($name='',$content='',$additional_attributes=array(),$after='after')
   {
     $merged = (is_array($name)) ? $name : array_merge($this->default_meta,array('name'=>$name,'content'=>$content),$additional_attributes);
-    $this->add('header','<meta '.$this->_ary2attr($merged).'>',$after);
+    $this->add('meta','<meta '.$this->_ary2attr($merged).'>',$after);
 
     return $this;
   }
@@ -122,6 +131,14 @@ class Page
 
 		return $this;
 	}
+	
+	/* change the default assets folder (off web root) */
+	public function assets($folder=null)
+	{
+		$this->assets = $folder;
+
+		return $this;
+	}
 
 	/* wrapper for load partial */
 	public function partial($view,$data=array(),$name=null)
@@ -143,7 +160,7 @@ class Page
 		return $this;
 	}
 
-	/* Add to css, js, meta, header, footer before or after what already in there */
+	/* Add to meta, header, footer before or after what already in there */
 	public function add($which,$what,$where='after')
 	{
 		$var = $this->getDefault($this->config['variables.'.$which],$which);
@@ -165,7 +182,7 @@ class Page
 
 		return $this;
 	}
-	
+
 	/* add view data wrapper */
 	public function data($name,$value) {
 		return $this->setVar($name,$value);
@@ -188,7 +205,7 @@ class Page
     } elseif ($input{0} == '/') {
 			return $input;
     } else {
-      return $this->config['assets'].$input;
+      return $this->assets.$input;
     }
   }
 
@@ -214,7 +231,7 @@ class Page
 		return ($input) ? $input : $default;
 	}
 
-	/* wrapper for CI instance */
+	/* wrapper for CI instance so you can $this-> in the library */
 	public function __get($var)
 	{
 		return get_instance()->$var;

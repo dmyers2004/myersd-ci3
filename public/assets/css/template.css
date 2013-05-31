@@ -53,3 +53,9 @@ a:hover {
 .txt-al {
 	text-align: left !important;
 }
+div.stats {
+	text-align: right;
+	width: 99%;
+	color: #ddd;
+	font-size: 80%;
+}

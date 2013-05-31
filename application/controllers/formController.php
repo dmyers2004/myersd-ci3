@@ -34,7 +34,7 @@ class formController extends CI_Controller
      * CKEditorFuncNum parameter so the JavaScript callback will reference
      * the correct CKEditor instance.
      */
-    public function uploadAction()
+    public function uploadPostAction()
     {
         $callback = 'null';
         $url = '';
@@ -50,7 +50,6 @@ class formController extends CI_Controller
             $msg = 'CKEditor instance not defined. Cannot upload image.';
         } else {
             $callback = $get['CKEditorFuncNum'];
-
             try {
                 $url = $this->_move_image($_FILES['upload']);
                 $msg = "File uploaded successfully to: {$url}";
@@ -131,7 +130,8 @@ class formController extends CI_Controller
                 'toolbar' => 'Full',
                 'width' => '800px',
                 'height' => '400px',
-                'filebrowserImageUploadUrl' => '/form/upload'));
+                'filebrowserImageUploadUrl' => '/form/upload/')
+        );
 
         return $ckeditor;
     }

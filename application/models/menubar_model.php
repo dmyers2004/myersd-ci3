@@ -17,6 +17,8 @@
 class menubar_model extends MY_Model
 {
   public $_table = 'nav';
+  public $active_cache = null;
+  public $read_parents_cache = null;
 
   public $validate = array(
   	array('field'=>'id','label'=>'Id','rules'=>'required|integer|filter_int[6]'),
@@ -36,17 +38,21 @@ class menubar_model extends MY_Model
 
 	public function read_parents()
 	{
-		$option = array();
-
-		$query = $this->db->get_where($this->_table, array('parent_id' => 0));
-
-		if ($query->num_rows() > 0) {
-			foreach ($query->result() as $row) {
-				$option[$row->id] = $row->text;
+		if (!$this->read_parents_cache) {
+			$option = array();
+	
+			$query = $this->db->get_where($this->_table, array('parent_id' => 0));
+	
+			if ($query->num_rows() > 0) {
+				foreach ($query->result() as $row) {
+					$option[$row->id] = $row->text;
+				}
 			}
+		
+			$this->read_parents_cache = $option;
 		}
 
-		return $option;
+		return $this->read_parents_cache;
 	}
 
   public function insert($data, $skip_validation = false)
@@ -59,7 +65,10 @@ class menubar_model extends MY_Model
 
 	public function get_active()
 	{
-		return $this->db->order_by('sort')->get_where($this->_table, array('active' => 1))->result_array();
+		if (!$this->active_cache) {
+			$this->active_cache = $this->db->order_by('sort')->get_where($this->_table, array('active' => 1))->result_array();
+		}
+		return $this->active_cache;
 	}
 
   public function filter_id(&$id,$return=false)

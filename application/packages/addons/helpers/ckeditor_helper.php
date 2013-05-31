@@ -59,10 +59,11 @@ function cke_create_instance($data = array())
 	    			} else {
 	    				$return .= $k . " : '" . $v . "'";
 	    			}
-
-	    			if ($k !== end(array_keys($data['config']))) {
-						$return .= ",";
-					}
+						
+						$foo = array_keys($data['config']);
+	    			if ($k !== end($foo)) {
+							$return .= ",";
+						}
 	    		}
     		}
 

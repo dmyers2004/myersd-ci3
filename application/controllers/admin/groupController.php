@@ -53,6 +53,7 @@ class groupController extends MY_AdminController
 			->data('all_access',$this->format_privileges($this->access_model->get_all()));
 
 		$privileges = $this->controller_model->get_group_access($id);
+		
 		foreach ($privileges as $record) {
 			$access[$record->access_id] = true;
 		}
