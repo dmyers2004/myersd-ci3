@@ -15,8 +15,7 @@
  * body_class - class added to <body> element overwritten
  */
 
-/* where are the assets by default */
-$config['title.separator'] = ' - '; /* separator between title additions */
+$config['title.separator'] = ' - ';
 
 /* what view variable to attach the page partials to */
 $config['variables.title'] = 'meta_title'; /* base site title */
@@ -25,6 +24,7 @@ $config['variables.header'] = 'page_header'; /* after <body> */
 $config['variables.container'] = 'container';
 $config['variables.footer'] = 'page_footer'; /* before </body> */
 
+/* raw string input */
 $config['base'] = array(
 	'variables.title' => 'Apple 64',
 	
@@ -48,6 +48,11 @@ $config['base'] = array(
 		</script><script src="/assets/js/site.js"></script>'
 );
 
+/*
+we can run php here - while not "recommended" in this case I think it fits the task
+also this could be directly in the function call below but I wanted to grab the separately.
+if further processing was needed
+*/
 $menu = get_instance()->menubar->get_active();
 $roles = get_instance()->auth->get_user_roles();
 
@@ -63,15 +68,16 @@ $config['default']['js'] = array();
 $config['default']['css'] = array();
 $config['default']['meta'] = array();
 $config['default']['data'] = array(
-	'foo'							=> 'bar',
-	'logged_in' 			=> get_instance()->auth->is_logged_in(),
-	'navigation_menu' => get_instance()->menubar->render($roles,$menu),
+	'foo'									=> 'bar',
+	'logged_in' 					=> get_instance()->auth->is_logged_in(),
+	'navigation_menu' 		=> get_instance()->menubar->render($roles,$menu),
 	'page_body_class'			=> 'default',
 	'page_brand'					=> 'GTags'
 );
 $config['default']['template'] = '_templates/default';
 $config['default']['assets'] = '/assets/';
 $config['default']['folder'] = '';
+
 
 /* public group */
 $config['public']['css'] = array(
@@ -82,8 +88,9 @@ $config['public']['js'] = array(
 	'js/onready.js'
 );
 $config['public']['data'] = array(
-	'page_body_class'			=> 'public'
+	'page_body_class' => 'public'
 );
+
 
 /* admin group */
 $config['admin']['css'] = array(
@@ -103,7 +110,7 @@ $config['admin']['js'] = array(
 	'admin/js/admin_onready.js'
 );
 $config['admin']['data'] = array(
-	'page_body_class'			=> 'admin'
+	'page_body_class' => 'admin'
 );
 $config['admin']['template'] = 'admin/_templates/default';
 $config['admin']['title'] = 'Admin';
