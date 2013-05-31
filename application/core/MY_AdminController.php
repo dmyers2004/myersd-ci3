@@ -28,7 +28,7 @@ class MY_AdminController extends MY_PublicController
 			$this->controller_model = $this->$model_name;
 		}
 
-		$this->page->load('admin');
+		$this->page->add('admin');
 		
 		$this->load->library('Scaffold');
 

@@ -20,32 +20,61 @@ class Flash_msg
 
 	public function __construct()
 	{
-		/* drivers load late therefore load it here */
+		/* drivers loads to late therefore load it here */
 		get_instance()->load->driver('session');
-
+		
 		$this->tohtml();
 	}
 
-  /* wrapper functions for add */
-  public function __call($method, $param)
-  {
-    if (array_key_exists($method,$this->type)) {
-      $sticky_default = ($method == 'red' || $method == 'error') ? TRUE : FALSE;
-      call_user_func_array(array($this,'add'), array(@$param[0],$method,$sticky_default));
-    }
+	public function red($msg,$redirect=NULL)
+	{
+		return $this->add($msg,'red',TRUE,$redirect);	
+	}
 
-    if (@$param[1]) {
-    	$this->redirect($param[1]);
-    }
+	public function yellow($msg,$redirect=NULL)
+	{
+		return $this->add($msg,'yellow',FALSE,$redirect);	
+	}
 
-		return $this;
-  }
+	public function blue($msg,$redirect=NULL)
+	{
+		return $this->add($msg,'blue',FALSE,$redirect);	
+	}
+
+	public function green($msg,$redirect=NULL)
+	{
+		return $this->add($msg,'green',FALSE,$redirect);	
+	}
+
+	public function error($msg,$redirect=NULL)
+	{
+		return $this->add($msg,'error',TRUE,$redirect);	
+	}
+
+	public function info($msg,$redirect=NULL)
+	{
+		return $this->add($msg,'info',FALSE,$redirect);	
+	}
+
+	public function block($msg,$redirect=NULL)
+	{
+		return $this->add($msg,'block',FALSE,$redirect);	
+	}
+
+	public function success($msg,$redirect=NULL)
+	{
+		return $this->add($msg,'success',FALSE,$redirect);	
+	}
 
   /* most basic add function */
-  public function add($msg='',$type='yellow',$sticky=FALSE)
+  public function add($msg='',$type='yellow',$sticky=FALSE,$redirect=null)
   {
   	$this->messages[] = array('msg'=>$msg,'type'=>$this->type[$type],'sticky'=>$sticky);
-    $this->session->set_flashdata('flashMessages',$this->messages);
+    get_instance()->session->set_flashdata('flashMessages',$this->messages);
+
+		if ($redirect) {
+			redirect($redirect);
+		}
 
 		$this->tohtml();
 
@@ -54,10 +83,9 @@ class Flash_msg
 
 	public function tohtml($variable = 'flash_msg',$return = false)
 	{
-		$html  = '<script src="'.$this->js.'" type="text/javascript"></script>';
-		$html .= '<link rel="stylesheet" href="'.$this->css.'">';
+		$html = '<script src="'.$this->js.'" type="text/javascript"></script><link rel="stylesheet" href="'.$this->css.'">';
 
-    $msgs = $this->session->flashdata('flashMessages');
+    $msgs = get_instance()->session->flashdata('flashMessages');
 
     if (is_array($msgs)) {
     	$html .= '<script>$(document).ready(function(){';
@@ -75,33 +103,24 @@ class Flash_msg
 		return $html;
 	}
 
-	public function created($title,$redirect)
+	public function created($title,$redirect=NULL)
 	{
-		$this->add($title.' Created','success');
-		$this->redirect($redirect);
+		$this->add($title.' Created','success',FALSE,$redirect);
 	}
 
-	public function updated($title,$redirect)
+	public function updated($title,$redirect='')
 	{
-		$this->add($title.' Updated','success');
-		$this->redirect($redirect);
+		$this->add($title.' Updated','success',FALSE,$redirect);
 	}
 
-	public function fail($title,$redirect)
+	public function fail($title,$redirect='')
 	{
-		$this->add('Record '.$title.' Error','error');
-		$this->redirect($redirect);
+		$this->add('Record '.$title.' Error','error',TRUE,$redirect);
 	}
 
 	public function redirect($url)
 	{
   	redirect($url);
-	}
-
-	/* wrapper for CI instance */
-	public function __get($var)
-	{
-		return get_instance()->$var;
 	}
 
 } /* end class */

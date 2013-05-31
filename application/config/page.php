@@ -30,6 +30,12 @@ if ($roles === null) {
 }
 */
 
+$config['preset'] = array(
+	'css' => 'meta',
+	'js' => 'footer',
+	'meta' => 'meta'
+);
+
 /* Map Common Names to Custom View Variables */
 $config['variable_mappings'] = array(
 	'title' => 'meta_title', /* base site title */
@@ -51,6 +57,7 @@ $config['variable_mappings'] = array(
 */
 $config['default'] = array(
 	'$template' 				=> '_templates/default',
+	'$assets'						=> 'assets',
 	'title' 						=> 'Apple 64',
 	'pageBrand'					=> 'GTags',
 
@@ -101,7 +108,6 @@ $config['public'] = array(
 $config['admin'] = array(
 	'$template' 					=> 'admin/_templates/default',
 	'title'								=> '$ - Admin',
-	'bodyClass'			 			=> '$ admin',
 	'meta'								=> '$<link rel="stylesheet" href="/assets/css/template.css">
 															<link rel="stylesheet" href="/assets/css/style.css">
 															<link rel="stylesheet" href="/assets/admin/css/admin.css">
