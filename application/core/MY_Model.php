@@ -25,6 +25,7 @@ class MY_Model extends CI_Model
      * unless overridden
      */
     protected $_db;
+    protected $_db_group;
 
     /**
      * Local Database conn object; will use instead of $this->db

@@ -39,23 +39,25 @@ class Page
 					$this->$key = $value;
 				}
 			} else {
-				/* if it's not then apply it to a view variable */
-				$where = $value{0};
-				switch ($where) {
-					case '^': /* append to current view variable */
-						$value = substr($value,1);
-						$where = 'before';
-					break;
-					case '$': /* prepend to current view variable */
-						$value = substr($value,1);
-						$where = 'after';
-					break;
-					default: /* replace what's currently in view variable */
-						$where = 'overwrite';
+				if ($value) {
+					/* if it's not then apply it to a view variable */
+					$where = $value{0};
+					switch ($where) {
+						case '^': /* append to current view variable */
+							$value = substr($value,1);
+							$where = 'before';
+						break;
+						case '$': /* prepend to current view variable */
+							$value = substr($value,1);
+							$where = 'after';
+						break;
+						default: /* replace what's currently in view variable */
+							$where = 'overwrite';
+					}
+	
+					/* this will try to do a mapping if a exists in $config['variables'][%key%]*/
+					$this->_add($key,$value,$where);
 				}
-
-				/* this will try to do a mapping if a exists in $config['variables'][%key%]*/
-				$this->_add($key,$value,$where);
 			}
 		}
 
@@ -137,7 +139,7 @@ class Page
 	{
 		if (!empty($what)) {
 			$this->merge($what);
-			$var = $this->getDefault($this->config['variable_mappings'][$which],$which);
+			$var = @$this->getDefault($this->config['variable_mappings'][$which],$which);
 
 			switch ($where) {
 				case 'before':
@@ -217,7 +219,7 @@ class Page
 
   private function getVar($name)
   {
-		return get_instance()->load->_ci_cached_vars[$name];
+		return @get_instance()->load->_ci_cached_vars[$name];
   }
 
   private function setVar($name,$value)

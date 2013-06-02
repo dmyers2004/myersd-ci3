@@ -18,7 +18,7 @@ class MY_AdminController extends MY_PublicController
 		/* check security */
 		if (!$this->auth->is_logged_in()) {
 			//redirect them to the login page
-			$this->flash_msg->red('Access Denied','/admin/auth');
+			$this->flash_msg->denied('/admin/auth');
 		}
 
 		/* setup a default model */

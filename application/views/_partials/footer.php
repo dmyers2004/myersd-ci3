@@ -6,5 +6,9 @@
 			Environment <strong><?php echo ENVIRONMENT ?></strong>
 			Memory <strong><?php echo $this->benchmark->memory_usage() ?></strong>
 		</div>
+		<div>
+		<pre>
+		<?php print_r($_SESSION) ?>
+		</div>
 	</body>
 </html>

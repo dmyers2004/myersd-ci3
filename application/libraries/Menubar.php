@@ -65,6 +65,8 @@ class Menubar
 		// recurse menus for access fills $this->filtered
 		$this->generate_access_list($p,$menus);
 
+		$menu = array();
+
 		foreach ($this->filtered as $record) {
 			$menu[$record['parent_id']][$record['id']] = $record;
 		}
@@ -74,7 +76,9 @@ class Menubar
 
 	protected function build_tbs_menu($menu)
 	{
-		if (is_array($menu)) {
+		$html = '';
+		
+		if (is_array($menu) && isset($menu[0])) {
 			/* now generate the bootstrap menu */
 			$html = '';
 			foreach ($menu[0] as $key => $item) {

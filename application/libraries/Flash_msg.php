@@ -70,7 +70,7 @@ class Flash_msg
   public function add($msg='',$type='yellow',$sticky=FALSE,$redirect=null)
   {
   	$this->messages[] = array('msg'=>$msg,'type'=>$this->type[$type],'sticky'=>$sticky);
-    get_instance()->session->set_flashdata('flashMessages',$this->messages);
+    get_instance()->session->set_flashdata('growl_flash_message_storage',$this->messages);
 
 		if ($redirect) {
 			redirect($redirect);
@@ -85,11 +85,11 @@ class Flash_msg
 	{
 		$html = '<script src="'.$this->js.'" type="text/javascript"></script><link rel="stylesheet" href="'.$this->css.'">';
 
-    $msgs = get_instance()->session->flashdata('flashMessages');
+    $messages = get_instance()->session->flashdata('growl_flash_message_storage');
 
-    if (is_array($msgs)) {
+    if (is_array($messages)) {
     	$html .= '<script>$(document).ready(function(){';
-    	foreach ($msgs as $key => $msg) {
+    	foreach ($messages as $key => $msg) {
     	  $staytime = ($msg['sticky'] == TRUE) ? '' : ', stayTime: '.(800 * $this->staytime++);
     		$html .= 'jQuery.noticeAdd({ text: \''.$msg['msg'].'\', stay: \''.$msg['sticky'].'\', type: \''.$msg['type'].'\''.$staytime.' });';
     	}
@@ -101,6 +101,10 @@ class Flash_msg
 		}
 
 		return $html;
+	}
+
+	public function denied($redirect=NULL) {
+		$this->add('Access Denied','error',TRUE,$redirect);
 	}
 
 	public function created($title,$redirect=NULL)

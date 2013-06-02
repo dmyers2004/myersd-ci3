@@ -112,9 +112,7 @@ class Auth
 		$this->delete_autologin();
 
 		// See http://codeigniter.com/forums/viewreply/662369/ as the reason for the next line
-		$this->ci->session->set_userdata(array('user_id' => '', 'username' => '', 'status' => ''));
-
-		$this->ci->session->sess_destroy();
+		$this->ci->session->set_userdata(array('user_id' => '', 'username' => '', 'status' => '', 'group_id' => '', 'group_roles' => array()));
 	}
 
 	/**
@@ -558,32 +556,34 @@ class Auth
 			$this->ci->load->helper('cookie');
 			if ($cookie = get_cookie($this->ci->config->item('autologin_cookie_name', 'auth'), TRUE)) {
 
-				$data = unserialize($cookie);
-
-				if (isset($data['key']) AND isset($data['user_id'])) {
-
-					$this->ci->load->model('user_autologin_model');
-					if (!is_null($user = $this->ci->user_autologin_model->get($data['user_id'], md5($data['key'])))) {
-
-						// Login user
-						$this->ci->session->set_userdata(array(
-								'user_id'	=> $user->id,
-								'username'	=> $user->username,
-								'status'	=> STATUS_ACTIVATED,
-						));
-
-						// Renew users cookie to prevent it from expiring
-						set_cookie(array(
-								'name' 		=> $this->ci->config->item('autologin_cookie_name', 'auth'),
-								'value'		=> $cookie,
-								'expire'	=> $this->ci->config->item('autologin_cookie_life', 'auth'),
-						));
-
-						$this->ci->user_model->update_login_info(
-								$user->id,
-								$this->ci->config->item('login_record_ip', 'auth'),
-								$this->ci->config->item('login_record_time', 'auth'));
-						return TRUE;
+				if ($cookie !== TRUE) {
+					$data = unserialize($cookie);
+	
+					if (isset($data['key']) AND isset($data['user_id'])) {
+	
+						$this->ci->load->model('user_autologin_model');
+						if (!is_null($user = $this->ci->user_autologin_model->get($data['user_id'], md5($data['key'])))) {
+	
+							// Login user
+							$this->ci->session->set_userdata(array(
+									'user_id'	=> $user->id,
+									'username'	=> $user->username,
+									'status'	=> STATUS_ACTIVATED,
+							));
+	
+							// Renew users cookie to prevent it from expiring
+							set_cookie(array(
+									'name' 		=> $this->ci->config->item('autologin_cookie_name', 'auth'),
+									'value'		=> $cookie,
+									'expire'	=> $this->ci->config->item('autologin_cookie_life', 'auth'),
+							));
+	
+							$this->ci->user_model->update_login_info(
+									$user->id,
+									$this->ci->config->item('login_record_ip', 'auth'),
+									$this->ci->config->item('login_record_time', 'auth'));
+							return TRUE;
+						}
 					}
 				}
 			}

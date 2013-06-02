@@ -18,7 +18,7 @@ class authController extends MY_PublicController
 	{
 		if ($this->input->map($this->user_model->login_validate,$this->data)) {
 			if ($this->auth->login($this->data['email'], $this->data['password'], $this->data['remember'], false, true)) {
-				$this->flash_msg->green('Login Passed','/admin/dashboard');
+				$this->flash_msg->blue('Welcome','/admin/dashboard');
 			}
 		}
 
@@ -28,7 +28,7 @@ class authController extends MY_PublicController
 	public function logoutAction()
 	{
 		$this->auth->logout();
-		redirect('/');
+		$this->flash_msg->blue('You are now logged out','/');
 	}
 
 }
