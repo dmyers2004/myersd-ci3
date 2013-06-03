@@ -295,7 +295,7 @@ $config['encryption_key'] = '28c37869df0d7eb9e2d9138d72b76cc7';
 | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
 |
 */
-$config['sess_driver']			= 'native';
+$config['sess_driver']			= 'database';
 $config['sess_valid_drivers']	= array('database');
 $config['sess_cookie_name']		= 'session_cookie';
 $config['sess_expiration']		= 7200;
