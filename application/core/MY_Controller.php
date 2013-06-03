@@ -18,7 +18,7 @@ class MY_Controller extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->output->enable_profiler(TRUE);
+		//$this->output->enable_profiler(TRUE);
 
 		if ($this->config->item('site_open') === FALSE) {
 			show_error('Sorry the site is not open for now.');

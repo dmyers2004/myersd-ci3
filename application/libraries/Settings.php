@@ -137,7 +137,7 @@ class Settings
 		}
 
 		// Still nothing. How about config?
-		// This will retun FALSE if not found.
+		// This will return FALSE if not found.
 		return $this->_ci->config->item($option_name);
 	}
 

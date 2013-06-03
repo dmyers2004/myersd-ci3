@@ -20,9 +20,6 @@ class Flash_msg
 
 	public function __construct()
 	{
-		/* drivers loads to late therefore load it here */
-		get_instance()->load->driver('session');
-		
 		$this->tohtml();
 	}
 

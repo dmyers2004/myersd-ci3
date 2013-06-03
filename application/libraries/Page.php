@@ -2,7 +2,7 @@
 
 class Page
 {
-  public $config = array(); /* all configs local cache */
+  public $config = NULL; /* all configs local cache */
 
 	public $template = ''; /* template to use in build method */
 	public $assets = ''; /* find & replace %assets% in any strings */
@@ -18,10 +18,12 @@ class Page
   public function __construct()
   {
 		/* load using the magic settings file -> database */
-    $this->config = $this->load->settings('page');
+		if (!$this->config) {
+	    $this->config = $this->load->settings('page');
 
-		/* load in our defaults */
-		$this->add('default');
+			/* load in our defaults */
+			$this->add('default');
+		}
   }
 
 	public function add($key,$value=null) {
