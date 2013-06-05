@@ -9,6 +9,21 @@ class authController extends MY_PublicController
 		$this->page->build();
 	}
 
+	public function resend_emailAction()
+	{
+		$this->page->build();
+	}
+
+	public function resend_emailValidatePostAction()
+	{
+		
+	}
+	
+	public function resend_emailPostAction()
+	{
+		
+	}
+
 	public function forgotAction()
 	{
 		$this->page->build();
@@ -46,6 +61,17 @@ class authController extends MY_PublicController
 		$this->flash_msg->red('No account associated with that password','/admin/auth/forgot');
 	}
 
+	public function activateAction($user_id=null,$activation_key=null)
+	{
+		/* filter input die hard if somebody is messing around */	
+		$this->input->filter('required|integer',$user_id,false);
+		$this->input->filter('required|md5',$activation_key,false);
+
+		$this->page
+			->data('live',$this->auth->activate_user($user_id, $activation_key))
+			->build();
+	}
+
 	public function registerAction()
 	{
 		$this->page
@@ -65,7 +91,7 @@ class authController extends MY_PublicController
 			$email_activation = $this->config->item('email_activation', 'auth');
 			$default_group_id = $this->config->item('default_group_id', 'auth');
 			
-			/* did they set the default group id */
+			/* did they set the default group id */ 
 			if ($default_group_id == null) {
 				/* you forgot to set the default group id! */
 				log_message('error','config/auth.php default_group_id not set');
