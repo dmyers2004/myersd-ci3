@@ -55,10 +55,9 @@ class MY_Input extends CI_Input
 
 			/* setup our rule on the bogus array key for testing using the filter sent in - bogus name "input filter" */
 			$CI->form_validation->set_rules($rule['field'],$rule['label'],$rule['rules']);
-
 			/* run the validation if fail (false) return pronto */
 			if ($CI->form_validation->run() === false) {
-				log_message('info','MY_Input::map '.$rule['field'].'/'.validation_errors().'/'.$rule['rules']);
+				log_message('info','MY_Input::map Field: "'.$rule['field'].'" Error: "'.validation_errors().'" Rules: '.$rule['rules']);
 				return false;
 			}
 

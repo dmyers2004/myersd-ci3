@@ -3,16 +3,22 @@
   <fieldset>
     <legend>Reset Password</legend>
 
-    <label>New Password</label>
-    <input type="text" name="new" value="" placeholder="password">
+    <div class="password control-group">
+	    <label>New Password</label>
+	    <input type="text" name="new" value="" placeholder="password">
+		</div>
 
-    <label>Confirm New Password</label>
-    <input type="text" name="new_confirm" value="" placeholder="password">
+    <div class="password control-group">
+	    <label>Confirm New Password</label>
+	    <input type="text" name="new_confirm" value="" placeholder="password">
+		</div>
 
 		<input type="hidden" name="hash" value="<?=$hash ?>">
 
     <p>
-	    <button type="submit" class="btn">Submit</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/admin/auth">Back to Login</a>
+	    <button type="submit" class="btn">Submit</button>
+	    <img src="" width="64" height="1">
+	    <a href="/admin/auth">Back to Login</a>
 		</p>
 
   </fieldset>

@@ -84,11 +84,11 @@ LOCK TABLES `group_access` WRITE;
 
 INSERT INTO `group_access` (`group_id`, `access_id`)
 VALUES
-	(5,1),
-	(5,4),
-	(5,5),
-	(5,12),
-	(5,13),
+	(2,1),
+	(2,4),
+	(2,5),
+	(2,12),
+	(2,13),
 	(1,7),
 	(1,9),
 	(1,4),
@@ -117,7 +117,7 @@ LOCK TABLES `groups` WRITE;
 INSERT INTO `groups` (`id`, `name`, `description`)
 VALUES
 	(1,'Admin','Administrator Group'),
-	(5,'Clients','Client group');
+	(2,'Clients','Client group');
 
 /*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 UNLOCK TABLES;

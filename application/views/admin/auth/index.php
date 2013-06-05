@@ -18,6 +18,8 @@
 	    <img src="" width="64" height="1">
 	    <a href="/admin/auth/forgot">Forgot Password</a>
 		</p>
+		
+		<p><a href="/admin/auth/register">Register</a></p>
 
   </fieldset>
 </form>

@@ -41,7 +41,7 @@ $config['phpass_hash_strength'] = 8;
 */
 $config['allow_registration'] = FALSE;
 $config['captcha_registration'] = FALSE;
-$config['email_activation'] = FALSE;
+$config['email_activation'] = TRUE;
 $config['email_activation_expire'] = 60*60*24*2;
 $config['email_account_details'] = TRUE;
 $config['use_username'] = TRUE;
@@ -142,6 +142,8 @@ $config['db_table_prefix'] = '';
 
 /* admin group id number */
 $config['admin_group_id'] = 1;
+
+$config['default_group_id'] = 5;
 
 /* End of file tank_auth.php */
 /* Location: ./application/config/tank_auth.php */

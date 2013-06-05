@@ -14,6 +14,10 @@ class authController extends MY_PublicController
 		$this->page->build();
 	}
 
+	public function resetAction() {
+		$this->page->build();
+	}
+
 	public function forgotValidatePostAction()
 	{
 		$this->load->json($this->user_model->validate_email());
@@ -44,7 +48,58 @@ class authController extends MY_PublicController
 
 	public function registerAction()
 	{
-		$this->page->build();
+		$this->page
+			->js('/assets/js/page/admin_auth_register.js')
+			->build();
+	}
+
+	public function registerValidatePostAction()
+	{
+		$this->load->json($this->user_model->validate_register());
+	}
+
+	public function registerPostAction()
+	{
+		if ($this->input->map($this->user_model->register_validate,$this->data)) {
+			/* send activation email? */
+			$email_activation = $this->config->item('email_activation', 'auth');
+			$default_group_id = $this->config->item('default_group_id', 'auth');
+			
+			/* did they set the default group id */
+			if ($default_group_id == null) {
+				/* you forgot to set the default group id! */
+				log_message('error','config/auth.php default_group_id not set');
+				$this->flash_msg->red('Registration Failed','/');
+			}
+			
+			if (!is_null($this->auth->create_user($this->data['username'], $this->data['email'], $this->data['password'], $default_group_id, $email_activation))) {
+
+				if ($email_activation) { // send "activate" email
+					$this->data['activation_period'] = $this->config->item('email_activation_expire', 'auth') / 3600;
+					$this->data['template'] = 'activate';
+
+					unset($this->data['password']); // Clear password (just for any case)
+					
+					$this->send_email($this->data);
+
+					$this->flash_msg->blue('Email Sent','/admin/auth');
+				} else {
+					if ($this->config->item('email_account_details', 'auth')) {	// send "welcome" email
+						$this->data['template'] = 'welcome';
+						unset($data['password']); // Clear password (just for any case)
+						$this->send_email($this->data);
+						$this->flash_msg->blue('Welcome Email Sent','/admin/auth');
+					}
+					
+					redirect('/admin/auth');
+				}
+				
+				redirect('/admin/');
+			}
+
+		}
+		
+		$this->flash_msg->red('Registration Failed','/');
 	}
 
 	public function loginValidatePostAction()

@@ -36,6 +36,13 @@ class User_model extends MY_Model
 		array('field' => 'email','label' => 'Email','rules' => 'trim|required|valid_email|xss_clean|filter_email[72]'),
 	);
 
+	public $register_validate = array(
+		array('field' => 'username','label' => 'User Name','rules' => 'trim|required|xss_clean|filter_str[72]'),
+		array('field' => 'email','label' => 'Email','rules' => 'trim|required|xss_clean|filter_str[72]'),
+		array('field' => 'password','label' => 'Password','rules' => 'required|filter_str[32]'),
+		array('field' => 'repeat_password','label' => 'Password Check', 'rules' => 'matches[repeat_password]|required|filter_str[32]'),
+	);
+
 	public $filters = array(
 		'id'=>'trim|integer|filter_int[5]|exists[users.id]',
 		'mode'=>'trim|tf|filter_int[1]'
@@ -76,6 +83,13 @@ class User_model extends MY_Model
 	{
 		$this->form_validation->reset_validation();
 		$this->form_validation->set_rules($this->email_validate);
+		return $this->form_validation->run_array();
+	}
+
+	public function validate_register()
+	{
+		$this->form_validation->reset_validation();
+		$this->form_validation->set_rules($this->register_validate);
 		return $this->form_validation->run_array();
 	}
 
