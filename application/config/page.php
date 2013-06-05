@@ -113,6 +113,8 @@ $config['public'] = array(
 $config['admin'] = array(
 	'$template' => 'admin/_templates/default',
 	'title' => '$ - Admin',
+	'crud' => &get_instance()->scaffold,
+	'admin_bar' => 'navbar-inverse',
 	
 	'meta' => '$<link rel="stylesheet" href="/assets/css/template.css">
 		<link rel="stylesheet" href="/assets/css/style.css">

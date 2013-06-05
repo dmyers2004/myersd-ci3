@@ -79,9 +79,9 @@ class authController extends MY_PublicController
 		$this->email->from($this->data['from'], $this->data['from_long']);
 		$this->email->reply_to($this->data['reply_to'], $this->data['reply_to_long']);
 		$this->email->to($this->data['to']);
-		$this->email->subject(quick_merge($this->data['subject'],$this->data,true));
-		$this->email->message(quick_merge('admin/_email_templates/'.$this->data['template'].'-html',$this->data));
-		$this->email->set_alt_message(quick_merge('admin/_email_templates/'.$this->data['template'].'-txt',$this->data));
+		$this->email->subject(merge($this->data['subject'],$this->data,true));
+		$this->email->message(merge('admin/_email_templates/'.$this->data['template'].'-html',$this->data));
+		$this->email->set_alt_message(merge('admin/_email_templates/'.$this->data['template'].'-txt',$this->data));
 		$this->email->send();
 	}
 

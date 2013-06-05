@@ -10,10 +10,10 @@ require 'MY_AdminController.php';
 
 class MY_Controller extends CI_Controller
 {
-	public $libraries = array();
-	public $helpers = array();
-	public $models = array();
-	public $data = array();
+	public $libraries = array(); /* auto load */
+	public $helpers = array(); /* auto load */
+	public $models = array(); /* auto load */
+	public $data = array(); /* store all controller data */
 
 	public function __construct()
 	{

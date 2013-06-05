@@ -85,7 +85,7 @@ function is_ajax_method() {
 	}
 }
 
-function quick_merge($view,$data=array(),$str=false) {
+function merge($view,$data=array(),$str=false) {
 	$ci = get_instance();
 	$ci->load->library('parser');
 	

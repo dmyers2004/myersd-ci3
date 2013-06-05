@@ -40,7 +40,7 @@ class Page
 			} else {
 				if ($value) {
 					/* if it's not then apply it to a view variable */
-					$where = $value{0};
+					$where = (is_string($value)) ? $value{0} : 'overwrite';
 					switch ($where) {
 						case '^': /* append to current view variable */
 							$value = substr($value,1);
@@ -65,8 +65,10 @@ class Page
 
 	public function merge(&$string)
 	{
-		$string = str_replace('%theme%',$this->theme,$string);
-		$string = str_replace('%assets%',$this->assets,$string);
+		if (is_string($string)) {
+			$string = str_replace('%theme%',$this->theme,$string);
+			$string = str_replace('%assets%',$this->assets,$string);
+		}
 	}
 
 	public function img($src='',$additional_attributes=array())

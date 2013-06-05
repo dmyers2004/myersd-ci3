@@ -37,8 +37,6 @@ class MY_AdminController extends MY_PublicController
 
 		$this->page
 			->add('admin')
-			->data('crud',$this->scaffold)
-			->data('admin_bar','navbar-inverse')
 			->data('controller',$this->controller)
 			->data('page_title',$this->page_title)
 			->data('page_titles',$this->page_titles)
