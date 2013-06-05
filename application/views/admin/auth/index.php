@@ -15,6 +15,8 @@
 
     <p>
 	    <button type="submit" class="btn">Submit</button>
+	    <img src="" width="64" height="1">
+	    <a href="/admin/auth/forgot">Forgot Password</a>
 		</p>
 
   </fieldset>

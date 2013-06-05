@@ -26,12 +26,7 @@ class Auth
 
 		$this->ci->load->config('auth', TRUE);
 
-//		$this->ci->load->database();
-//		$this->ci->load->driver('session');
 		$this->ci->load->model('user_model');
-
-		// Try to autologin
-//		$this->autologin();
 	}
 
 	/**

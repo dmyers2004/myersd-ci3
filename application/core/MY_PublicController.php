@@ -9,13 +9,11 @@
 class MY_PublicController extends MY_Controller
 {
 
-	public $view_folder;
-
 	public function __construct()
 	{
 		parent::__construct();
 
-		if (ENVIRONMENT == 'production') {
+		if (ENVIRONMENT !== 'production') {
 			$this->db->save_queries = FALSE;
 		}
 

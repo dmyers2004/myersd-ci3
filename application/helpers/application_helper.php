@@ -84,3 +84,14 @@ function is_ajax_method() {
 		die();
 	}
 }
+
+function quick_merge($view,$data=array(),$str=false) {
+	$ci = get_instance();
+	$ci->load->library('parser');
+	
+	if ($str) {
+		return $ci->parser->parse_string($view,$data,TRUE);
+	} else {
+		return $ci->parser->parse($view,$data,TRUE);
+	}
+}

@@ -30,6 +30,7 @@ if ($roles === null) {
 }
 */
 
+/* what variable (mapped) to these get added to */
 $config['preset'] = array(
 	'css' => 'meta',
 	'js' => 'footer',
@@ -56,10 +57,10 @@ $config['variable_mappings'] = array(
 
 */
 $config['default'] = array(
-	'$template' 				=> '_templates/default',
-	'$assets'						=> 'assets',
-	'title' 						=> 'Apple 64',
-	'pageBrand'					=> 'GTags',
+	'$template' => '_templates/default',
+	'$assets' => 'assets',
+	'title' => 'Apple 64',
+	'pageBrand' => 'GTags',
 
 	'meta' => '<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -88,13 +89,17 @@ $config['default'] = array(
                             
 */
 $config['public'] = array(
-	'bodyClass'			 			=> '$ public',
-	'foo'									=> 'bar',
-	'logged_in' 					=> get_instance()->auth->is_logged_in(),
-	'navigation_menu' 		=> get_instance()->menubar->render($roles,$menu),
-	'meta'								=> '$<link rel="stylesheet" href="/assets/css/template.css">
-															<link rel="stylesheet" href="/assets/css/style.css">',
-	'footer'							=> '$<script src="/assets/js/onready.js"></script>'
+	'bodyClass' => '$ public',
+	'foo' => 'bar',
+
+	'logged_in' => get_instance()->auth->is_logged_in(),
+	'navigation_menu' => get_instance()->menubar->render($roles,$menu),
+
+	'meta' => '$<link rel="stylesheet" href="/assets/css/template.css">
+		<link rel="stylesheet" href="/assets/css/style.css">',
+
+	'footer' => '$<script src="/assets/admin/js/jquery.ajax.form.js"></script>
+		<script src="/assets/js/onready.js"></script>'
 );
 
 /*
@@ -106,20 +111,21 @@ $config['public'] = array(
                              
 */
 $config['admin'] = array(
-	'$template' 					=> 'admin/_templates/default',
-	'title'								=> '$ - Admin',
-	'meta'								=> '$<link rel="stylesheet" href="/assets/css/template.css">
-															<link rel="stylesheet" href="/assets/css/style.css">
-															<link rel="stylesheet" href="/assets/admin/css/admin.css">
-															<link rel="stylesheet" href="/assets/chosen/chosen.css">
-															<link rel="stylesheet" href="/assets/table-fixed-header/table-fixed-header.css">',
-	'footer'							=> '$<script src="/assets/chosen/chosen.jquery.min.js"></script>
-															<script src="/assets/table-fixed-header/table-fixed-header.js"></script>
-															<script src="/assets/admin/js/jquery.ajax.form.js"></script>
-															<script src="/assets/admin/js/jquery.ajax.link.js"></script>
-															<script src="/assets/admin/js/jquery.combobox.js"></script>
-															<script src="/assets/admin/js/jquery.filter_input.js"></script>
-															<script src="/assets/admin/js/admin_onready.js"></script>'
+	'$template' => 'admin/_templates/default',
+	'title' => '$ - Admin',
+	
+	'meta' => '$<link rel="stylesheet" href="/assets/css/template.css">
+		<link rel="stylesheet" href="/assets/css/style.css">
+		<link rel="stylesheet" href="/assets/admin/css/admin.css">
+		<link rel="stylesheet" href="/assets/chosen/chosen.css">
+		<link rel="stylesheet" href="/assets/table-fixed-header/table-fixed-header.css">',
+		
+	'footer' => '$<script src="/assets/chosen/chosen.jquery.min.js"></script>
+		<script src="/assets/table-fixed-header/table-fixed-header.js"></script>
+		<script src="/assets/admin/js/jquery.ajax.link.js"></script>
+		<script src="/assets/admin/js/jquery.combobox.js"></script>
+		<script src="/assets/admin/js/jquery.filter_input.js"></script>
+		<script src="/assets/admin/js/admin_onready.js"></script>'
 );
 
 /* additional groups below */

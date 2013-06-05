@@ -11,17 +11,18 @@ class accessController extends MY_AdminController
 
 	public function indexAction()
 	{
-		$this->data('records',$this->controller_model->get_all())
-			->page->build();
+		$this->page
+			->data('records',$this->controller_model->get_all())
+			->build();
 	}
 
 	public function newAction()
 	{
-		$this->data('title','New '.$this->title)
+		$this->page
+			->data('title','New '.$this->title)
 			->data('action',$this->controller_path.'new')
 			->data('record',(object) array('id'=>-1,'active'=>1))
-
-			->page->build($this->controller_path.'form');
+			->build($this->controller_path.'form');
 	}
 
 	public function newValidatePostAction()
@@ -45,10 +46,11 @@ class accessController extends MY_AdminController
 		/* if somebody is sending in bogus id's send them to a fiery death */
 		$this->controller_model->filter_id($id,false);
 
-		$this->data('title','Edit '.$this->title)
+		$this->page
+			->data('title','Edit '.$this->title)
 			->data('action',$this->controller_path.'edit')
 			->data('record',$this->controller_model->get($id))
-			->page->build($this->controller_path.'form');
+			->build($this->controller_path.'form');
 	}
 
 	public function editValidatePostAction()
@@ -73,29 +75,29 @@ class accessController extends MY_AdminController
 	/* ajax activate */
 	public function activateAction($id=null,$mode=null)
 	{
-		$data['err'] = true;
+		$this->data['err'] = true;
 
 		if ($this->controller_model->filter_id($id) && $this->controller_model->filter_mode($mode)) {
 			if ($this->controller_model->update($id, array('active'=>$mode), true)) {
-				$data['err'] = false;
+				$this->data['err'] = false;
 			}
 		}
 
-		$this->load->json($data);
+		$this->load->json($this->data);
 	}
 
 	public function deleteAction($id=null)
 	{
-		$data['err'] = true;
+		$this->data['err'] = true;
 
 		/* can they delete? */
 		if ($this->controller_model->filter_id($id)) {
 			$this->controller_model->delete($id);
 			$this->group_model->delete_access($id);
-			$data['err'] = false;
+			$this->data['err'] = false;
 		}
 
-		$this->load->json($data);
+		$this->load->json($this->data);
 	}
 
 }

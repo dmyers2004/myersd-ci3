@@ -4,10 +4,12 @@
     <legend>Forgot Password</legend>
 
     <label>Email</label>
-    <input type="text" name="identity" value="admin@admin.com" placeholder="email">
+    <input type="text" name="email" value="" placeholder="email">
 
     <p>
-	    <button type="submit" class="btn">Submit</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/admin/auth">Back to Login</a>
+	    <button type="submit" class="btn">Submit</button>
+	    <img src="" width="64" height="1">
+	    <a href="/admin/auth">Back to Login</a>
 		</p>
 
   </fieldset>

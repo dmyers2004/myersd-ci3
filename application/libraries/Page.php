@@ -6,7 +6,7 @@ class Page
 
 	public $template = ''; /* template to use in build method */
 	public $assets = ''; /* find & replace %assets% in any strings */
-	public $theme = ''; /* theme folder for views (added via a package) */
+	public $theme = ''; /* theme folder for views (added as a package) */
 
 	public $default_css = array('rel'=>'stylesheet','type'=>'text/css','href'=>'');
 	public $default_js = array('src'=>'');
@@ -17,13 +17,10 @@ class Page
 
   public function __construct()
   {
-		/* load using the magic settings file -> database */
-		if (!$this->config) {
-	    $this->config = $this->load->settings('page');
+    $this->config = $this->load->settings('page');
 
-			/* load in our defaults */
-			$this->add('default');
-		}
+		/* load in our defaults */
+		$this->add('default');
   }
 
 	public function add($key,$value=null) {
@@ -213,18 +210,18 @@ class Page
   }
 
   /* standard libs appendVar, getVar, setVar, getDefaultArray, getDefault */
-  private function appendVar($name,$value)
+  public function appendVar($name,$value)
   {
 		$this->setVar($name,$this->getVar($name).$value);
   	return $this;
   }
 
-  private function getVar($name)
+  public function getVar($name)
   {
 		return @get_instance()->load->_ci_cached_vars[$name];
   }
 
-  private function setVar($name,$value)
+  public function setVar($name,$value)
   {
 		get_instance()->load->_ci_cached_vars[$name] = $value;
 		return $this;

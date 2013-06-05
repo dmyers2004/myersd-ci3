@@ -32,6 +32,10 @@ class User_model extends MY_Model
 		array('field' => 'remember','label' => 'Remember Me', 'rules' => 'integer|tf|filter_int[1]','default' => 0)
 	);
 
+	public $email_validate = array(
+		array('field' => 'email','label' => 'Email','rules' => 'trim|required|valid_email|xss_clean|filter_email[72]'),
+	);
+
 	public $filters = array(
 		'id'=>'trim|integer|filter_int[5]|exists[users.id]',
 		'mode'=>'trim|tf|filter_int[1]'
@@ -65,6 +69,13 @@ class User_model extends MY_Model
 	{
 		$this->form_validation->reset_validation();
 		$this->form_validation->set_rules($this->login_validate);
+		return $this->form_validation->run_array();
+	}
+	
+	public function validate_email()
+	{
+		$this->form_validation->reset_validation();
+		$this->form_validation->set_rules($this->email_validate);
 		return $this->form_validation->run_array();
 	}
 

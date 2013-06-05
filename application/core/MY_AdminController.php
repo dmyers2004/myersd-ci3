@@ -9,7 +9,12 @@
 class MY_AdminController extends MY_PublicController
 {
 
+	/* your basic scaffolding */
 	public $controller_model = null;
+	public $controller = '';
+	public $page_title = '';
+	public $page_titles = '';
+	public $page_description = '';
 
 	public function __construct()
 	{
@@ -28,11 +33,11 @@ class MY_AdminController extends MY_PublicController
 			$this->controller_model = $this->$model_name;
 		}
 
-		$this->page->add('admin');
-		
 		$this->load->library('Scaffold');
 
-		$this->data('crud',$this->scaffold)
+		$this->page
+			->add('admin')
+			->data('crud',$this->scaffold)
 			->data('admin_bar','navbar-inverse')
 			->data('controller',$this->controller)
 			->data('page_title',$this->page_title)

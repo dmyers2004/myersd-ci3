@@ -12,19 +12,21 @@ class userController extends MY_AdminController
 	/* index view */
 	public function indexAction()
 	{
-		$this->data('records',$this->auth->get_users())
+		$this->page
+			->data('records',$this->auth->get_users())
 			->data('group_options',$this->_get_groups())
-			->page->build();
+			->build();
 	}
 
 	/* create new form */
 	public function newAction()
 	{
-		$this->data('title','New '.$this->title)
+		$this->page
+			->data('title','New '.$this->title)
 			->data('action',$this->controller_path.'new')
 			->data('record',(object) array('activated'=>1,'id'=>-1))
 			->data('group_options',$this->_get_groups())
-			->page->build($this->controller_path.'form');
+			->build($this->controller_path.'form');
 	}
 
 	/* create new form validation */
@@ -55,11 +57,12 @@ class userController extends MY_AdminController
 		/* if somebody is sending in bogus id's send them to a fiery death */
 		$this->controller_model->filter_id($id,false);
 
-		$this->data('title','Edit '.$this->title)
+		$this->page
+			->data('title','Edit '.$this->title)
 			->data('action',$this->controller_path.'edit')
 			->data('record',$this->controller_model->get_user($id))
 			->data('group_options',$this->_get_groups())
-			->page->build($this->controller_path.'form');
+			->build($this->controller_path.'form');
 	}
 
 	/* edit form validate */
@@ -88,7 +91,7 @@ class userController extends MY_AdminController
 
 			/* did they change the password? update it */
 			if ($this->input->post('password') != '') {
-				$this->controller_model->change_password($data['id'], $this->input->post('password'));
+				$this->controller_model->change_password($this->data['id'], $this->input->post('password'));
 			}
 
 			$this->flash_msg->updated($this->title,$this->controller_path);
@@ -100,39 +103,40 @@ class userController extends MY_AdminController
 	/* ajax activate */
 	public function activateAction($id=null,$mode=null)
 	{
-		$data['err'] = true;
+		$this->data['err'] = true;
 
 		if ($this->controller_model->filter_id($id) && $this->controller_model->filter_mode($mode)) {
 			if ($this->controller_model->update_user($id, array('activated'=>$mode))) {
-				$data['err'] = false;
+				$this->data['err'] = false;
 			}
 		}
 
-		$this->load->json($data);
+		$this->load->json($this->data);
 	}
 
 	/* ajax delete */
 	public function deleteAction($id=null)
 	{
-		$data['err'] = true;
+		$this->data['err'] = true;
 
 		/* can they delete? */
 		if ($this->controller_model->filter_id($id)) {
 			$this->controller_model->delete_user($id);
-			$data['err'] = false;
+			$this->data['err'] = false;
 		}
 
-		$this->load->json($data);
+		$this->load->json($this->data);
 	}
 
 	/* Internal */
 	protected function _get_groups()
 	{
+		$group = array();
 		$dbc = $this->group_model->get_all();
 		foreach ($dbc as $dbr) {
-			$data[$dbr->id] = $dbr->name;
+			$group[$dbr->id] = $dbr->name;
 		}
-		return (array) $data;
+		return $group;
 	}
 
 }

@@ -1,41 +1,9 @@
-<?php
-/**
- * CodeIgniter
- *
- * An open source application development framework for PHP 5.2.4 or newer
- *
- * NOTICE OF LICENSE
- *
- * Licensed under the Open Software License version 3.0
- *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
- *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
- * @filesource
- */
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Native PHP session management driver
- *
- * This is the driver that uses the native PHP $_SESSION array through the Session driver library.
- *
- * @package		CodeIgniter
- * @subpackage	Libraries
- * @category	Sessions
- * @author		EllisLab Dev Team
- */
+	* This is based off the native driver
+	* I simple strap on a session save handler to put it into the DB
+	*/
 class CI_Session_database extends CI_Session_driver {
 
 	public $user_agent;
@@ -81,7 +49,13 @@ class CI_Session_database extends CI_Session_driver {
 
 		$this->sess_table_name = $config['sess_table_name'];
 
-		/* set the PHP handler to these functions */
+		/*
+		 ____                _               _   _                 _ _           
+		/ ___|  ___  ___ ___(_) ___  _ __   | | | | __ _ _ __   __| | | ___ _ __ 
+		\___ \ / _ \/ __/ __| |/ _ \| '_ \  | |_| |/ _` | '_ \ / _` | |/ _ \ '__|
+		 ___) |  __/\__ \__ \ | (_) | | | | |  _  | (_| | | | | (_| | |  __/ |   
+		|____/ \___||___/___/_|\___/|_| |_| |_| |_|\__,_|_| |_|\__,_|_|\___|_|   
+		*/
 		session_set_save_handler(
 			array(&$this, 'database_open'),
 			array(&$this, 'database_close'),
@@ -267,7 +241,13 @@ class CI_Session_database extends CI_Session_driver {
 		return $_SESSION;
 	}
 	
-	/* Database Storage instead of file storage */
+	/*
+	 ____                _               _____                 _   _                 
+	/ ___|  ___  ___ ___(_) ___  _ __   |  ___|   _ _ __   ___| |_(_) ___  _ __  ___ 
+	\___ \ / _ \/ __/ __| |/ _ \| '_ \  | |_ | | | | '_ \ / __| __| |/ _ \| '_ \/ __|
+	 ___) |  __/\__ \__ \ | (_) | | | | |  _|| |_| | | | | (__| |_| | (_) | | | \__ \
+	|____/ \___||___/___/_|\___/|_| |_| |_|   \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
+	*/
 	
 	public function database_open() {
 		return true;
@@ -278,11 +258,9 @@ class CI_Session_database extends CI_Session_driver {
 	}
 	
 	public function database_read($id) {
-    $query = $this->CI->db->get_where($this->sess_table_name, array('session_id' => $id));
- 
-    $record = $query->result();
+    $record = $this->CI->db->get_where($this->sess_table_name, array('session_id' => $id))->result();
     
-		if (count($record) == 1) {
+		if (count($record) === 1) {
       return $record[0]->user_data;
     }
  
@@ -311,5 +289,5 @@ class CI_Session_database extends CI_Session_driver {
 	
 }
 
-/* End of file Session_native.php */
-/* Location: ./system/libraries/Session/drivers/Session_native.php */
+/* End of file Session_database.php */
+/* Location: ./application/libraries/Session/drivers/Session_database.php */

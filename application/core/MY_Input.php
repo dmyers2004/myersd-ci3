@@ -83,7 +83,7 @@ class MY_Input extends CI_Input
 		$CI = get_instance();
 		$CI->load->library('form_validation');
 
-		$bogus = 'foobarvariable';
+		$bogus = 'effaadbbababcbde';
 
 		/* make sure it's reset - incase it's already loaded and used we need it empty */
 		$CI->form_validation->reset_validation();

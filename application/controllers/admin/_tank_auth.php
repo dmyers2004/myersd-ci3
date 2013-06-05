@@ -7,9 +7,7 @@ class auth extends CI_Controller
 		parent::__construct();
 
 		$this->load->helper(array('form', 'url'));
-		$this->load->library('form_validation');
-		$this->load->library('security');
-		$this->load->library('tank_auth');
+		$this->load->library(array('form_validation','security','tank_auth'));
 		$this->lang->load('tank_auth');
 	}
 
@@ -36,8 +34,7 @@ class auth extends CI_Controller
 			redirect('/auth/send_again/');
 
 		} else {
-			$data['login_by_username'] = ($this->config->item('login_by_username', 'tank_auth') AND
-					$this->config->item('use_username', 'tank_auth'));
+			$data['login_by_username'] = ($this->config->item('login_by_username', 'tank_auth') AND $this->config->item('use_username', 'tank_auth'));
 			$data['login_by_email'] = $this->config->item('login_by_email', 'tank_auth');
 
 			$this->form_validation->set_rules('login', 'Login', 'trim|required|xss_clean');
@@ -45,20 +42,22 @@ class auth extends CI_Controller
 			$this->form_validation->set_rules('remember', 'Remember me', 'integer');
 
 			// Get login for counting attempts to login
-			if ($this->config->item('login_count_attempts', 'tank_auth') AND
-					($login = $this->input->post('login'))) {
+			if ($this->config->item('login_count_attempts', 'tank_auth') AND ($login = $this->input->post('login'))) {
 				$login = $this->security->xss_clean($login);
 			} else {
 				$login = '';
 			}
 
 			$data['use_recaptcha'] = $this->config->item('use_recaptcha', 'tank_auth');
+			
 			if ($this->tank_auth->is_max_login_attempts_exceeded($login)) {
-				if ($data['use_recaptcha'])
+				if ($data['use_recaptcha']) {
 					$this->form_validation->set_rules('recaptcha_response_field', 'Confirmation Code', 'trim|xss_clean|required|callback__check_recaptcha');
-				else
+				} else {
 					$this->form_validation->set_rules('captcha', 'Confirmation Code', 'trim|xss_clean|required|callback__check_captcha');
+				}
 			}
+			
 			$data['errors'] = array();
 
 			if ($this->form_validation->run()) {								// validation ok
@@ -83,7 +82,9 @@ class auth extends CI_Controller
 					}
 				}
 			}
+			
 			$data['show_captcha'] = FALSE;
+			
 			if ($this->tank_auth->is_max_login_attempts_exceeded($login)) {
 				$data['show_captcha'] = TRUE;
 				if ($data['use_recaptcha']) {
@@ -92,6 +93,7 @@ class auth extends CI_Controller
 					$data['captcha_html'] = $this->_create_captcha();
 				}
 			}
+			
 			$this->load->view('auth/login_form', $data);
 		}
 	}
@@ -268,8 +270,7 @@ class auth extends CI_Controller
 			$data['errors'] = array();
 
 			if ($this->form_validation->run()) {								// validation ok
-				if (!is_null($data = $this->tank_auth->forgot_password(
-						$this->form_validation->set_value('login')))) {
+				if (!is_null($data = $this->tank_auth->forgot_password($this->form_validation->set_value('login')))) {
 
 					$data['site_name'] = $this->config->item('website_name', 'tank_auth');
 
@@ -417,7 +418,6 @@ class auth extends CI_Controller
 		if ($this->tank_auth->activate_new_email($user_id, $new_email_key)) {	// success
 			$this->tank_auth->logout();
 			$this->_show_message($this->lang->line('auth_message_new_email_activated').' '.anchor('/auth/login/', 'Login'));
-
 		} else {																// fail
 			$this->_show_message($this->lang->line('auth_message_new_email_failed'));
 		}
@@ -432,22 +432,20 @@ class auth extends CI_Controller
 	{
 		if (!$this->tank_auth->is_logged_in()) {								// not logged in or not activated
 			redirect('/auth/login/');
-
 		} else {
 			$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
 
 			$data['errors'] = array();
 
 			if ($this->form_validation->run()) {								// validation ok
-				if ($this->tank_auth->delete_user(
-						$this->form_validation->set_value('password'))) {		// success
+				if ($this->tank_auth->delete_user($this->form_validation->set_value('password'))) {		// success
 					$this->_show_message($this->lang->line('auth_message_unregistered'));
-
 				} else {														// fail
 					$errors = $this->tank_auth->get_error_message();
 					foreach ($errors as $k => $v)	$data['errors'][$k] = $this->lang->line($v);
 				}
 			}
+			
 			$this->load->view('auth/unregister_form', $data);
 		}
 	}

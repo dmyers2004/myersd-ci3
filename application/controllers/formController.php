@@ -12,10 +12,10 @@ class formController extends CI_Controller
 
     public function indexAction()
     {
-			$data['ckeditor'] = $this->_setup_ckeditor('content');
-			$data['content_html'] = '<h1>Hello</h1> <h2>World</h2>'; // your model property's HTML for CKEditor textarea
+			$this->data['ckeditor'] = $this->_setup_ckeditor('content');
+			$this->data['content_html'] = '<h1>Hello</h1> <h2>World</h2>'; // your model property's HTML for CKEditor textarea
 
-      $this->load->view('form',$data);
+      $this->load->view('form',$this->data);
     }
 
     public function saveAction()

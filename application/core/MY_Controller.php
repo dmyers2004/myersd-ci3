@@ -29,11 +29,4 @@ class MY_Controller extends CI_Controller
 		$this->load->library($this->libraries);
 	}
 
-	/* make chain-able data */
-	public function data($name,$value,$where='replace')
-	{
-		data($name,$value,$where);
-		return $this;
-	}
-
 } /* end MY_Controller */

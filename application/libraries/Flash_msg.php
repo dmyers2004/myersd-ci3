@@ -104,19 +104,19 @@ class Flash_msg
 		$this->add('Access Denied','error',TRUE,$redirect);
 	}
 
-	public function created($title,$redirect=NULL)
+	public function created($title='',$redirect=NULL)
 	{
-		$this->add($title.' Created','success',FALSE,$redirect);
+		$this->add(trim($title.' Created'),'success',FALSE,$redirect);
 	}
 
-	public function updated($title,$redirect='')
+	public function updated($title='',$redirect='')
 	{
-		$this->add($title.' Updated','success',FALSE,$redirect);
+		$this->add(trim($title.' Updated'),'success',FALSE,$redirect);
 	}
 
-	public function fail($title,$redirect='')
+	public function fail($title='',$redirect='')
 	{
-		$this->add('Record '.$title.' Error','error',TRUE,$redirect);
+		$this->add(str_replace('  ',' ','Record '.$title.' Error'),'error',TRUE,$redirect);
 	}
 
 	public function redirect($url)

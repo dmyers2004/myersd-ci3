@@ -11,18 +11,20 @@ class menubarController extends MY_AdminController
 
 	public function indexAction()
 	{
-		$this->data('records',$this->controller_model->order_by('parent_id,sort')->get_all())
+		$this->page
+			->data('records',$this->controller_model->order_by('parent_id,sort')->get_all())
 			->data('parent_options',array(0=>'<i class="icon-upload"></i>') + $this->controller_model->dropdown('id','text'))
-			->page->build();
+			->build();
 	}
 
 	public function newAction()
 	{
-		$this->data('title','New '.$this->title)
+		$this->page
+			->data('title','New '.$this->title)
 			->data('action',$this->controller_path.'new')
 			->data('record',(object) array('option_id'=>-1,'active'=>1))
 			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents())
-			->page->build($this->controller_path.'form');
+			->build($this->controller_path.'form');
 	}
 
 	public function newValidatePostAction()
@@ -47,11 +49,12 @@ class menubarController extends MY_AdminController
 		/* if somebody is sending in bogus id's send them to a fiery death */
 		$this->controller_model->filter_id($id,false);
 
-		$this->data('title','Edit '.$this->title)
+		$this->page
+			->data('title','Edit '.$this->title)
 			->data('action',$this->controller_path.'edit')
 			->data('record',$this->controller_model->get($id))
 			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents())
-			->page->build($this->controller_path.'form');
+			->build($this->controller_path.'form');
 	}
 
 	public function editValidatePostAction()
@@ -77,23 +80,23 @@ class menubarController extends MY_AdminController
 	public function deleteAction($id=null)
 	{
 		is_ajax_method();
-		$data['err'] = true;
+		$this->data['err'] = true;
 
 		/* can they delete? */
 		if ($this->controller_model->filter_id($id)) {
 			$this->controller_model->delete($id);
-			$data['err'] = false;
+			$this->data['err'] = false;
 		}
 
-		$this->load->json($data);
+		$this->load->json($this->data);
 	}
 
 	public function sortAction($dir=null,$id=null)
 	{
 		is_ajax_method();
 
-		$data['href'] = '';
-		$data['notice'] = array('text'=>'Menubar Sort Error','type'=>'error','stay'=>true);
+		$this->data['href'] = '';
+		$this->data['notice'] = array('text'=>'Menubar Sort Error','type'=>'error','stay'=>true);
 
 		if ($this->controller_model->filter_id($id) && $this->controller_model->filter_mode($dir)) {
 			$current = $this->controller_model->get($id);
@@ -106,27 +109,27 @@ class menubarController extends MY_AdminController
 
 			if ($this->controller_model->update($id, array('sort'=>$current->sort), true)) {
 				$this->flash_msg->blue($this->title.' Status Changed');
-				$data['href'] = '/admin/menubar';
-				$data['notice'] = '';
+				$this->data['href'] = '/admin/menubar';
+				$this->data['notice'] = '';
 			}
 		}
 
-		$this->load->json($data);
+		$this->load->json($this->data);
 	}
 
 	public function activateAction($id=null,$mode=null)
 	{
 		is_ajax_method();
 
-		$data['err'] = true;
+		$this->data['err'] = true;
 
 		if ($this->controller_model->filter_id($id) && $this->controller_model->filter_mode($mode)) {
 			if ($this->controller_model->update($id, array('active'=>$mode), true)) {
-				$data['err'] = false;
+				$this->data['err'] = false;
 			}
 		}
 
-		$this->load->json($data);
+		$this->load->json($this->data);
 	}
 
 }
