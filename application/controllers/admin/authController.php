@@ -16,12 +16,30 @@ class authController extends MY_PublicController
 
 	public function resend_emailValidatePostAction()
 	{
-		
+		$this->load->json($this->user_model->validate_email());
 	}
 	
 	public function resend_emailPostAction()
 	{
-		
+		if ($this->input->map($this->user_model->email_validate,$this->data)) {
+			if ($this->auth->change_email($this->data['email'])) {
+
+				$this->data['from'] = $this->config->item('website_email', 'auth');
+				$this->data['to'] = $this->data['email'];
+				$this->data['subject'] = 'Activation Email';
+				$this->data['template'] = 'activate';
+				$this->data['site_name'] = $this->config->item('website_name', 'auth');
+
+				/* for templates */
+				$this->data['link'] = base_url();
+				
+				$this->send_email($this->data);
+
+				$this->flash_msg->blue('Email Sent','/admin/auth');
+			}
+		}
+
+		$this->flash_msg->red('No user found associated with that email','/admin/auth/resend_email');
 	}
 
 	public function forgotAction()
@@ -43,11 +61,11 @@ class authController extends MY_PublicController
 		if ($this->input->map($this->user_model->email_validate,$this->data)) {
 			if ($this->auth->forgot_password($this->data['email'])) {
 
-				$this->data['from'] = $this->config->item('website_email', 'tank_auth');
+				$this->data['from'] = $this->config->item('website_email', 'auth');
 				$this->data['to'] = $this->data['email'];
 				$this->data['subject'] = 'Forgot email';
 				$this->data['template'] = 'forgot_password';
-				$this->data['site_name'] = $this->config->item('website_name', 'tank_auth');
+				$this->data['site_name'] = $this->config->item('website_name', 'auth');
 
 				/* for templates */
 				$this->data['link'] = base_url();
@@ -160,7 +178,7 @@ class authController extends MY_PublicController
 		$this->email->from($this->data['from'], $this->data['from_long']);
 		$this->email->reply_to($this->data['reply_to'], $this->data['reply_to_long']);
 		$this->email->to($this->data['to']);
-		$this->email->subject(merge($this->data['subject'],$this->data,true));
+		$this->email->subject(merge_string($this->data['subject'],$this->data));
 		$this->email->message(merge('admin/_email_templates/'.$this->data['template'].'-html',$this->data));
 		$this->email->set_alt_message(merge('admin/_email_templates/'.$this->data['template'].'-txt',$this->data));
 		$this->email->send();

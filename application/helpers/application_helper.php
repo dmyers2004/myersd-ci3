@@ -20,6 +20,10 @@ function data($name,$value,$where='replace')
 	get_instance()->load->_ci_cached_vars[$name] = $value;
 }
 
+function getData($name) {
+	return @get_instance()->load->_ci_cached_vars[$name];
+}
+
 function after($tag,$searchthis)
 {
 	if (!is_bool(strpos($searchthis,$tag)))
@@ -80,18 +84,21 @@ function enum($input,$string)
 
 function is_ajax_method() {
 	if (!get_instance()->input->is_ajax_request()) {
-		show_error('FAIL: Incorrect HTTP Method',404);
-		die();
+		show_error('FAIL: Incorrect Request Type',404);
+		die(); /* that's all folks! */
 	}
 }
 
-function merge($view,$data=array(),$str=false) {
+function merge_string($view,$data=array())
+{
+	$ci = get_instance();
+	$ci->load->library('parser');
+	return $ci->parser->parse_string($view,$data,TRUE);
+}
+
+function merge($view,$data=array()) {
 	$ci = get_instance();
 	$ci->load->library('parser');
 	
-	if ($str) {
-		return $ci->parser->parse_string($view,$data,TRUE);
-	} else {
-		return $ci->parser->parse($view,$data,TRUE);
-	}
+	return $ci->parser->parse($view,$data,TRUE);
 }
