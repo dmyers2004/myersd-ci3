@@ -25,9 +25,11 @@ class MY_Form_validation extends CI_Form_validation
 	/* access */
 	public function access($str, $field)
 	{
-		$this->CI->form_validation->set_message('access', 'The %s that you requested is unavailable.');
-		// !todo do they have access to this resource?
-		return ($row->dupe > 0) ? TRUE : FALSE;
+		$this->CI->form_validation->set_message('access', 'You do not have access to %s');
+
+		$user_data = $this->CI->session->all_userdata();
+
+		return (in_array('/*',$user_data['group_roles']) || in_array($str,$user_data['group_roles']));
 	}
 
 	/**
@@ -70,6 +72,12 @@ class MY_Form_validation extends CI_Form_validation
 		return (strtotime($this->posted[$field]) < strtotime($date)) ? false : true;
 	}
 
+	public function is_not($str, $field)
+	{
+    $this->CI->form_validation->set_message('is_not', '%s is not valid.');
+    return $str!==$field;
+	}
+	
 	public function max_date($field, $date)
 	{
 		$this->CI->form_validation->set_message('max_date', '%s Out of Range.');
@@ -82,6 +90,33 @@ class MY_Form_validation extends CI_Form_validation
 		$date = date_parse($this->posted[$field]);
 		return checkdate($date['month'],$date['day'],$date['year']);
 	}
+
+	public function valid_dob($dob) {
+		if (!preg_match('/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/', $dob)) {
+			$this->set_message('valid_dob', ERROR_DATE_WRONG_FORMAT);
+			return FALSE;
+		}
+		
+		list($d, $m, $y) = explode('/', $dob);
+		
+		if (!checkdate($m, $d, $y)) {
+			$this->set_message('valid_dob', ERROR_DATE_INVALID);
+			return FALSE;
+		}
+		
+		if (strtotime($dob) > strtotime('-18 year', time())) {
+			$this->set_message('valid_dob', ERROR_DOB_TOO_YOUNG);
+			return FALSE;
+		}
+		
+		return TRUE;
+	}
+    
+  public function valid_time($str)
+  {    
+		$this->CI->form_validation->set_message('time', 'The %s is Invalid.');
+    return (preg_match('/([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/', $str)) ? true : false;
+  }
 
 	public function dollars($field)
 	{
@@ -301,6 +336,13 @@ class MY_Form_validation extends CI_Form_validation
 		return substr(filter_var($inp,FILTER_UNSAFE_RAW),0,$length);
 	}
 
+	public function check_captcha($val)
+	{
+		// !todo -- captcha
+		$this->set_message('check_captcha','Captcha is incorrect');
+		return true;
+	}
+	
 	/* special */
 	/* run form_validation but return a array containing everything important to it's success */
 	public function run_array($group = '')

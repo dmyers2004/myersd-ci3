@@ -27,31 +27,34 @@ class Flash_msg
 		
 		$this->tohtml();
 	}
-
+	
+	/* super method! */
 	public function __call($name, $arguments) {
 		/* redirect */
 		$arguments[1] = ($arguments[1]) ? $arguments[1] : NULL;
 		
+		$config = array_merge(array('prep' => null, 'type'=>'success','stay'=> false),$this->methods[$name]);
+		
 		/* get the closure */
-		$func = $this->methods[$name]['prep'];
+		$func = $config['prep'];
 		
 		/* run it if it's not null */
 		if ($func) {
 			$func($arguments);
 		}
 		
-		/* send everything else in */
-		return $this->add($arguments[0],$this->methods[$name]['type'],$this->methods[$name]['stay'],$arguments[1]);
+		/* send as normal add */
+		return $this->add($arguments[0],$config['type'],$config['stay'],$arguments[1]);
 	}
 
   /* most basic add function */
-  public function add($msg='',$type='yellow',$sticky=FALSE,$redirect=null)
+  public function add($msg='',$type='yellow',$sticky=FALSE,$redirect=NULL)
   {
   	$this->messages[] = array('msg'=>trim($msg),'type'=>$type,'sticky'=>$sticky);
     $this->CI->session->set_flashdata('growl_flash_message_storage',$this->messages);
 
 		if ($redirect) {
-			redirect($this->CI->paths[$url]);
+			redirect($this->CI->paths[$redirect]);
 		}
 
 		$this->tohtml();
@@ -65,7 +68,7 @@ class Flash_msg
 		
 		$html = '<script src="'.$this->js.'" type="text/javascript"></script><link rel="stylesheet" href="'.$this->css.'">';
 
-    $messages = $this->CI->session->flashdata('growl_flash_message_storage');
+    $messages = $this->CI->session->flashdata('custom_flash_message_storage');
 
     if (is_array($messages)) {
     	$html .= '<script>$(document).ready(function(){';

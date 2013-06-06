@@ -19,7 +19,7 @@ class groupController extends MY_AdminController
 	public function newAction()
 	{
 		$this->page
-			->data('title','New '.$this->title)
+			->data('title','New '.$this->page_title)
 			->data('action',$this->controller_path.'new')
 			->data('record',(object) array('id'=>-1))
 			->data('my_access',array())
@@ -27,7 +27,7 @@ class groupController extends MY_AdminController
 			->build($this->controller_path.'form');
 	}
 
-	public function newValidatePostAction()
+	public function newValidateAjaxPostAction()
 	{
 		$this->load->json($this->controller_model->validate());
 	}
@@ -37,11 +37,11 @@ class groupController extends MY_AdminController
 		if ($this->controller_model->map($this->data)) {
 			if ($id = $this->controller_model->insert($this->data)) {
 				$this->update_privilege($id);
-				$this->flash_msg->created($this->title,$this->controller_path);
+				$this->flash_msg->created($this->page_title,$this->controller_path);
 			}
 		}
 
-		$this->flash_msg->fail($this->title,$this->controller_path);
+		$this->flash_msg->fail($this->page_title,$this->controller_path);
 	}
 
 	public function editAction($id=null)
@@ -50,7 +50,7 @@ class groupController extends MY_AdminController
 		$this->controller_model->filter_id($id,false);
 
 		$this->page
-			->data('title','Edit '.$this->title)
+			->data('title','Edit '.$this->page_title)
 			->data('action',$this->controller_path.'edit')
 			->data('record',$this->controller_model->get($id))
 			->data('all_access',$this->format_privileges($this->access_model->get_all()));
@@ -66,7 +66,7 @@ class groupController extends MY_AdminController
 			->build($this->controller_path.'form');
 	}
 
-	public function editValidatePostAction()
+	public function editValidateAjaxPostAction()
 	{
 		$this->load->json($this->controller_model->validate());
 	}
@@ -80,13 +80,13 @@ class groupController extends MY_AdminController
 		if ($this->controller_model->map($this->data)) {
 			$this->controller_model->update($this->data['id'],$this->data);
 			$this->update_privilege($this->data['id']);
-			$this->flash_msg->updated($this->title,$this->controller_path);
+			$this->flash_msg->updated($this->page_title,$this->controller_path);
 		}
 
-		$this->flash_msg->fail($this->title,$this->controller_path);
+		$this->flash_msg->fail($this->page_title,$this->controller_path);
 	}
 
-	public function deleteAction($id=null)
+	public function deleteAjaxAction($id=null)
 	{
 		$this->data['err'] = true;
 

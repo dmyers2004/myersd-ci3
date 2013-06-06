@@ -19,13 +19,13 @@ class accessController extends MY_AdminController
 	public function newAction()
 	{
 		$this->page
-			->data('title','New '.$this->title)
+			->data('title','New '.$this->page_title)
 			->data('action',$this->controller_path.'new')
 			->data('record',(object) array('id'=>-1,'active'=>1))
 			->build($this->controller_path.'form');
 	}
 
-	public function newValidatePostAction()
+	public function newValidateAjaxPostAction()
 	{
 		$this->load->json($this->controller_model->validate());
 	}
@@ -34,11 +34,11 @@ class accessController extends MY_AdminController
 	{
 		if ($this->controller_model->map($this->data)) {
 			if ($this->controller_model->insert($this->data)) {
-				$this->flash_msg->created($this->title,$this->controller_path);
+				$this->flash_msg->created($this->page_title,$this->controller_path);
 			}
 		}
 
-		$this->flash_msg->fail($this->title,$this->controller_path);
+		$this->flash_msg->fail($this->page_title,$this->controller_path);
 	}
 
 	public function editAction($id=null)
@@ -47,13 +47,13 @@ class accessController extends MY_AdminController
 		$this->controller_model->filter_id($id,false);
 
 		$this->page
-			->data('title','Edit '.$this->title)
+			->data('title','Edit '.$this->page_title)
 			->data('action',$this->controller_path.'edit')
 			->data('record',$this->controller_model->get($id))
 			->build($this->controller_path.'form');
 	}
 
-	public function editValidatePostAction()
+	public function editValidateAjaxPostAction()
 	{
 		$this->load->json($this->controller_model->validate());
 	}
@@ -66,14 +66,14 @@ class accessController extends MY_AdminController
 
 		if ($this->controller_model->map($this->data)) {
 			$this->controller_model->update($this->data['id'], $this->data);
-			$this->flash_msg->updated($this->title,$this->controller_path);
+			$this->flash_msg->updated($this->page_title,$this->controller_path);
 		}
 
-		$this->flash_msg->fail($this->title,$this->controller_path);
+		$this->flash_msg->fail($this->page_title,$this->controller_path);
 	}
 
 	/* ajax activate */
-	public function activateAction($id=null,$mode=null)
+	public function activateAjaxAction($id=null,$mode=null)
 	{
 		$this->data['err'] = true;
 
@@ -86,7 +86,7 @@ class accessController extends MY_AdminController
 		$this->load->json($this->data);
 	}
 
-	public function deleteAction($id=null)
+	public function deleteAjaxAction($id=null)
 	{
 		$this->data['err'] = true;
 

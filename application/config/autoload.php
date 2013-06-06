@@ -64,7 +64,10 @@
 |
 */
 
-$autoload['packages'] = array(APPPATH.'packages/addons',APPPATH.'packages/required');
+$autoload['packages'] = array(
+	APPPATH.'packages/required',
+	APPPATH.'packages/addons'
+);
 
 /*
 | -------------------------------------------------------------------
@@ -104,7 +107,7 @@ $autoload['drivers'] = array('session');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url','required','application');
+$autoload['helper'] = array('url','required');
 
 /*
 | -------------------------------------------------------------------

@@ -40,11 +40,13 @@ class MY_Router extends CI_Router
 		 		$request = ucfirst(strtolower($_SERVER['REQUEST_METHOD']));
 				$request = ($request == 'Get') ? '' : $request;
 
+				$ajax = ( ! empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') ? 'Ajax' : '';
+
 				if ($request == 'Put') {
 					parse_str(file_get_contents('php://input'), $_POST);
 				}
 
-		    $val = str_replace('Action',$request.'Action',$val);
+		    $val = str_replace('Action',$ajax.$request.'Action',$val);
 				/* --- end my custom code --- */
 
 				return $this->_set_request(explode('/', $val));

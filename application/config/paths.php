@@ -7,6 +7,7 @@ $config['paths'] = array(
 	'register' => '/auth/register',
 	'home' => '/',
 	'admin home' => '/admin',
-	'resend login email' => '/auth/resend_email'
+	'resend login email' => '/auth/resend_email',
+	
 	
 );

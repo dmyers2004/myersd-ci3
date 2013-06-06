@@ -28,22 +28,22 @@ class authController extends MY_PublicController
 		$this->page->js('/assets/js/page/admin_auth_register.js')->build();
 	}
 
-	public function resend_emailValidatePostAction()
+	public function resend_emailValidateAjaxPostAction()
 	{
 		$this->load->json($this->user_model->validate_email());
 	}
 
-	public function forgotValidatePostAction()
+	public function forgotValidateAjaxPostAction()
 	{
 		$this->load->json($this->user_model->validate_email());
 	}
 
-	public function registerValidatePostAction()
+	public function registerValidateAjaxPostAction()
 	{
 		$this->load->json($this->user_model->validate_register());
 	}
 
-	public function loginValidatePostAction()
+	public function loginValidateAjaxPostAction()
 	{
 		$this->load->json($this->user_model->validate_login());
 	}

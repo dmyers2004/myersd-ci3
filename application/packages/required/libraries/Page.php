@@ -66,8 +66,8 @@ class Page
 	public function merge(&$string)
 	{
 		if (is_string($string)) {
-			$string = str_replace('%theme%',$this->theme,$string);
-			$string = str_replace('%assets%',$this->assets,$string);
+			$string = str_replace('{theme}',$this->theme,$string);
+			$string = str_replace('{assets}',$this->assets,$string);
 		}
 	}
 

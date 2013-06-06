@@ -35,7 +35,7 @@ class MY_Zip extends CI_Zip {
 	}
 
 	// added $orig_path to prevent deep file structures
-    function read_dir($path, $orig_path = NULL)
+  function read_dir($path, $orig_path = NULL)
     {
 		if (empty($orig_path)) $orig_path = $path;
 		

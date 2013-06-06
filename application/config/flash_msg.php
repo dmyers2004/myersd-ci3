@@ -8,21 +8,21 @@ $config['css'] = '/assets/css/flash_msg.css';
 
 $config['methods'] = array(
 
-	'red' => array('prep' => null, 'type'=>'error','stay'=> true),
-	'blue' => array('prep' => null, 'type'=>'info','stay'=> false),
-	'green' => array('prep' => null, 'type'=>'success','stay'=> true),
-	'yellow' => array('prep' => null, 'type'=>'block','stay'=> true),
+	'red' => array('type'=>'error','stay'=> true),
+	'blue' => array('type'=>'info'),
+	'green' => array(),
+	'yellow' => array('type'=>'block'),
 
-	'error' => array('prep' => null, 'type'=>'error','stay'=> true),
-	'info' => array('prep' => null, 'type'=>'info','stay'=> false),
-	'block' => array('prep' => null, 'type'=>'block','stay'=> true),
-	'success' => array('prep' => null, 'type'=>'success','stay'=> true),
+	'error' => array('type'=>'error','stay'=> true),
+	'info' => array('type'=>'info'),
+	'block' => array('type'=>'block'),
+	'success' => array(),
 
-	'denied' => array('prep' => function(&$args) { $args[1] = $args[0]; $args[0] = 'Access Denied'; }, 'type'=>'error','stay'=> true),
-	'fail' => array('prep' => function(&$args) { str_replace('  ',' ','Record '.$args[0].' Error'); }, 'type'=>'error','stay'=> true),
+	'denied' => array('prep' => function(&$args) { $args[1] = $args[0]; $args[0] = 'Access Denied'; }, 'type'=>'error', 'stay'=>true),
+	'fail' => array('prep' => function(&$args) { $args[0] = str_replace('  ',' ','Record '.$args[0].' Error'); }, 'type'=>'error', 'stay'=>true),
 
-	'created' => array('prep' => function(&$args) { $args[0].' Created'; }, 'type'=>'success','stay'=> false),
-	'updated' => array('prep' => function(&$args) { $args[0].' Updated'; }, 'type'=>'success','stay'=> false),
-	'deleted' => array('prep' => function(&$args) { $args[0].' Deleted'; }, 'type'=>'success','stay'=> false),
+	'created' => array('prep' => function(&$args) { $args[0] = $args[0].' Created'; }),
+	'updated' => array('prep' => function(&$args) { $args[0] = $args[0].' Updated'; }),
+	'deleted' => array('prep' => function(&$args) { $args[0] = $args[0].' Deleted'; }),
 
 );

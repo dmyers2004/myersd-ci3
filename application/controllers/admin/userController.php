@@ -22,7 +22,7 @@ class userController extends MY_AdminController
 	public function newAction()
 	{
 		$this->page
-			->data('title','New '.$this->title)
+			->data('title','New '.$this->page_title)
 			->data('action',$this->controller_path.'new')
 			->data('record',(object) array('activated'=>1,'id'=>-1))
 			->data('group_options',$this->_get_groups())
@@ -30,7 +30,7 @@ class userController extends MY_AdminController
 	}
 
 	/* create new form validation */
-	public function newValidatePostAction()
+	public function newValidateAjaxPostAction()
 	{
 		$this->load->json($this->controller_model->validate());
 	}
@@ -42,13 +42,13 @@ class userController extends MY_AdminController
 		if ($this->controller_model->map($this->data)) {
 			extract($this->data);
 			if ($this->auth->create_user($username, $email, $password, $group_id, false)) {
-				$this->flash_msg->created($this->title,$this->controller_path);
+				$this->flash_msg->created($this->page_title,$this->controller_path);
 			}
 		}
 
 		// $err = $this->auth->get_error_message();
 
-		$this->flash_msg->fail($this->title,$this->controller_path);
+		$this->flash_msg->fail($this->page_title,$this->controller_path);
 	}
 
 	/* edit form */
@@ -58,7 +58,7 @@ class userController extends MY_AdminController
 		$this->controller_model->filter_id($id,false);
 
 		$this->page
-			->data('title','Edit '.$this->title)
+			->data('title','Edit '.$this->page_title)
 			->data('action',$this->controller_path.'edit')
 			->data('record',$this->controller_model->get_user($id))
 			->data('group_options',$this->_get_groups())
@@ -66,7 +66,7 @@ class userController extends MY_AdminController
 	}
 
 	/* edit form validate */
-	public function editValidatePostAction()
+	public function editValidateAjaxPostAction()
 	{
 		// do the password thing
 		if ($this->input->post('password').$this->input->post('confirm_password') == '') {
@@ -94,14 +94,14 @@ class userController extends MY_AdminController
 				$this->controller_model->change_password($this->data['id'], $this->input->post('password'));
 			}
 
-			$this->flash_msg->updated($this->title,$this->controller_path);
+			$this->flash_msg->updated($this->page_title,$this->controller_path);
 		}
 
-		$this->flash_msg->fail($this->title,$this->controller_path);
+		$this->flash_msg->fail($this->page_title,$this->controller_path);
 	}
 
 	/* ajax activate */
-	public function activateAction($id=null,$mode=null)
+	public function activateAjaxAction($id=null,$mode=null)
 	{
 		$this->data['err'] = true;
 
@@ -115,7 +115,7 @@ class userController extends MY_AdminController
 	}
 
 	/* ajax delete */
-	public function deleteAction($id=null)
+	public function deleteAjaxAction($id=null)
 	{
 		$this->data['err'] = true;
 
