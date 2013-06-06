@@ -75,7 +75,7 @@ $route['admin/(:any)/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2Action/$3/$4
 $route['admin/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2Action/$3";
 $route['admin/(:any)/(:any)'] = "admin/$1Controller/$2Action";
 $route['admin/(:any)'] = "admin/$1Controller/indexAction";
-$route['admin'] = "admin/authController/indexAction";
+$route['admin'] = "admin/dashboardController/indexAction";
 
 /* bring in our defaults */
 $route['(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "$1Controller/$2Action/$3/$4/$5/$6";

@@ -1,4 +1,4 @@
-<form action="/admin/auth/login" method="post" data-validate="true">
+<form action="/auth/login" method="post" data-validate="true">
 
   <fieldset>
     <legend>Login</legend>
@@ -16,10 +16,10 @@
     <p>
 	    <button type="submit" class="btn">Submit</button>
 	    <img src="" width="64" height="1">
-	    <a href="/admin/auth/forgot">Forgot Password</a>
+	    <a href="/auth/forgot">Forgot Password</a>
 		</p>
 		
-		<p><a href="/admin/auth/register">Register</a></p>
+		<p><a href="/auth/register">Register</a></p>
 
   </fieldset>
 </form>

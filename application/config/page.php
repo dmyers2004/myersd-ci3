@@ -26,7 +26,7 @@ $roles = get_instance()->auth->get_user_roles();
 /*
 if ($roles === null) {
 	$roles = array('/nav/login');
-	$menu[] = array('id'=>1,'resource'=>'/nav/login','url'=>'/admin/auth','text'=>'Login','parent_id'=>0,'sort'=>0,'class'=>'','active'=>1);
+	$menu[] = array('id'=>1,'resource'=>'/nav/login','url'=>'/auth','text'=>'Login','parent_id'=>0,'sort'=>0,'class'=>'','active'=>1);
 }
 */
 

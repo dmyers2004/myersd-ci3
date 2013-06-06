@@ -1,4 +1,4 @@
-<form action="/admin/auth/reset" method="post" data-validate="true">
+<form action="/auth/reset" method="post" data-validate="true">
 
   <fieldset>
     <legend>Reset Password</legend>
@@ -18,7 +18,7 @@
     <p>
 	    <button type="submit" class="btn">Submit</button>
 	    <img src="" width="64" height="1">
-	    <a href="/admin/auth">Back to Login</a>
+	    <a href="/auth">Back to Login</a>
 		</p>
 
   </fieldset>

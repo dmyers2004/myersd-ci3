@@ -4,7 +4,8 @@ class dashboardController extends MY_AdminController
 {
 	public function indexAction()
 	{
-		$this->page->build();
+		$this->page
+			->build();
 	}
 
 	public function upAction()

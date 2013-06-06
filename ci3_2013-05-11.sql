@@ -179,7 +179,7 @@ VALUES
 	(8,'/nav/menu','','Cheese',0,22,'',0),
 	(9,'/nav/dashboard','/','Dashboard',0,0,'',1),
 	(14,'/nav/setting','/admin/setting','Settings',17,5.2,'',1),
-	(15,'/nav/cookies','/admin/auth','Cookie',0,1,'',0),
+	(15,'/nav/cookies','/auth','Cookie',0,1,'',0),
 	(17,'/nav/internal','','Internal',0,12,'',1),
 	(18,'/nav/views','/views','Views',17,0,'',0);
 
