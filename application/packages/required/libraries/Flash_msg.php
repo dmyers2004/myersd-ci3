@@ -4,26 +4,15 @@ class Flash_msg
 {
 	private $CI = null;
 
-	public $js = '/assets/js/jquery.bootstrap.growl.js';
-	public $css = '/assets/css/flash_msg.css';
-
   public $messages = array();
-  public $type = array(
-    'red'=>'error',
-    'blue'=>'info',
-    'yellow'=>'block',
-    'green'=>'success',
-    'error'=>'error',
-    'info'=>'info',
-    'block'=>'block',
-    'success'=>'success'
-  );
   
   /* required in config */
   public $methods;
   public $view_variable;
   public $initial_pause;
   public $pause_each_after;
+	public $js;
+	public $css;
 
 	public function __construct()
 	{
@@ -33,6 +22,8 @@ class Flash_msg
 		$this->initial_pause = $this->CI->config->item('initial_pause','flash_msg');
 		$this->view_variable = $this->CI->config->item('view_variable','flash_msg');
 		$this->pause_each_after = $this->CI->config->item('pause_each_after','flash_msg');
+		$this->js = $this->CI->config->item('js','flash_msg');
+		$this->css = $this->CI->config->item('css','flash_msg');
 		
 		$this->tohtml();
 	}
@@ -56,11 +47,11 @@ class Flash_msg
   /* most basic add function */
   public function add($msg='',$type='yellow',$sticky=FALSE,$redirect=null)
   {
-  	$this->messages[] = array('msg'=>$msg,'type'=>$this->type[$type],'sticky'=>$sticky);
+  	$this->messages[] = array('msg'=>trim($msg),'type'=>$type,'sticky'=>$sticky);
     $this->CI->session->set_flashdata('growl_flash_message_storage',$this->messages);
 
 		if ($redirect) {
-			$this->redirect($redirect);
+			redirect($this->CI->paths[$url]);
 		}
 
 		$this->tohtml();
@@ -90,11 +81,6 @@ class Flash_msg
 		}
 
 		return $html;
-	}
-
-	public function redirect($url)
-	{
-  	redirect($this->CI->paths[$url]);
 	}
 
 }
