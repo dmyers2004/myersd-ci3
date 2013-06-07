@@ -40,7 +40,7 @@ class User_model extends MY_Model
 		array('field' => 'username','label' => 'User Name','rules' => 'trim|required|xss_clean|filter_str[72]'),
 		array('field' => 'email','label' => 'Email','rules' => 'trim|required|xss_clean|filter_str[72]'),
 		array('field' => 'password','label' => 'Password','rules' => 'required|filter_str[32]'),
-		array('field' => 'repeat_password','label' => 'Password Check', 'rules' => 'matches[repeat_password]|required|filter_str[32]'),
+		array('field' => 'repeat_password','label' => 'Password Check', 'rules' => 'matches[password]|required|filter_str[32]'),
 	);
 
 	public $filters = array(

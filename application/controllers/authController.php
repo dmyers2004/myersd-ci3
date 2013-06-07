@@ -123,32 +123,30 @@ class authController extends MY_PublicController
 			
 			if (!is_null($this->auth->create_user($this->data['username'], $this->data['email'], $this->data['password'], $default_group_id, $email_activation))) {
 
+				// Clear password (just incase)
+				unset($data['password']);
+				unset($data['repeat_password']);
+
 				if ($email_activation) { // send "activate" email
-					$this->data['activation_period'] = $this->config->item('email_activation_expire', 'auth') / 3600;
 					$this->data['template'] = 'activate';
+					$this->data['activation_period'] = $this->config->item('email_activation_expire', 'auth') / 3600;
 
-					unset($this->data['password']); // Clear password (just for any case)
-					
 					$this->send_email($this->data);
-
-					$this->flash_msg->blue('Email Sent','login');
+					$this->flash_msg->blue('Registration Processed<br>Verification Email Sent','login');
 				} else {
 					if ($this->config->item('email_account_details', 'auth')) {	// send "welcome" email
 						$this->data['template'] = 'welcome';
-						unset($data['password']); // Clear password (just for any case)
+						
 						$this->send_email($this->data);
-						$this->flash_msg->blue('Welcome Email Sent','login');
+						$this->flash_msg->blue('Registration Processed<br>Welcome Email Sent','login');
 					}
-					
-					redirect($this->path['login']);
 				}
-				
-				redirect($this->path['admin home']);
+				$this->flash_msg->blue('Registration Processed','login');		
 			}
 
 		}
 		
-		$this->flash_msg->red('Registration Failed','home');
+		$this->flash_msg->red('Registration Failed','register');
 	}
 
 	public function loginPostAction()

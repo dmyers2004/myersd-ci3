@@ -2,17 +2,16 @@
 
 class MY_Form_validation extends CI_Form_validation
 {
-	/* test if it's 1 or 0 */
 	public function tf($str, $field)
 	{
+		// test if it's 1 or 0
 		$this->CI->form_validation->set_message('tf', 'The %s is invalid.');
 		return ((int) $str == 1 || (int) $str == 0) ? true : false;
 	}
 
-	/* exists */
-	/* $this->form_validation->set_rules('username','User Name','exists[users.username]'); */
 	public function exists($str, $field)
 	{
+		// exists[table.column]
 		list($table, $column) = explode('.', $field, 2);
 
 		$this->CI->form_validation->set_message('exists', 'The %s that you requested is unavailable.');
@@ -22,7 +21,6 @@ class MY_Form_validation extends CI_Form_validation
 		return ($row->dupe > 0) ? TRUE : FALSE;
 	}
 
-	/* access */
 	public function access($str, $field)
 	{
 		$this->CI->form_validation->set_message('access', 'You do not have access to %s');
@@ -32,20 +30,9 @@ class MY_Form_validation extends CI_Form_validation
 		return (in_array('/*',$user_data['group_roles']) || in_array($str,$user_data['group_roles']));
 	}
 
-	/**
-	 * Unique
-	 *
-	 * @access	public
-	 * @param	string
-	 * @param	field
-	 * @return	bool
-	 */
-	/*
-	$this->form_validation->set_rules('username','User Name','required|min_length[5]|unique[users.username]');
-	$this->form_validation->set_rules('emailaddress','Email Address','required|valid_email|unique[users.email]');
-	*/
 	public function unique($str, $field)
 	{
+		//unique[table.column.primary id.id]
 		list($table, $column, $pri, $id) = explode('.', $field, 4);
 
 		$this->CI->form_validation->set_message('unique', 'The %s that you requested is unavailable.');
@@ -158,131 +145,45 @@ class MY_Form_validation extends CI_Form_validation
 		return (bool) ! preg_match('/[^a-zA-Z0-9\/\+=]/', $field);
 	}
 
-  /**
-	 * Check that a string only contains Alpha-numeric characters with
-	 * periods, underscores, spaces and dashes
-	 *
-	 * @abstract Alpha-numeric with periods, underscores, spaces and dashes
-	 * @access public
-	 *
-	 * @param string $str The string value to check
-	 *
-	 * @return	bool
-	 */
 	public function alpha_extra($str)
 	{
+		// Alpha-numeric with periods, underscores, spaces and dashes
 		$this->CI->form_validation->set_message('alpha_extra', 'The %s field may only contain alpha-numeric characters, spaces, periods, underscores, and dashes.');
 		return ( ! preg_match("/^([\.\s-a-z0-9_-])+$/i", $str)) ? FALSE : TRUE;
 
-	}//end alpha_extra()
+	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Check that the string matches a specific regex pattern
-	 *
-	 * @access public
-	 *
-	 * @param string $str     The string to check
-	 * @param string $pattern The pattern used to check the string
-	 *
-	 * @return bool
-	 */
 	public function matches_pattern($str, $pattern)
 	{
-		if (preg_match('/^' . $pattern . '$/', $str)) {
-			return TRUE;
-		}
-
 		$this->CI->form_validation->set_message('matches_pattern', 'The %s field does not match the required pattern.');
+		return (preg_match('/^' . $pattern . '$/', $str));
+	}
 
-		return FALSE;
-
-	}//end matches_pattern()
-
-  /**
-	 * Allows setting allowed file-types in your form_validation rules.
-	 * Please separate the allowed file types with a pipe or |.
-	 *
-	 * @author Shawn Crigger <hide@address.com>
-	 * @access public
-	 *
-	 * @param string $str   String field name to validate
-	 * @param string $types String allowed types
-	 *
-	 * @return bool If files are in the allowed type array then TRUE else FALSE
-	 */
 	public function allowed_types($str, $types = NULL)
 	{
-		if (!$types) {
-			log_message('debug', 'form_validation method allowed_types was called without any allowed types.');
-			return FALSE;
-		}
+		$this->CI->form_validation->set_message('allowed_types', '%s must contain one of the allowed selections.');
 
+		// allowed_type[png,gif,jpg,jpeg]
 		$type = explode(',', $types);
 		$filetype = pathinfo($str['name'],PATHINFO_EXTENSION);
 
-		if (!in_array($filetype, $type)) {
-			$this->CI->form_validation->set_message('allowed_types', '%s must contain one of the allowed selections.');
-			return FALSE;
-		}
+		return (!in_array($filetype, $type));
+	}
 
-		return TRUE;
-
-	}//end allowed_types()
-
-  /**
-	 * Checks that the entered string is one of the values entered as the second parameter.
-	 * Please separate the allowed file types with a comma.
-	 *
-	 * @access public
-	 *
-	 * @param string $str      String field name to validate
-	 * @param string $options String allowed values
-	 *
-	 * @return bool If files are in the allowed type array then TRUE else FALSE
-	 */
 	public function one_of($str, $options = NULL)
 	{
-		if (!$options) {
-			log_message('debug', 'form_validation method one_of was called without any possible values.');
-			return FALSE;
-		}
-
-		log_message('debug', 'form_validation one_of options:'.$options);
+		// one_of[1,2,3,4]
+		$this->CI->form_validation->set_message('one_of', '%s must contain one of the available selections.');
 
 		$possible_values = explode(',', $options);
 
-		if (!in_array($str, $possible_values)) {
-			$this->CI->form_validation->set_message('one_of', '%s must contain one of the available selections.');
-			return FALSE;
-		}
+		return (!in_array($str, $possible_values));
+	}
 
-		return TRUE;
-
-	}//end one_of()
-
-	/**
-	 * Allows Setting maximum file upload size in your form validation rules.
-	 *
-	 * @author Shawn Crigger <hide@address.com>
-	 * @access public
-	 *
-	 * @param string  $str  String field name to validate
-	 * @param integer $size Integer maximum upload size in bytes
-	 *
-	 * @return bool
-	 */
 	public function max_file_size($str, $size = 0)
 	{
-		if ($size == 0) {
-			log_message('error', 'Form_validation rule, max_file_size was called without setting a allowable file size.');
-			return FALSE;
-		}
-
 		return (bool) ($str['size']<=$size);
-
-	}//end max_file_size()
+	}
 
 	/* PHP input filters - prepping */
 
@@ -343,7 +244,7 @@ class MY_Form_validation extends CI_Form_validation
 		return true;
 	}
 	
-	/* special */
+	/* special add-ons */
 	/* run form_validation but return a array containing everything important to it's success */
 	public function run_array($group = '')
 	{

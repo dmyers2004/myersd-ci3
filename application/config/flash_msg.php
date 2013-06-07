@@ -1,8 +1,8 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 $config['view_variable'] = 'flash_msg';
-$config['initial_pause'] = 4; /* seconds */
-$config['pause_each_after'] = 800; /* micro seconds */
+$config['pause_for_each'] = 1000; /* micro seconds */
+$config['initial_pause'] = 3; /* # x  pause_for_each */
 $config['js'] = '/assets/js/jquery.bootstrap.growl.js';
 $config['css'] = '/assets/css/flash_msg.css';
 

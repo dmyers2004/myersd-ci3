@@ -22,7 +22,7 @@ class menubarController extends MY_AdminController
 		$this->page
 			->data('title','New '.$this->page_title)
 			->data('action',$this->controller_path.'new')
-			->data('record',(object) array('option_id'=>-1,'active'=>1))
+			->data('record',(object) array('id'=>-1,'active'=>1))
 			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents())
 			->build($this->controller_path.'form');
 	}

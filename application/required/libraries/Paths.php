@@ -30,3 +30,8 @@ class Paths implements arrayaccess
 	}
 
 } /* end path */
+
+/* add path "magic" redirect global function */
+function path_redirect($key) {
+	redirect(get_instance()->paths[$key]);
+}

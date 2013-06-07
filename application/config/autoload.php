@@ -65,7 +65,7 @@
 */
 
 $autoload['packages'] = array(
-	APPPATH.'packages/required',
+	APPPATH.'required',
 	APPPATH.'packages/addons'
 );
 

@@ -72,21 +72,13 @@ function instr($source,$find,$startat=0)
 
 function shorten($text,$length)
 {
-	 if (strlen($text) > $length) return substr($text,0,$length).'...';
-	 return $text;
+	 return (strlen($text) > $length) ? substr($text,0,$length).'&hellip;' : $text;
 }
 
-function enum($input,$string)
+function enum($input,$string,$delimiter='|')
 {
-	$enum = explode('|',$string);
+	$enum = explode($delimiter,$string);
 	echo $enum[(int) $input];
-}
-
-function is_ajax_method() {
-	if (!get_instance()->input->is_ajax_request()) {
-		show_error('FAIL: Incorrect Request Type',404);
-		die(); /* that's all folks! */
-	}
 }
 
 function merge_string($view,$data=array())

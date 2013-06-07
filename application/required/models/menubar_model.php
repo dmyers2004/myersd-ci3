@@ -22,11 +22,11 @@ class menubar_model extends MY_Model
 
   public $validate = array(
   	array('field'=>'id','label'=>'Id','rules'=>'required|integer|filter_int[6]'),
+  	array('field'=>'text','label'=>'Text','rules'=>'required|xss_clean|filter_str[64]'),
   	array('field'=>'resource','label'=>'Resource','rules'=>'required|xss_clean|filter_str[128]'),
   	array('field'=>'url','label'=>'Url','rules'=>'url|xss_clean|filter_str[128]'),
-  	array('field'=>'text','label'=>'Text','rules'=>'required|xss_clean|filter_str[64]'),
   	array('field'=>'parent_id','label'=>'Parent Menu','rules'=>'required|integer|filter_int[5]'),
-  	array('field'=>'sort','label'=>'Sort','rules'=>'numeric|max_length[6]|filter_float[6]'),
+  	array('field'=>'sort','label'=>'Sort','rules'=>'numeric|max_length[6]|filter_float[6]','default'=>0),
   	array('field'=>'class','label'=>'Class','rules'=>'xss_clean|filter_str[64]'),
   	array('field'=>'active','label'=>'Active','rules'=>'integer|tf|filter_int[1]','default'=>0)
   );

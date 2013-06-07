@@ -1,5 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+/* NOTE: This is 99% Tank Auth - Therefore I can't take full credit */
+
 require_once 'phpass/PasswordHash.php';
 
 define('STATUS_ACTIVATED', '1');

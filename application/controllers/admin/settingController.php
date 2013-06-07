@@ -21,7 +21,7 @@ class settingController extends MY_AdminController
 		$this->page
 			->data('title','New '.$this->page_title)
 			->data('action',$this->controller_path.'new')
-			->data('record',(object) array('option_id'=>-1,'active'=>1))
+			->data('record',(object) array('id'=>-1,'active'=>1))
 			->data('option_group',$this->controller_model->dropdown('option_group','option_group'))
 			->build($this->controller_path.'form');
 	}
