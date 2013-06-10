@@ -21,7 +21,7 @@ class Flash_msg
 		$this->methods = $this->CI->config->item('methods','flash_msg');
 		$this->view_variable = $this->CI->config->item('view_variable','flash_msg');
 		$this->initial_pause = $this->CI->config->item('initial_pause','flash_msg');
-		$this->pause_for_each = $this->CI->config->item('pause_each_after','flash_msg');
+		$this->pause_for_each = $this->CI->config->item('pause_for_each','flash_msg');
 		$this->js = $this->CI->config->item('js','flash_msg');
 		$this->css = $this->CI->config->item('css','flash_msg');
 		
