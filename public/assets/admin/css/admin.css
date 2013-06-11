@@ -39,3 +39,8 @@
 	padding: 0 16px 0;
 	font-size: 55%;
 }
+
+.admin.media h3 {
+	margin-top: -32px;
+	margin-bottom: 0;
+}

@@ -171,16 +171,28 @@ class Page
 	{
 		return $this->load->partial($view,$data,$name);
 	}
+	
+	public function view($view,$data=array(),$return=false)
+	{
+		$auto = trim($this->router->fetch_directory().str_replace('Controller','',$this->router->fetch_class()).'/'.str_replace('Action','',$this->router->fetch_method()),'/');
+		$this->add('bodyClass','$ '.str_replace('/',' ',$auto));
+
+		$html = $this->load->view($view,$data,$return);
+
+		if ($return === true) {
+			return $html;
+		}
+		
+		return $this;
+	}
 
 	/* final output */
   public function build($view=null,$layout=null)
   {
 		$auto = trim($this->router->fetch_directory().str_replace('Controller','',$this->router->fetch_class()).'/'.str_replace('Action','',$this->router->fetch_method()),'/');
-		
-		/* while the dynamic view finder is uber cool it does take a bit longer to process */
-		$view = ($view) ? $view : $auto;
-
 		$this->add('bodyClass','$ '.str_replace('/',' ',$auto));
+		
+		$view = ($view) ? $view : $auto;
 
 		$this->setVar($this->config['variable_mappings']['container'],$this->load->partial($view));
 
