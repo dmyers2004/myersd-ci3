@@ -75,6 +75,12 @@ function shorten($text,$length)
 	 return (strlen($text) > $length) ? substr($text,0,$length).'&hellip;' : $text;
 }
 
+function return_enum($input,$string,$delimiter='|')
+{
+	$enum = explode($delimiter,$string);
+	return $enum[(int) $input];
+}
+
 function enum($input,$string,$delimiter='|')
 {
 	$enum = explode($delimiter,$string);

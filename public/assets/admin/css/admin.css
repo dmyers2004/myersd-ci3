@@ -44,3 +44,7 @@
 	margin-top: -32px;
 	margin-bottom: 0;
 }
+
+.admin label.text {
+	padding-top: 5px;
+}
