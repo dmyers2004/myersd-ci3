@@ -12,8 +12,8 @@
  */
 class User_model extends MY_Model
 {
-	private $table_name = 'users';			// user accounts
-	private $profile_table_name	= 'user_profiles';	// user profiles
+	private $table_name = 'users'; // user accounts
+	private $profile_table_name	= 'user_profiles'; // user profiles
 
 	private $remove_password_rules = false;
 
@@ -42,10 +42,20 @@ class User_model extends MY_Model
 		array('field' => 'password','label' => 'Password','rules' => 'required|filter_str[32]'),
 		array('field' => 'repeat_password','label' => 'Password Check', 'rules' => 'matches[password]|required|filter_str[32]'),
 	);
-
+	
+	public $fields = array(
+		'id' => array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
+		'username' => array('field'=>'username','label'=>'User Name','rules'=>'required|xss_clean|filter_str[50]'),
+		'email' => array('field'=>'email','label'=>'Email','rules'=>'required|valid_email|filter_email[72]'),
+		'password' => array('field'=>'password','label'=>'Password','rules'=>'required|min_length[8]|max_length[32]|matches[confirm_password]'),
+		'group_id' => array('field'=>'group_id','label'=>'Group Id','rules'=>'required|filter_int[5]'),
+		'confirm_password' => array('field'=>'confirm_password','label'=>'Confirmation Password','rules'=>'required')
+	);
+	
 	public $filters = array(
 		'id'=>'trim|integer|filter_int[5]|exists[users.id]',
-		'mode'=>'trim|tf|filter_int[1]'
+		'mode'=>'trim|tf|filter_int[1]',
+		'activation_key'=>'required|md5'
 	);
 
 	public function __construct()
@@ -53,7 +63,7 @@ class User_model extends MY_Model
 		parent::__construct();
 
 		$ci =& get_instance();
-		$this->table_name			= $ci->config->item('db_table_prefix', 'auth').$this->table_name;
+		$this->table_name = $ci->config->item('db_table_prefix', 'auth').$this->table_name;
 		$this->profile_table_name	= $ci->config->item('db_table_prefix', 'auth').$this->profile_table_name;
 	}
 
@@ -65,6 +75,11 @@ class User_model extends MY_Model
   public function filter_mode(&$mode,$return=false)
   {
   	return $this->filter($this->filters['mode'],$mode,$return);
+  }
+  
+  public function filter_activation_key(&$activation_key,$return=false)
+  {
+  	return $this->filter($this->filters['activation_key'],$mode,$return);
   }
 
 	public function remove_password_rules()

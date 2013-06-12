@@ -20,7 +20,8 @@ function data($name,$value,$where='replace')
 	get_instance()->load->_ci_cached_vars[$name] = $value;
 }
 
-function getData($name) {
+function getData($name)
+{
 	return @get_instance()->load->_ci_cached_vars[$name];
 }
 
@@ -83,20 +84,19 @@ function return_enum($input,$string,$delimiter='|')
 
 function enum($input,$string,$delimiter='|')
 {
-	$enum = explode($delimiter,$string);
-	echo $enum[(int) $input];
+	echo return_enum($input,$string,$delimiter);
 }
 
-function merge_string($view,$data=array())
+function mergeString($view,$data=array())
 {
 	$ci = get_instance();
 	$ci->load->library('parser');
 	return $ci->parser->parse_string($view,$data,TRUE);
 }
 
-function merge($view,$data=array()) {
+function merge($view,$data=array())
+{
 	$ci = get_instance();
 	$ci->load->library('parser');
-	
 	return $ci->parser->parse($view,$data,TRUE);
 }

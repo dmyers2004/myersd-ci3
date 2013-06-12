@@ -98,9 +98,9 @@ class authController extends MY_PublicController
 
 	public function activateAction($user_id=null,$activation_key=null)
 	{
-		/* filter input die hard if somebody is messing around */	
-		$this->input->filter('required|integer',$user_id,false);
-		$this->input->filter('required|md5',$activation_key,false);
+		/* filter input die hard if somebody is messing around */
+		$this->user_model->filter_id($user_id);
+		$this->user_model->filter_activation_key($activation_key);
 
 		$this->page
 			->data('live',$this->auth->activate_user($user_id, $activation_key))
@@ -170,7 +170,7 @@ class authController extends MY_PublicController
 		$this->email->from($this->data['from'], $this->data['from_long']);
 		$this->email->reply_to($this->data['reply_to'], $this->data['reply_to_long']);
 		$this->email->to($this->data['to']);
-		$this->email->subject(merge_string($this->data['subject'],$this->data));
+		$this->email->subject(mergeString($this->data['subject'],$this->data));
 		$this->email->message(merge('admin/_email_templates/'.$this->data['template'].'-html',$this->data));
 		$this->email->set_alt_message(merge('admin/_email_templates/'.$this->data['template'].'-txt',$this->data));
 		$this->email->send();
