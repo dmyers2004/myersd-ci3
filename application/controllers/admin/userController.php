@@ -32,7 +32,7 @@ class userController extends MY_AdminController
 	/* create new form validation */
 	public function newValidateAjaxPostAction()
 	{
-		$this->load->json($this->controller_model->validate());
+		$this->load->json($this->controller_model->validate_new());
 	}
 
 	/* create new form post */
@@ -68,12 +68,7 @@ class userController extends MY_AdminController
 	/* edit form validate */
 	public function editValidateAjaxPostAction()
 	{
-		// do the password thing
-		if ($this->input->post('password').$this->input->post('confirm_password') == '') {
-			$this->controller_model->remove_password_rules();
-		}
-
-		$this->load->json($this->controller_model->validate());
+		$this->load->json($this->controller_model->validate_edit());
 	}
 
 	/* edit form post */

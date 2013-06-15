@@ -1,17 +1,8 @@
-<form action="/auth/forgot" method="post" data-validate="true">
+<?php 
+echo $crud->login_start('/auth/forgot','Resend Activation');
 
-  <fieldset>
-    <legend>Resend Activation</legend>
+echo $crud->login_field('Email*','<input type="text" id="email" name="email" value="admin@admin.com" placeholder="email">');
 
-    <label>Email</label>
-    <input type="text" name="email" value="" placeholder="email">
-
-    <p>
-	    <button type="submit" class="btn">Submit</button>
-	    <img src="" width="64" height="1">
-	    <a href="/auth">Back to Login</a>
-		</p>
-
-  </fieldset>
-
-</form>
+echo $crud->login_end();
+?>
+<a href="/auth">Back to Login</a>

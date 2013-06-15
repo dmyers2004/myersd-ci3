@@ -1,5 +1,9 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
+define('FILTERBOL','trim|bol2int');
+define('FILTERMD5','trim|md5|filter_str[32]');
+define('FILTERINT','trim|filter_int[1]');
+
 class MY_Input extends CI_Input
 {
 	/**
@@ -46,7 +50,7 @@ class MY_Input extends CI_Input
 		$input = ($input) ? $input : $this->post(NULL, $xss); /* XSS cleaned */
 
 		/* loop through all the form validation rules with the additional map rules! */
-		foreach ($rules as $rule) {
+		foreach ((array)$rules as $rule) {
 			/* make sure it's reset - incase it's already loaded and used we need it empty */
 			$CI->form_validation->reset_validation();
 
@@ -82,7 +86,7 @@ class MY_Input extends CI_Input
 		$CI = get_instance();
 		$CI->load->library('form_validation');
 
-		$bogus = 'effaadbbababcbde';
+		$bogus = 'aaabbbccceeefff';
 
 		/* make sure it's reset - incase it's already loaded and used we need it empty */
 		$CI->form_validation->reset_validation();
@@ -101,7 +105,7 @@ class MY_Input extends CI_Input
 
 		/* log the error if any */
 		if ($pass === false) {
-			log_message('info','MY_Input::filter '.$value.'/'.validation_errors().'/'.$filter);
+			log_message('info','MY_Input::filter Value:"'.$value.'" Errors:"'.validation_errors().'" Filter"'.$rule.'"');
 		}
 
 		/*

@@ -15,38 +15,33 @@ CREATE TABLE `settings` (
 
 class setting_model extends MY_Model
 {
-  public $_table = 'settings';
-  public $primary_key = 'option_id';
+  protected $_table = 'settings';
+  protected $primary_key = 'option_id';
 
-  public $validate = array(
-  	array('field'=>'option_id','label'=>'Id','rules'=>'required|integer'),
-  	array('field'=>'option_name','label'=>'Name','rules'=>'required|xss_clean'),
-  	array('field'=>'option_value','label'=>'Value','rules'=>'xss_clean'),
-  	array('field'=>'option_group','label'=>'Group','rules'=>'required|xss_clean'),
-  	array('field'=>'auto_load','label'=>'Autoload','rules'=>'integer|tf','default'=>0)
+  protected $fields = array(
+  	'option_id' => array('field'=>'option_id','label'=>'Id','rules'=>'required|integer','filter'=>'trim|filter_int[5]|exists[settings.option_id]'),
+  	'option_name' => array('field'=>'option_name','label'=>'Name','rules'=>'required|xss_clean'),
+  	'option_value' => array('field'=>'option_value','label'=>'Value','rules'=>'xss_clean'),
+  	'option_group' => array('field'=>'option_group','label'=>'Group','rules'=>'required|xss_clean'),
+  	'auto_load' => array('field'=>'auto_load','label'=>'Autoload','rules'=>'isbol','default'=>0)
   );
-
-	public $filters = array(
-		'id'=>'trim|integer|filter_int[5]|exists[settings.option_id]',
-		'mode'=>'trim|tf|filter_int[1]'
-	);
 
   public function insert($data, $skip_validation = false)
   {
   	unset($data['option_id']);
-  	unset($this->validate);
+  	unset($this->validate['option_id']);
   	
   	return parent::insert($data, $skip_validation);
   }
 
   public function filter_id(&$id,$return=false)
   {
-  	return $this->filter($this->filters['id'],$id,$return);
+  	return $this->input->filter($this->fields['option_id']['filter'],$id,$return);
   }
 
   public function filter_mode(&$mode,$return=false)
   {
-  	return $this->filter($this->filters['mode'],$mode,$return);
+  	return ($mode == 0 || $mode == 1);
   }
 
 }

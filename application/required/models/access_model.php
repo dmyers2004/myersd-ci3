@@ -21,18 +21,15 @@ CREATE TABLE `group_access` (
 class access_model extends MY_Model
 {
 	/* db table */
-  public $_table = 'access';
+  protected $_table = 'access';
 
-	public $validate = array(
-		array('field'=>'id','label'=>'Id','rules'=>'required|filter_str[5]'),
-		array('field'=>'resource','label'=>'Resource','rules'=>'required|filter_str[128]'),
-		array('field'=>'description','label'=>'Description','rules'=>'required|filter_str[128]'),
-		array('field'=>'active','label'=>'Active','rules'=>'filter_int[1]','default'=>0)
-	);
-
-	public $filters = array(
-		'id'=>'trim|integer|filter_int[5]|exists[access.id]',
-		'mode'=>'trim|tf|filter_int[1]'
+	protected $fields = array(
+		'id' => array('field'=>'id','label'=>'Id','rules'=>'required|filter_str[5]','filter'=>'trim|integer|filter_int[5]|exists[access.id]'),
+		'resource' => array('field'=>'resource','label'=>'Resource','rules'=>'required|filter_str[128]'),
+		'description' => array('field'=>'description','label'=>'Description','rules'=>'required|filter_str[128]'),
+		'active' => array('field'=>'active','label'=>'Active','rules'=>'filter_int[1]','default'=>0),
+		'type' => array('field'=>'type','label'=>'Type','rules'=>'filter_int[1]','default'=>0),
+		'module_name' => array('field'=>'module_name','label'=>'Module Name','rules'=>'filter_str[32]')
 	);
 
   public function get_resource_id($resource)
@@ -55,19 +52,19 @@ class access_model extends MY_Model
   public function insert($data, $skip_validation = false)
   {
   	unset($data['id']);
-		unset($this->validate[0]);
+		unset($this->validate['id']);
 
   	return parent::insert($data, $skip_validation);
   }
 
   public function filter_id(&$id,$return=false)
   {
-  	return $this->filter($this->filters['id'],$id,$return);
+  	return $this->input->filter($this->fields['id']['filter'],$id,$return);
   }
 
   public function filter_mode(&$mode,$return=false)
   {
-  	return $this->filter($this->filters['mode'],$mode,$return);
+  	return $this->input->filter(FILTERBOL,$mode,$return);
   }
 
 }

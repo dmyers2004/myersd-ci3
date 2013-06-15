@@ -1,35 +1,14 @@
-<form action="/auth/register" method="post" data-validate="true">
+<?php 
+echo $crud->login_start('/auth/register','Register');
 
-  <fieldset>
-    <legend>Register</legend>
+echo $crud->login_field('User Name*','<input type="text" id="username" name="username" value="Joe Doe" placeholder="user name">');
 
-    <div class="control-group">
-	    <label>User Name *</label>
-	    <input type="text" name="username" value="Joe Coffee" placeholder="User Name">
-		</div>
+echo $crud->login_field('Email*','<input type="text" id="email" name="email" value="admin@admin.com" placeholder="email">');
 
-    <div class="control-group">
-	    <label>Email *</label>
-	    <input type="text" name="email" value="joe@example.com" placeholder="email">
-		</div>
+echo $crud->login_field('Password*','<input type="password" id="password" name="password" value="password" placeholder="password">');
 
-    <div class="password control-group">
-	    <label>Password *</label>
-			<input type="password" name="password" value="password" placeholder="password">
-		</div>
+echo $crud->login_field('Confirm Password*','<input type="password" id="confirm_password" name="confirm_password" value="password" placeholder="password">');
 
-    <div class="password control-group">
-	    <label>Confirm Password *</label>
-			<input type="password" class="error" name="repeat_password" value="password" placeholder="password again">
-		</div>
-
-    <p>
-	    <button type="submit" class="btn">Submit</button>
-	    <img src="" width="64" height="1">
-	    <a href="/auth">Back to Login</a>
-		</p>
-
-		<label>* required</label>
-		
-  </fieldset>
-</form>
+echo $crud->login_end();
+?>
+<a href="/auth">Back to Login</a>

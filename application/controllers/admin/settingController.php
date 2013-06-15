@@ -21,7 +21,7 @@ class settingController extends MY_AdminController
 		$this->page
 			->data('title','New '.$this->page_title)
 			->data('action',$this->controller_path.'new')
-			->data('record',(object) array('id'=>-1,'active'=>1))
+			->data('record',(object) array('option_id'=>-1,'auto_load'=>1))
 			->data('option_group',$this->controller_model->dropdown('option_group','option_group'))
 			->build($this->controller_path.'form');
 	}
@@ -64,11 +64,12 @@ class settingController extends MY_AdminController
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
 		$id = $this->input->post('option_id');
-		$this->controller_model->filter_id($id,false);
 
-		if ($this->controller_model->map($this->data)) {
-			$this->controller_model->update($this->data['option_id'], $this->data);
-			$this->flash_msg->updated($this->page_title,$this->controller_path);
+		if ($this->controller_model->filter_id($id,false)) {
+			if ($this->controller_model->map($this->data)) {
+				$this->controller_model->update($this->data['option_id'], $this->data);
+				$this->flash_msg->updated($this->page_title,$this->controller_path);
+			}
 		}
 
 		$this->flash_msg->fail($this->page_title,$this->controller_path);

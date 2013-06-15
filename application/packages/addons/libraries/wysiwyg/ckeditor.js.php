@@ -1,4 +1,4 @@
-	<script>
+<script>
 	window.onload = function() {
 		
 		CKEDITOR.stylesSet.add('my_custom_style', [

@@ -13,24 +13,19 @@ CREATE TABLE `groups` (
 
 class group_model extends MY_Model
 {
-  public $_table = 'groups';
-  public $group_access_table = 'group_access';
+  protected $_table = 'groups';
+  protected $group_access_table = 'group_access';
 
-  public $validate = array(
-  	array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
-  	array('field'=>'name','label'=>'Name','rules'=>'required|filter_str[64]'),
-  	array('field'=>'description','label'=>'Description','rules'=>'required|filter_str[128]')
+  protected $fields = array(
+  	'id' => array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]','filter'=>'trim|integer|filter_int[5]|exists[groups.id]'),
+  	'name' => array('field'=>'name','label'=>'Name','rules'=>'required|filter_str[64]'),
+  	'description' => array('field'=>'description','label'=>'Description','rules'=>'required|filter_str[128]')
   );
-
-	public $filters = array(
-		'id'=>'trim|integer|filter_int[5]|exists[groups.id]',
-		'mode'=>'trim|tf|filter_int[1]'
-	);
 
   public function insert($data, $skip_validation = false)
   {
   	unset($data['id']);
-  	unset($this->validate[0]);
+  	unset($this->validate['id']);
 
   	return parent::insert($data, $skip_validation);
   }
@@ -76,12 +71,12 @@ class group_model extends MY_Model
 
   public function filter_id(&$id,$return=false)
   {
-  	return $this->filter($this->filters['id'],$id,$return);
+  	return $this->input->filter($this->fields['id']['filter'],$id,$return);
   }
 
   public function filter_mode(&$mode,$return=false)
   {
-  	return $this->filter($this->filters['mode'],$mode,$return);
+  	return $this->input->filter(FILTERBOL,$mode,$return);
   }
 
 }

@@ -31,6 +31,11 @@ class Auth
 		$this->ci->load->model('user_model');
 	}
 
+	public function filter_activation_key($activation_key)
+	{
+		$this->input->filter('required|md5',$activation_key,false);
+	}
+
 	/**
 	 * Login user on the site. Return TRUE if login is successful
 	 * (user exists and activated, password is correct), otherwise FALSE.
@@ -511,7 +516,7 @@ class Auth
 		$this->ci->load->model('user_autologin_model');
 		$this->ci->user_autologin_model->purge($user_id);
 
-		if ($this->ci->user_autologin->set($user_id, md5($key))) {
+		if ($this->ci->user_autologin_model->set($user_id, md5($key))) {
 			set_cookie(array(
 					'name' 		=> $this->ci->config->item('autologin_cookie_name', 'auth'),
 					'value'		=> serialize(array('user_id' => $user_id, 'key' => $key)),

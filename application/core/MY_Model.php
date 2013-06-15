@@ -108,6 +108,8 @@ class MY_Model extends CI_Model
     {
         parent::__construct();
 
+				$this->validate = $this->fields;	
+
         $this->load->helper('inflector');
 
         $this->_set_database();
@@ -119,24 +121,21 @@ class MY_Model extends CI_Model
         $this->_temporary_return_type = $this->return_type;
     }
 
-		public function validate()
+		public function validate($validate=null)
 		{
 			$this->load->library('form_validation');
+
+			$validate = ($validate) ? $validate : $this->validate;
+
 			$this->form_validation->reset_validation();
-			$this->form_validation->set_rules($this->validate);
+			$this->form_validation->set_rules($validate);
+			
 			return $this->form_validation->run_array();
 		}
 
 		public function map(&$output,&$input = null,$xss = true)
 		{
-			$this->load->library('input');
 			return $this->input->map($this->validate,$output,$input,$xss);
-		}
-
-		public function filter($rule,&$value,$return=true)
-		{
-			$this->load->library('input');
-			return $this->input->filter($rule,$value,$return);
 		}
 
     /* --------------------------------------------------------------

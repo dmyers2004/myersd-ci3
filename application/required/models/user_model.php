@@ -12,56 +12,24 @@
  */
 class User_model extends MY_Model
 {
-	private $table_name = 'users'; // user accounts
-	private $profile_table_name	= 'user_profiles'; // user profiles
+	protected $table_name = 'users'; // user accounts
+	protected $profile_table_name	= 'user_profiles'; // user profiles
 
-	private $remove_password_rules = false;
-
-	public $validate = array(
-		array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
-		array('field'=>'username','label'=>'User Name','rules'=>'required|xss_clean|filter_str[50]'),
-		array('field'=>'email','label'=>'Email','rules'=>'required|valid_email|filter_email[72]'),
-		array('field'=>'password','label'=>'Password','rules'=>'required|min_length[8]|max_length[32]|matches[confirm_password]'),
-		array('field'=>'group_id','label'=>'Group Id','rules'=>'required|filter_int[5]'),
-		array('field'=>'confirm_password','label'=>'Confirmation Password','rules'=>'required')
-	);
-
-	public $login_validate = array(
-		array('field' => 'email','label' => 'Email','rules' => 'trim|required|xss_clean|filter_str[72]'),
-		array('field' => 'password','label' => 'Password','rules' => 'trim|required|xss_clean|filter_str[32]'),
-		array('field' => 'remember','label' => 'Remember Me', 'rules' => 'integer|tf|filter_int[1]','default' => 0)
-	);
-
-	public $email_validate = array(
-		array('field' => 'email','label' => 'Email','rules' => 'trim|required|valid_email|xss_clean|filter_email[72]'),
-	);
-
-	public $register_validate = array(
-		array('field' => 'username','label' => 'User Name','rules' => 'trim|required|xss_clean|filter_str[72]'),
-		array('field' => 'email','label' => 'Email','rules' => 'trim|required|xss_clean|filter_str[72]'),
-		array('field' => 'password','label' => 'Password','rules' => 'required|filter_str[32]'),
-		array('field' => 'repeat_password','label' => 'Password Check', 'rules' => 'matches[password]|required|filter_str[32]'),
-	);
-	
-	public $fields = array(
-		'id' => array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
+	protected $fields = array(
+		'id' => array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]','filter'=>'trim|integer|filter_int[5]|exists[users.id]'),
 		'username' => array('field'=>'username','label'=>'User Name','rules'=>'required|xss_clean|filter_str[50]'),
 		'email' => array('field'=>'email','label'=>'Email','rules'=>'required|valid_email|filter_email[72]'),
-		'password' => array('field'=>'password','label'=>'Password','rules'=>'required|min_length[8]|max_length[32]|matches[confirm_password]'),
-		'group_id' => array('field'=>'group_id','label'=>'Group Id','rules'=>'required|filter_int[5]'),
-		'confirm_password' => array('field'=>'confirm_password','label'=>'Confirmation Password','rules'=>'required')
+		'password' => array('field'=>'password','label'=>'Password','rules'=>'required|min_length[8]|max_length[32]'),
+		'confirm_password' => array('field'=>'confirm_password','label'=>'Confirmation Password','rules'=>'required'),
+		'group_id' => array('field'=>'group_id','label'=>'Group Id','rules'=>'required|filter_int[5]')
 	);
 	
-	public $filters = array(
-		'id'=>'trim|integer|filter_int[5]|exists[users.id]',
-		'mode'=>'trim|tf|filter_int[1]',
-		'activation_key'=>'required|md5'
-	);
+	protected $remember = array('field' => 'remember','label' => 'Remember Me', 'rules' => 'bol2int','default' => 0);
 
 	public function __construct()
 	{
 		parent::__construct();
-
+	
 		$ci =& get_instance();
 		$this->table_name = $ci->config->item('db_table_prefix', 'auth').$this->table_name;
 		$this->profile_table_name	= $ci->config->item('db_table_prefix', 'auth').$this->profile_table_name;
@@ -69,57 +37,55 @@ class User_model extends MY_Model
 
   public function filter_id(&$id,$return=false)
   {
-  	return $this->filter($this->filters['id'],$id,$return);
+  	return $this->filter($this->fields['id']['filter'],$id,$return);
   }
 
   public function filter_mode(&$mode,$return=false)
   {
-  	return $this->filter($this->filters['mode'],$mode,$return);
+  	return $this->filter(FILTERBOL,$mode,$return);
   }
   
-  public function filter_activation_key(&$activation_key,$return=false)
-  {
-  	return $this->filter($this->filters['activation_key'],$mode,$return);
-  }
-
-	public function remove_password_rules()
-	{
-		$this->remove_password_rules = true;
-	}
-
 	public function validate_login()
 	{
-		$this->form_validation->reset_validation();
-		$this->form_validation->set_rules($this->login_validate);
-		return $this->form_validation->run_array();
+		$rules = array($this->fields['email'],$this->fields['password'],$this->remember);
+		return $this->validate($rules);
 	}
 	
 	public function validate_email()
 	{
-		$this->form_validation->reset_validation();
-		$this->form_validation->set_rules($this->email_validate);
-		return $this->form_validation->run_array();
+		$rules = array($this->fields['email']);
+		return $this->validate($rules);
 	}
 
 	public function validate_register()
 	{
-		$this->form_validation->reset_validation();
-		$this->form_validation->set_rules($this->register_validate);
-		return $this->form_validation->run_array();
+		$rules = array($this->fields['username'],$this->fields['email'],$this->fields['password'],$this->fields['confirm_password']);
+		return $this->validate($rules);
 	}
 
-	public function validate()
+	public function validate_new()
 	{
-		$this->form_validation->reset_validation();
-		$this->form_validation->set_rules($this->validate);
-
-		if ($this->remove_password_rules) {
-			$this->form_validation->remove_rules('password,confirm_password');
-		}
-
-		return $this->form_validation->run_array();
+		$rules = $this->fields;
+		return $this->validate($rules);
 	}
+	
+	public function validate_edit()
+	{
+		$rules = $this->$fields;
 
+		if ($this->input->post('password').$this->input->post('confirm_password') === '') {
+			unset($rules['password']);
+			unset($rules['confirm_password']);
+		}
+		
+		return $this->validate($rules);
+	}
+	
+	public function map_login(&$output,&$input = null,$xss = true) {
+		$this->validate = array($this->fields['email'],$this->fields['password'],$this->remember);
+		return $this->map($output,$input,$xss);
+	}
+	
 	public function get_users()
 	{
 		$this->db->order_by('email');

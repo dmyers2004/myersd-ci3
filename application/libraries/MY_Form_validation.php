@@ -2,11 +2,26 @@
 
 class MY_Form_validation extends CI_Form_validation
 {
-	public function tf($str, $field)
+	/* test */
+	public function isbol($str, $field)
 	{
-		// test if it's 1 or 0
-		$this->CI->form_validation->set_message('tf', 'The %s is invalid.');
-		return ((int) $str == 1 || (int) $str == 0) ? true : false;
+		$this->CI->form_validation->set_message('isbol', 'The %s is invalid.');
+		// test if it one of these
+		$valid = array(1,'1','0',0,'on','yes','off','no','t','f','true','false');
+    return (in_array(strtolower($str),$valid)) ? TRUE : FALSE;
+	}
+	
+	/* converts  */
+	public function bol2int($str, $field)
+	{
+		if ($this->isbol($str, $field)) {
+			$this->CI->form_validation->set_message('bol2int', 'The %s is invalid.');
+			$valid = array(1,'1','on','yes','t','true');
+	    return (in_array(strtolower($str),$valid)) ? 1 : 0;
+		}
+
+		$this->CI->form_validation->set_message('bol2int', 'The %s is invalid.');
+		return FALSE;
 	}
 
 	public function exists($str, $field)

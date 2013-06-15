@@ -16,25 +16,20 @@
 
 class menubar_model extends MY_Model
 {
-  public $_table = 'nav';
-  public $active_cache = null;
-  public $read_parents_cache = null;
+  protected $_table = 'nav';
+  protected $active_cache = null;
+  protected $read_parents_cache = null;
 
-  public $validate = array(
-  	array('field'=>'id','label'=>'Id','rules'=>'required|integer|filter_int[6]'),
-  	array('field'=>'text','label'=>'Text','rules'=>'required|xss_clean|filter_str[64]'),
-  	array('field'=>'resource','label'=>'Resource','rules'=>'required|xss_clean|filter_str[128]'),
-  	array('field'=>'url','label'=>'Url','rules'=>'url|xss_clean|filter_str[128]'),
-  	array('field'=>'parent_id','label'=>'Parent Menu','rules'=>'required|integer|filter_int[5]'),
-  	array('field'=>'sort','label'=>'Sort','rules'=>'numeric|max_length[6]|filter_float[6]','default'=>0),
-  	array('field'=>'class','label'=>'Class','rules'=>'xss_clean|filter_str[64]'),
-  	array('field'=>'active','label'=>'Active','rules'=>'integer|tf|filter_int[1]','default'=>0)
+  protected $fields = array(
+  	'id' => array('field'=>'id','label'=>'Id','rules'=>'required|integer|filter_int[6]','filter'=>'trim|integer|filter_int[5]|exists[nav.id]'),
+  	'text' => array('field'=>'text','label'=>'Text','rules'=>'required|xss_clean|filter_str[64]'),
+  	'resource' => array('field'=>'resource','label'=>'Resource','rules'=>'required|xss_clean|filter_str[128]'),
+  	'url' => array('field'=>'url','label'=>'Url','rules'=>'url|xss_clean|filter_str[128]'),
+  	'parent_id' => array('field'=>'parent_id','label'=>'Parent Menu','rules'=>'required|integer|filter_int[5]'),
+  	'sort' => array('field'=>'sort','label'=>'Sort','rules'=>'numeric|max_length[6]|filter_float[6]','default'=>0),
+  	'class' => array('field'=>'class','label'=>'Class','rules'=>'xss_clean|filter_str[64]'),
+  	'active' => array('field'=>'active','label'=>'Active','rules'=>'bol2int','default'=>0)
   );
-
-	public $filters = array(
-		'id'=>'trim|integer|filter_int[5]|exists[nav.id]',
-		'mode'=>'trim|tf|filter_int[1]'
-	);
 
 	public function read_parents()
 	{
@@ -58,7 +53,7 @@ class menubar_model extends MY_Model
   public function insert($data, $skip_validation = false)
   {
   	unset($data['id']);
-  	unset($this->validate[0]);
+  	unset($this->validate['id']);
 
   	return parent::insert($data, $skip_validation);
   }
@@ -73,12 +68,12 @@ class menubar_model extends MY_Model
 
   public function filter_id(&$id,$return=false)
   {
-  	return $this->filter($this->filters['id'],$id,$return);
+  	return $this->input->filter($this->fields['id']['filter'],$id,$return);
   }
 
   public function filter_mode(&$mode,$return=false)
   {
-  	return $this->filter($this->filters['mode'],$mode,$return);
+  	return $this->input->filter(FILTERBOL,$mode,$return);
   }
 
 }

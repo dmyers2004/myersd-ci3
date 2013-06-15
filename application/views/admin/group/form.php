@@ -1,8 +1,8 @@
 <?php
 $crud->form_start($record->id);
 
-$crud->form_bs_basic('Name',form_text('name',$record->name,'input-xxlarge'));
-$crud->form_bs_basic('Description',form_text('description',$record->description,'input-xxlarge','Description'));
+$crud->form_bs_basic('Name*',form_text('name',$record->name,'input-xxlarge'));
+$crud->form_bs_basic('Description*',form_text('description',$record->description,'input-xxlarge','Description'));
 
 foreach ($all_access as $namespace => $foo) {
 	$crud->form_fieldset($namespace);

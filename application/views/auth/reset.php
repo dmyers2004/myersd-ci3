@@ -1,26 +1,10 @@
-<form action="/auth/reset" method="post" data-validate="true">
+<?php 
+echo $crud->login_start('/auth/reset','Reset Password');
 
-  <fieldset>
-    <legend>Reset Password</legend>
+echo $crud->login_field('Password*','<input type="password" id="password" name="password" value="password" placeholder="password">');
 
-    <div class="password control-group">
-	    <label>New Password</label>
-	    <input type="text" name="new" value="" placeholder="password">
-		</div>
+echo $crud->login_field('Confirm Password*','<input type="password" id="confirm_password" name="confirm_password" value="password" placeholder="password">');
 
-    <div class="password control-group">
-	    <label>Confirm New Password</label>
-	    <input type="text" name="new_confirm" value="" placeholder="password">
-		</div>
-
-		<input type="hidden" name="hash" value="<?=$hash ?>">
-
-    <p>
-	    <button type="submit" class="btn">Submit</button>
-	    <img src="" width="64" height="1">
-	    <a href="/auth">Back to Login</a>
-		</p>
-
-  </fieldset>
-
-</form>
+echo $crud->login_end();
+?>
+<a href="/auth">Back to Login</a>
