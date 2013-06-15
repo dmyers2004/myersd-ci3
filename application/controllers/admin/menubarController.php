@@ -11,10 +11,39 @@ class menubarController extends MY_AdminController
 
 	public function indexAction()
 	{
+		$foo = $this->controller_model->order_by('parent_id,sort')->get_all();
+		$bar = $this->buildTree($this->controller_model->order_by('sort')->get_all());
+		
+		//var_dump($bar);
+		
 		$this->page
-			->data('records',$this->controller_model->order_by('parent_id,sort')->get_all())
+			->data('records',$bar)
 			->data('parent_options',array(0=>'<i class="icon-upload"></i>') + $this->controller_model->dropdown('id','text'))
 			->build();
+	}
+
+	public function sortAction()
+	{
+		$this->page
+			->data('tree',$this->buildTree($this->controller_model->order_by('sort')->get_all()))
+			->js('/assets/jquery/jquery-ui.min.js')
+			->js('/assets/admin/js/jquery.mjs.nestedSortable.js')
+			->css('/assets/admin/css/sort.css')
+			->data('parent_options',array(0=>'<i class="icon-upload"></i>') + $this->controller_model->dropdown('id','text'))
+			->build();
+	}
+	
+	public function sortAjaxPostAction()
+	{
+		$data['err'] = false;
+		$node = $this->input->post('node');
+		$sort = 10;
+		foreach ($node as $id => $parent_id) {
+			$parent_id = ($parent_id == 'null') ? 0 : $parent_id;
+			$this->controller_model->update($id, array('sort'=>(++$sort),'parent_id'=>$parent_id), true);
+		}
+		$this->flash_msg->blue('Order Saved');
+		$this->load->json($data);
 	}
 
 	public function newAction()
@@ -125,4 +154,30 @@ class menubarController extends MY_AdminController
 		$this->load->json($this->data);
 	}
 
+	private function buildTree($tree, $root = 0) {
+    $return = array();
+    # Traverse the tree and search for direct children of the root
+    foreach($tree as $record) {
+      # A direct child is found
+      if ($record->parent_id == $root) {
+        # Remove item from tree (we don't need to traverse this again)
+        //unset($tree[$record->id]);
+        # Append the child into result array and parse its children
+        $obj = new stdClass();
+        $obj->id = $record->id;
+        $obj->text = $record->text;
+        $obj->url = $record->url;
+        $obj->resource = $record->resource;
+        $obj->active = $record->active;
+        $obj->class = $record->class;
+        $obj->parent_id = $record->parent_id;
+        $obj->children = $this->buildTree($tree, $record->id);
+
+        $return[] = $obj;
+      }
+    }
+    
+    return empty($return) ? null : $return;
+	}
+	
 }

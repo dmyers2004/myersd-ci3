@@ -66,6 +66,7 @@ $config['default'] = array(
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width">
+		<script src="/assets/jquery/jquery-1.9.1.min.js"></script>
 		<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.min.css">
@@ -74,8 +75,7 @@ $config['default'] = array(
 
 	 'header' => '<!--[if lt IE 8]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p><![endif]-->',
 
-	 'footer' => '<script src="/assets/jquery/jquery-1.9.1.min.js"></script>
-			<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+	 'footer' => '<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
 			<script src="/assets/js/plugins.js"></script>
 			<script src="/assets/js/site.js"></script>'
 );
