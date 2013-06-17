@@ -5,7 +5,6 @@ class settingController extends MY_AdminController
 	public $controller = 'setting';
 	public $page_title = 'Setting';
 	public $page_titles = 'Settings';
-	public $page_description = 'The settings page is where all module settings are located.';
 	public $controller_model = 'setting_model';
 	public $controller_path = '/admin/setting/';
 

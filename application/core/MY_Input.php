@@ -1,8 +1,8 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
-define('FILTERBOL','trim|bol2int');
-define('FILTERMD5','trim|md5|filter_str[32]');
-define('FILTERINT','trim|filter_int[1]');
+define('FILTERBOL','trim|required|bol2int');
+define('FILTERMD5','trim|required|md5|filter_str[32]');
+define('FILTERINT','trim|required|filter_int[1]');
 
 class MY_Input extends CI_Input
 {

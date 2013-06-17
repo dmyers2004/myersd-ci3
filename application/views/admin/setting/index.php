@@ -1,19 +1,54 @@
-<?php
-$crud->table_header();
-$crud->table_start(array('Name','Value','Group','Autoload'=>'txt-ac'));
-foreach ($records as $record) {
-	$crud->table_body_start();
-
-	$crud->table_body_row($record->option_name);
-	$crud->table_body_row(shorten(htmlspecialchars($record->option_value),64));
-	$crud->table_body_row($record->option_group);
-	$crud->table_body_row($crud->return_table_body_enum($record->option_id,$record->auto_load),'txt-ac');
-
-	$crud->table_action_start($record->option_id);
-	$crud->table_action_row($crud->return_table_action_ajax('','',$record->field,''));
-	$crud->table_action_row($crud->return_table_action_delete($record->option_id));
-	$crud->table_action_end();
-
-	$crud->table_body_end();
-}
-$crud->table_end();
+<div class="row header">
+  <div class="span8">
+		<h3>Menubars<small>The Menubar Page allows you to create the navigation menu for use in your layouts.</small></h3>
+  </div>
+  <div class="span4 txt-ar">
+  	<a href="/admin/menu/new" class="btn btn-small"><i class="icon-magic"></i> Add Menubar</i></a>
+  </div>
+</div>
+<table class="table table-hover table-fixed-header">
+  <thead class="header">
+		<tr>
+			<th>Name</th>
+			<th>Value</th>
+			<th>Group</th>
+			<th class="txt-ac">Autoload</th>
+			<th class="action">Action</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($records as $record) { ?>
+		<tr>
+			<td class="click_edit">
+			<?=$record->option_name ?>
+			</td>
+			<td class="click_edit">
+			<?=shorten(htmlspecialchars($record->option_value),64) ?>
+			</td>
+			<td class="click_edit">
+			<?=$record->option_group ?>
+			</td>
+			<td class="txt-ac">
+				<a href="/admin/menu/activate/<?=$record->id ?>/" class="enum_handler" data-value="<?=$record->auto_load ?>" data-enum="icon-circle-blank|icon-ok-circle">
+					<i class="<?=enum($record->auto_load,"icon-circle-blank|icon-ok-circle") ?>"></i>
+				</a>
+			</td>
+			<td>
+			<div class="btn-group">
+			  <button class="btn">
+			  	<a class="no-link-look" href="/admin/menu/edit/<?=$record->id ?>">Edit</a>
+			  </button>
+			  <button class="btn dropdown-toggle" data-toggle="dropdown">
+			    <span class="caret"></span>
+			  </button>
+			  	<ul class="dropdown-menu">
+						<li>
+							<a href="/admin/menu/delete/<?=$record->id ?>" class="delete_handler">Delete</a>
+						</li>
+				  </ul>
+				</div>
+			</td>
+		</tr>
+	<?php } ?>
+	</tbody>
+</table>

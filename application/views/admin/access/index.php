@@ -1,26 +1,55 @@
-<?php
-$crud->table_header();
-$crud->table_start(array('Description','Resource','Active'=>'txt-ac','Type'=>'txt-ac'));
-
-foreach ($records as $record) {
-	$crud->table_body_start();
-
-	$crud->table_body_row($record->description);
-	$crud->table_body_row($record->resource);
-	$crud->table_body_row($crud->return_table_body_enum($record->id,$record->active),'txt-ac');
-	$crud->table_body_row($crud->return_enum($record->type,'<i class="icon-user"></i>|<i class="icon-cog"></i>|<i class="icon-signin"></i>'),'txt-ac');
-
-	if ($record->type == 0) {	
-		$crud->table_action_start($record->id);
-		$crud->table_action_row($crud->return_table_action_delete($record->id));
-		$crud->table_action_end();
-	} else {
-		$crud->table_body_row('');
-	}
-
-	$crud->table_body_end();
-}
-
-$crud->table_end();
-?>
+<div class="row header">
+  <div class="span8">
+		<h3>Access<small>You can create custom permissions for different users by assigning them to groups in the Users.</small></h3>
+  </div>
+  <div class="span4 txt-ar">
+  	<a href="/admin/access/new" class="btn btn-small"><i class="icon-magic"></i> Add Access</i></a>
+  </div>
+</div>
+<table class="table table-hover table-fixed-header">
+  <thead class="header">
+		<tr>
+			<th>Description</th>
+			<th>Resource</th>
+			<th class="txt-ac">Active</th>
+			<th class="txt-ac">Type</th>
+			<th class="action">Action</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($records as $record) { ?>
+		<tr>
+			<td class="click_edit">
+			<?=$record->description ?>
+			</td>
+			<td class="click_edit">
+			<?=$record->resource ?>
+			</td>
+			<td class="txt-ac">
+				<a href="/admin/access/activate/<?=$record->id ?>/" class="enum_handler" data-value="<?=$record->active ?>" data-enum="icon-circle-blank|icon-ok-circle">
+					<i class="<?=enum($record->active,"icon-circle-blank|icon-ok-circle") ?>"></i>
+				</a>
+			</td>
+			<td class="txt-ac">
+			<?=enum($record->type,'<i class="icon-user"></i>|<i class="icon-cog"></i>|<i class="icon-signin"></i>') ?>
+			</td>
+			<td>
+			<div class="btn-group">
+			  <button class="btn">
+			  	<a class="no-link-look" href="/admin/access/edit/<?=$record->id ?>">Edit</a>
+			  </button>
+			  <button class="btn dropdown-toggle" data-toggle="dropdown">
+			    <span class="caret"></span>
+			  </button>
+			  	<ul class="dropdown-menu">
+						<li>
+							<a href="/admin/access/delete/<?=$record->id ?>" class="delete_handler">Delete</a>
+						</li>
+				  </ul>
+				</div>
+			</td>
+		</tr>
+	<?php } ?>
+	</tbody>
+</table>
 <h6><i class="icon-user"></i> User Entered <img width=32 height=0><i class="icon-cog"></i> System Entered <img width=32 height=0><i class="icon-signin"></i> Module Entered</h6>

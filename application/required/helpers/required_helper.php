@@ -10,9 +10,11 @@ function data($name,$value,$where='replace')
 {
 	switch ($where) {
 		case 'prepend':
+		case '^':
 			$value = $value.get_instance()->load->_ci_cached_vars[$name];
 		break;
 		case 'append':
+		case '$':
 			$value = get_instance()->load->_ci_cached_vars[$name].$value;
 		break;
 	}
@@ -23,6 +25,16 @@ function data($name,$value,$where='replace')
 function getData($name)
 {
 	return @get_instance()->load->_ci_cached_vars[$name];
+}
+
+function getDefaultArray($array,$key,$default)
+{
+	return ($array[$key]) ? $array[$key] : $default;
+}
+
+function getDefault($input,$default)
+{
+	return ($input) ? $input : $default;
 }
 
 function after($tag,$searchthis)

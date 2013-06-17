@@ -5,7 +5,6 @@ class menubarController extends MY_AdminController
 	public $controller = 'menubar';
 	public $page_title = 'Menu';
 	public $page_titles = 'Menus';
-	public $page_description = 'The Menubar Page allows you to create the navigation menu for use in your layouts.';
 	public $controller_model = 'menubar_model';
 	public $controller_path = '/admin/menubar/';
 

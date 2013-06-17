@@ -1,23 +1,44 @@
-<?php
-$crud->form_start($record->id);
+<h3 class="form-header"><?=($record->id < 0) ? 'Create' : 'Update' ?> Group</h3>
 
-$crud->form_bs_basic('Name*',form_text('name',$record->name,'input-xxlarge'));
-$crud->form_bs_basic('Description*',form_text('description',$record->description,'input-xxlarge','Description'));
-
-foreach ($all_access as $namespace => $foo) {
-	$crud->form_fieldset($namespace);
-?>
-	<div class="row-fluid show-grid resource">
-	<?php foreach ($all_access[$namespace] as $resource) { ?>
-	  <div class="span4" style="margin-left: 0">
-	  	<label class="checkbox">
-		    <?=$crud->form_checkbox('access['.$resource->id.']', 'true', $my_access[$resource->id], 'class="shift-group" data-group="'.$namespace.'"') ?>
-		    <?=$resource->description ?>
-	    </label>
-	  </div>
-		<?php } ?>
+<?=form_open($action,array('class'=>'form-horizontal','data-validate'=>'true')) ?>
+<input type="hidden" name="id" value="<?=$record->id ?>" />
+	
+	<div class="control-group">
+		<label class="control-label" for="name">
+			<strong>Name</strong>
+		</label>
+		<div class="controls">
+		<?=form_text('name',$record->name,'input-xxlarge') ?>
+		</div>
 	</div>
-	<?php
-}
+	
+	<div class="control-group">
+		<label class="control-label" for="description">
+			Description
+		</label>
+		<div class="controls">
+		<?=form_text('description',$record->description,'input-xxlarge','Description') ?>
+		</div>
+	</div>
+	<p>&nbsp;</p>
+	<?php foreach ($all_access as $namespace => $foo) { ?>
+		<?=form_fieldset($namespace) ?>
+			<div class="row-fluid show-grid resource">
+			<?php foreach ($all_access[$namespace] as $resource) { ?>
+			  <div class="span4" style="margin-left: 0">
+			  	<label class="checkbox">
+				    <?=form_checkbox('access['.$resource->id.']', 'true', $my_access[$resource->id], 'class="shift-group" data-group="'.$namespace.'"') ?>
+				    <?=$resource->description ?>
+			    </label>
+			  </div>
+				<?php } ?>
+			</div>
+		<?php } ?>
 
-$crud->form_end();
+	<div class="form-actions">
+		<button type="submit" class="btn btn-primary">Save</button>
+		<a href="/admin/group" class="btn">Cancel</a>
+		<span class="required-txt">Required Fields are in Bold</span>
+	</div>
+
+</form>

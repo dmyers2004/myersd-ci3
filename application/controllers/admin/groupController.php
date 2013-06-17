@@ -5,7 +5,6 @@ class groupController extends MY_AdminController
 	public $controller = 'group';
 	public $page_title = 'Group';
 	public $page_titles = 'Groups';
-	public $page_description = 'Users can be placed into groups to manage permissions.';
 	public $controller_model = 'group_model';
 	public $controller_path = '/admin/group/';
 
@@ -115,7 +114,7 @@ class groupController extends MY_AdminController
 			}
 
 			if ($len === false) {
-				$name = '*Generic';
+				$name = '<i><small>* no namespace provided</small></i>';
 			}
 
 			$namespace = ($name != '') ? $name : trim(substr($resource, 0, $len),' /');

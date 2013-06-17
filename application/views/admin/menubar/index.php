@@ -1,26 +1,55 @@
-<div class="row">
-  <div class="span9">
-		<h3><?=$page_titles ?><small><?=$page_description ?></small></h3>
+<div class="row header">
+  <div class="span8">
+		<h3>Menubars<small>The Menubar Page allows you to create the navigation menu for use in your layouts.</small></h3>
   </div>
-  <div style="padding-top: 3px;" class="span3 txt-ar">
-  	<a href="/admin/<?=$controller ?>/sort" class="btn btn-small"><i class="icon-sort"></i> Reorganize <?=$page_titles ?></i></a>
-  	<a href="/admin/<?=$controller ?>/new" class="btn btn-small"><i class="icon-magic"></i> Create New <?=$page_title ?></i></a>
+  <div class="span4 txt-ar">
+  	<a href="/admin/menu/sort" class="btn btn-small"><i class="icon-sort"></i> Reorganize</i></a>
+  	<a href="/admin/menu/new" class="btn btn-small"><i class="icon-magic"></i> Add Menubar</i></a>
   </div>
 </div>
-<?php
-$crud->table_start(array('Text','URL','Active'=>'txt-ac','Parent'=>'txt-ac'));
-foreach ($records as $record) {
-	$crud->table_body_start();
-
-	$crud->table_body_row($record->text);
-	$crud->table_body_row($record->url);
-	$crud->table_body_row($crud->return_table_body_enum($record->id,$record->active),'txt-ac');
-	$crud->table_body_row($parent_options[$record->parent_id],'txt-ac');
-
-	$crud->table_action_start($record->id);
-	$crud->table_action_row($crud->return_table_action_delete($record->id));
-	$crud->table_action_end();
-
-	$crud->table_body_end();
-}
-$crud->table_end();
+<table class="table table-hover table-fixed-header">
+  <thead class="header">
+		<tr>
+			<th>Text</th>
+			<th>URL</th>
+			<th class="txt-ac">Active</th>
+			<th class="txt-ac">Parent</th>
+			<th class="action">Action</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($records as $record) { ?>
+		<tr>
+			<td class="click_edit">
+			<?=$record->text ?>
+			</td>
+			<td class="click_edit">
+			<?=$record->url ?>
+			</td>
+			<td class="txt-ac">
+				<a href="/admin/menu/activate/<?=$record->id ?>/" class="enum_handler" data-value="<?=$record->active ?>" data-enum="icon-circle-blank|icon-ok-circle">
+					<i class="<?=enum($record->active,"icon-circle-blank|icon-ok-circle") ?>"></i>
+				</a>
+			</td>
+			<td class="txt-ac">
+			<?=$parent_options[$record->parent_id] ?>
+			</td>
+			<td>
+			<div class="btn-group">
+			  <button class="btn">
+			  	<a class="no-link-look" href="/admin/menu/edit/<?=$record->id ?>">Edit</a>
+			  </button>
+			  <button class="btn dropdown-toggle" data-toggle="dropdown">
+			    <span class="caret"></span>
+			  </button>
+			  	<ul class="dropdown-menu">
+						<li>
+							<a href="/admin/menu/delete/<?=$record->id ?>" class="delete_handler">Delete</a>
+						</li>
+				  </ul>
+				</div>
+			</td>
+		</tr>
+	<?php } ?>
+	</tbody>
+</table>

@@ -5,7 +5,6 @@ class accessController extends MY_AdminController
 	public $controller = 'access';
 	public $page_title = 'Access';
 	public $page_titles = 'Access';
-	public $page_description = 'You can create custom permissions for different users by assigning them to groups in the Users.';
 	public $controller_model = 'access_model';
 	public $controller_path = '/admin/access/';
 

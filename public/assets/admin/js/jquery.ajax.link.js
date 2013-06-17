@@ -27,38 +27,6 @@ plugins.ajax_href.init = function() {
 	});
 };
 
-/* Deprecated for enum handler */
-plugins.activate_handler = {};
-
-plugins.activate_handler.init = function() {
-
-	jQuery('.activate_handler').click(function(e){
-		e.preventDefault();
-		
-		var that = this;
-		var href = $(this).attr('href');
-
-		jQuery.ajax({url: href, dataType: 'json'}).done(function(data, textStatus, jqXHR) {
-			if (data.err === false) {
-				var newhref = mvc.dirname(href) + '/' + ((mvc.basename(href) == 0) ? 1 : 0);
-				$(that).attr('href',newhref).closest('tr').find('.activate_handler i').toggleClass('icon-circle-blank icon-ok-circle');
-
-				var dda = $(that).closest('tr').find('.dropdown-menu a[href="' + newhref + '"]');
-				copy = (dda.html() == 'Activate') ? 'Deactivate' : 'Activate';
-				dda.html(copy);
-
-				jQuery.noticeAdd({ text: 'Active Status Changed', stay: '', type: 'success', stayTime: plugins.flash_msg.pause });
-			} else {
-				jQuery.noticeAdd({ text: 'Active Status Change Error', stay: '', type: 'error', stayTime: plugins.flash_msg.pause });			
-			}
-		}).error(function(data){
-			jQuery.noticeAdd({ text: 'Active Status Change Error', stay: '', type: 'error', stayTime: plugins.flash_msg.pause });			
-		});
-
-	});
-
-};
-
 plugins.delete_handler = {};
 
 plugins.delete_handler.init = function() {
@@ -99,26 +67,23 @@ plugins.enum_handler.init = function() {
 		e.preventDefault();
 		
 		var that = this;
-		var href = $(that).attr('href');
+		var href = $(this).attr('href');
+		var value = ($(this).data('value')) + 1;
+		var values = $(this).data('enum').split('|');
+		var max = (values.length)-1;
 		
-		jQuery.ajax({url: href, dataType: 'json'}).done(function(data, textStatus, jqXHR) {
+		value = (value > max) ? 0 : value;
+		
+		jQuery.ajax({url: href + value , dataType: 'json'}).done(function(data, textStatus, jqXHR) {
 			if (data.err === false) {
+				$(that).data('value',value).find('i').prop('class','').prop('class',values[value]);
 				
-				var ary = $(that).data('enum').split('|');
-				var option = parseInt(mvc.basename(href));
-				var num = option + 1;
-				if (num > (ary.length - 1)) {
-					num = 0;	
-				}
-
-				$(that).attr('href',mvc.dirname(href) + '/' + num).find('i').prop('class','').prop('class',ary[option]);
-				
-				jQuery.noticeAdd({ text: 'Active Status Changed', stay: '', type: 'success', stayTime: plugins.flash_msg.pause });
+				jQuery.noticeAdd({ text: 'Recorded Updated', stay: '', type: 'success', stayTime: plugins.flash_msg.pause });
 			} else {
-				jQuery.noticeAdd({ text: 'Active Status Change Error', stay: '', type: 'error', stayTime: plugins.flash_msg.pause });			
+				jQuery.noticeAdd({ text: 'Recorded Update Error', stay: '', type: 'error', stayTime: plugins.flash_msg.pause });			
 			}
 		}).error(function(data){
-			jQuery.noticeAdd({ text: 'Active Status Change Error', stay: '', type: 'error', stayTime: plugins.flash_msg.pause });			
+			jQuery.noticeAdd({ text: 'Recorded Update Error', stay: '', type: 'error', stayTime: plugins.flash_msg.pause });			
 		});
 
 	});

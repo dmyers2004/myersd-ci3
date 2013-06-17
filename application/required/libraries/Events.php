@@ -149,23 +149,6 @@ class Events
 		return FALSE;
 	}
 
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Log Message
-	 *
-	 * Pulled out for unit testing
-	 *
-	 * @param string $type
-	 * @param string $message
-	 * @return void
-	 */
-	public static function log_message($type = 'debug', $message = '')
-	{
-		if (function_exists('log_message')) {
-			log_message($type, $message);
-		}
-	}
 }
 
 /* End of file events.php */

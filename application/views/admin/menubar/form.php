@@ -1,20 +1,72 @@
-<?php
-$crud->form_start($record->id);
-$crud->form_hidden('old_resource', $record->resource);
+<h3 class="form-header"><?=($record->id < 0) ? 'Create' : 'Update' ?> Menubar</h3>
 
-$crud->form_bs_basic('Text*',form_text('text',$record->text,'input-small','Display'));
-$crud->form_bs_basic('Resource*',form_text('resource',$record->resource,'input-xlarge','/nav/...'));
-$crud->form_bs_basic('URL',form_text('url',$record->url,'input-xlarge','/'));
-$crud->form_bs_basic('Class',form_text('class',$record->class));
+<?=form_open($action,array('class'=>'form-horizontal','data-validate'=>'true')) ?>
+<input type="hidden" name="id" value="<?=$record->id ?>" />
+	<?=form_hidden('old_resource', $record->resource) ?>
+	<?=form_hidden('sort', $record->sort) ?>
+	
+	<div class="control-group">
+		<label class="control-label" for="text">
+			<strong>Text</strong>
+		</label>
+		<div class="controls">
+		<?=form_text('text',$record->text,'input-small','Display') ?>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label class="control-label" for="resource">
+			<strong>Resource</strong>
+		</label>
+		<div class="controls">
+		<?=form_text('resource',$record->resource,'input-xlarge','/nav/...') ?>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label class="control-label" for="url">
+			URL
+		</label>
+		<div class="controls">
+		<?=form_text('url',$record->url,'input-xlarge','/') ?>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label class="control-label" for="class">
+			Class
+		</label>
+		<div class="controls">
+		<?=form_text('class',$record->class) ?>
+		</div>
+	</div>
+	<?php if ($record->id == -1) { ?>
+	
+	<div class="control-group">
+		<label class="control-label" for="parent_menu">
+			Parent Menu
+		</label>
+		<div class="controls">
+			<?=form_dropdown('parent_id', $options, $record->parent_id, 'class="chosen"') ?>
+		</div>
+	</div>
+	<?php } else { ?>
+		<?=form_hidden('parent_id', $record->parent_id) ?>
+	<?php } ?>
+	
+	<div class="control-group">
+		<label class="control-label" for="active">
+			Active
+		</label>
+		<div class="controls">
+		<?=form_checkbox('active', 1, $record->active) ?>
+		</div>
+	</div>
 
-if ($record->id == -1) {
-	$crud->form_bs_basic('Parent Menu',form_dropdown('parent_id', $options, $record->parent_id, 'class="chosen"'));
-} else {
-	echo '<input type="hidden" name="parent_id" value="'.$record->parent_id.'">';
-}
+	<div class="form-actions">
+		<button type="submit" class="btn btn-primary">Save</button>
+		<a href="/admin/menu" class="btn">Cancel</a>
+		<span class="required-txt">Required Fields are in Bold</span>
+	</div>
 
-$crud->form_bs_basic('Active',form_checkbox('active', 1, $record->active));
-
-echo '<input type="hidden" name="sort" value="'.$record->sort.'">';
-
-$crud->form_end();
+</form>

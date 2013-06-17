@@ -140,21 +140,21 @@ class Page
 	{
 		if (!empty($what)) {
 			$this->merge($what);
-			$var = @$this->getDefault($this->config['variable_mappings'][$which],$which);
+			$var = @getDefault($this->config['variable_mappings'][$which],$which);
 
 			switch ($where) {
 				case 'before':
 					/* remove it if it's already there */
-					$content = str_replace($what,'',$this->getVar($var));
-					$this->setVar($var,$what.$content);
+					$content = str_replace($what,'',getData($var));
+					data($var,$what.$content,'^');
 				break;
 				case 'overwrite':
-					$this->setVar($var,$what);
+					data($var,$what);
 				break;
 				default: /* append after */
 					/* remove it if it's already there */
-					$content = str_replace($what,'',$this->getVar($var));
-					$this->setVar($var,$content.$what);
+					$content = str_replace($what,'',getData($var));
+					data($var,$content.$what,'$');
 			}
 		}
 
@@ -162,8 +162,8 @@ class Page
 	}
 
 	/* add view data wrapper */
-	public function data($name,$value) {
-		return $this->setVar($name,$value);
+	public function data($name,$value,$where='replace') {
+		return data($name,$value,$where);
 	}
 
 	/* wrapper for load partial */
@@ -194,7 +194,7 @@ class Page
 		
 		$view = ($view) ? $view : $auto;
 
-		$this->setVar($this->config['variable_mappings']['container'],$this->load->partial($view));
+		data($this->config['variable_mappings']['container'],$this->load->partial($view));
 
     /* final output */
     $this->load->view((($layout) ? $layout : $this->template),null,false);
@@ -222,34 +222,6 @@ class Page
       return $this->assets.$input;
     }
   }
-
-  /* standard libs appendVar, getVar, setVar, getDefaultArray, getDefault */
-  public function appendVar($name,$value)
-  {
-		$this->setVar($name,$this->getVar($name).$value);
-  	return $this;
-  }
-
-  public function getVar($name)
-  {
-		return @get_instance()->load->_ci_cached_vars[$name];
-  }
-
-  public function setVar($name,$value)
-  {
-		get_instance()->load->_ci_cached_vars[$name] = $value;
-		return $this;
-  }
-
-	private function getDefaultArray($array,$key,$default)
-	{
-		return ($array[$key]) ? $array[$key] : $default;
-	}
-
-	private function getDefault($input,$default)
-	{
-		return ($input) ? $input : $default;
-	}
 
 	/* wrapper for CI instance so you can $this-> in the library */
 	public function __get($var)

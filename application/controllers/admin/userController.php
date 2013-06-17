@@ -5,7 +5,6 @@ class userController extends MY_AdminController
 	public $controller = 'user';
 	public $page_title = 'User';
 	public $page_titles = 'Users';
-	public $page_description = 'The users page is where you manage your sites users.';
 	public $controller_model = 'user_model';
 	public $controller_path = '/admin/user/';
 

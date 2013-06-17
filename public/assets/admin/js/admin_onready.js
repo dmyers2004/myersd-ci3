@@ -10,9 +10,6 @@ $(document).ready(function(){
 	/* setup delete modal handler */
 	plugins.delete_handler.init();
 	
-	/* setup the activate handler */
-	plugins.activate_handler.init();
-	
 	/* setup the enum handler */
 	plugins.enum_handler.init();
 	

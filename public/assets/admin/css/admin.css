@@ -31,13 +31,27 @@
 	padding-left: 6px;
 }
 
-.admin h3 {
-	margin: 32px 0 16px;
+.admin .header h3 {
+	margin: 0;
 }
 
-.admin h3 small {
-	padding: 0 16px 0;
-	font-size: 55%;
+.admin .header small {
+	padding: 0 0 0 12px;
+	font-size: 12px;
+	color: #888;
+}
+
+.admin .form-header h3 {
+	margin: 0;
+	white-space: nowrap;
+}
+
+.admin .form-header small {
+	padding: 0;
+	font-size: 12px;
+	line-height: 50px;
+	margin: 0 0 0 -20px;
+	color: #888;
 }
 
 .admin.media h3 {
@@ -47,5 +61,9 @@
 
 .admin label.text {
 	padding-top: 5px;
+}
+
+.admin table thead th.action {
+	width: 130px;
 }
 

@@ -1,15 +1,28 @@
-<?php 
-echo $crud->login_start('/auth/login','Login');
+<?=form_open('/auth/login',array('data-validate'=>'true')) ?>
+  <fieldset>
+    <legend>Login</legend>
 
-echo $crud->login_field('Email*','<input type="text" id="email" name="email" value="admin@admin.com" placeholder="email">');
+		<label class="control-label" for="email">
+			<strong>Email</strong>
+		</label>
+		<input type="text" id="email" name="email" value="admin@admin.com" placeholder="email">
 
-echo $crud->login_field('Password*','<input type="password" id="password" name="password" value="password" placeholder="password">');
+		<label class="control-label" for="password">
+			<strong>Password</strong>
+		</label>
+		<input type="password" id="password" name="password" value="password" placeholder="password">
 
-echo $crud->login_checkbox('remember','Remember Me',$rememberme);
+		<label class="checkbox" for="remember">
+		  <input type="checkbox" id="remember" name="remember" value="1" <?=($rememberme) ? 'checked' : '' ?>> Remember Me
+		</label>
 
-echo $crud->login_end();
-?>
+    <p>
+	    <button type="submit" class="btn">Submit</button>
+			<span class="required-txt">Required Fields are in Bold</span>
+		</p>
+		
+  </fieldset>
+</form>
 <a href="/auth/register">Register</a>
 <img width=32 height=0>
 <a href="/auth/forgot">Forgot Password</a>
-

@@ -37,12 +37,12 @@ class User_model extends MY_Model
 
   public function filter_id(&$id,$return=false)
   {
-  	return $this->filter($this->fields['id']['filter'],$id,$return);
+  	return $this->input->filter($this->fields['id']['filter'],$id,$return);
   }
 
   public function filter_mode(&$mode,$return=false)
   {
-  	return $this->filter(FILTERBOL,$mode,$return);
+  	return $this->input->filter(FILTERBOL,$mode,$return);
   }
   
 	public function validate_login()
