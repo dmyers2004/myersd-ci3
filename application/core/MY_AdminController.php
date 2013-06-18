@@ -14,7 +14,6 @@ class MY_AdminController extends MY_PublicController
 	public $controller = '';
 	public $page_title = '';
 	public $page_titles = '';
-	public $page_description = '';
 
 	public function __construct()
 	{
@@ -33,8 +32,7 @@ class MY_AdminController extends MY_PublicController
 			$this->controller_model = $this->$model_name;
 		}
 
-		$this->page
-			->add('admin')
+		$this->page->add('admin');
 	}
 
 } /* end MY_AdminController */

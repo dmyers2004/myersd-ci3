@@ -6,14 +6,16 @@
  * append
  * prepend
  */
-function data($name,$value,$where='replace')
+function data($name,$value,$where='overwrite')
 {
 	switch ($where) {
 		case 'prepend':
+		case 'before':
 		case '^':
 			$value = $value.get_instance()->load->_ci_cached_vars[$name];
 		break;
 		case 'append':
+		case 'after':
 		case '$':
 			$value = get_instance()->load->_ci_cached_vars[$name].$value;
 		break;

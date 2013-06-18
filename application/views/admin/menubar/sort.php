@@ -3,8 +3,8 @@
 		<h3>Menubars<small>The Menubar Page allows you to create the navigation menu for use in your layouts.</small></h3>
   </div>
   <div class="span4 txt-ar">
-  	<a href="/admin/menu/" class="btn btn-small">Cancel</i></a>
-  	<a href="/admin/menu/save" class="btn btn-small"><i class="icon-save"></i> Save Order</i></a>
+  	<a href="/admin/menubar/" class="btn btn-small">Cancel</i></a>
+  	<a href="/admin/menubar/sort" class="btn btn-small" id="save_order_btn"><i class="icon-save"></i> Save Order</i></a>
   </div>
 </div>
 <?php

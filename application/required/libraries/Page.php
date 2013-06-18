@@ -23,12 +23,13 @@ class Page
 		$this->add('default');
   }
 
-	public function add($key,$value=null) {
+	public function add($key,$value=null,$where=null) {
 		if ($value === null) {
 			foreach ((array)$this->config[$key] as $k => $v) {
 				$this->add($k,$v);
 			}
 		} else {
+
 			/* if the key starts with $ then it's applied to $this (page object) */
 			if ($key{0} == '$') {
 				if ($key == '$theme') {
@@ -38,28 +39,33 @@ class Page
 					$this->$key = $value;
 				}
 			} else {
-				if ($value) {
-					/* if it's not then apply it to a view variable */
-					$where = (is_string($value)) ? $value{0} : 'overwrite';
-					switch ($where) {
-						case '^': /* append to current view variable */
+
+				if ($where == null) {
+					$where = 'replace';
+					
+					if (is_string($value)) {
+						if (substr($value,0,1) == '^' || substr($value,0,1) == '$') {
+							$where = substr($value,0,1);
 							$value = substr($value,1);
-							$where = 'before';
-						break;
-						case '$': /* prepend to current view variable */
-							$value = substr($value,1);
-							$where = 'after';
-						break;
-						default: /* replace what's currently in view variable */
-							$where = 'overwrite';
+						}
 					}
-	
-					/* this will try to do a mapping if a exists in $config['variables'][%key%]*/
-					$this->_add($key,$value,$where);
 				}
+
+				$this->merge($value);
+
+				$key = getDefault($this->config['variable_mappings'][$key],$key);
+
+				$this->data($key,$value,$where);
 			}
 		}
 
+		return $this;
+	}
+
+	/* add view data wrapper */
+	public function data($key,$value,$where='overwrite') {
+		data($key,$value,$where);
+		
 		return $this;
 	}
 
@@ -87,7 +93,7 @@ class Page
   public function link($href='',$additional_attributes=array(),$where='after')
   {
     $merged = (is_array($href)) ? $href : array_merge($this->default_css,array('href'=>$this->_prefix($href)),$additional_attributes);
-    $this->_add($this->config['preset']['css'],'<link '.$this->_ary2attr($merged).' />',$where);
+    $this->add($this->config['preset']['css'],'<link '.$this->_ary2attr($merged).' />',$where);
 
     return $this;
   }
@@ -100,7 +106,7 @@ class Page
   public function script($file='',$additional_attributes=array(),$where='after')
   {
     $merged = (is_array($file)) ? $file : array_merge($this->default_js,array('src'=>$this->_prefix($file)),$additional_attributes);
-    $this->_add($this->config['preset']['js'],'<script '.$this->_ary2attr($merged).'></script>',$where);
+    $this->add($this->config['preset']['js'],'<script '.$this->_ary2attr($merged).'></script>',$where);
 
     return $this;
   }
@@ -108,7 +114,7 @@ class Page
   public function meta($name='',$content='',$additional_attributes=array(),$where='after')
   {
     $merged = (is_array($name)) ? $name : array_merge($this->default_meta,array('name'=>$name,'content'=>$content),$additional_attributes);
-    $this->_add($this->config['preset']['meta'],'<meta '.$this->_ary2attr($merged).'>',$where);
+    $this->add($this->config['preset']['meta'],'<meta '.$this->_ary2attr($merged).'>',$where);
 
     return $this;
   }
@@ -135,63 +141,30 @@ class Page
   	return $this;
   }
 
-	/* Add to meta, header, footer before or after what already in there */
-	private function _add($which='',$what='',$where='after')
-	{
-		if (!empty($what)) {
-			$this->merge($what);
-			$var = @getDefault($this->config['variable_mappings'][$which],$which);
-
-			switch ($where) {
-				case 'before':
-					/* remove it if it's already there */
-					$content = str_replace($what,'',getData($var));
-					data($var,$what.$content,'^');
-				break;
-				case 'overwrite':
-					data($var,$what);
-				break;
-				default: /* append after */
-					/* remove it if it's already there */
-					$content = str_replace($what,'',getData($var));
-					data($var,$content.$what,'$');
-			}
-		}
-
-		return $this;
-	}
-
-	/* add view data wrapper */
-	public function data($name,$value,$where='replace') {
-		return data($name,$value,$where);
-	}
-
 	/* wrapper for load partial */
 	public function partial($view,$data=array(),$name=null)
 	{
 		return $this->load->partial($view,$data,$name);
 	}
-	
+
 	public function view($view,$data=array(),$return=false)
 	{
-		$auto = trim($this->router->fetch_directory().str_replace('Controller','',$this->router->fetch_class()).'/'.str_replace('Action','',$this->router->fetch_method()),'/');
-		$this->add('bodyClass','$ '.str_replace('/',' ',$auto));
-
+		$this->getAuto();
+				
 		$html = $this->load->view($view,$data,$return);
 
 		if ($return === true) {
 			return $html;
 		}
-		
+
 		return $this;
 	}
 
 	/* final output */
   public function build($view=null,$layout=null)
   {
-		$auto = trim($this->router->fetch_directory().str_replace('Controller','',$this->router->fetch_class()).'/'.str_replace('Action','',$this->router->fetch_method()),'/');
-		$this->add('bodyClass','$ '.str_replace('/',' ',$auto));
-		
+		$auto = $this->getAuto();
+
 		$view = ($view) ? $view : $auto;
 
 		data($this->config['variable_mappings']['container'],$this->load->partial($view));
@@ -200,6 +173,13 @@ class Page
     $this->load->view((($layout) ? $layout : $this->template),null,false);
 
 		return $this;
+	}
+
+	private function getAuto()
+	{
+		$auto = trim($this->router->fetch_directory().str_replace('Controller','',$this->router->fetch_class()).'/'.str_replace('Action','',$this->router->fetch_method()),'/');
+		$this->add('bodyClass','$ '.str_replace('/',' ',$auto));
+		return $auto;
 	}
 
   private function _ary2attr($array)

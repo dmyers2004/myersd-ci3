@@ -1,7 +1,7 @@
-<h3 class="form-header"><?=($record->id < 0) ? 'Create' : 'Update' ?> Menubar</h3>
+<h3 class="form-header"><?=($record->option_id < 0) ? 'Create' : 'Update' ?> Setting</h3>
 
 <?=form_open($action,array('class'=>'form-horizontal','data-validate'=>'true')) ?>
-<input type="hidden" name="id" value="<?=$record->id ?>" />
+<input type="hidden" name="option_id" value="<?=$record->option_id ?>" />
 	
 	<div class="control-group">
 		<label class="control-label" for="name">
@@ -41,7 +41,8 @@
 
 	<div class="form-actions">
 		<button type="submit" class="btn btn-primary">Save</button>
-		<a href="/admin/menu" class="btn">Cancel</a>
+		&nbsp;
+		<a href="/admin/setting" class="btn">Cancel</a>
 		<span class="required-txt">Required Fields are in Bold</span>
 	</div>
 

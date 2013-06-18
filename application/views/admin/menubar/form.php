@@ -65,7 +65,8 @@
 
 	<div class="form-actions">
 		<button type="submit" class="btn btn-primary">Save</button>
-		<a href="/admin/menu" class="btn">Cancel</a>
+		&nbsp;
+		<a href="/admin/menubar" class="btn">Cancel</a>
 		<span class="required-txt">Required Fields are in Bold</span>
 	</div>
 

@@ -6,8 +6,6 @@ class authController extends MY_PublicController
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->library('scaffold');
-		$this->page->add('crud',$this->scaffold);
 	}
 
 	/* standard login */
