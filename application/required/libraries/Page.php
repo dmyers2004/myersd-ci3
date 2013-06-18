@@ -62,7 +62,7 @@ class Page
 		return $this;
 	}
 
-	/* add view data wrapper */
+	/* add global data wrapper for chaining */
 	public function data($key,$value,$where='overwrite') {
 		data($key,$value,$where);
 		

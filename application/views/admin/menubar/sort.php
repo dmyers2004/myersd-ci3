@@ -7,16 +7,21 @@
   	<a href="/admin/menubar/sort" class="btn btn-small" id="save_order_btn"><i class="icon-save"></i> Save Order</i></a>
   </div>
 </div>
+<div class="dd">
 <?php
 printTree($tree);
+
 function printTree($tree) {
   if(!is_null($tree) && count($tree) > 0) {
-    echo '<ol class="sortable">';
+    echo '<ol class="dd-list">';
     foreach($tree as $node) {
-      echo '<li id="node_'.$node->id.'" class="active_'.$node->active.'"><div class="element"><div class="text">'.$node->text.'</div><div class="sub">url: '.$node->url.' resource: '.$node->resource.'</div></div>';
+      echo '<li id="node_'.$node->id.'" class="dd-item dd3-item active_'.$node->active.'" data-id="'.$node->id.'">';
+      echo '<div class="dd-handle dd3-handle">Drag</div><div class="dd3-content">'.$node->text.'</div>';
       printTree($node->children);
       echo '</li>';
     }
     echo '</ol>';
   }
 }
+?>
+</div>

@@ -31,11 +31,11 @@ $(document).ready(function(){
 		window.location.replace($(this).parent().find("a:contains('Edit')").attr('href'));
 	});
 
-	$('.sortable').nestedSortable({
-    handle: 'div',
-    items: 'li',
-    toleranceElement: '> div'
-	});
+	
+	// !todo change for new handler
+	//if ($.isFunction($.nestable)) {
+		$('.dd').nestable({});
+	//}
 	
 	$('#save_order_btn').click(function(e) {
 		e.preventDefault();
