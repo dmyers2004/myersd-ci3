@@ -11,13 +11,8 @@ class menubarController extends MY_AdminController
 
 	public function indexAction()
 	{
-		/* call recursive function to build the tree */
-		$tree = $this->parseAndPrintTree($this->controller_model->order_by('sort')->get_all(),0);
-		
-		$tree = str_replace('<ol class="dd-list"></ol>','',$tree);
-		
 		$this->page
-			->data('tree',$tree)
+			->data('tree',$this->controller_model->order_by('sort')->get_all())
 			->js('/assets/admin/js/jquery.nestable.js')
 			->js('/assets/admin/js/admin_nestable.js')
 			->css('/assets/admin/css/nestable.css')
@@ -132,23 +127,5 @@ class menubarController extends MY_AdminController
 		}
 	}
 
-	/* recursive */
-	private function parseAndPrintTree($tree,$root) {
-		if (!is_null($tree) && count($tree) > 0) {
-			$this->tree_storage .= '<ol class="dd-list">';
-			foreach ($tree as $node) {
-				if ($node->parent_id == $root) {                    
-					//unset($tree->id);
-	      	$this->tree_storage .= '<li id="node_'.$node->id.'" class="dd-item dd3-item" data-id="'.$node->id.'">';
-		      $this->tree_storage .= '<div class="dd-handle dd3-handle">Drag</div><div class="dd3-content active_'.$node->active.'">'.$node->text.' <small>'.$node->url.'</small></div>';
-					$this->parseAndPrintTree($tree, $node->id);
-					$this->tree_storage .= '</li>';
-				}
-			}
-			$this->tree_storage .= '</ol>';
-		}
-		
-		return $this->tree_storage;
-	}
 	
 }

@@ -87,8 +87,9 @@ body {
           border-radius: 3px;
 	padding: 12px;
 	border: 1px solid #CCC;
-	margin-top: 4px;
+	margin-top: 5px;
 }
+
 .admin .subview .buttons {
 	padding-top: 18px;
 }

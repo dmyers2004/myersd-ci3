@@ -37,7 +37,7 @@ plugins.nestable.init = function() {
 		  url: '/admin/menubar/record/' + id,
 		  success: function(data, textStatus, jqXHR){
 				if (false == false) {
-					$('#menuRecord').html(data);
+					$('#menuRecord .subview').html(data);
 				} else {
 					jQuery.noticeAdd({ text: 'Record Load Error', stay: '', type: 'error', stayTime: plugins.flash_msg.pause });
 				}
