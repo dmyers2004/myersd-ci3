@@ -23,7 +23,7 @@ function make($tree, $parent_id = 0) {
   
   if (empty($child)) return '';
   
-  $content = '<ol>';
+  $content = '<ol class="dd-list">';
 
   foreach ( $child as $node ) {
 
