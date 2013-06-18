@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+	$('.itsgood').hide();
 	$('.chosen').chosen();
 	$('.selectcombobox').selectcombobox();
 	$('.combobox').combobox();
@@ -30,31 +31,7 @@ $(document).ready(function(){
 	$('.admin .table-hover td.click_edit').click(function(event) {
 		window.location.replace($(this).parent().find("a:contains('Edit')").attr('href'));
 	});
-
 	
-	// !todo change for new handler
-	//if ($.isFunction($.nestable)) {
-		$('.dd').nestable({});
-	//}
-	
-	$('#save_order_btn').click(function(e) {
-		e.preventDefault();
-		var serialized = $('ol.sortable').nestedSortable('serialize');
-		
-		$.ajax({
-		  type: "POST",
-		  url: '/admin/menubar/sort',
-		  data: serialized,
-		  success: function(data, textStatus, jqXHR){
-				if (data.err == false) {
-					mvc.redirect('/admin/menubar/');
-				} else {
-					jQuery.noticeAdd({ text: 'Reorder Save Error', stay: '', type: 'error', stayTime: plugins.flash_msg.pause });
-				}
-		  },
-		  dataType: 'json'
-		});
-	});
-	
+	plugins.nestable.init();	
 
 });

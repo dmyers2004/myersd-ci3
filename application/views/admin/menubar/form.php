@@ -1,16 +1,17 @@
-<h3 class="form-header"><?=($record->id < 0) ? 'Create' : 'Update' ?> Menubar</h3>
+<h3 class="form-header"><?= $title ?></h3>
 
 <?=form_open($action,array('class'=>'form-horizontal','data-validate'=>'true')) ?>
 <input type="hidden" name="id" value="<?=$record->id ?>" />
 	<?=form_hidden('old_resource', $record->resource) ?>
 	<?=form_hidden('sort', $record->sort) ?>
+	<?=form_hidden('parent_id', $record->parent_id) ?>
 	
 	<div class="control-group">
 		<label class="control-label" for="text">
 			<strong>Text</strong>
 		</label>
 		<div class="controls">
-		<?=form_text('text',$record->text,'input-small','Display') ?>
+		<?=form_text('text',$record->text,'input-large','Display') ?>
 		</div>
 	</div>
 	
@@ -40,20 +41,7 @@
 		<?=form_text('class',$record->class) ?>
 		</div>
 	</div>
-	<?php if ($record->id == -1) { ?>
-	
-	<div class="control-group">
-		<label class="control-label" for="parent_menu">
-			Parent Menu
-		</label>
-		<div class="controls">
-			<?=form_dropdown('parent_id', $options, $record->parent_id, 'class="chosen"') ?>
-		</div>
-	</div>
-	<?php } else { ?>
-		<?=form_hidden('parent_id', $record->parent_id) ?>
-	<?php } ?>
-	
+		
 	<div class="control-group">
 		<label class="control-label" for="active">
 			Active

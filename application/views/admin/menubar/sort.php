@@ -4,7 +4,6 @@
   </div>
   <div class="span4 txt-ar">
   	<a href="/admin/menubar/" class="btn btn-small">Cancel</i></a>
-  	<a href="/admin/menubar/sort" class="btn btn-small" id="save_order_btn"><i class="icon-save"></i> Save Order</i></a>
   </div>
 </div>
 <div class="dd">

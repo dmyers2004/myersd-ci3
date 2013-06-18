@@ -12,6 +12,7 @@
 <?=$navigation_menu ?>
 						</ul>
 						<ul class="nav pull-right">
+						<li><i class="icon-exchange itsgood"></i></li>
 <?php if ($logged_in) { ?>
 						<li><a href="/auth/logout">Logout</a></li>
 <?php } else { ?>

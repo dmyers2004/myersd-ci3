@@ -25,7 +25,7 @@ class menubar_model extends MY_Model
   	'text' => array('field'=>'text','label'=>'Text','rules'=>'required|xss_clean|filter_str[64]'),
   	'resource' => array('field'=>'resource','label'=>'Resource','rules'=>'required|xss_clean|filter_str[128]'),
   	'url' => array('field'=>'url','label'=>'Url','rules'=>'url|xss_clean|filter_str[128]'),
-  	'parent_id' => array('field'=>'parent_id','label'=>'Parent Menu','rules'=>'required|integer|filter_int[5]'),
+  	'parent_id' => array('field'=>'parent_id','label'=>'Parent Menu','rules'=>'required|integer|filter_int[5]','filter'=>'trim|integer|filter_int[5]'),
   	'sort' => array('field'=>'sort','label'=>'Sort','rules'=>'numeric|max_length[6]|filter_float[6]','default'=>0),
   	'class' => array('field'=>'class','label'=>'Class','rules'=>'xss_clean|filter_str[64]'),
   	'active' => array('field'=>'active','label'=>'Active','rules'=>'bol2int','default'=>0)
@@ -74,6 +74,11 @@ class menubar_model extends MY_Model
   public function filter_mode(&$mode,$return=false)
   {
   	return $this->input->filter(FILTERBOL,$mode,$return);
+  }
+  
+  public function filter_parent_id(&$parent_id,$return=false)
+  {
+  	return $this->input->filter($this->fields['parent_id']['filter'],$parent_id,$return);
   }
 
 }

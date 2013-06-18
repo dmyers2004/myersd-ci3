@@ -71,3 +71,29 @@ body {
 	width: 130px;
 }
 
+.admin .itsgood {
+	color: #fff;
+	line-height: 40px;
+}
+
+.admin .subview {
+	padding: 32px 0;
+}
+.admin .subview label {
+	padding: 4px 0;
+}
+
+.admin fieldset.subview {
+  background: #fafafa;
+  background: -webkit-linear-gradient(top, #fafafa 0%, #eee 100%);
+  background:    -moz-linear-gradient(top, #fafafa 0%, #eee 100%);
+  background:         linear-gradient(top, #fafafa 0%, #eee 100%);
+  -webkit-border-radius: 3px;
+          border-radius: 3px;
+	padding: 12px;
+	border: 1px solid #CCC;
+	margin-top: 4px;
+}
+.admin .subview .buttons {
+	padding-top: 18px;
+}
