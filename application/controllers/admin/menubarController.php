@@ -7,30 +7,14 @@ class menubarController extends MY_AdminController
 	public $page_titles = 'Menus';
 	public $controller_model = 'menubar_model';
 	public $controller_path = '/admin/menubar/';
-
-	public function oldindexAction()
-	{
-		$foo = $this->controller_model->order_by('parent_id,sort')->get_all();
-		$bar = $this->buildTree($this->controller_model->order_by('sort')->get_all());
-		
-		//var_dump($bar);
-		
-		$this->page
-			->data('records',$bar)
-			->data('parent_options',array(0=>'<i class="icon-upload"></i>') + $this->controller_model->dropdown('id','text'))
-			->build();
-	}
+	public $tree_storage = '';
 
 	public function indexAction()
 	{
-
-		//$treeArray = $this->buildTree($this->controller_model->order_by('sort')->get_all());
-		$treeArray = $this->controller_model->order_by('sort')->get_all();
-	
-		ob_start();
-		//$this->printTree($treeArray);
-		$this->parseAndPrintTree($treeArray,0);
-		$tree = ob_get_clean();
+		/* call recursive function to build the tree */
+		$tree = $this->parseAndPrintTree($this->controller_model->order_by('sort')->get_all(),0);
+		
+		$tree = str_replace('<ol class="dd-list"></ol>','',$tree);
 		
 		$this->page
 			->data('tree',$tree)
@@ -46,21 +30,23 @@ class menubarController extends MY_AdminController
 		$data['err'] = false;
 		$orders = $this->input->post('order');
 		$sort = 10;
+		
+		/* call recursive function to save the new order */
 		$this->orderNode($orders,$sort,0);
-
 		$this->load->json($data);
 	}
 
-	private function orderNode($orders,$sort,$parent_id) {
-		foreach ($orders as $order) {
-			//echo 'Update: '.$order['id'].' Order: '.($sort++).' Parent: '.$parent.chr(10);
-			
-			$this->controller_model->update($order['id'], array('sort'=>(++$sort),'parent_id'=>$parent_id), true);
-			
-			if (isset($order['children'])) {
-				$this->orderNode($order['children'],$sort,$order['id']);
-			}
-		}
+	public function recordAjaxAction($id=null) {
+		/* if somebody is sending in bogus id's send them to a fiery death */
+		$this->controller_model->filter_id($id,false);
+
+		$this->page
+			->template('_templates/ajaxInsert')
+			->data('title','Edit '.$this->page_title)
+			->data('action',$this->controller_path.'edit')
+			->data('record',$this->controller_model->get($id))
+			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents())
+			->build('/admin/menubar/view');
 	}
 
 	public function newAction($parent_id=0,$parent_text='Root')
@@ -88,19 +74,6 @@ class menubarController extends MY_AdminController
 		}
 
 		$this->flash_msg->fail($this->page_title,$this->controller_path);
-	}
-
-	public function recordAjaxAction($id=null) {
-		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->controller_model->filter_id($id,false);
-
-		$this->page
-			->template('_templates/ajaxInsert')
-			->data('title','Edit '.$this->page_title)
-			->data('action',$this->controller_path.'edit')
-			->data('record',$this->controller_model->get($id))
-			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents())
-			->build('/admin/menubar/view');
 	}
 
 	public function editAction($id=null)
@@ -148,98 +121,34 @@ class menubarController extends MY_AdminController
 		$this->load->json($this->data);
 	}
 
-	public function sortAjaxAction($dir=null,$id=null)
-	{
-		$this->data['href'] = '';
-		$this->data['notice'] = array('text'=>'Menubar Sort Error','type'=>'error','stay'=>true);
-
-		if ($this->controller_model->filter_id($id) && $this->controller_model->filter_mode($dir)) {
-			$current = $this->controller_model->get($id);
-
-			if ($dir == 'up') {
-				++$current->sort;
-			} elseif ($dir == 'down') {
-				--$current->sort;
-			}
-
-			if ($this->controller_model->update($id, array('sort'=>$current->sort), true)) {
-				$this->flash_msg->blue($this->page_title.' Status Changed');
-				$this->data['href'] = '/admin/menubar';
-				$this->data['notice'] = '';
+	/* recursive */
+	private function orderNode($orders,$sort,$parent_id) {
+		foreach ($orders as $order) {
+			$this->menubar_model->update($order['id'], array('sort'=>(++$sort),'parent_id'=>$parent_id), true);
+			
+			if (isset($order['children'])) {
+				$this->orderNode($order['children'],$sort,$order['id']);
 			}
 		}
-
-		$this->load->json($this->data);
 	}
 
-	public function activateAjaxAction($id=null,$mode=null)
-	{
-		$this->data['err'] = true;
-
-		if ($this->controller_model->filter_id($id) && $this->controller_model->filter_mode($mode)) {
-			if ($this->controller_model->update($id, array('active'=>$mode), true)) {
-				$this->data['err'] = false;
-			}
-		}
-
-		$this->load->json($this->data);
-	}
-
-	private function buildTree($tree, $root = 0) {
-    $return = array();
-    # Traverse the tree and search for direct children of the root
-    foreach($tree as $record) {
-      # A direct child is found
-      if ($record->parent_id == $root) {
-        # Remove item from tree (we don't need to traverse this again)
-        //unset($tree[$record->id]);
-        # Append the child into result array and parse its children
-        $obj = new stdClass();
-        $obj->id = $record->id;
-        $obj->text = $record->text;
-        $obj->url = $record->url;
-        $obj->resource = $record->resource;
-        $obj->active = $record->active;
-        $obj->class = $record->class;
-        $obj->parent_id = $record->parent_id;
-        $obj->children = $this->buildTree($tree, $record->id);
-
-        $return[] = $obj;
-      }
-    }
-    
-    return empty($return) ? null : $return;
-	}
-	
-	private function printTree($tree) {
-  
-	  if (!is_null($tree) && count($tree) > 0) {
-	    echo '<ol class="dd-list">';
-	    foreach($tree as $node) {
-	      echo '<li id="node_'.$node->id.'" class="dd-item dd3-item" data-id="'.$node->id.'">';
-	      echo '<div class="dd-handle dd3-handle">Drag</div><div class="dd3-content active_'.$node->active.'">'.$node->text.' <small>'.$node->url.'</small></div>';
-	      $this->printTree($node->children);
-	      echo '</li>';
-	    }
-	    echo '</ol>';
-	  }
-	  
-	}
-	
+	/* recursive */
 	private function parseAndPrintTree($tree,$root) {
 		if (!is_null($tree) && count($tree) > 0) {
-			echo '<ol class="dd-list">';
+			$this->tree_storage .= '<ol class="dd-list">';
 			foreach ($tree as $node) {
 				if ($node->parent_id == $root) {                    
 					//unset($tree->id);
-	      	echo '<li id="node_'.$node->id.'" class="dd-item dd3-item" data-id="'.$node->id.'">';
-		      echo '<div class="dd-handle dd3-handle">Drag</div><div class="dd3-content active_'.$node->active.'">'.$node->text.' <small>'.$node->url.'</small></div>';
+	      	$this->tree_storage .= '<li id="node_'.$node->id.'" class="dd-item dd3-item" data-id="'.$node->id.'">';
+		      $this->tree_storage .= '<div class="dd-handle dd3-handle">Drag</div><div class="dd3-content active_'.$node->active.'">'.$node->text.' <small>'.$node->url.'</small></div>';
 					$this->parseAndPrintTree($tree, $node->id);
-					echo '</li>';
+					$this->tree_storage .= '</li>';
 				}
 			}
-			echo '</ol>';
+			$this->tree_storage .= '</ol>';
 		}
+		
+		return $this->tree_storage;
 	}
 	
 }

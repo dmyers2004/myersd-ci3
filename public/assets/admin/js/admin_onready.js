@@ -1,6 +1,5 @@
 $(document).ready(function(){
 
-	$('.itsgood').hide();
 	$('.chosen').chosen();
 	$('.selectcombobox').selectcombobox();
 	$('.combobox').combobox();

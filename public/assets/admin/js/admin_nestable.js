@@ -6,6 +6,8 @@ plugins.nestable.init = function() {
 	
 	$('.dd').nestable(config);
 	
+	$('.dd').nestable('collapseAll');
+		
 	/* save on change */
 	$('.dd').on('change', function() {
 		var serialized = $('.dd').nestable('serialize');

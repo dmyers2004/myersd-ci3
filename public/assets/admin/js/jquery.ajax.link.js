@@ -33,6 +33,12 @@ plugins.delete_handler.init = function() {
 
 	jQuery('body').append('<div id="delete_modal" class="modal hide fade" tabindex="-1"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">×</button><h3 id="myModalLabel">Delete Record</h3></div><div class="modal-body"><p>Are you sure you would like to delete this record?</p></div><div class="modal-footer"><button class="btn" data-dismiss="modal">No</button><button id="delete_modal_yes_btn" class="btn btn-danger">Yes, Delete it</button></div></div>');
 
+	jQuery(document).on('click','.delete-button',function(e){
+		e.preventDefault();
+		var id = $(this).data('id');
+		jQuery('#delete_modal').data('row',jQuery('#node_'+id)).data('href',jQuery(this).attr('href')).modal('show');
+	});
+
 	jQuery('.delete_handler').click(function(e){
 		e.preventDefault();
 		jQuery('#delete_modal').data('row',jQuery(this).closest('tr')).data('href',jQuery(this).attr('href')).modal('show');

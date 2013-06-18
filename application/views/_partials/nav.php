@@ -14,6 +14,7 @@
 						<ul class="nav pull-right">
 						<li><i class="icon-exchange itsgood"></i></li>
 <?php if ($logged_in) { ?>
+						<li class="logged-in-as">Logged in as <?=$is_logged_in_as ?></li>
 						<li><a href="/auth/logout">Logout</a></li>
 <?php } else { ?>
 						<li><a href="/auth">Login</a></li>

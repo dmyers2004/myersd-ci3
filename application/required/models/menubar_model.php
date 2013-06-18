@@ -50,6 +50,11 @@ class menubar_model extends MY_Model
 		return $this->read_parents_cache;
 	}
 
+	public function delete($id) {
+		$this->db->where('id', $id)->delete($this->_table);
+		$this->db->where('parent_id', $id)->delete($this->_table);
+	}
+
   public function insert($data, $skip_validation = false)
   {
   	unset($data['id']);
