@@ -23,7 +23,7 @@ class Wysiwyg
   	$options = json_encode($this->options,JSON_UNESCAPED_SLASHES);
 		extract($this->data + array('options'=>$options));
 		ob_start();
-		include(dirname(__FILE__).DIRECTORY_SEPARATOR.'Wysiwyg/ckeditor.js.php');
+		include(dirname(__FILE__).DIRECTORY_SEPARATOR.'wysiwyg/ckeditor.js.php');
 		return ob_get_clean();
 	}
 	

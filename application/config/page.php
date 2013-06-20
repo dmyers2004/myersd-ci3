@@ -71,13 +71,13 @@ $config['default'] = array(
 		<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.min.css">
 		<link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">    
-	  <script src="/assets/js/modernizr-2.6.2.min.js"></script>',
+	  <script src="/assets/public/js/modernizr-2.6.2.min.js"></script>',
 
 	 'header' => '<!--[if lt IE 8]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p><![endif]-->',
 
 	 'footer' => '<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
-			<script src="/assets/js/plugins.js"></script>
-			<script src="/assets/js/site.js"></script>'
+			<script src="/assets/public/js/plugins.js"></script>
+			<script src="/assets/public/js/site.js"></script>'
 );
 
 /*
@@ -94,12 +94,12 @@ $config['public'] = array(
 
 	'logged_in' => get_instance()->auth->is_logged_in(),
 	'navigation_menu' => get_instance()->menubar->render($roles,$menu),
-
-	'meta' => '$<link rel="stylesheet" href="/assets/css/template.css">
-		<link rel="stylesheet" href="/assets/css/style.css">',
+	
+	'meta' => '$<link rel="stylesheet" href="/assets/public/css/template.css">
+		<link rel="stylesheet" href="/assets/public/css/style.css">',
 
 	'footer' => '$<script src="/assets/admin/js/jquery.ajax.form.js"></script>
-		<script src="/assets/js/onready.js"></script>'
+		<script src="/assets/public/js/onready.js"></script>'
 );
 
 /*
@@ -115,9 +115,7 @@ $config['admin'] = array(
 	'title' => '$ - Admin',
 	'admin_bar' => 'navbar-inverse',
 	
-	'meta' => '$<link rel="stylesheet" href="/assets/css/template.css">
-		<link rel="stylesheet" href="/assets/css/style.css">
-		<link rel="stylesheet" href="/assets/admin/css/admin.css">
+	'meta' => '$<link rel="stylesheet" href="/assets/admin/css/admin.css">
 		<link rel="stylesheet" href="/assets/chosen/chosen.css">
 		<link rel="stylesheet" href="/assets/table-fixed-header/table-fixed-header.css">',
 		
@@ -126,7 +124,7 @@ $config['admin'] = array(
 		<script src="/assets/admin/js/jquery.ajax.link.js"></script>
 		<script src="/assets/admin/js/jquery.combobox.js"></script>
 		<script src="/assets/admin/js/jquery.filter_input.js"></script>
-		<script src="/assets/admin/js/admin_onready.js"></script>'
+		<script src="/assets/admin/js/onready.js"></script>'
 );
 
 /* additional groups below */

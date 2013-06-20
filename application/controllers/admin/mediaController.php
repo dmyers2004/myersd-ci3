@@ -30,7 +30,7 @@ class mediaController extends MY_AdminController
 		$this->load->library('wysiwyg');
 		
 		$this->wysiwyg
-			->addOption('filebrowserBrowseUrl','/filemanagerhandler/browser/')
+			->addOption('filebrowserBrowseUrl','/fileManagerHandler/browser/')
 			->addOption('stylesSet','my_custom_style')
 			->addOption('height','500')
 			->addOption('width','auto')

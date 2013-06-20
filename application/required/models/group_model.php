@@ -55,7 +55,7 @@ class group_model extends MY_Model
 
 	public function get_group_access($group_id)
 	{
-		return $query = $this->db->get_where($this->group_access_table, array('group_id' => $group_id))->result();
+		return $this->db->get_where($this->group_access_table, array('group_id' => $group_id))->result();
 	}
 
 	public function insert_group_access($access_id,$group_id)

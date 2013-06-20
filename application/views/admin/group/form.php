@@ -20,7 +20,15 @@
 		<?=form_text('description',$record->description,'input-xxlarge','Description') ?>
 		</div>
 	</div>
-	<p>&nbsp;</p>
+	<?php	if (count($users) > 0) { ?>
+		<h4>Group Members</h4>
+		<ul class="user-list">
+		<?php foreach ($users as $user) { ?>
+			<li><a href="/admin/user/edit/<?=$user->id ?>"><?=$user->username ?></a></li>	
+		<? } ?>
+		</ul>
+	<? } ?>
+	<h4 class="group-access">Group Access</h4>
 	<?php foreach ($all_access as $namespace => $foo) { ?>
 		<?=form_fieldset($namespace) ?>
 			<div class="row-fluid show-grid resource">

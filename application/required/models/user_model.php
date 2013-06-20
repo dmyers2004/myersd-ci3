@@ -166,8 +166,7 @@ class User_model extends MY_Model
 
 	public function get_users_by_group($group_id)
 	{
-		$this->db->where('group_id=', $group_id);
-		return $this->db->get($this->table_name)->results();
+		return $this->db->get_where($this->table_name, array('group_id' => $group_id))->result();
 	}
 
 	/**

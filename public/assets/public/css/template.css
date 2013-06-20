@@ -53,10 +53,11 @@ a:hover {
 .txt-al {
 	text-align: left !important;
 }
+
 div.stats {
 	text-align: right;
 	width: 99%;
-	color: #ddd;
+	color: #aaa;
 	font-size: 80%;
 }
 .required-txt {
@@ -65,10 +66,9 @@ div.stats {
 	font-style: italic;
 	color: #7a7a7a;
 }
-.itsgood {
-	color: #fff;
-	line-height: 40px;
-	padding: 0 12px 0 0;
+.working-img {
+	padding-right: 4px;
+	margin-top: 11px;
 }
 .logged-in-as {
 	line-height: 40px;

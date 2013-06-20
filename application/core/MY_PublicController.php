@@ -20,7 +20,9 @@ class MY_PublicController extends MY_Controller
 		$this->load->helpers('language');
 		$this->load->library(array('paths','events','settings','flash_msg','form_validation','menubar','page'));
 
-		$this->page->data('is_logged_in_as',$this->auth->get_username())->add('public');
+		$this->page
+			->data('is_logged_in_as',$this->auth->get_username())
+			->add('public');
 	}
 
 } /* end MY_PublicController */

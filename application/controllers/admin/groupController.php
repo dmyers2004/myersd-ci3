@@ -52,6 +52,7 @@ class groupController extends MY_AdminController
 			->data('title','Edit '.$this->page_title)
 			->data('action',$this->controller_path.'edit')
 			->data('record',$this->controller_model->get($id))
+			->data('users',$this->user_model->get_users_by_group($id))
 			->data('all_access',$this->format_privileges($this->access_model->get_all()));
 
 		$privileges = $this->controller_model->get_group_access($id);

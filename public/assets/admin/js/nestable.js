@@ -11,14 +11,15 @@ plugins.nestable.init = function() {
 	/* save on change */
 	$('.dd').on('change', function() {
 		var serialized = $('.dd').nestable('serialize');
-
+		$('.working-img').fadeIn('fast');
+		
 		$.ajax({
 		  type: "POST",
 		  url: '/admin/menubar/sort',
 		  data: {order: serialized},
 		  success: function(data, textStatus, jqXHR){
 				if (data.err == false) {
-					$('.itsgood').fadeIn().delay(500).fadeOut();
+					$('.working-img').fadeOut('slow');
 				} else {
 					jQuery.noticeAdd({ text: 'Reorder Save Error', stay: '', type: 'error', stayTime: plugins.flash_msg.pause });
 				}

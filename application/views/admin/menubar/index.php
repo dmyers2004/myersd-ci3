@@ -21,7 +21,9 @@
 function make($tree, $parent_id = 0) {
   $child = hasChildren($tree, $parent_id);
   
-  if (empty($child)) return '';
+  if (empty($child)) {
+  	return '';
+  }
   
   $content = '<ol class="dd-list">';
 
