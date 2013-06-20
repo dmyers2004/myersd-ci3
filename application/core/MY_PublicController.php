@@ -18,7 +18,7 @@ class MY_PublicController extends MY_Controller
 		}
 
 		$this->load->helpers('language');
-		$this->load->library(array('paths','events','settings','flash_msg','form_validation','menubar','page'));
+		$this->load->library(array('paths','events','settings','form_validation','menubar','page','flash_msg'));
 
 		$this->page
 			->data('is_logged_in_as',$this->auth->get_username())

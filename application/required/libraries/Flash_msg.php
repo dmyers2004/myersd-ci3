@@ -66,7 +66,7 @@ class Flash_msg
 	{
 		$variable = ($variable) ? $variable : $this->view_variable;
 		
-		$html = '<script src="'.$this->js.'" type="text/javascript"></script><link rel="stylesheet" href="'.$this->css.'">';
+		get_instance()->page->js($this->js)->css($this->css);
 
     $messages = $this->CI->session->flashdata('custom_flash_message_storage');
 
