@@ -12,7 +12,7 @@
 							<?=$navigation_menu ?>
 						</ul>
 						<ul class="nav pull-right">
-							<li><img class="working-img" src="/assets/images/ajax-loader.gif"></li>
+							<li class="working-img"></li>
 							<?php if ($logged_in) { ?>
 								<li class="logged-in-as">Logged in as <?=$is_logged_in_as ?></li>
 								<li><a href="/auth/logout">Logout</a></li>
