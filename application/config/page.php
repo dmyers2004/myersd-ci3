@@ -68,15 +68,13 @@ $config['default'] = array(
 		<meta name="viewport" content="width=device-width">
 		<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-responsive.min.css">
-		<link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.min.css">
-		<link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">',
+		<link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.min.css">',
 
 	 'header' => '<!--[if lt IE 8]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p><![endif]-->',
 
 	 'footer' => '<script src="/assets/jquery/jquery-1.9.1.min.js"></script>
-			<script src="/assets/public/js/modernizr-2.6.2.min.js"></script>
+			<script src="/assets/modernizr/modernizr-2.6.2.min.js"></script>
 			<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
-			<script src="/assets/public/js/plugins.js"></script>
 			<script src="/assets/public/js/site.js"></script>'
 );
 
@@ -99,6 +97,7 @@ $config['public'] = array(
 		<link rel="stylesheet" href="/assets/public/css/style.css">',
 
 	'footer' => '$<script src="/assets/admin/js/jquery.ajax.form.js"></script>
+		<script src="/assets/public/js/plugins.js"></script>
 		<script src="/assets/public/js/onready.js"></script>'
 );
 

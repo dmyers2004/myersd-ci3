@@ -67,7 +67,7 @@ div.stats {
 	color: #7a7a7a;
 }
 .working-img {
-	background: url(../../images/ajax-loader.gif) left center no-repeat;
+	background: url(../img/ajax-loader.gif) left center no-repeat;
 	width: 20px;
 	height: 40px;
 }
