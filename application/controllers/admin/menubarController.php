@@ -13,9 +13,9 @@ class menubarController extends MY_AdminController
 	{
 		$this->page
 			->data('tree',$this->controller_model->order_by('sort')->get_all())
-			->js('/assets/admin/js/jquery.nestable.js')
-			->js('/assets/admin/js/nestable.js')
-			->css('/assets/admin/css/nestable.css')
+			->js('/assets/nestable/jquery.nestable.js')
+			->js('/assets/nestable/nestable.js')
+			->css('/assets/nestable/nestable.css')
 			->data('parent_options',array(0=>'<i class="icon-upload"></i>') + $this->controller_model->dropdown('id','text'))
 			->build();
 	}

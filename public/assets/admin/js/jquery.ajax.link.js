@@ -1,31 +1,7 @@
+var plugins = (plugins) || {};
+
 plugins.flash_msg = {};
 plugins.flash_msg.pause = 3000;
-
-/* Deprecated for enum handler */
-plugins.ajax_href = {};
-
-plugins.ajax_href.init = function() {
-	jQuery('.ajax-href').click(function(e){
-		e.preventDefault();
-		var href = $(this).attr('href');
-		jQuery.ajax({url: href, dataType: 'json'}).done(function(data, textStatus, jqXHR) {
-			if (data.notice !== undefined) {
-				var text = (data.notice.text) ? data.notice.text : 'It\'s Good!';
-				var stay = (data.notice.stay) ? data.notice.stay : false;
-				var type = (data.notice.type) ? data.notice.type : 'info';
-
-				jQuery.noticeAdd({ text: text, stay: stay, type: type, stayTime: plugins.flash_msg.pause });	
-			}
-			if (data.href !== undefined) {
-				if (data.href !== '') {
-					window.location.replace(data.href);
-				}
-			}
-		}).error(function(data){
-			jQuery.noticeAdd({ text: 'Link Error', stay: '', type: 'notice', stayTime: plugins.flash_msg.pause });	
-		});
-	});
-};
 
 plugins.delete_handler = {};
 

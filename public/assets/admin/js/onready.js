@@ -4,9 +4,6 @@ $(document).ready(function(){
 	$('.selectcombobox').selectcombobox();
 	$('.combobox').combobox();
 
-	/* setup ajax href links */
-	plugins.ajax_href.init();
-
 	/* setup delete modal handler */
 	plugins.delete_handler.init();
 	
@@ -19,7 +16,6 @@ $(document).ready(function(){
 	});
 
 	$('.table-fixed-header').fixedHeader()
-	
 	
 	$('input.shift-group').click(function(event) {
     if (event.shiftKey) {

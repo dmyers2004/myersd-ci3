@@ -6,5 +6,5 @@
 <head>
 	<title><?=$meta_title ?></title>
 	<?=$page_meta ?>
-	<script>var plugins={}; var baseurl="<?=base_url() ?>";</script>
+	<script>var baseurl="<?=base_url() ?>";</script>
 </head>
