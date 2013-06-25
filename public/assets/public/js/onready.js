@@ -1,8 +1,9 @@
-$(document).ready(function(){
+jQuery(document).ready(function(){
+
+	$('.working-img').hide();
 
 	/* my ajax form handler */
 	$('form[data-validate=true]').ajaxForm();
-	$('.working-img').hide();
 	
 	$('input[name=password], input[name=repeat_password]').keyup(function(e){
 		if ($('input[name=password]').val().length < 8) {

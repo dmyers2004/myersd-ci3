@@ -22,9 +22,11 @@ class filemanagerhandlerController extends MY_PublicController
 			->build();
 		
 		$this->page
-			->add('footer','^<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>')
 			->data('container','<div id="elfinder"></div>')
-			->view('_templates/empty');
+			->data('no_nav',true)
+			->data('no_stats',true)
+			->template('_templates/default')
+			->build(false);
 	}
 
 	/* main processor for POST actions */

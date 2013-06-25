@@ -48,14 +48,7 @@ $config['variable_mappings'] = array(
 	'pageBrand' => 'page_brand' /* Brand - Title */
 );
 
-/*
-    ___      __             _ _   
-   /   \___ / _| __ _ _   _| | |_ 
-  / /\ / _ \ |_ / _` | | | | | __|
- / /_//  __/  _| (_| | |_| | | |_ 
-/___,' \___|_|  \__,_|\__,_|_|\__|
-
-*/
+/* default */
 $config['default'] = array(
 	'$template' => '_templates/default',
 	'$assets' => 'assets',
@@ -70,25 +63,17 @@ $config['default'] = array(
 		<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.min.css">',
 
-	 'header' => '<!--[if lt IE 8]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p><![endif]-->',
+ 'header' => '<!--[if lt IE 8]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p><![endif]-->',
 
-	 'footer' => '<script src="/assets/jquery/jquery-1.9.1.min.js"></script>
-			<script src="/assets/modernizr/modernizr-2.6.2.min.js"></script>
-			<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
-			<script src="/assets/public/js/site.js"></script>'
+ 'footer' => '<script src="/assets/jquery/jquery-1.9.1.min.js"></script>
+		<script src="/assets/modernizr/modernizr-2.6.2.min.js"></script>
+		<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+		<script src="/assets/public/js/site.js"></script>'
 );
 
-/*
-   ___       _     _ _     
-  / _ \_   _| |__ | (_) ___ 
- / /_)/ | | | '_ \| | |/ __|
-/ ___/| |_| | |_) | | | (__ 
-\/     \__,_|_.__/|_|_|\___|
-                            
-*/
+/* public */
 $config['public'] = array(
 	'bodyClass' => '$ public',
-	'foo' => 'bar',
 
 	'logged_in' => get_instance()->auth->is_logged_in(),
 	'navigation_menu' => get_instance()->menubar->render($roles,$menu),
@@ -101,14 +86,7 @@ $config['public'] = array(
 		<script src="/assets/public/js/onready.js"></script>'
 );
 
-/*
-   _       _           _       
-  /_\   __| |_ __ ___ (_)_ __  
- //_\\ / _` | '_ ` _ \| | '_ \ 
-/  _  \ (_| | | | | | | | | | |
-\_/ \_/\__,_|_| |_| |_|_|_| |_|
-                             
-*/
+/* admin */
 $config['admin'] = array(
 	'$template' => 'admin/_templates/default',
 	'title' => '$ - Admin',

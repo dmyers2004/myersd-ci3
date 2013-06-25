@@ -36,7 +36,7 @@ class menubarController extends MY_AdminController
 		$this->controller_model->filter_id($id,false);
 
 		$this->page
-			->template('_templates/ajaxInsert')
+			->template('_templates/ajax_responds')
 			->data('title','Edit '.$this->page_title)
 			->data('action',$this->controller_path.'edit')
 			->data('record',$this->controller_model->get($id))

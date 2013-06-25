@@ -12,7 +12,7 @@ function adjustHeight(elfinder) {
 	}
 }
 
-$().ready(function() {
+jQuery(document).ready(function(){
 
 	var options = <? echo $options ?>;
 
@@ -22,7 +22,7 @@ $().ready(function() {
 	  window.close();
 	}
 
-	var elf = $('#<?=$element_id ?>').elfinder(options);
+	var elf = jQuery('#<?=$element_id ?>').elfinder(options);
 	
 	if (<?=$auto_resize ?> == 1) {
 		adjustHeight(elf);

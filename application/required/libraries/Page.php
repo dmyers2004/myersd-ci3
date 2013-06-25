@@ -163,11 +163,13 @@ class Page
 	/* final output */
   public function build($view=null,$layout=null)
   {
-		$auto = $this->getAuto();
+		if ($view !== false) {
+			$auto = $this->getAuto();
 
-		$view = ($view) ? $view : $auto;
-
-		data($this->config['variable_mappings']['container'],$this->load->partial($view));
+			$view = ($view) ? $view : $auto;
+	
+			data($this->config['variable_mappings']['container'],$this->load->partial($view));
+		}
 
     /* final output */
     $this->load->view((($layout) ? $layout : $this->template),null,false);
