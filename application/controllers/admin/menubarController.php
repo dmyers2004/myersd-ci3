@@ -35,13 +35,7 @@ class menubarController extends MY_AdminController
 		/* if somebody is sending in bogus id's send them to a fiery death */
 		$this->controller_model->filter_id($id,false);
 
-		$this->page
-			->template('_templates/ajax_responds')
-			->data('title','Edit '.$this->page_title)
-			->data('action',$this->controller_path.'edit')
-			->data('record',$this->controller_model->get($id))
-			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents())
-			->build('/admin/menubar/view');
+		$this->load->view('/admin/menubar/view',array('record'=>$this->controller_model->get($id)));
 	}
 
 	public function newAction($parent_id=0,$parent_text='Root')

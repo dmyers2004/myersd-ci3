@@ -6,8 +6,7 @@
  * js - (Javascript) Array() merged
  * css - (Cascading Style Sheet) Array() merged
  * meta - (Meta Tags) Array() merged
-
-*  * data - key value pairs of data to add to the view $data array Array() merged
+ * data - key value pairs of data to add to the view $data array Array() merged
  *
  * template - template file - path based of view folder String overwritten
  * title - base template name String overwritten
@@ -20,8 +19,6 @@ we can run php here - while not "recommended" in this case I think it fits the t
 also this could be directly in the function call below but I wanted to grab the separately.
 if further processing was needed
 */
-$menu = get_instance()->menubar->get_active();
-$roles = get_instance()->auth->get_user_roles();
 
 /*
 if ($roles === null) {
@@ -37,7 +34,12 @@ $config['preset'] = array(
 	'meta' => 'meta'
 );
 
-/* Map Common Names to Custom View Variables */
+/*
+Map Common Names to Custom View Variables you can add more
+
+Array key is what they are called in page library
+Array value is what they are referenced as in the view
+*/
 $config['variable_mappings'] = array(
 	'title' => 'meta_title', /* base site title */
 	'meta' => 'page_meta', /* before <body> */
@@ -49,59 +51,54 @@ $config['variable_mappings'] = array(
 );
 
 /* default */
-$config['default'] = array(
-	'$template' => '_templates/default',
-	'$assets' => 'assets',
-	'title' => 'Apple 64',
-	'pageBrand' => 'GTags',
+$config['default'] = function(&$page,&$ci) {
+	$page
+		->add('$template','_templates/default')
+		->add('$assets','/assets/')
+		->add('title','Apple 64')
+		->add('pageBrand','GTags')
+		->meta(array('charset'=>'utf-8'))
+		->meta(array('http-equiv'=>'X-UA-Compatible','content'=>'IE=edge,chrome=1'))
+		->meta('description','')
+		->meta('viewport','width=device-width, initial-scale=1')
+		->css('/assets/bootstrap/css/bootstrap.min.css')
+		->css('/assets/bootstrap/css/bootstrap-responsive.min.css')
+		->css('/assets/fontawesome/css/font-awesome.min.css')
+		->js('/assets/modernizr/modernizr-2.6.2.min.js')
+		->add('header','<!--[if lt IE 8]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p><![endif]-->')
+		->js('/assets/jquery/jquery-1.9.1.min.js')
+		->js('/assets/bootstrap/js/bootstrap.min.js')
+		->js('/assets/public/js/site.js')
+		->add('footer','<script>var baseurl="http://ci3.vcap.me/";</script>','before');
+};
 
-	'meta' => '<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="description" content="">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
-		<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-responsive.min.css">
-		<link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.min.css">
-		<script src="/assets/modernizr/modernizr-2.6.2.min.js"></script>',
-
- 'header' => '<!--[if lt IE 8]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p><![endif]-->',
-
- 'footer' => '<script src="/assets/jquery/jquery-1.9.1.min.js"></script>
-		<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
-		<script src="/assets/public/js/site.js"></script>'
-);
-
-/* public */
-$config['public'] = array(
-	'bodyClass' => '$ public',
-
-	'logged_in' => get_instance()->auth->is_logged_in(),
-	'navigation_menu' => get_instance()->menubar->render($roles,$menu),
-	
-	'meta' => '$<link rel="stylesheet" href="/assets/public/css/template.css">
-		<link rel="stylesheet" href="/assets/public/css/style.css">',
-
-	'footer' => '$<script src="/assets/admin/js/jquery.ajax.form.js"></script>
-		<script src="/assets/public/js/plugins.js"></script>
-		<script src="/assets/public/js/onready.js"></script>'
-);
-
-/* admin */
-$config['admin'] = array(
-	'$template' => 'admin/_templates/default',
-	'title' => '$ - Admin',
-	'admin_bar' => 'navbar-inverse',
-	
-	'meta' => '$<link rel="stylesheet" href="/assets/admin/css/admin.css">
-		<link rel="stylesheet" href="/assets/chosen/chosen.css">
-		<link rel="stylesheet" href="/assets/table-fixed-header/table-fixed-header.css">',
+$config['public'] = function(&$page,&$ci) {
+	$menu = $ci->menubar->get_active();
+	$roles = $ci->auth->get_user_roles();
 		
-	'footer' => '$<script src="/assets/chosen/chosen.jquery.min.js"></script>
-		<script src="/assets/table-fixed-header/table-fixed-header.js"></script>
-		<script src="/assets/admin/js/jquery.ajax.link.js"></script>
-		<script src="/assets/admin/js/jquery.combobox.js"></script>
-		<script src="/assets/admin/js/jquery.filter_input.js"></script>
-		<script src="/assets/admin/js/onready.js"></script>'
-);
+	$page
+		->add('bodyClass','$ public')
+		->add('logged_in',$ci->auth->is_logged_in())
+		->add('navigation_menu',$ci->menubar->render($roles,$menu))
+		->css('/assets/public/css/template.css')
+		->css('/assets/public/css/style.css')
+		->js('/assets/admin/js/jquery.ajax.form.js')
+		->js('/assets/public/js/plugins.js')
+		->js('/assets/public/js/onready.js');
+};
 
-/* additional groups below */
+$config['admin'] = function(&$page,&$ci) {
+	$page
+		->add('$template','admin/_templates/default')
+		->add('title','$ - Admin')
+		->add('admin_bar','navbar-inverse')
+		->css('/assets/admin/css/admin.css')
+		->css('/assets/chosen/chosen.css')
+		->css('/assets/table-fixed-header/table-fixed-header.css')
+		->js('/assets/chosen/chosen.jquery.min.js')
+		->js('/assets/table-fixed-header/table-fixed-header.js')
+		->js('/assets/admin/js/jquery.ajax.link.js')
+		->js('/assets/admin/js/jquery.combobox.js')
+		->js('/assets/admin/js/jquery.filter_input.js')
+		->js('/assets/admin/js/onready.js');
+};

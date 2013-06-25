@@ -6,30 +6,30 @@
   Release - 16th March 2013
 
   Thanks to Niko Halink from ARGH!media for bugfix!
- 
+
   Remy Blom: Added a callback function when the filter surpresses a keypress in order to give user feedback
 
   Don Myers: added extension for using predefined filter masks
-  
+
 
 */
 
-(function($){  
-  
-    $.fn.extend({   
+(function($){
 
-        filter_input: function(options) {  
+    $.fn.extend({
 
-          var defaults = {  
+        filter_input: function(options) {
+
+          var defaults = {
               regex:".",
               live:false,
               events:'keypress paste'
-          }  
-                
-          var options =  $.extend(defaults, options);  
+          }
+
+          var options =  $.extend(defaults, options);
           var input = $(this);
-//          var regex = new RegExp(options.regex);
-          
+					// var regex = new RegExp(options.regex);
+
           function filter_input_function(event) {
 
             if (event.type=='keypress') {
@@ -41,9 +41,9 @@
 
                 // if charCode = key & keyCode = 0
                 // 35 = #, 36 = $, 37 = %, 39 = ', 46 = .
-         
+
                 if (event.charCode == 0 && event.keyCode == key) {
-                  return true;                                             
+                  return true;
                 }
               }
               var string = String.fromCharCode(key);
@@ -69,34 +69,34 @@
             if (event.type=='after_paste') input.val(input.data('value_before_paste'));
             return false;
           }
-          
+
           var jquery_version = parseFloat(jQuery.fn.jquery.split('.')[0]+'.'+jQuery.fn.jquery.split('.')[1]);
           if (options.live) {
             if (jquery_version >= 1.7) {
-              $(this).on(options.events, $(this), filter_input_function); 
+              $(this).on(options.events, $(this), filter_input_function);
             } else {
-              $(this).live(options.events, filter_input_function); 
+              $(this).live(options.events, filter_input_function);
             }
           } else {
-            return this.each(function() {  
+            return this.each(function() {
               var input = $(this);
               if (jquery_version >= 1.7) {
                 input.off(options.events).on(options.events, filter_input_function);
               } else {
                 input.unbind(options.events).bind(options.events, filter_input_function);
               }
-            });  
+            });
           }
-          
-        }  
-    });  
-      
-})(jQuery); 
+
+        }
+    });
+
+})(jQuery);
 
 /*
-  Author - Don Myers
-  Version - 0.1.0
-  Release - March 1st 2013
+ Author - Don Myers
+ Version - 0.1.0
+ Release - March 1st 2013
 */
 /*
   use any of these filters or regular expression in some cases the regular expression is shorter but for some people the "names" might be easier
@@ -110,16 +110,16 @@
 jQuery(document).ready(function() {
 
   var masks = {
-    'int':     /[\d]/,
-    'float':     /[\d\.]/,
-    'money':    /[\d\.\s,]/,
-    'num':      /[\d\-\.]/,
-    'hex':      /[0-9a-f]/i,
-    'email':    /[a-z0-9_\.\-@]/i,
-    'alpha':    /[a-z_]/i,
+    'int':   /[\d]/,
+    'float':   /[\d\.]/,
+    'money':  /[\d\.\s,]/,
+    'num':   /[\d\-\.]/,
+    'hex':   /[0-9a-f]/i,
+    'email':  /[a-z0-9_\.\-@]/i,
+    'alpha':  /[a-z_]/i,
     'alphanum': /[a-z0-9_]/i,
     'alphanumlower':/[a-z0-9_]/,
-    'alphaspace':    /[a-z ]/i,
+    'alphaspace':  /[a-z ]/i,
     'alphanumspace': /[a-z0-9_ ]/i,
     'alphanumspacelower':/[a-z0-9_ ]/
   };
@@ -128,7 +128,6 @@ jQuery(document).ready(function() {
     var mask = jQuery(this).data('mask');
     var regex = (masks[mask]) ? masks[mask] : mask;
 
-    jQuery(this).filter_input({ regex: regex, live: true }); 
+    jQuery(this).filter_input({ regex: regex, live: true });
   });
 });
-

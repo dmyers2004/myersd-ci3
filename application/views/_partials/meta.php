@@ -6,5 +6,4 @@
 <head>
 	<title><?=$meta_title ?></title>
 	<?=$page_meta ?>
-	<script>var baseurl="<?=base_url() ?>";</script>
 </head>

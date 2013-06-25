@@ -25,8 +25,8 @@ class Page
 
 	public function add($key,$value=null,$where=null) {
 		if ($value === null) {
-			foreach ((array)$this->config[$key] as $k => $v) {
-				$this->add($k,$v);
+			if ($value == null) {
+				$this->config[$key]($this,get_instance());
 			}
 		} else {
 
@@ -147,9 +147,11 @@ class Page
 		return $this->load->partial($view,$data,$name);
 	}
 
-	public function view($view,$data=array(),$return=false)
+	public function view($view=null,$data=array(),$return=false)
 	{
-		$this->getAuto();
+		$auto = $this->getAuto();
+
+		$view = ($view) ? $view : $auto;
 				
 		$html = $this->load->view($view,$data,$return);
 
@@ -177,6 +179,7 @@ class Page
 		return $this;
 	}
 
+	/* private internal function below */
 	private function getAuto()
 	{
 		$auto = trim($this->router->fetch_directory().str_replace('Controller','',$this->router->fetch_class()).'/'.str_replace('Action','',$this->router->fetch_method()),'/');
@@ -205,7 +208,7 @@ class Page
     }
   }
 
-	/* wrapper for CI instance so you can $this-> in the library */
+	/* generic wrapper for CI instance so you can $this-> in this file */
 	public function __get($var)
 	{
 		return get_instance()->$var;
