@@ -24,7 +24,7 @@ class filemanagerhandlerController extends MY_PublicController
 		$this->page
 			->data('container','<div id="elfinder"></div>')
 			->data('no_stats',true)
-			->template('_templates/default_no_menu')
+			->template('_templates/default_no_nav')
 			->build(false);
 	}
 

@@ -77,10 +77,14 @@ class userController extends MY_AdminController
 		$id = $this->input->post('id');
 		$this->controller_model->filter_id($id,false);
 
-		if ($this->controller_model->map($this->data)) {
+		if ($this->controller_model->validate_edit()) {
+			
+			$this->controller_model->map($this->data);
+
 			/* we don't need these in the update because they are handled differently */
 			unset($this->data['confirm_password']);
 			unset($this->data['password']);
+
 			$this->controller_model->update_user($this->data['id'], $this->data);
 
 			/* did they change the password? update it */

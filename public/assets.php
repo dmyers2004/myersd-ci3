@@ -85,7 +85,7 @@ function test_not_modified($lastModified,$etagFile) {
 
 function test_no_cache($file,$mime,$lastModified,$etagFile) {
 	/* if cache=no set on a single file or envirnmental variable noCache = true (effects all files) then don't cache */
-	if (strpos($_SERVER['REQUEST_URI'],'cache=no') !== false || $_SERVER['noCache']  === 'true') {
+	if (strpos($_SERVER['REQUEST_URI'],'cache=no') !== false || $_SERVER['noCache']  === 'true' || strpos($file,'.min.') !== false) {
 		send(file_get_contents($file),$mime,$lastModified,$etagFile);
 		exit;
 	}

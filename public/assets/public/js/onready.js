@@ -1,6 +1,6 @@
 jQuery(document).ready(function(){
 
-	$('.working-img').hide();
+	$('.working-img').fadeOut('slow');
 
 	/* my ajax form handler */
 	$('form[data-validate=true]').ajaxForm();

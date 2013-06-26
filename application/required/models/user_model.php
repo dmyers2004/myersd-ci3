@@ -21,7 +21,8 @@ class User_model extends MY_Model
 		'email' => array('field'=>'email','label'=>'Email','rules'=>'required|valid_email|filter_email[72]'),
 		'password' => array('field'=>'password','label'=>'Password','rules'=>'required|min_length[8]|max_length[32]'),
 		'confirm_password' => array('field'=>'confirm_password','label'=>'Confirmation Password','rules'=>'required'),
-		'group_id' => array('field'=>'group_id','label'=>'Group Id','rules'=>'required|filter_int[5]')
+		'group_id' => array('field'=>'group_id','label'=>'Group Id','rules'=>'required|filter_int[5]'),
+		'activated' => array('field'=>'activated','label'=>'Active','rules'=>'filter_int[1]','default'=>0)
 	);
 	
 	protected $remember = array('field' => 'remember','label' => 'Remember Me', 'rules' => 'bol2int','default' => 0);
@@ -29,6 +30,8 @@ class User_model extends MY_Model
 	public function __construct()
 	{
 		parent::__construct();
+		
+		$this->validate = $this->fields;
 	
 		$ci =& get_instance();
 		$this->table_name = $ci->config->item('db_table_prefix', 'auth').$this->table_name;
@@ -44,6 +47,18 @@ class User_model extends MY_Model
   {
   	return $this->input->filter(FILTERBOL,$mode,$return);
   }
+  
+	public function map(&$output,&$input = null,$xss = true)
+	{
+		$rules = $this->fields;
+
+		if ($this->input->post('password').$this->input->post('confirm_password') === '') {
+			unset($rules['password']);
+			unset($rules['confirm_password']);
+		}		
+		
+		return $this->input->map($rules,$output,$input,$xss);
+	}
   
 	public function validate_login()
 	{
@@ -71,19 +86,19 @@ class User_model extends MY_Model
 	
 	public function validate_edit()
 	{
-		$rules = $this->$fields;
+		$rules = $this->fields;
 
 		if ($this->input->post('password').$this->input->post('confirm_password') === '') {
 			unset($rules['password']);
 			unset($rules['confirm_password']);
 		}
-		
+
 		return $this->validate($rules);
 	}
 	
 	public function map_login(&$output,&$input = null,$xss = true) {
-		$this->validate = array($this->fields['email'],$this->fields['password'],$this->remember);
-		return $this->map($output,$input,$xss);
+		$validate = array($this->fields['email'],$this->fields['password'],$this->remember);
+		return $this->input->map($validate,$output,$input,$xss);
 	}
 	
 	public function get_users()

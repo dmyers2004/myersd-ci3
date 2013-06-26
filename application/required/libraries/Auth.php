@@ -68,8 +68,7 @@ class Auth
 						$this->error = array('banned' => $user->ban_reason);
 					} else {
 						$this->ci->session->set_userdata(array(
-								'user_id'	=> $user->id,
-								'username'	=> $user->username,
+								'user' => $user,
 								'status'	=> ($user->activated == 1) ? STATUS_ACTIVATED : STATUS_NOT_ACTIVATED,
 								'group_id' => $user->group_id,
 								'group_roles' => $this->ci->group_model->get_roles($user->group_id),
@@ -114,7 +113,8 @@ class Auth
 		$this->delete_autologin();
 
 		// See http://codeigniter.com/forums/viewreply/662369/ as the reason for the next line
-		$this->ci->session->set_userdata(array('user_id' => '', 'username' => '', 'status' => '', 'group_id' => '', 'group_roles' => array()));
+		
+		$this->ci->session->set_userdata(array('user'=>'', 'status' => '', 'group_id' => '', 'group_roles' => array()));
 	}
 
 	/**

@@ -17,11 +17,13 @@ class MY_PublicController extends MY_Controller
 			$this->db->save_queries = FALSE;
 		}
 
-		$this->load->helpers('language');
+		$this->load->helpers(array('language','gravatar'));
 		$this->load->library(array('paths','events','settings','form_validation','menubar','page','flash_msg'));
 
+		$session = get_instance()->session->all_userdata();
+
 		$this->page
-			->data('is_logged_in_as',$this->auth->get_username())
+			->data('user',$session['user'])
 			->add('public');
 	}
 

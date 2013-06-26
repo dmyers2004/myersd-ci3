@@ -13,11 +13,16 @@
 						</ul>
 						<ul class="nav pull-right">
 							<li class="working-img"></li>
+							<?php if (isset($user->email)) { ?>
+							<li class="gravatar"><?=gravatar($user->email,32) ?></li>
+							<?php } ?>
 							<?php if ($logged_in) { ?>
-								<li class="logged-in-as">Logged in as <?=$is_logged_in_as ?></li>
-								<li><a href="/auth/logout">Logout</a></li>
+								<li class="logout">
+									Logged in as <?=$user->username ?>
+									<a href="/auth/logout">Logout</a>
+								</li>
 							<?php } else { ?>
-								<li><a href="/auth">Login</a></li>
+								<li class="login"><a href="/auth">Login</a></li>
 							<?php } ?>
  						</ul>
           </div>

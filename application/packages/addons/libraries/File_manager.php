@@ -41,6 +41,7 @@ class File_manager
 			->add('meta','$<link rel="stylesheet" type="text/css" media="screen" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />')
 			->add('meta','$<link rel="stylesheet" type="text/css" media="screen" href="/assets/elfinder/css/elfinder.min.css">')
 			->add('meta','$<link rel="stylesheet" type="text/css" media="screen" href="/assets/elfinder/css/theme.css">')
+			->add('footer','$<script type="text/javascript" src="/assets/jquery/jquery-1.9.1.min.js"></script>')
 			->add('footer','$<script type="text/javascript" src="/assets/elfinder/js/elfinder.min.js"></script>')
 			->add('footer','$<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>')
 			->add('footer','$'.$this->getScript());

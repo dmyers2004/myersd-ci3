@@ -5,7 +5,7 @@
 		<label class="control-label" for="email">
 			<strong>Email</strong>
 		</label>
-		<input type="text" id="email" name="email" value="admin@admin.com" placeholder="email">
+		<input type="text" id="email" name="email" value="donmyers@me.com" placeholder="email">
 
 		<label class="control-label" for="password">
 			<strong>Password</strong>
