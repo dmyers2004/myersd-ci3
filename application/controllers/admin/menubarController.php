@@ -12,11 +12,11 @@ class menubarController extends MY_AdminController
 	public function indexAction()
 	{
 		$this->page
-			->variable('tree',$this->controller_model->order_by('sort')->get_all())
+			->set('tree',$this->controller_model->order_by('sort')->get_all())
 			->js('/assets/vendor/nestable/jquery.nestable.min.js')
 			->js('/assets/vendor/nestable/nestable.min.js')
 			->css('/assets/vendor/nestable/nestable.css')
-			->variable('parent_options',array(0=>'<i class="icon-upload"></i>') + $this->controller_model->dropdown('id','text'))
+			->set('parent_options',array(0=>'<i class="icon-upload"></i>') + $this->controller_model->dropdown('id','text'))
 			->build();
 	}
 	
@@ -43,9 +43,9 @@ class menubarController extends MY_AdminController
 		$this->controller_model->filter_parent_id($parent_id,false);
 
 		$this->page
-			->variable('title','New Menu Under '.$parent_text)
-			->variable('action',$this->controller_path.'new')
-			->variable('record',(object) array('id'=>-1,'active'=>1,'parent_id'=>$parent_id))
+			->set('title','New Menu Under '.$parent_text)
+			->set('action',$this->controller_path.'new')
+			->set('record',(object) array('id'=>-1,'active'=>1,'parent_id'=>$parent_id))
 			->build($this->controller_path.'form');
 	}
 
@@ -71,10 +71,10 @@ class menubarController extends MY_AdminController
 		$this->controller_model->filter_id($id,false);
 
 		$this->page
-			->variable('title','Edit '.$this->page_title)
-			->variable('action',$this->controller_path.'edit')
-			->variable('record',$this->controller_model->get($id))
-			->variable('options',array('0'=>'Top Level') + $this->menubar->read_parents())
+			->set('title','Edit '.$this->page_title)
+			->set('action',$this->controller_path.'edit')
+			->set('record',$this->controller_model->get($id))
+			->set('options',array('0'=>'Top Level') + $this->menubar->read_parents())
 			->build($this->controller_path.'form');
 	}
 

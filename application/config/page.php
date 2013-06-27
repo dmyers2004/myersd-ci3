@@ -55,7 +55,7 @@ $config['default'] = function(&$page,&$ci) {
 	$am = trim($ci->router->fetch_directory().str_replace('Controller','',$ci->router->fetch_class()).'/'.str_replace('Action','',$ci->router->fetch_method()),'/');
 	
 	$page
-		->property('template','_templates/default')
+		->template('_templates/default')
 		->append('automagic',$am)
 		->append('bodyClass',str_replace('/',' ',$am))
 		->append('title','Apple 64')
@@ -68,10 +68,10 @@ $config['default'] = function(&$page,&$ci) {
 		->css('/assets/vendor/bootstrap/css/bootstrap-responsive.min.css')
 		->css('/assets/vendor/fontawesome/css/font-awesome.min.css')
 		->js('/assets/vendor/modernizr/modernizr-2.6.2.min.js')
-		->append('header','<!--[if lt IE 8]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p><![endif]-->')
 		->js('/assets/vendor/jquery/jquery-1.10.1.min.js')
 		->js('/assets/vendor/bootstrap/js/bootstrap.min.js')
 		->js('/assets/public/js/site.js')
+		->append('header','<!--[if lt IE 8]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p><![endif]-->')
 		->append('footer','<script>var baseurl="http://ci3.vcap.me/";</script>');
 };
 
@@ -81,8 +81,8 @@ $config['public'] = function(&$page,&$ci) {
 		
 	$page
 		->append('bodyClass',' public')
-		->object('logged_in',$ci->auth->is_logged_in())
-		->object('navigation_menu',$ci->menubar->render($roles,$menu))
+		->set('logged_in',$ci->auth->is_logged_in())
+		->set('navigation_menu',$ci->menubar->render($roles,$menu))
 		->css('/assets/public/css/template.css')
 		->css('/assets/public/css/style.css')
 		->js('/assets/vendor/spinner/jquery.spin.min.js')
@@ -93,9 +93,9 @@ $config['public'] = function(&$page,&$ci) {
 
 $config['admin'] = function(&$page,&$ci) {
 	$page
-		->property('template','admin/_templates/default')
+		->template('admin/_templates/default')
 		->append('title',' - Admin')
-		->variable('admin_bar','navbar-inverse')
+		->set('admin_bar','navbar-inverse')
 		->css('/assets/admin/css/admin.css')
 		->css('/assets/vendor/chosen/chosen.min.css')
 		->css('/assets/vendor/table-fixed-header/table-fixed-header.min.css')

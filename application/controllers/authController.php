@@ -169,7 +169,7 @@ class authController extends MY_PublicController
 		$this->user_model->filter_id($user_id); /* the model manages the user id format */
 
 		$this->page
-			->variable('live',$this->auth->activate_user($user_id, $activation_key))
+			->set('live',$this->auth->activate_user($user_id, $activation_key))
 			->build();
 	}
 	

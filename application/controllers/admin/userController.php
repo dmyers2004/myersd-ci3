@@ -12,8 +12,8 @@ class userController extends MY_AdminController
 	public function indexAction()
 	{
 		$this->page
-			->variable('records',$this->auth->get_users())
-			->variable('group_options',$this->_get_groups())
+			->set('records',$this->auth->get_users())
+			->set('group_options',$this->_get_groups())
 			->build();
 	}
 
@@ -21,10 +21,10 @@ class userController extends MY_AdminController
 	public function newAction()
 	{
 		$this->page
-			->variable('title','New '.$this->page_title)
-			->variable('action',$this->controller_path.'new')
-			->variable('record',(object) array('activated'=>1,'id'=>-1))
-			->variable('group_options',$this->_get_groups())
+			->set('title','New '.$this->page_title)
+			->set('action',$this->controller_path.'new')
+			->set('record',(object) array('activated'=>1,'id'=>-1))
+			->set('group_options',$this->_get_groups())
 			->build($this->controller_path.'form');
 	}
 
@@ -57,10 +57,10 @@ class userController extends MY_AdminController
 		$this->controller_model->filter_id($id,false);
 
 		$this->page
-			->variable('title','Edit '.$this->page_title)
-			->variable('action',$this->controller_path.'edit')
-			->variable('record',$this->controller_model->get_user($id))
-			->variable('group_options',$this->_get_groups())
+			->set('title','Edit '.$this->page_title)
+			->set('action',$this->controller_path.'edit')
+			->set('record',$this->controller_model->get_user($id))
+			->set('group_options',$this->_get_groups())
 			->build($this->controller_path.'form');
 	}
 

@@ -11,7 +11,7 @@ function data($name,$value,$where='#')
 {
 	$ci = get_instance();
 
-	/* overwrite is default */
+	/* overwrite (#) is default */
 	switch ($where) {
 		case '<':
 			$value = $value.$ci->load->_ci_cached_vars[$name];
@@ -91,15 +91,10 @@ function shorten($text,$length)
 	 return (strlen($text) > $length) ? substr($text,0,$length).'&hellip;' : $text;
 }
 
-function return_enum($input,$string,$delimiter='|')
+function enum($input,$string,$delimiter='|')
 {
 	$enum = explode($delimiter,$string);
 	return $enum[(int) $input];
-}
-
-function enum($input,$string,$delimiter='|')
-{
-	echo return_enum($input,$string,$delimiter);
 }
 
 function mergeString($string,$data=array())

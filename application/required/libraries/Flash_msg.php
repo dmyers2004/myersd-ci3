@@ -71,7 +71,7 @@ class Flash_msg
     	$html .= '})</script>';
     }
 
-		$page->js($this->js)->css($this->css)->variable($this->view_variable,$html);
+		$page->js($this->js)->css($this->css)->set($this->view_variable,$html);
 	}
 	
 	/* generic wrapper for CI instance so you can $this-> in this file */

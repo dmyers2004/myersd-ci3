@@ -24,15 +24,25 @@ class Page
 		/* load in the config as variables if it's a string */
 		foreach ($this->config as $name => $value) {
 			if (is_string($value)) {
-				$this->variable($name,$value);
+				$this->set($name,$value);
 			}
 		}
   }
 	
 	public function load($key) {
 		$this->config[$key]($this,get_instance());
+		
+		return $this;
 	}
 
+	/* clear already loaded data
+			options include
+			$which + $clear:
+				key + name (Common names: footer, meta, bodyClass, title, header)
+				value + exact value
+				where + <,>, #
+				type + variable, meta, css, js
+	*/
 	public function clear($which,$clear) {
 		foreach ($this->added as $hash => $record) {
 			if ($record[$which] == $clear) {
@@ -43,81 +53,40 @@ class Page
 		return $this;
 	}
 
-	/* add global data wrapper for chaining */
-	public function variable($key,$value,$where='#') {
-		$this->add($key,$value,$where,'variable');
-		
-		return $this;
+	public function set($key,$value,$where='#') {
+		return $this->add($key,$value,$where,'variable');
 	}
-	
+
 	public function append($key,$value) {
-		$this->add($key,$value,'>','variable');
-		
-		return $this;
+		return $this->add($key,$value,'>','variable');
 	}
 
 	public function prepend($key,$value) {
-		$this->add($key,$value,'<','variable');
-		
-		return $this;
+		return $this->add($key,$value,'<','variable');
 	}
 	
-	public function property($key,$value) {
-		$this->add($key,$value,'#','property');
-		
-		return $this;
-	}
-
-	public function object($key,$value) {
-		$this->add($key,$value,'#','object');
-		
-		return $this;
-	}
-	
-	/* attach css */
   public function css($href='',$additional_attributes=array(),$where='>')
   {
     $merged = (is_array($href)) ? $href : array_merge($this->default_css,array('href'=>$href),$additional_attributes);
-		$html = '<link '.$this->_ary2attr($merged).' />';
-		if ($where === true) {
-			return $html;	
-		}
-    $this->add($this->config['preset']['css'],'<link '.$this->_ary2attr($merged).' />',$where,'css');
-
-    return $this;
-  }
-
-	/* add js */
+		return $this->tag($merged,'<link',' />','css',$where,$additional_attributes);
+  }  
+  
   public function js($file='',$additional_attributes=array(),$where='>')
   {
     $merged = (is_array($file)) ? $file : array_merge($this->default_js,array('src'=>$file),$additional_attributes);
-		$html = '<script '.$this->_ary2attr($merged).'></script>';
-		if ($where === true) {
-			return $html;	
-		}
-    $this->add($this->config['preset']['js'],$html,$where,'js');
-
-    return $this;
-  }
-
-	/* attach meta data */
+		return $this->tag($merged,'<script','></script>','js',$where,$additional_attributes);
+  }  
+  
   public function meta($name='',$content='',$additional_attributes=array(),$where='>')
   {
     $merged = (is_array($name)) ? $name : array_merge($this->default_meta,array('name'=>$name,'content'=>$content),$additional_attributes);
-		$html = '<meta '.$this->_ary2attr($merged).'>';
-		if ($where === true) {
-			return $html;	
-		}
-    $this->add($this->config['preset']['meta'],$html,$where,'meta');
-
-    return $this;
-  }
-  
+		return $this->tag($merged,'<meta','>','meta',$where,$additional_attributes);
+	}
+	  
   /* change the template */
   public function template($name='')
   {
     $this->template = $name;
-
     return $this;
   }
 	
@@ -129,7 +98,7 @@ class Page
   	return $this;
   }
 	
-	/* wrapper for load partial */
+	/* wrapper for chain-able load partial */
 	public function partial($view,$data=array(),$name=null)
 	{
 		$html = $this->load->partial($view,$data,$name);
@@ -141,7 +110,7 @@ class Page
 		return $this;
 	}
 	
-	/* wrapper for load view with automagic */
+	/* wrapper for chain-able load view with automagic */
 	public function view($view=null,$data=array(),$return=false)
 	{
 		$view = ($view) ? $view : getData('automagic');
@@ -158,49 +127,40 @@ class Page
 	/* final output */
   public function build($view=null,$layout=null)
   {
-		events::trigger('pre_build',$this,'array');
-		$this->pre_build();
+		/* let's process our stuff */
+		foreach ($this->added as $record) {
+			data(getDefault($this->config['variable_mappings'][$record['key']],$record['key']),$record['value'],$record['where']);
+		}
 
+		/* anyone need to process something before build? */
+		events::trigger('pre_build',$this,'array');
+
+		/* if they sent in a file path or nothing (ie null) then load the view file into the template "container" */
 		if ($view !== false) {
-			$view = ($view) ? $view : getData('automagic');
-			data($this->config['variable_mappings']['container'],$this->load->partial($view));
+			$this->load->partial((($view) ? $view : getData('automagic')),array(),$this->config['variable_mappings']['container']);
   	}
 
     /* final output */
-    $this->load->view((($layout) ? $layout : $this->template),null,false);
+    $this->load->view((($layout) ? $layout : $this->template),array(),false);
 
 		/* allow chaining -- of course I'm not sure where your going after final output?? */
 		return $this;
 	}
 
-	/* private internal function below */
-	private function pre_build() {
-		
-		foreach ($this->added as $record) {
-			switch ($record['type']) {
-				case 'object':
-				case 'meta':
-				case 'css':
-				case 'js':
-				case 'variable':
-				break;
-				case 'property':
-					if ($record['key'] == 'theme') {
-						/* need to add the CI package so this is special */
-						$this->theme($record['value']);
-					} else {
-						$this->$record['key'] = $record['value'];
-					}
-				break;
-			}
-			
-			data(getDefault($this->config['variable_mappings'][$record['key']],$record['key']),$record['value'],$record['where']);
+  private function tag($merged,$pre,$post,$tag,$where,$additional_attributes) {
+		$html = $pre.' '.$this->_ary2attr($merged).$post;
+
+		if ($where === true || $additional_attributes === true) {
+			return $html;
 		}
-	}
-	
+    
+    return $this->add($this->config['preset'][$tag],$html,$where,$tag);
+  }
+
 	/* heavy lifter */
-	private function add($key,$value=null,$where=null,$type='generic') {
+	private function add($key,$value=null,$where='#',$type='generic') {
 		
+		/* add it to the to be processed array - the key should (basically) keep from adding the same thing twice */
 		$this->added[@md5($value.$key.$type.$where)] = array('key'=>$key,'value'=>$value,'where'=>$where,'type'=>$type);
 
 		return $this;
