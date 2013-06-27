@@ -1,0 +1,2 @@
+a:3:{s:8:"etagFile";s:32:"36ad49b4251349716d78bc504bbac11f";s:4:"file";s:39:"assets/ckeditor/plugins/font/lang/en.js";s:7:"content";s:168:"﻿
+CKEDITOR.plugins.setLang('font','en',{fontSize:{label:'Size',voiceLabel:'Font Size',panelTitle:'Font Size'},label:'Font',panelTitle:'Font Name',voiceLabel:'Font'});";}

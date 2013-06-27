@@ -1,0 +1,2 @@
+a:3:{s:8:"etagFile";s:32:"7e8a18b459cfaef634c7599a7d93d38a";s:4:"file";s:49:"assets/ckeditor/plugins/horizontalrule/lang/en.js";s:7:"content";s:87:"﻿
+CKEDITOR.plugins.setLang('horizontalrule','en',{toolbar:'Insert Horizontal Line'});";}

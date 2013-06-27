@@ -1,0 +1,2 @@
+a:3:{s:8:"etagFile";s:32:"d570871312932f1eafe907069526bd52";s:4:"file";s:46:"assets/ckeditor/plugins/basicstyles/lang/en.js";s:7:"content";s:173:"﻿
+CKEDITOR.plugins.setLang('basicstyles','en',{bold:'Bold',italic:'Italic',strike:'Strike Through',subscript:'Subscript',superscript:'Superscript',underline:'Underline'});";}

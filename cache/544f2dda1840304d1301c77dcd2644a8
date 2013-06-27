@@ -1,0 +1,12 @@
+a:3:{s:8:"etagFile";s:32:"84e5e721ea8380049a5470595073da8c";s:4:"file";s:35:"assets/admin/js/jquery.ajax.form.js";s:7:"content";s:2205:"var mvc=(mvc)||{};jQuery.fn.ajaxForm=function(debug){$(this).submit(function(e){if(debug){e.preventDefault();}
+var form=$(this);var reply=mvc.request({data:form.mvcForm2Obj(),url:form.attr('action')+'Validate',dataType:'json'});if(reply===undefined){mvc.ajaxFormRemove()
+return false;}
+if(reply.err===false){mvc.ajaxFormRemove()
+return true;}
+if($('#form-error-shown').length>0){$('#form-error-shown').closest('.notice-item-wrapper').fadeOut('fast',function(){$(this).remove();reply=mvc.flash_msg_format(reply);mvc.ajaxFormAdd('',reply.flash_msg,1,'error');});}else{reply=mvc.flash_msg_format(reply);mvc.ajaxFormAdd('',reply.flash_msg,1,'error');}
+return false;});};mvc.flash_msg_format=function(reply){reply.count=0;for(var prop in reply.errors_array){reply.count++;}
+reply.plural=(reply.count>1)?'s':'';reply.flash_msg='<strong id="form-error-shown">Validation Error'+reply.plural+'</strong><br/>'+reply.errors;return reply;}
+mvc.ajaxFormRemove=function(){$('#form-error-shown').closest('.notice-item-wrapper').remove();}
+mvc.ajaxFormAdd=function(title,errors,stay,type){stay=(stay)?stay:1;type=(type)?type:'error';title=(title!='')?'<strong id="form-error-shown">'+title+'</strong><br/>':'';$.noticeAdd({text:title+errors,stay:stay,type:type});}
+mvc.ajax={};mvc.ajax.options={type:'post',dataType:'',async:false,cache:false,timeout:3000,data:{}};jQuery.fn.mvcForm2Obj=function(obj){obj=obj||{};jQuery.each(jQuery(this).serializeArray(),function(){if(obj[this.name]){if(!obj[this.name].push){obj[this.name]=[obj[this.name]];}
+obj[this.name].push(this.value||'');}else{obj[this.name]=this.value||'';}});obj['mvc[postselector]']=this.selector;return obj;};mvc.redirect=function(url){window.location.replace(url);};mvc.request=function(settings){settings=settings||{};mvc.ajax.responds=undefined;mvc.ajax.jqxhr=undefined;mvc.ajax.textstatus=undefined;mvc.ajax.errorthrown=undefined;mvc.ajax.options.success=function(responds){mvc.ajax.responds=responds;};mvc.ajax.options.error=function(jqXHR,textStatus,errorThrown){mvc.ajax.jqxhr=jqXHR;mvc.ajax.textstatus=textStatus;mvc.ajax.errorthrown=errorThrown;};complete=jQuery.extend({},mvc.ajax.options,settings);jQuery.ajax(complete);return mvc.ajax.responds;};";}

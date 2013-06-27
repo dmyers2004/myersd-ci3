@@ -1,0 +1,4 @@
+a:3:{s:8:"etagFile";s:32:"54c737036d0c853c5799cf9e82f2db5d";s:4:"file";s:38:"assets/ckeditor/plugins/save/plugin.js";s:7:"content";s:811:"﻿
+(function(){var saveCmd={modes:{wysiwyg:1,source:1},readOnly:1,exec:function(editor){var $form=editor.element.$.form;if($form){try{$form.submit();}catch(e){if($form.submit.click)
+$form.submit.click();}}}};var pluginName='save';CKEDITOR.plugins.add(pluginName,{lang:'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh',icons:'save',init:function(editor){if(editor.elementMode!=CKEDITOR.ELEMENT_MODE_REPLACE)
+return;var command=editor.addCommand(pluginName,saveCmd);command.modes={wysiwyg:!!(editor.element.$.form)};editor.ui.addButton&&editor.ui.addButton('Save',{label:editor.lang.save.toolbar,command:pluginName,toolbar:'document,10'});}});})();";}

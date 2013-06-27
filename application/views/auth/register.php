@@ -1,14 +1,32 @@
-<?php 
-echo $crud->login_start('/auth/register','Register');
+<?=form_open('/auth/register',array('data-validate'=>'true')) ?>
+  <fieldset>
+    <legend>Register</legend>
 
-echo $crud->login_field('User Name*','<input type="text" id="username" name="username" value="Joe Doe" placeholder="user name">');
+		<label class="control-label" for="email">
+			<strong>UserName</strong>
+		</label>
+		<input type="text" id="username" name="username" value="" placeholder="user name">
 
-echo $crud->login_field('Email*','<input type="text" id="email" name="email" value="admin@admin.com" placeholder="email">');
+		<label class="control-label" for="email">
+			<strong>Email</strong>
+		</label>
+		<input type="text" id="email" name="email" value="" placeholder="email">
 
-echo $crud->login_field('Password*','<input type="password" id="password" name="password" value="password" placeholder="password">');
+		<label class="control-label" for="password">
+			<strong>Password</strong>
+		</label>
+		<input type="password" id="password" name="password" value="" placeholder="password">
 
-echo $crud->login_field('Confirm Password*','<input type="password" id="confirm_password" name="confirm_password" value="password" placeholder="password">');
+		<label class="control-label" for="password">
+			<strong>Confirm Password</strong>
+		</label>
+		<input type="password" id="confirm_password" name="confirm_password" value="" placeholder="password">
 
-echo $crud->login_end();
-?>
+    <p>
+	    <button type="submit" class="btn">Submit</button>
+			<span class="required-txt">Required Fields are in Bold</span>
+		</p>
+		
+  </fieldset>
+</form>
 <a href="/auth">Back to Login</a>

@@ -1,0 +1,3 @@
+a:3:{s:8:"etagFile";s:32:"cfcecc99d8c620a9289d66b287ed8762";s:4:"file";s:43:"assets/vendor/ckeditor/core/dom/nodelist.js";s:7:"content";s:284:"﻿
+CKEDITOR.dom.nodeList=function(nativeList){this.$=nativeList;};CKEDITOR.dom.nodeList.prototype={count:function(){return this.$.length;},getItem:function(index){if(index<0||index>=this.$.length)
+return null;var $node=this.$[index];return $node?new CKEDITOR.dom.node($node):null;}};";}

@@ -66,29 +66,45 @@ div.stats {
 	font-style: italic;
 	color: #7a7a7a;
 }
+
+/* spinner */
 .working-img {
-	background: url(../img/ajax-loader.gif) left center no-repeat;
-	width: 20px;
+	width: 32px;
 	height: 40px;
+	color: #000;
 }
+
+.navbar-inverse .working-img {
+	color: #fff;
+}
+
+/* login and logout */
 .navbar li.login {
-line-height: 40px;
-font-size: 16px;
-color: #828282;
-padding: 0;
+	line-height: 40px;
+	font-size: 16px;
+	color: #828282;
+	padding: 0;
 }
 .navbar li.login a {
 	padding: 0;
 }
-
 .navbar li.logout {
-line-height: 15px;
-font-size: 12px;
-color: #828282;
-text-align: right;
-padding: 5px 0 0 0;
+	line-height: 15px;
+	font-size: 12px;
+	color: #828282;
+	text-align: right;
+	padding: 5px 0 0 0;
+}
+.navbar.navbar-inverse li.logout a {
+	padding: 0;
+	color: #eee;
+}
+.navbar.navbar-inverse li.logout a:hover {
+	padding: 0;
+	color: #fff;
+	text-shadow: 0 0 2px #ffffff;
 }
 .navbar li.logout a {
 	padding: 0;
-	color: #eee;
+	color: #222;
 }

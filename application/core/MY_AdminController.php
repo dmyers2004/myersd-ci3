@@ -32,7 +32,8 @@ class MY_AdminController extends MY_PublicController
 			$this->controller_model = $this->$model_name;
 		}
 
-		$this->page->add('admin');
+		$this->page
+			->load('admin');
 	}
 
 } /* end MY_AdminController */

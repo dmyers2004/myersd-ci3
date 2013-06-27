@@ -52,24 +52,27 @@ $config['variable_mappings'] = array(
 
 /* default */
 $config['default'] = function(&$page,&$ci) {
+	$am = trim($ci->router->fetch_directory().str_replace('Controller','',$ci->router->fetch_class()).'/'.str_replace('Action','',$ci->router->fetch_method()),'/');
+	
 	$page
-		->add('$template','_templates/default')
-		->add('$assets','/assets/')
-		->add('title','Apple 64')
-		->add('pageBrand','GTags')
+		->property('template','_templates/default')
+		->append('automagic',$am)
+		->append('bodyClass',str_replace('/',' ',$am))
+		->append('title','Apple 64')
+		->append('pageBrand','Sample')
 		->meta(array('charset'=>'utf-8'))
 		->meta(array('http-equiv'=>'X-UA-Compatible','content'=>'IE=edge,chrome=1'))
 		->meta('description','')
 		->meta('viewport','width=device-width, initial-scale=1')
-		->css('/assets/bootstrap/css/bootstrap.min.css')
-		->css('/assets/bootstrap/css/bootstrap-responsive.min.css')
-		->css('/assets/fontawesome/css/font-awesome.min.css')
-		->js('/assets/modernizr/modernizr-2.6.2.min.js')
-		->add('header','<!--[if lt IE 8]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p><![endif]-->')
-		->js('/assets/jquery/jquery-1.9.1.min.js')
-		->js('/assets/bootstrap/js/bootstrap.min.js')
+		->css('/assets/vendor/bootstrap/css/bootstrap.min.css')
+		->css('/assets/vendor/bootstrap/css/bootstrap-responsive.min.css')
+		->css('/assets/vendor/fontawesome/css/font-awesome.min.css')
+		->js('/assets/vendor/modernizr/modernizr-2.6.2.min.js')
+		->append('header','<!--[if lt IE 8]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p><![endif]-->')
+		->js('/assets/vendor/jquery/jquery-1.10.1.min.js')
+		->js('/assets/vendor/bootstrap/js/bootstrap.min.js')
 		->js('/assets/public/js/site.js')
-		->add('footer','<script>var baseurl="http://ci3.vcap.me/";</script>','before');
+		->append('footer','<script>var baseurl="http://ci3.vcap.me/";</script>');
 };
 
 $config['public'] = function(&$page,&$ci) {
@@ -77,11 +80,12 @@ $config['public'] = function(&$page,&$ci) {
 	$roles = $ci->auth->get_user_roles();
 		
 	$page
-		->add('bodyClass','$ public')
-		->add('logged_in',$ci->auth->is_logged_in())
-		->add('navigation_menu',$ci->menubar->render($roles,$menu))
+		->append('bodyClass',' public')
+		->object('logged_in',$ci->auth->is_logged_in())
+		->object('navigation_menu',$ci->menubar->render($roles,$menu))
 		->css('/assets/public/css/template.css')
 		->css('/assets/public/css/style.css')
+		->js('/assets/vendor/spinner/jquery.spin.min.js')
 		->js('/assets/admin/js/jquery.ajax.form.js')
 		->js('/assets/public/js/plugins.js')
 		->js('/assets/public/js/onready.js');
@@ -89,14 +93,14 @@ $config['public'] = function(&$page,&$ci) {
 
 $config['admin'] = function(&$page,&$ci) {
 	$page
-		->add('$template','admin/_templates/default')
-		->add('title','$ - Admin')
-		->add('admin_bar','navbar-inverse')
+		->property('template','admin/_templates/default')
+		->append('title',' - Admin')
+		->variable('admin_bar','navbar-inverse')
 		->css('/assets/admin/css/admin.css')
-		->css('/assets/chosen/chosen.min.css')
-		->css('/assets/table-fixed-header/table-fixed-header.min.css')
-		->js('/assets/chosen/chosen.jquery.min.js')
-		->js('/assets/table-fixed-header/table-fixed-header.min.js')
+		->css('/assets/vendor/chosen/chosen.min.css')
+		->css('/assets/vendor/table-fixed-header/table-fixed-header.min.css')
+		->js('/assets/vendor/chosen/chosen.jquery.min.js')
+		->js('/assets/vendor/table-fixed-header/table-fixed-header.min.js')
 		->js('/assets/admin/js/jquery.ajax.link.js')
 		->js('/assets/admin/js/jquery.combobox.js')
 		->js('/assets/admin/js/jquery.filter_input.js')

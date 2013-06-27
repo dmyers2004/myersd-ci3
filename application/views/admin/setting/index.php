@@ -1,10 +1,6 @@
-<div class="row header">
-  <div class="span8">
-		<h3>Settings<small>The settings page is where all module settings are located.</small></h3>
-  </div>
-  <div class="span4 txt-ar">
-  	<a href="/admin/setting/new" class="btn btn-small"><i class="icon-magic"></i> Add Setting</i></a>
-  </div>
+<div class="header">
+	<h3>Settings<small class="hidden-phone">The settings page is where all module settings are located.</small></h3>
+	<a href="/admin/setting/new" class="btn btn-small add-btn"><i class="icon-magic"></i> Add Setting</i></a>
 </div>
 <table class="table table-hover table-fixed-header">
   <thead class="header">

@@ -1,10 +1,6 @@
-<div class="row header">
-  <div class="span8">
-		<h3>Groups<small>Users can be placed into groups to manage permissions.</small></h3>
-  </div>
-  <div class="span4 txt-ar">
-  	<a href="/admin/group/new" class="btn btn-small"><i class="icon-magic"></i> Add Group</i></a>
-  </div>
+<div class="header">
+	<h3>Groups<small class="hidden-phone">Users can be placed into groups to manage permissions.</small></h3>
+	<a href="/admin/group/new" class="btn btn-small add-btn"><i class="icon-magic"></i> Add Group</i></a>
 </div>
 <table class="table table-hover table-fixed-header">
   <thead class="header">

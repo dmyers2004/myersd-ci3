@@ -67,11 +67,12 @@ class Auth
 					if ($user->banned == 1) { // fail - banned
 						$this->error = array('banned' => $user->ban_reason);
 					} else {
+						unset($user->password);
 						$this->ci->session->set_userdata(array(
 								'user' => $user,
 								'status'	=> ($user->activated == 1) ? STATUS_ACTIVATED : STATUS_NOT_ACTIVATED,
 								'group_id' => $user->group_id,
-								'group_roles' => $this->ci->group_model->get_roles($user->group_id),
+								'group_roles' => $this->ci->group_model->get_roles($user->group_id)
 						));
 
 						if ($user->activated == 0) {							// fail - not activated

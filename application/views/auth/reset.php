@@ -1,10 +1,22 @@
-<?php 
-echo $crud->login_start('/auth/reset','Reset Password');
+<?=form_open('/auth/register',array('data-validate'=>'true')) ?>
+  <fieldset>
+    <legend>Reset Password</legend>
 
-echo $crud->login_field('Password*','<input type="password" id="password" name="password" value="password" placeholder="password">');
+		<label class="control-label" for="password">
+			<strong>Password</strong>
+		</label>
+		<input type="password" id="password" name="password" value="" placeholder="password">
 
-echo $crud->login_field('Confirm Password*','<input type="password" id="confirm_password" name="confirm_password" value="password" placeholder="password">');
+		<label class="control-label" for="password">
+			<strong>Confirm Password</strong>
+		</label>
+		<input type="password" id="confirm_password" name="confirm_password" value="" placeholder="password">
 
-echo $crud->login_end();
-?>
+    <p>
+	    <button type="submit" class="btn">Submit</button>
+			<span class="required-txt">Required Fields are in Bold</span>
+		</p>
+		
+  </fieldset>
+</form>
 <a href="/auth">Back to Login</a>

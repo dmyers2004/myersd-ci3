@@ -1,0 +1,3 @@
+a:3:{s:8:"etagFile";s:32:"0f392eeb79423902834a1f043642bcc4";s:4:"file";s:32:"assets/ckeditor/core/template.js";s:7:"content";s:379:"﻿
+(function(){var cache={};CKEDITOR.template=function(source){if(cache[source])
+this.output=cache[source];else{var fn=source.replace(/'/g,"\\'").replace(/{([^}]+)}/g,function(m,key){return"',data['"+key+"']==undefined?'{"+key+"}':data['"+key+"'],'";});fn="return buffer?buffer.push('"+fn+"'):['"+fn+"'].join('');";this.output=cache[source]=Function('data','buffer',fn);}};})();";}

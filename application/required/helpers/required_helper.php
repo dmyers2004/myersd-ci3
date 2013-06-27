@@ -1,29 +1,30 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
+ * View Data Heavy Lifter
  * add data to the view from any where with 3 modes
  * replace (default)
  * append
  * prepend
  */
-function data($name,$value,$where='overwrite')
+function data($name,$value,$where='#')
 {
+	$ci = get_instance();
+
+	/* overwrite is default */
 	switch ($where) {
-		case 'prepend':
-		case 'before':
-		case '^':
-			$value = $value.get_instance()->load->_ci_cached_vars[$name];
+		case '<':
+			$value = $value.$ci->load->_ci_cached_vars[$name];
 		break;
-		case 'append':
-		case 'after':
-		case '$':
-			$value = get_instance()->load->_ci_cached_vars[$name].$value;
+		case '>':
+			$value = $ci->load->_ci_cached_vars[$name].$value;
 		break;
 	}
 
-	get_instance()->load->_ci_cached_vars[$name] = $value;
+	$ci->load->_ci_cached_vars[$name] = $value;
 }
 
+/* get view data */
 function getData($name)
 {
 	return @get_instance()->load->_ci_cached_vars[$name];
@@ -101,16 +102,22 @@ function enum($input,$string,$delimiter='|')
 	echo return_enum($input,$string,$delimiter);
 }
 
-function mergeString($view,$data=array())
+function mergeString($string,$data=array())
 {
 	$ci = get_instance();
 	$ci->load->library('parser');
-	return $ci->parser->parse_string($view,$data,TRUE);
+	return $ci->parser->parse_string($string,$data,TRUE);
 }
 
-function merge($view,$data=array())
+function merge($file,$data=array())
 {
 	$ci = get_instance();
 	$ci->load->library('parser');
-	return $ci->parser->parse($view,$data,TRUE);
+	return $ci->parser->parse($file,$data,TRUE);
+}
+
+function print_a($ary) {
+	echo '<pre>';
+	echo htmlentities(print_r($ary,true));
+	die();
 }

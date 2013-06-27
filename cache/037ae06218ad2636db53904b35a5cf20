@@ -1,0 +1,2 @@
+a:3:{s:8:"etagFile";s:32:"2c92a64e36e288841ce7630e2e807d1b";s:4:"file";s:45:"assets/ckeditor/plugins/blockquote/lang/en.js";s:7:"content";s:72:"﻿
+CKEDITOR.plugins.setLang('blockquote','en',{toolbar:'Block Quote'});";}

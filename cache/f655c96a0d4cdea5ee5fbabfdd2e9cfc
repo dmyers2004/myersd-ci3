@@ -1,0 +1,2 @@
+a:3:{s:8:"etagFile";s:32:"31e9fc7f4f44b085fa91e470b61b2e6c";s:4:"file";s:53:"assets/vendor/ckeditor/plugins/specialchar/lang/en.js";s:7:"content";s:155:"﻿
+CKEDITOR.plugins.setLang('specialchar','en',{options:'Special Character Options',title:'Select Special Character',toolbar:'Insert Special Character'});";}

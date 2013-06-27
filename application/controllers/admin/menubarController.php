@@ -12,11 +12,11 @@ class menubarController extends MY_AdminController
 	public function indexAction()
 	{
 		$this->page
-			->data('tree',$this->controller_model->order_by('sort')->get_all())
-			->js('/assets/nestable/jquery.nestable.min.js')
-			->js('/assets/nestable/nestable.min.js')
-			->css('/assets/nestable/nestable.min.css')
-			->data('parent_options',array(0=>'<i class="icon-upload"></i>') + $this->controller_model->dropdown('id','text'))
+			->variable('tree',$this->controller_model->order_by('sort')->get_all())
+			->js('/assets/vendor/nestable/jquery.nestable.min.js')
+			->js('/assets/vendor/nestable/nestable.min.js')
+			->css('/assets/vendor/nestable/nestable.css')
+			->variable('parent_options',array(0=>'<i class="icon-upload"></i>') + $this->controller_model->dropdown('id','text'))
 			->build();
 	}
 	
@@ -43,9 +43,9 @@ class menubarController extends MY_AdminController
 		$this->controller_model->filter_parent_id($parent_id,false);
 
 		$this->page
-			->data('title','New Menu Under '.$parent_text)
-			->data('action',$this->controller_path.'new')
-			->data('record',(object) array('id'=>-1,'active'=>1,'parent_id'=>$parent_id))
+			->variable('title','New Menu Under '.$parent_text)
+			->variable('action',$this->controller_path.'new')
+			->variable('record',(object) array('id'=>-1,'active'=>1,'parent_id'=>$parent_id))
 			->build($this->controller_path.'form');
 	}
 
@@ -71,10 +71,10 @@ class menubarController extends MY_AdminController
 		$this->controller_model->filter_id($id,false);
 
 		$this->page
-			->data('title','Edit '.$this->page_title)
-			->data('action',$this->controller_path.'edit')
-			->data('record',$this->controller_model->get($id))
-			->data('options',array('0'=>'Top Level') + $this->menubar->read_parents())
+			->variable('title','Edit '.$this->page_title)
+			->variable('action',$this->controller_path.'edit')
+			->variable('record',$this->controller_model->get($id))
+			->variable('options',array('0'=>'Top Level') + $this->menubar->read_parents())
 			->build($this->controller_path.'form');
 	}
 

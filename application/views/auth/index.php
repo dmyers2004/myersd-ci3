@@ -12,10 +12,6 @@
 		</label>
 		<input type="password" id="password" name="password" value="password" placeholder="password">
 
-		<label class="checkbox" for="remember">
-		  <input type="checkbox" id="remember" name="remember" value="1" <?=($rememberme) ? 'checked' : '' ?>> Remember Me
-		</label>
-
     <p>
 	    <button type="submit" class="btn">Submit</button>
 			<span class="required-txt">Required Fields are in Bold</span>

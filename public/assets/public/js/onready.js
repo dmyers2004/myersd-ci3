@@ -1,6 +1,6 @@
 jQuery(document).ready(function(){
 
-	$('.working-img').fadeOut('slow');
+	$('.working-img').spin({ lines: 8, length: 3, width: 4, radius: 6, speed: 1, trail: 50, hwaccel: true }).fadeOut('fast');
 
 	/* my ajax form handler */
 	$('form[data-validate=true]').ajaxForm();

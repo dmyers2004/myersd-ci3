@@ -1,8 +1,17 @@
-<?php 
-echo $crud->login_start('/auth/forgot','Resend Activation');
+<?=form_open('/auth/register',array('data-validate'=>'true')) ?>
+  <fieldset>
+    <legend>Resend Activation</legend>
 
-echo $crud->login_field('Email*','<input type="text" id="email" name="email" value="admin@admin.com" placeholder="email">');
+		<label class="control-label" for="email">
+			<strong>Email</strong>
+		</label>
+		<input type="text" id="email" name="email" value="" placeholder="email">
 
-echo $crud->login_end();
-?>
+    <p>
+	    <button type="submit" class="btn">Submit</button>
+			<span class="required-txt">Required Fields are in Bold</span>
+		</p>
+		
+  </fieldset>
+</form>
 <a href="/auth">Back to Login</a>

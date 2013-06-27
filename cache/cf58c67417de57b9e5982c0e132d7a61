@@ -1,0 +1,3 @@
+a:3:{s:8:"etagFile";s:32:"efcf215239938127f5d889c960a67aa3";s:4:"file";s:35:"assets/ckeditor/core/dom/comment.js";s:7:"content";s:402:"﻿
+CKEDITOR.dom.comment=function(comment,ownerDocument){if(typeof comment=='string')
+comment=(ownerDocument?ownerDocument.$:document).createComment(comment);CKEDITOR.dom.domObject.call(this,comment);};CKEDITOR.dom.comment.prototype=new CKEDITOR.dom.node();CKEDITOR.tools.extend(CKEDITOR.dom.comment.prototype,{type:CKEDITOR.NODE_COMMENT,getOuterHtml:function(){return'<!--'+this.$.nodeValue+'-->';}});";}

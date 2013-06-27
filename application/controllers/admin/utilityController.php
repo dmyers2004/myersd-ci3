@@ -18,7 +18,7 @@ class utilityController extends MY_AdminController
 		$info = $this->format();
 				
 		$this->page
-			->data('info',$info)
+			->variable('info',$info)
 			->build();
 	}
 
@@ -30,9 +30,9 @@ class utilityController extends MY_AdminController
 		$msg = ($err) ? 'Cleared' : 'Error';
 		
 		$this->page
-			->data('info',$info)
-			->data('err',$err)
-			->data('msg',$msg)
+			->variable('info',$info)
+			->variable('err',$err)
+			->variable('msg',$msg)
 			->build();
 	}
 	

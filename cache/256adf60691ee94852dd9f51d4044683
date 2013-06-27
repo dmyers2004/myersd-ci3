@@ -1,0 +1,2 @@
+a:3:{s:8:"etagFile";s:32:"fef57ff30a5826fa024407911ed2da63";s:4:"file";s:51:"assets/vendor/ckeditor/plugins/selectall/lang/en.js";s:7:"content";s:70:"﻿
+CKEDITOR.plugins.setLang('selectall','en',{toolbar:'Select All'});";}

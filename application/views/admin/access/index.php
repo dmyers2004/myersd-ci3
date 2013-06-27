@@ -1,10 +1,6 @@
-<div class="row header">
-  <div class="span8">
-		<h3>Access<small>You can create custom permissions for different users by assigning them to groups in the Users.</small></h3>
-  </div>
-  <div class="span4 txt-ar">
-  	<a href="/admin/access/new" class="btn btn-small"><i class="icon-magic"></i> Add Access</i></a>
-  </div>
+<div class="header">
+	<h3>Access<small class="hidden-phone">You can create custom permissions for different users by assigning them to groups in the Users.</small></h3>
+	<a href="/admin/access/new" class="btn btn-small add-btn"><i class="icon-magic"></i> Add Access</i></a>
 </div>
 <table class="table table-hover table-fixed-header">
   <thead class="header">

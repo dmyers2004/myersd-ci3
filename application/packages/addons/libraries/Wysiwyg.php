@@ -14,8 +14,8 @@ class Wysiwyg
 
 	public function build() {
 		$this->CI->page
-			->add('footer','$<script src="/assets/ckeditor/ckeditor.js"></script>')
-			->add('footer','$'.$this->getScript());
+			->js('/assets/vendor/ckeditor/ckeditor.js')
+			->append('footer',$this->getScript());
 	}
 
   public function getScript()

@@ -1,0 +1,2 @@
+a:3:{s:8:"etagFile";s:32:"390213258e6bfdbab15a91cd87633655";s:4:"file";s:51:"assets/vendor/ckeditor/plugins/pastetext/lang/en.js";s:7:"content";s:106:"﻿
+CKEDITOR.plugins.setLang('pastetext','en',{button:'Paste as plain text',title:'Paste as Plain Text'});";}

@@ -1,10 +1,6 @@
-<div class="row header">
-  <div class="span8">
-		<h3>Users<small>The users page is where you manage your sites users.</small></h3>
-  </div>
-  <div class="span4 txt-ar">
-  	<a href="/admin/user/new" class="btn btn-small"><i class="icon-magic"></i> Add User</i></a>
-  </div>
+<div class="header">
+		<h3>Users<small class="hidden-phone">The users page is where you manage your sites users.</small></h3>
+  	<a href="/admin/user/new" class="btn btn-small add-btn"><i class="icon-magic"></i> Add User</i></a>
 </div>
 <table class="table table-hover table-fixed-header">
   <thead class="header">

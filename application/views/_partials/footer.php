@@ -7,5 +7,6 @@
 		<?php } ?>
 		<?=$page_footer ?>
 		<?=$flash_msg ?>
+		<!-- <?=$automagic ?> -->
 	</body>
 </html>

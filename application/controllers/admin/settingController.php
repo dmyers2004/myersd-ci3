@@ -11,17 +11,17 @@ class settingController extends MY_AdminController
 	public function indexAction()
 	{
 		$this->page
-			->data('records',$this->controller_model->order_by('option_group')->get_all())
+			->variable('records',$this->controller_model->order_by('option_group')->get_all())
 			->build();
 	}
 
 	public function newAction()
 	{
 		$this->page
-			->data('title','New '.$this->page_title)
-			->data('action',$this->controller_path.'new')
-			->data('record',(object) array('option_id'=>-1,'auto_load'=>1))
-			->data('option_group',$this->controller_model->dropdown('option_group','option_group'))
+			->variable('title','New '.$this->page_title)
+			->variable('action',$this->controller_path.'new')
+			->variable('record',(object) array('option_id'=>-1,'auto_load'=>1))
+			->variable('option_group',$this->controller_model->dropdown('option_group','option_group'))
 			->build($this->controller_path.'form');
 	}
 
@@ -47,10 +47,10 @@ class settingController extends MY_AdminController
 		$this->controller_model->filter_id($id,false);
 
 		$this->page
-			->data('title','Edit '.$this->page_title)
-			->data('action',$this->controller_path.'edit')
-			->data('record',$this->controller_model->get($id))
-			->data('option_group',$this->controller_model->dropdown('option_group','option_group'))
+			->variable('title','Edit '.$this->page_title)
+			->variable('action',$this->controller_path.'edit')
+			->variable('record',$this->controller_model->get($id))
+			->variable('option_group',$this->controller_model->dropdown('option_group','option_group'))
 			->build($this->controller_path.'form');
 	}
 

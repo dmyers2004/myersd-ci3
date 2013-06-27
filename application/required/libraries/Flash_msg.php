@@ -2,8 +2,6 @@
 
 class Flash_msg
 {
-	private $CI = null;
-
   public $messages = array();
   
   /* required in config */
@@ -16,21 +14,20 @@ class Flash_msg
 
 	public function __construct()
 	{
-		$this->CI = get_instance();
-		$this->CI->config->load('flash_msg', TRUE);
-		$this->methods = $this->CI->config->item('methods','flash_msg');
-		$this->view_variable = $this->CI->config->item('view_variable','flash_msg');
-		$this->initial_pause = $this->CI->config->item('initial_pause','flash_msg');
-		$this->pause_for_each = $this->CI->config->item('pause_for_each','flash_msg');
-		$this->js = $this->CI->config->item('js','flash_msg');
-		$this->css = $this->CI->config->item('css','flash_msg');
+		$this->config->load('flash_msg', TRUE);
+		$this->methods = $this->config->item('methods','flash_msg');
+		$this->view_variable = $this->config->item('view_variable','flash_msg');
+		$this->initial_pause = $this->config->item('initial_pause','flash_msg');
+		$this->pause_for_each = $this->config->item('pause_for_each','flash_msg');
+		$this->js = $this->config->item('js','flash_msg');
+		$this->css = $this->config->item('css','flash_msg');
 		
-		$this->tohtml();
+		events::register('pre_build',array($this,'tohtml'));
 	}
 	
 	/* super method! */
 	public function __call($name, $arguments) {
-		/* redirect */
+		/* arg1 is redirect url */
 		$arguments[1] = ($arguments[1]) ? $arguments[1] : NULL;
 		
 		$config = array_merge(array('prep' => null, 'type'=>'success','stay'=> false),$this->methods[$name]);
@@ -51,39 +48,36 @@ class Flash_msg
   public function add($msg='',$type='yellow',$sticky=FALSE,$redirect=NULL)
   {
   	$this->messages[] = array('msg'=>trim($msg),'type'=>$type,'sticky'=>$sticky);
-    $this->CI->session->set_flashdata('custom_flash_message_storage',$this->messages);
+    $this->session->set_flashdata('custom_flash_message_storage',$this->messages);
 
+		/* redirect to another page immediately */
 		if ($redirect) {
-			redirect($this->CI->paths[$redirect]);
+			path_redirect($redirect);
 		}
-
-		$this->tohtml();
 
 		return $this;
   }
 
-	public function tohtml($variable = null,$return = false)
+	public function tohtml($page)
 	{
-		$variable = ($variable) ? $variable : $this->view_variable;
-		
-		get_instance()->page->js($this->js)->css($this->css);
-
-    $messages = $this->CI->session->flashdata('custom_flash_message_storage');
+    $messages = $this->session->flashdata('custom_flash_message_storage');
 
     if (is_array($messages)) {
     	$html .= '<script>$(document).ready(function(){';
     	foreach ($messages as $key => $msg) {
-    	  $staytime = ($msg['sticky'] == TRUE) ? '' : ', stayTime: '.($this->pause_for_each * ($this->initial_pause++));
-    		$html .= 'jQuery.noticeAdd({ text: \''.$msg['msg'].'\', stay: \''.$msg['sticky'].'\', type: \''.$msg['type'].'\''.$staytime.' });';
+    	  $staytime = ($msg['sticky'] == TRUE) ? '' : ',stayTime:'.($this->pause_for_each * ($this->initial_pause++));
+    		$html .= '$.noticeAdd({text:\''.$msg['msg'].'\',stay:\''.$msg['sticky'].'\',type:\''.$msg['type'].'\''.$staytime.'});';
     	}
     	$html .= '})</script>';
     }
 
-		if (!$return) {
-			$this->CI->load->vars(array($variable=>$html));
-		}
-
-		return $html;
+		$page->js($this->js)->css($this->css)->variable($this->view_variable,$html);
+	}
+	
+	/* generic wrapper for CI instance so you can $this-> in this file */
+	public function __get($var)
+	{
+		return get_instance()->$var;
 	}
 
 }

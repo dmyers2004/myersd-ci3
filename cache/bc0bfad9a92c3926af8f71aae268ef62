@@ -1,0 +1,2 @@
+a:3:{s:8:"etagFile";s:32:"feb947bc846865f443bb854c9ad51ea5";s:4:"file";s:51:"assets/vendor/ckeditor/plugins/templates/lang/en.js";s:7:"content";s:265:"﻿
+CKEDITOR.plugins.setLang('templates','en',{button:'Templates',emptyListMsg:'(No templates defined)',insertOption:'Replace actual contents',options:'Template Options',selectPromptMsg:'Please select the template to open in the editor',title:'Content Templates'});";}

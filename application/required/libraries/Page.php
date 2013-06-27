@@ -5,120 +5,114 @@ class Page
   public $config = NULL; /* all configs local cache */
 
 	public $template = ''; /* template to use in build method */
-	public $assets = ''; /* find & replace %assets% in any strings */
 	public $theme = ''; /* theme folder for views (added as a package) */
 
 	public $default_css = array('rel'=>'stylesheet','type'=>'text/css','href'=>'');
 	public $default_js = array('src'=>'');
 	public $default_meta = array('name'=>'','content'=>'');
 	public $default_img = array();
-
-	/* css where, js where */
+	
+	public $added = array();
 
   public function __construct()
   {
     $this->config = $this->load->settings('page');
 
-		/* load in our defaults */
-		$this->add('default');
-  }
+		/* load in our defaults if any */
+		$this->load('default');		
 
-	public function add($key,$value=null,$where=null) {
-		if ($value === null) {
-			if ($value == null) {
-				$this->config[$key]($this,get_instance());
-			}
-		} else {
-
-			/* if the key starts with $ then it's applied to $this (page object) */
-			if ($key{0} == '$') {
-				if ($key == '$theme') {
-					$this->theme($value);
-				} else {
-					$key = substr($key,1);
-					$this->$key = $value;
-				}
-			} else {
-
-				if ($where == null) {
-					$where = 'replace';
-					
-					if (is_string($value)) {
-						if (substr($value,0,1) == '^' || substr($value,0,1) == '$') {
-							$where = substr($value,0,1);
-							$value = substr($value,1);
-						}
-					}
-				}
-
-				$this->merge($value);
-
-				$key = getDefault($this->config['variable_mappings'][$key],$key);
-
-				$this->data($key,$value,$where);
+		/* load in the config as variables if it's a string */
+		foreach ($this->config as $name => $value) {
+			if (is_string($value)) {
+				$this->variable($name,$value);
 			}
 		}
+  }
+	
+	public function load($key) {
+		$this->config[$key]($this,get_instance());
+	}
 
+	public function clear($which,$clear) {
+		foreach ($this->added as $hash => $record) {
+			if ($record[$which] == $clear) {
+				unset($this->added[$hash]);	
+			}
+		}
+	
 		return $this;
 	}
 
 	/* add global data wrapper for chaining */
-	public function data($key,$value,$where='overwrite') {
-		data($key,$value,$where);
+	public function variable($key,$value,$where='#') {
+		$this->add($key,$value,$where,'variable');
+		
+		return $this;
+	}
+	
+	public function append($key,$value) {
+		$this->add($key,$value,'>','variable');
 		
 		return $this;
 	}
 
-	public function merge(&$string)
-	{
-		if (is_string($string)) {
-			$string = str_replace('{theme}',$this->theme,$string);
-			$string = str_replace('{assets}',$this->assets,$string);
+	public function prepend($key,$value) {
+		$this->add($key,$value,'<','variable');
+		
+		return $this;
+	}
+	
+	public function property($key,$value) {
+		$this->add($key,$value,'#','property');
+		
+		return $this;
+	}
+
+	public function object($key,$value) {
+		$this->add($key,$value,'#','object');
+		
+		return $this;
+	}
+	
+	/* attach css */
+  public function css($href='',$additional_attributes=array(),$where='>')
+  {
+    $merged = (is_array($href)) ? $href : array_merge($this->default_css,array('href'=>$href),$additional_attributes);
+		$html = '<link '.$this->_ary2attr($merged).' />';
+		if ($where === true) {
+			return $html;	
 		}
-	}
-
-	public function img($src='',$additional_attributes=array())
-	{
-    $merged = (is_array($src)) ? $src : array_merge($this->img,array('src'=>$this->_prefix($src)),$additional_attributes);
-		$this->merge($merged['src']);
-
-		return $this->_ary2attr($merged);
-	}
-
-  public function css($href='',$additional_attributes=array(),$where='after')
-  {
-    return $this->link($href,$additional_attributes,$where);
-  }
-
-  public function link($href='',$additional_attributes=array(),$where='after')
-  {
-    $merged = (is_array($href)) ? $href : array_merge($this->default_css,array('href'=>$this->_prefix($href)),$additional_attributes);
-    $this->add($this->config['preset']['css'],'<link '.$this->_ary2attr($merged).' />',$where);
+    $this->add($this->config['preset']['css'],'<link '.$this->_ary2attr($merged).' />',$where,'css');
 
     return $this;
   }
 
-  public function js($file='',$additional_attributes=array(),$where='after')
+	/* add js */
+  public function js($file='',$additional_attributes=array(),$where='>')
   {
-    return $this->script($file,$additional_attributes,$where);
-  }
-
-  public function script($file='',$additional_attributes=array(),$where='after')
-  {
-    $merged = (is_array($file)) ? $file : array_merge($this->default_js,array('src'=>$this->_prefix($file)),$additional_attributes);
-    $this->add($this->config['preset']['js'],'<script '.$this->_ary2attr($merged).'></script>',$where);
+    $merged = (is_array($file)) ? $file : array_merge($this->default_js,array('src'=>$file),$additional_attributes);
+		$html = '<script '.$this->_ary2attr($merged).'></script>';
+		if ($where === true) {
+			return $html;	
+		}
+    $this->add($this->config['preset']['js'],$html,$where,'js');
 
     return $this;
   }
 
-  public function meta($name='',$content='',$additional_attributes=array(),$where='after')
+	/* attach meta data */
+  public function meta($name='',$content='',$additional_attributes=array(),$where='>')
   {
     $merged = (is_array($name)) ? $name : array_merge($this->default_meta,array('name'=>$name,'content'=>$content),$additional_attributes);
-    $this->add($this->config['preset']['meta'],'<meta '.$this->_ary2attr($merged).'>',$where);
+		$html = '<meta '.$this->_ary2attr($merged).'>';
+		if ($where === true) {
+			return $html;	
+		}
+    $this->add($this->config['preset']['meta'],$html,$where,'meta');
 
     return $this;
   }
-
+  
   /* change the template */
   public function template($name='')
   {
@@ -126,32 +120,31 @@ class Page
 
     return $this;
   }
-
+	
+	/* add theme folder (CI package) */
   public function theme($name='')
   {
   	$this->theme = $name;
 		$this->load->add_package_path(APPPATH.'themes/'.$name.'/', TRUE);
   	return $this;
   }
-
-  public function assets($name='')
-  {
-  	$this->assets = $name;
-
-  	return $this;
-  }
-
+	
 	/* wrapper for load partial */
 	public function partial($view,$data=array(),$name=null)
 	{
-		return $this->load->partial($view,$data,$name);
+		$html = $this->load->partial($view,$data,$name);
+		
+		if ($name == null) {
+			return $html;	
+		}
+		
+		return $this;
 	}
-
+	
+	/* wrapper for load view with automagic */
 	public function view($view=null,$data=array(),$return=false)
 	{
-		$auto = $this->getAuto();
-
-		$view = ($view) ? $view : $auto;
+		$view = ($view) ? $view : getData('automagic');
 				
 		$html = $this->load->view($view,$data,$return);
 
@@ -165,26 +158,52 @@ class Page
 	/* final output */
   public function build($view=null,$layout=null)
   {
-		if ($view !== false) {
-			$auto = $this->getAuto();
+		events::trigger('pre_build',$this,'array');
+		$this->pre_build();
 
-			$view = ($view) ? $view : $auto;
-	
+		if ($view !== false) {
+			$view = ($view) ? $view : getData('automagic');
 			data($this->config['variable_mappings']['container'],$this->load->partial($view));
-		}
+  	}
 
     /* final output */
     $this->load->view((($layout) ? $layout : $this->template),null,false);
 
+		/* allow chaining -- of course I'm not sure where your going after final output?? */
 		return $this;
 	}
 
 	/* private internal function below */
-	private function getAuto()
-	{
-		$auto = trim($this->router->fetch_directory().str_replace('Controller','',$this->router->fetch_class()).'/'.str_replace('Action','',$this->router->fetch_method()),'/');
-		$this->add('bodyClass','$ '.str_replace('/',' ',$auto));
-		return $auto;
+	private function pre_build() {
+		
+		foreach ($this->added as $record) {
+			switch ($record['type']) {
+				case 'object':
+				case 'meta':
+				case 'css':
+				case 'js':
+				case 'variable':
+				break;
+				case 'property':
+					if ($record['key'] == 'theme') {
+						/* need to add the CI package so this is special */
+						$this->theme($record['value']);
+					} else {
+						$this->$record['key'] = $record['value'];
+					}
+				break;
+			}
+			
+			data(getDefault($this->config['variable_mappings'][$record['key']],$record['key']),$record['value'],$record['where']);
+		}
+	}
+	
+	/* heavy lifter */
+	private function add($key,$value=null,$where=null,$type='generic') {
+		
+		$this->added[@md5($value.$key.$type.$where)] = array('key'=>$key,'value'=>$value,'where'=>$where,'type'=>$type);
+
+		return $this;
 	}
 
   private function _ary2attr($array)
@@ -195,17 +214,6 @@ class Page
     }
 
     return trim($output);
-  }
-
-  private function _prefix($input)
-  {
-    if (substr($input,0,4) == 'http') {
-      return $input;
-    } elseif ($input{0} == '/') {
-			return $input;
-    } else {
-      return $this->assets.$input;
-    }
   }
 
 	/* generic wrapper for CI instance so you can $this-> in this file */

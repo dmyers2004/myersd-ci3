@@ -1,0 +1,2 @@
+a:3:{s:8:"etagFile";s:32:"2fbf0a703068027107c6192133fd02c0";s:4:"file";s:46:"assets/ckeditor/plugins/colordialog/lang/en.js";s:7:"content";s:158:"﻿
+CKEDITOR.plugins.setLang('colordialog','en',{clear:'Clear',highlight:'Highlight',options:'Color Options',selected:'Selected Color',title:'Select color'});";}

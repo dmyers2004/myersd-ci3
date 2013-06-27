@@ -1,0 +1,2 @@
+a:3:{s:8:"etagFile";s:32:"877f6cd0777b9723db5681a1dda9d8c3";s:4:"file";s:54:"assets/vendor/ckeditor/plugins/elementspath/lang/en.js";s:7:"content";s:99:"﻿
+CKEDITOR.plugins.setLang('elementspath','en',{eleLabel:'Elements path',eleTitle:'%1 element'});";}

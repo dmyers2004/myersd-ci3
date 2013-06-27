@@ -1,0 +1,2 @@
+a:3:{s:8:"etagFile";s:32:"58b364afb575c67f1151d04d3a6b357e";s:4:"file";s:39:"assets/ckeditor/plugins/bidi/lang/en.js";s:7:"content";s:124:"﻿
+CKEDITOR.plugins.setLang('bidi','en',{ltr:'Text direction from left to right',rtl:'Text direction from right to left'});";}

@@ -1,0 +1,2 @@
+a:3:{s:8:"etagFile";s:32:"9c2b1b3b3569a9f2aa3a2bcc5b8cc6de";s:4:"file";s:52:"assets/vendor/ckeditor/plugins/sourcearea/lang/en.js";s:7:"content";s:67:"﻿
+CKEDITOR.plugins.setLang('sourcearea','en',{toolbar:'Source'});";}

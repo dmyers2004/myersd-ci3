@@ -12,7 +12,6 @@ class authController extends MY_PublicController
 	public function indexAction()
 	{
 		$this->page
-			->add('rememberme',$this->input->cookie($this->config->item('autologin_cookie_name', 'auth')))
 			->build();
 	}
 
@@ -170,7 +169,7 @@ class authController extends MY_PublicController
 		$this->user_model->filter_id($user_id); /* the model manages the user id format */
 
 		$this->page
-			->data('live',$this->auth->activate_user($user_id, $activation_key))
+			->variable('live',$this->auth->activate_user($user_id, $activation_key))
 			->build();
 	}
 	

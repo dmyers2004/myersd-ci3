@@ -3,8 +3,8 @@
 $config['view_variable'] = 'flash_msg';
 $config['pause_for_each'] = 1000; /* micro seconds */
 $config['initial_pause'] = 3; /* # x  pause_for_each */
-$config['js'] = '/assets/flash_msg/jquery.bootstrap.flash_msg.js';
-$config['css'] = '/assets/flash_msg/flash_msg.css';
+$config['js'] = '/assets/flash_msg/jquery.bootstrap.flash_msg.min.js';
+$config['css'] = '/assets/flash_msg/flash_msg.min.css';
 
 $config['methods'] = array(
 

@@ -22,10 +22,9 @@ class filemanagerhandlerController extends MY_PublicController
 			->build();
 		
 		$this->page
-			->data('container','<div id="elfinder"></div>')
-			->data('no_stats',true)
-			->template('_templates/default_no_nav')
-			->build(false);
+			->variable('container','<div id="elfinder"></div>')
+			->variable('no_stats',true)
+			->build(false,'_templates/default_no_nav');
 	}
 
 	/* main processor for POST actions */

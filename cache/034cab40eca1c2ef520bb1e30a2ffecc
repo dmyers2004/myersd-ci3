@@ -1,0 +1,2 @@
+a:3:{s:8:"etagFile";s:32:"7f863fd49f82e3242af85b8a20ab8227";s:4:"file";s:48:"assets/ckeditor/plugins/pastefromword/lang/en.js";s:7:"content";s:298:"﻿
+CKEDITOR.plugins.setLang('pastefromword','en',{confirmCleanup:'The text you want to paste seems to be copied from Word. Do you want to clean it before pasting?',error:'It was not possible to clean up the pasted data due to an internal error',title:'Paste from Word',toolbar:'Paste from Word'});";}

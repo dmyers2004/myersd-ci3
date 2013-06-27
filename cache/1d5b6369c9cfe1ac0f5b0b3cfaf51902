@@ -1,0 +1,6 @@
+a:3:{s:8:"etagFile";s:32:"d22c469b756e1166b8eb2394689254ed";s:4:"file";s:44:"assets/ckeditor/plugins/menubutton/plugin.js";s:7:"content";s:1146:"﻿
+CKEDITOR.plugins.add('menubutton',{requires:'button,menu',onLoad:function(){var clickFn=function(editor){var _=this._;if(_.state===CKEDITOR.TRISTATE_DISABLED)
+return;_.previousState=_.state;var menu=_.menu;if(!menu){menu=_.menu=new CKEDITOR.menu(editor,{panel:{className:'cke_menu_panel',attributes:{'aria-label':editor.lang.common.options}}});menu.onHide=CKEDITOR.tools.bind(function(){this.setState(this.modes&&this.modes[editor.mode]?_.previousState:CKEDITOR.TRISTATE_DISABLED);},this);if(this.onMenu)
+menu.addListener(this.onMenu);}
+if(_.on){menu.hide();return;}
+this.setState(CKEDITOR.TRISTATE_ON);setTimeout(function(){menu.show(CKEDITOR.document.getById(_.id),4);},0);};CKEDITOR.ui.menuButton=CKEDITOR.tools.createClass({base:CKEDITOR.ui.button,$:function(definition){var panelDefinition=definition.panel;delete definition.panel;this.base(definition);this.hasArrow=true;this.click=clickFn;},statics:{handler:{create:function(definition){return new CKEDITOR.ui.menuButton(definition);}}}});},beforeInit:function(editor){editor.ui.addHandler(CKEDITOR.UI_MENUBUTTON,CKEDITOR.ui.menuButton.handler);}});CKEDITOR.UI_MENUBUTTON='menubutton';";}

@@ -23,8 +23,8 @@ class MY_PublicController extends MY_Controller
 		$session = get_instance()->session->all_userdata();
 
 		$this->page
-			->data('user',$session['user'])
-			->add('public');
+			->variable('user',$session['user'])
+			->load('public');
 	}
 
 } /* end MY_PublicController */

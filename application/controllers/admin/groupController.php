@@ -11,18 +11,18 @@ class groupController extends MY_AdminController
 	public function indexAction()
 	{
 		$this->page
-			->data('records',$this->controller_model->get_all())
+			->variable('records',$this->controller_model->get_all())
 			->build();
 	}
 
 	public function newAction()
 	{
 		$this->page
-			->data('title','New '.$this->page_title)
-			->data('action',$this->controller_path.'new')
-			->data('record',(object) array('id'=>-1))
-			->data('my_access',array())
-			->data('all_access',$this->format_privileges($this->access_model->get_all()))
+			->variable('title','New '.$this->page_title)
+			->variable('action',$this->controller_path.'new')
+			->variable('record',(object) array('id'=>-1))
+			->variable('my_access',array())
+			->variable('all_access',$this->format_privileges($this->access_model->get_all()))
 			->build($this->controller_path.'form');
 	}
 
@@ -49,11 +49,11 @@ class groupController extends MY_AdminController
 		$this->controller_model->filter_id($id,false);
 
 		$this->page
-			->data('title','Edit '.$this->page_title)
-			->data('action',$this->controller_path.'edit')
-			->data('record',$this->controller_model->get($id))
-			->data('users',$this->user_model->get_users_by_group($id))
-			->data('all_access',$this->format_privileges($this->access_model->get_all()));
+			->variable('title','Edit '.$this->page_title)
+			->variable('action',$this->controller_path.'edit')
+			->variable('record',$this->controller_model->get($id))
+			->variable('users',$this->user_model->get_users_by_group($id))
+			->variable('all_access',$this->format_privileges($this->access_model->get_all()));
 
 		$privileges = $this->controller_model->get_group_access($id);
 		
@@ -62,7 +62,7 @@ class groupController extends MY_AdminController
 		}
 
 		$this->page
-			->data('my_access',(array) $access)
+			->variable('my_access',(array) $access)
 			->build($this->controller_path.'form');
 	}
 

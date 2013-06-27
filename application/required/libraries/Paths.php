@@ -2,14 +2,11 @@
 
 class Paths implements arrayaccess
 {
-	private $paths = array(); /* all pathss local cache */
-
-	public function __construct() {
-		get_instance()->config->load('paths', TRUE);
-		$this->paths = get_instance()->config->item('paths','paths');
-	}
+	private $paths = null; /* all pathss local cache */
 
 	public function offsetSet($offset, $value) {
+		$this->init();
+		
 		if (is_null($offset)) {
 			$this->paths[] = $value;
 		} else {
@@ -18,15 +15,28 @@ class Paths implements arrayaccess
 	}
 
 	public function offsetExists($offset) {
+		$this->init();
+
 		return isset($this->paths[$offset]);
 	}
 
 	public function offsetUnset($offset) {
+		$this->init();
+
 		unset($this->paths[$offset]);
 	}
 
 	public function offsetGet($offset) {
+		$this->init();
+
 		return isset($this->paths[$offset]) ? $this->paths[$offset] : $offset;
+	}
+	
+	public function init() {
+		if (!$this->paths) {
+			$config = get_instance()->load->settings('paths');
+	    $this->paths = $config['paths'];
+		}
 	}
 
 } /* end path */

@@ -1,0 +1,2 @@
+a:3:{s:8:"etagFile";s:32:"f4373379867423021f05f94b20fdb354";s:4:"file";s:53:"assets/vendor/ckeditor/plugins/fakeobjects/lang/en.js";s:7:"content";s:159:"﻿
+CKEDITOR.plugins.setLang('fakeobjects','en',{anchor:'Anchor',flash:'Flash Animation',hiddenfield:'Hidden Field',iframe:'IFrame',unknown:'Unknown Object'});";}
