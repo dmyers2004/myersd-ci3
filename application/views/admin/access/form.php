@@ -38,6 +38,7 @@
 		<div class="controls">
 		<label class="text">
 			<?=enum($record->type,'User|System|Module').(($record->module_name) ? ' - '.$record->module_name : '') ?>
+			<?=form_hidden('type',$record->type) ?>
 		</label>
 		</div>
 	</div>

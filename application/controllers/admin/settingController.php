@@ -20,7 +20,7 @@ class settingController extends MY_AdminController
 		$this->page
 			->set('title','New '.$this->page_title)
 			->set('action',$this->controller_path.'new')
-			->set('record',(object) array('option_id'=>-1,'auto_load'=>1))
+			->set('record',(object) array('option_id'=>-1,'auto_load'=>1,'type'=>0))
 			->set('option_group',$this->controller_model->dropdown('option_group','option_group'))
 			->build($this->controller_path.'form');
 	}
@@ -46,12 +46,20 @@ class settingController extends MY_AdminController
 		/* if somebody is sending in bogus id's send them to a fiery death */
 		$this->controller_model->filter_id($id,false);
 
+		$record = $this->controller_model->get($id);
+
 		$this->page
 			->set('title','Edit '.$this->page_title)
 			->set('action',$this->controller_path.'edit')
-			->set('record',$this->controller_model->get($id))
-			->set('option_group',$this->controller_model->dropdown('option_group','option_group'))
-			->build($this->controller_path.'form');
+			->set('record',$record)
+			->set('option_group',$this->controller_model->dropdown('option_group','option_group'));
+			
+		if ($record->option_type == 0) {
+			$this->page->build($this->controller_path.'form');
+		} else {
+			$this->page->build($this->controller_path.'form_locked');
+		}	
+			
 	}
 
 	public function editValidateAjaxPostAction()

@@ -30,6 +30,7 @@
 			<?=enum($record->type,'<i class="icon-user"></i>|<i class="icon-cog"></i>|<i class="icon-signin"></i>') ?>
 			</td>
 			<td>
+<?php if ($record->type == 0) { ?>						
 			<div class="btn-group">
 			  <button class="btn">
 			  	<a class="no-link-look" href="/admin/access/edit/<?=$record->id ?>">Edit</a>
@@ -43,6 +44,7 @@
 						</li>
 				  </ul>
 				</div>
+<?php } ?>
 			</td>
 		</tr>
 	<?php } ?>

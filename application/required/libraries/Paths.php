@@ -6,7 +6,7 @@ class Paths implements arrayaccess
 
 	public function offsetSet($offset, $value) {
 		$this->init();
-		
+
 		if (is_null($offset)) {
 			$this->paths[] = $value;
 		} else {
@@ -31,11 +31,14 @@ class Paths implements arrayaccess
 
 		return isset($this->paths[$offset]) ? $this->paths[$offset] : $offset;
 	}
-	
+
 	public function init() {
 		if (!$this->paths) {
-			$config = get_instance()->load->settings('paths');
-	    $this->paths = $config['paths'];
+			
+			//$foo = get_instance()->load->settings('paths');
+			//print_a($foo);
+			
+			$this->paths = get_instance()->load->settings('paths');
 		}
 	}
 

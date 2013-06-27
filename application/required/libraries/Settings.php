@@ -228,7 +228,7 @@ class Settings
 	 * @param	string $auto_load
 	 * @return	bool
 	 */
-	public function add_setting($option_name, $option_value = '', $option_group = 'addon', $auto_load = 0)
+	public function add_setting($option_name, $option_value = '', $option_group = 'addon', $auto_load = 0, $option_type = 1)
 	{
 		// Check and make sure it isn't already added.
 		$this->_ci->db->select('option_value')
@@ -247,6 +247,7 @@ class Settings
 			'option_value' => $option_value,
 			'option_group' => $option_group,
 			'auto_load' => $auto_load,
+			'option_type' => $option_type
 		);
 
 		$this->_ci->db->insert('settings', $data);

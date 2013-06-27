@@ -9,6 +9,7 @@
 			<th>Value</th>
 			<th>Group</th>
 			<th class="txt-ac">Autoload</th>
+			<th class="txt-ac">Type</th>
 			<th class="action">Action</th>
 		</tr>
 	</thead>
@@ -29,11 +30,15 @@
 					<i class="<?=enum($record->auto_load,"icon-circle-blank|icon-ok-circle") ?>"></i>
 				</a>
 			</td>
+			<td class="txt-ac">
+			<?=enum($record->option_type,'<i class="icon-user"></i>|<i class="icon-cog"></i>|<i class="icon-signin"></i>') ?>
+			</td>
 			<td>
 			<div class="btn-group">
 			  <button class="btn">
 			  	<a class="no-link-look" href="/admin/setting/edit/<?=$record->option_id ?>">Edit</a>
 			  </button>
+<?php if ($record->option_type == 0) { ?>
 			  <button class="btn dropdown-toggle" data-toggle="dropdown">
 			    <span class="caret"></span>
 			  </button>
@@ -42,9 +47,11 @@
 							<a href="/admin/setting/delete/<?=$record->option_id ?>" class="delete_handler">Delete</a>
 						</li>
 				  </ul>
+<?php } ?>				  
 				</div>
 			</td>
 		</tr>
 	<?php } ?>
 	</tbody>
 </table>
+<h6><i class="icon-user"></i> User Entered <img width=32 height=0><i class="icon-cog"></i> System Entered <img width=32 height=0><i class="icon-signin"></i> Module Entered</h6>

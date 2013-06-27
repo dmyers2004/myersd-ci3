@@ -147,6 +147,8 @@ class Page
 		return $this;
 	}
 
+	/* private functions */
+
   private function tag($merged,$pre,$post,$tag,$where,$additional_attributes) {
 		$html = $pre.' '.$this->_ary2attr($merged).$post;
 

@@ -5,3 +5,8 @@ function form_text($name,$value='',$class='',$placeholder='',$extra='')
 {
 	return '<input type="text" id="input_'.$name.'" name="'.$name.'" class="'.$class.'" placeholder="'.$placeholder.'" value="'.$value.'" '.$extra.'>';
 }
+
+function form_textarea($name = '', $value = '', $extra = '')
+{
+	return '<textarea name="'.$name.'" '.$extra.'>'.form_prep($value, TRUE)."</textarea>\n";
+}

@@ -7,8 +7,11 @@
 		<label class="control-label" for="name">
 			<strong>Name</strong>
 		</label>
-		<div class="controls">
-		<?=form_text('option_name',$record->option_name) ?>
+		<div class="controls">		
+			<label class="text">
+			<?=$record->option_name ?>
+			<?=form_hidden('option_name',$record->option_name) ?>	
+			</label>
 		</div>
 	</div>
 	
@@ -25,9 +28,12 @@
 		<label class="control-label" for="group">
 			Group
 		</label>
-		<div class="controls">
-		<?=form_dropdown('option_group', $option_group, $record->option_group, 'class="selectcombobox"') ?>
-		</div>
+		<div class="controls">		
+			<label class="text">
+			<?=$record->option_group ?>
+			<?=form_hidden('option_group',$record->option_group) ?>	
+			</label>
+		</div>	
 	</div>
 	
 	<div class="control-group">
@@ -44,10 +50,10 @@
 			Type
 		</label>
 		<div class="controls">
-		<label class="text">
-			<?=enum($record->option_type,'User|System|Module').(($record->module_name) ? ' - '.$record->module_name : '') ?>
-			<?=form_hidden('option_type',$record->option_type) ?>
-		</label>
+			<label class="text">
+				<?=enum($record->option_type,'User|System|Module').(($record->module_name) ? ' - '.$record->module_name : '') ?>
+				<?=form_hidden('option_type',$record->option_type) ?>
+			</label>
 		</div>
 	</div>
 

@@ -81,7 +81,7 @@ $autoload['packages'] = array(
 |	$autoload['libraries'] = array('database', 'email', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('database','auth');
+$autoload['libraries'] = array('database','settings','events','auth');
 
 /*
 | -------------------------------------------------------------------

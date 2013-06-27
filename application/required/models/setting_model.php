@@ -23,6 +23,7 @@ class setting_model extends MY_Model
   	'option_name' => array('field'=>'option_name','label'=>'Name','rules'=>'required|xss_clean'),
   	'option_value' => array('field'=>'option_value','label'=>'Value','rules'=>'xss_clean'),
   	'option_group' => array('field'=>'option_group','label'=>'Group','rules'=>'required|xss_clean'),
+  	'option_type' => array('field'=>'option_type','label'=>'Type','rules'=>'filter_int[1]'),
   	'auto_load' => array('field'=>'auto_load','label'=>'Autoload','rules'=>'isbol','default'=>0)
   );
 

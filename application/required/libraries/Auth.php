@@ -21,12 +21,13 @@ define('STATUS_NOT_ACTIVATED', '0');
 class Auth
 {
 	private $error = array();
+	private $config = array();
 
 	public function __construct()
 	{
 		$this->ci =& get_instance();
 
-		$this->ci->load->config('auth', TRUE);
+		$this->config = $this->ci->load->settings('auth');
 
 		$this->ci->load->model('user_model');
 	}
@@ -61,7 +62,7 @@ class Auth
 			if (!is_null($user = $this->ci->user_model->$get_user_func($login))) {	// login ok
 
 				// Does password match hash in database?
-				$hasher = new PasswordHash($this->ci->config->item('phpass_hash_strength', 'auth'),$this->ci->config->item('phpass_hash_portable', 'auth'));
+				$hasher = new PasswordHash($this->config['phpass_hash_strength'],$this->config['phpass_hash_portable']);
 				if ($hasher->CheckPassword($password, $user->password)) {		// password ok
 
 					if ($user->banned == 1) { // fail - banned
@@ -87,8 +88,8 @@ class Auth
 
 							$this->ci->user_model->update_login_info(
 									$user->id,
-									$this->ci->config->item('login_record_ip', 'auth'),
-									$this->ci->config->item('login_record_time', 'auth'));
+									$this->config['login_record_ip'],
+									$this->config['login_record_time']);
 							return TRUE;
 						}
 					}
@@ -170,8 +171,8 @@ class Auth
 		} else {
 			// Hash password using phpass
 			$hasher = new PasswordHash(
-					$this->ci->config->item('phpass_hash_strength', 'auth'),
-					$this->ci->config->item('phpass_hash_portable', 'auth'));
+					$this->config['phpass_hash_strength'],
+					$this->config['phpass_hash_portable']);
 			$hashed_password = $hasher->HashPassword($password);
 
 			$data = array(
@@ -266,7 +267,7 @@ class Auth
 	 */
 	public function activate_user($user_id, $activation_key, $activate_by_email = TRUE)
 	{
-		$this->ci->user_model->purge_na($this->ci->config->item('email_activation_expire', 'auth'));
+		$this->ci->user_model->purge_na($this->config['email_activation_expire']);
 
 		if ((strlen($user_id) > 0) AND (strlen($activation_key) > 0)) {
 			return $this->ci->user_model->activate_user($user_id, $activation_key, $activate_by_email);
@@ -317,7 +318,7 @@ class Auth
 			return $this->ci->user_model->can_reset_password(
 				$user_id,
 				$new_pass_key,
-				$this->ci->config->item('forgot_password_expire', 'auth'));
+				$this->config['forgot_password_expire']);
 		}
 		return FALSE;
 	}
@@ -338,15 +339,15 @@ class Auth
 
 				// Hash password using phpass
 				$hasher = new PasswordHash(
-						$this->ci->config->item('phpass_hash_strength', 'auth'),
-						$this->ci->config->item('phpass_hash_portable', 'auth'));
+						$this->config['phpass_hash_strength'],
+						$this->config['phpass_hash_portable']);
 				$hashed_password = $hasher->HashPassword($new_password);
 
 				if ($this->ci->user_model->reset_password(
 						$user_id,
 						$hashed_password,
 						$new_pass_key,
-						$this->ci->config->item('forgot_password_expire', 'auth'))) {	// success
+						$this->config['forgot_password_expire'])) {	// success
 
 					// Clear all user's autologins
 					$this->ci->load->model('user_autologin_model');
@@ -379,8 +380,8 @@ class Auth
 
 			// Check if old password correct
 			$hasher = new PasswordHash(
-					$this->ci->config->item('phpass_hash_strength', 'auth'),
-					$this->ci->config->item('phpass_hash_portable', 'auth'));
+					$this->config['phpass_hash_strength'],
+					$this->config['phpass_hash_portable']);
 			if ($hasher->CheckPassword($old_pass, $user->password)) {			// success
 
 				// Hash new password using phpass
@@ -414,8 +415,8 @@ class Auth
 
 			// Check if password correct
 			$hasher = new PasswordHash(
-					$this->ci->config->item('phpass_hash_strength', 'auth'),
-					$this->ci->config->item('phpass_hash_portable', 'auth'));
+					$this->config['phpass_hash_strength'],
+					$this->config['phpass_hash_portable']);
 			if ($hasher->CheckPassword($password, $user->password)) {			// success
 
 				$data = array(
@@ -477,8 +478,8 @@ class Auth
 
 			// Check if password correct
 			$hasher = new PasswordHash(
-					$this->ci->config->item('phpass_hash_strength', 'auth'),
-					$this->ci->config->item('phpass_hash_portable', 'auth'));
+					$this->config['phpass_hash_strength'],
+					$this->config['phpass_hash_portable']);
 			if ($hasher->CheckPassword($password, $user->password)) {			// success
 
 				$this->ci->user_model->delete_user($user_id);
@@ -512,16 +513,16 @@ class Auth
 	private function create_autologin($user_id)
 	{
 		$this->ci->load->helper('cookie');
-		$key = substr(md5(uniqid(rand().get_cookie($this->ci->config->item('sess_cookie_name')))), 0, 16);
+		$key = substr(md5(uniqid(rand().get_cookie($this->config['sess_cookie_name']))), 0, 16);
 
 		$this->ci->load->model('user_autologin_model');
 		$this->ci->user_autologin_model->purge($user_id);
 
 		if ($this->ci->user_autologin_model->set($user_id, md5($key))) {
 			set_cookie(array(
-					'name' 		=> $this->ci->config->item('autologin_cookie_name', 'auth'),
+					'name' 		=> $this->config['autologin_cookie_name'],
 					'value'		=> serialize(array('user_id' => $user_id, 'key' => $key)),
-					'expire'	=> $this->ci->config->item('autologin_cookie_life', 'auth'),
+					'expire'	=> $this->config['autologin_cookie_life'],
 			));
 			return TRUE;
 		}
@@ -536,14 +537,14 @@ class Auth
 	private function delete_autologin()
 	{
 		$this->ci->load->helper('cookie');
-		if ($cookie = get_cookie($this->ci->config->item('autologin_cookie_name', 'auth'), TRUE)) {
+		if ($cookie = get_cookie($this->config['autologin_cookie_name'], TRUE)) {
 
 			$data = unserialize($cookie);
 
 			$this->ci->load->model('user_autologin_model');
 			$this->ci->user_autologin_model->delete($data['user_id'], md5($data['key']));
 
-			delete_cookie($this->ci->config->item('autologin_cookie_name', 'auth'));
+			delete_cookie($this->config['autologin_cookie_name']);
 		}
 	}
 
@@ -557,7 +558,7 @@ class Auth
 		if (!$this->is_logged_in() AND !$this->is_logged_in(FALSE)) {			// not logged in (as any user)
 
 			$this->ci->load->helper('cookie');
-			if ($cookie = get_cookie($this->ci->config->item('autologin_cookie_name', 'auth'), TRUE)) {
+			if ($cookie = get_cookie($this->config['autologin_cookie_name'], TRUE)) {
 
 				if ($cookie !== TRUE) {
 					$data = unserialize($cookie);
@@ -576,15 +577,15 @@ class Auth
 	
 							// Renew users cookie to prevent it from expiring
 							set_cookie(array(
-									'name' 		=> $this->ci->config->item('autologin_cookie_name', 'auth'),
+									'name' 		=> $this->config['autologin_cookie_name'],
 									'value'		=> $cookie,
-									'expire'	=> $this->ci->config->item('autologin_cookie_life', 'auth'),
+									'expire'	=> $this->config['autologin_cookie_life'],
 							));
 	
 							$this->ci->user_model->update_login_info(
 									$user->id,
-									$this->ci->config->item('login_record_ip', 'auth'),
-									$this->ci->config->item('login_record_time', 'auth'));
+									$this->config['login_record_ip'],
+									$this->config['login_record_time']);
 							return TRUE;
 						}
 					}
@@ -602,10 +603,10 @@ class Auth
 	 */
 	public function is_max_login_attempts_exceeded($login)
 	{
-		if ($this->ci->config->item('login_count_attempts', 'auth')) {
+		if ($this->config['login_count_attempts']) {
 			$this->ci->load->model('login_attempts_model');
 			return $this->ci->login_attempts_model->get_attempts_num($this->ci->input->ip_address(), $login)
-					>= $this->ci->config->item('login_max_attempts', 'auth');
+					>= $this->config['login_max_attempts'];
 		}
 		return FALSE;
 	}
@@ -619,7 +620,7 @@ class Auth
 	 */
 	private function increase_login_attempt($login)
 	{
-		if ($this->ci->config->item('login_count_attempts', 'auth')) {
+		if ($this->config['login_count_attempts']) {
 			if (!$this->is_max_login_attempts_exceeded($login)) {
 				$this->ci->load->model('login_attempts_model');
 				$this->ci->login_attempts_model->increase_attempt($this->ci->input->ip_address(), $login);
@@ -636,12 +637,12 @@ class Auth
 	 */
 	private function clear_login_attempts($login)
 	{
-		if ($this->ci->config->item('login_count_attempts', 'auth')) {
+		if ($this->config['login_count_attempts']) {
 			$this->ci->load->model('login_attempts_model');
 			$this->ci->login_attempts_model->clear_attempts(
 					$this->ci->input->ip_address(),
 					$login,
-					$this->ci->config->item('login_attempt_expire', 'auth'));
+					$this->config['login_attempt_expire']);
 		}
 	}
 

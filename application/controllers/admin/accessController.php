@@ -20,7 +20,7 @@ class accessController extends MY_AdminController
 		$this->page
 			->set('title','New '.$this->page_title)
 			->set('action',$this->controller_path.'new')
-			->set('record',(object) array('id'=>-1,'active'=>1))
+			->set('record',(object) array('id'=>-1,'active'=>1,'type'=>0))
 			->build($this->controller_path.'form');
 	}
 
