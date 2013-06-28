@@ -31,4 +31,7 @@ $(document).ready(function(){
 		plugins.nestable.init();
 	}
 
+	$('body').tooltip({
+		selector: "i[data-toggle=tooltip]"
+  })
 });

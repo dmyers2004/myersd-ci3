@@ -31,7 +31,7 @@
 				</a>
 			</td>
 			<td class="txt-ac">
-			<?=enum($record->option_type,'<i class="icon-user"></i>|<i class="icon-cog"></i>|<i class="icon-signin"></i>') ?>
+			<?=enum($record->option_type,'<i class="icon-user"></i>|<i class="icon-cog"></i>|<i class="icon-signin" data-toggle="tooltip" data-original-title="'.$record->module_name.'"></i>') ?>
 			</td>
 			<td>
 			<div class="btn-group">

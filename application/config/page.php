@@ -67,12 +67,12 @@ $config['default'] = function(&$page,&$ci) {
 		->css('/assets/vendor/bootstrap/css/bootstrap.min.css')
 		->css('/assets/vendor/bootstrap/css/bootstrap-responsive.min.css')
 		->css('/assets/vendor/fontawesome/css/font-awesome.min.css')
+		->append('footer','<script>var baseurl="http://ci3.vcap.me/";</script>')
 		->js('/assets/vendor/modernizr/modernizr-2.6.2.min.js')
 		->js('/assets/vendor/jquery/jquery-1.10.1.min.js')
 		->js('/assets/vendor/bootstrap/js/bootstrap.min.js')
 		->js('/assets/public/js/site.js')
-		->append('header','<!--[if lt IE 8]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p><![endif]-->')
-		->append('footer','<script>var baseurl="http://ci3.vcap.me/";</script>');
+		->append('header','<!--[if lt IE 8]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p><![endif]-->');
 };
 
 $config['public'] = function(&$page,&$ci) {

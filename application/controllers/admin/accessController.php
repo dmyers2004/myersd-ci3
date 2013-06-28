@@ -11,7 +11,7 @@ class accessController extends MY_AdminController
 	public function indexAction()
 	{
 		$this->page
-			->set('records',$this->controller_model->get_all())
+			->set('records',$this->controller_model->order_by('resource')->get_all())
 			->build();
 	}
 

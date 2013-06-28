@@ -3,7 +3,7 @@
 /* make built in form_input better! */
 function form_text($name,$value='',$class='',$placeholder='',$extra='')
 {
-	return '<input type="text" id="input_'.$name.'" name="'.$name.'" class="'.$class.'" placeholder="'.$placeholder.'" value="'.$value.'" '.$extra.'>';
+	return '<input type="text" id="input_'.$name.'" name="'.$name.'" class="'.$class.'" placeholder="'.$placeholder.'" value="'.$value.'" '.$extra.">\n";
 }
 
 function form_textarea($name = '', $value = '', $extra = '')

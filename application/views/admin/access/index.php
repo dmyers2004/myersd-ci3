@@ -15,10 +15,10 @@
 	<tbody>
 	<?php foreach ($records as $record) { ?>
 		<tr>
-			<td class="click_edit">
+			<td<? if ($record->type == 0) { ?> class="click_edit"<? } ?>>
 			<?=$record->description ?>
 			</td>
-			<td class="click_edit">
+			<td<? if ($record->type == 0) { ?> class="click_edit"<? } ?>>
 			<?=$record->resource ?>
 			</td>
 			<td class="txt-ac">
@@ -27,7 +27,7 @@
 				</a>
 			</td>
 			<td class="txt-ac">
-			<?=enum($record->type,'<i class="icon-user"></i>|<i class="icon-cog"></i>|<i class="icon-signin"></i>') ?>
+			<?=enum($record->type,'<i class="icon-user"></i>|<i class="icon-cog"></i>|<i class="icon-signin"  data-toggle="tooltip" data-original-title="'.$record->module_name.'"></i>') ?>
 			</td>
 			<td>
 <?php if ($record->type == 0) { ?>						

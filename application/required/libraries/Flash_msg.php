@@ -61,7 +61,9 @@ class Flash_msg
 	public function tohtml($page)
 	{
     $messages = $this->session->flashdata('custom_flash_message_storage');
-
+		
+		$html = '';
+		
     if (is_array($messages)) {
     	$html .= '<script>$(document).ready(function(){';
     	foreach ($messages as $key => $msg) {

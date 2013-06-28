@@ -127,13 +127,13 @@ class Page
 	/* final output */
   public function build($view=null,$layout=null)
   {
+		/* anyone need to process something before build? */
+		events::trigger('pre_build',$this,'array');
+
 		/* let's process our stuff */
 		foreach ($this->added as $record) {
 			data(getDefault($this->config['variable_mappings'][$record['key']],$record['key']),$record['value'],$record['where']);
 		}
-
-		/* anyone need to process something before build? */
-		events::trigger('pre_build',$this,'array');
 
 		/* if they sent in a file path or nothing (ie null) then load the view file into the template "container" */
 		if ($view !== false) {
