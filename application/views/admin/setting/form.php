@@ -1,14 +1,21 @@
-<h3 class="form-header"><?=($record->option_id < 0) ? 'Create' : 'Update' ?> Setting</h3>
+<h3 class="form-header"><?=($record->id < 0) ? 'Create' : 'Update' ?> Setting</h3>
 
 <?=form_open($action,array('class'=>'form-horizontal','data-validate'=>'true')) ?>
-<input type="hidden" name="option_id" value="<?=$record->option_id ?>" />
+<input type="hidden" name="id" value="<?=$record->id ?>" />
 	
 	<div class="control-group">
 		<label class="control-label" for="name">
 			<strong>Name</strong>
 		</label>
 		<div class="controls">
-		<?=form_text('option_name',$record->option_name) ?>
+<?php if ($record->type == 0) { ?>		
+		<?=form_text('name',$record->name) ?>
+<?php } else { ?>
+		<label class="text">
+		<?=$record->name ?>
+		<?=form_hidden('name',$record->name) ?>	
+		</label>
+<?php } ?>
 		</div>
 	</div>
 	
@@ -17,7 +24,7 @@
 			<strong>Value</strong>
 		</label>
 		<div class="controls">
-		<?=form_textarea('option_value', $record->option_value,'rows="3" id="textareaoption_value" class="input-xxlarge"') ?>
+		<?=form_textarea('value', $record->value,'rows="3" id="textareavalue" class="input-xxlarge"') ?>
 		</div>
 	</div>
 	
@@ -26,7 +33,14 @@
 			Group
 		</label>
 		<div class="controls">
-		<?=form_dropdown('option_group', $option_group, $record->option_group, 'class="selectcombobox"') ?>
+<?php if ($record->type == 0) { ?>		
+			<?=form_dropdown('group', $group, $record->group, 'class="selectcombobox"') ?>
+<?php } else { ?>
+			<label class="text">
+			<?=$record->group ?>
+			<?=form_hidden('group',$record->group) ?>	
+			</label>
+<?php } ?>
 		</div>
 	</div>
 	
@@ -45,8 +59,8 @@
 		</label>
 		<div class="controls">
 		<label class="text">
-			<?=enum($record->option_type,'User|System|Module').(($record->module_name) ? ' - '.$record->module_name : '') ?>
-			<?=form_hidden('option_type',$record->option_type) ?>
+			<?=enum($record->type,'User|System|Module').(($record->module_name) ? ' - '.$record->module_name : '') ?>
+			<?=form_hidden('type',$record->type) ?>
 		</label>
 		</div>
 	</div>

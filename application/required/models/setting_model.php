@@ -16,28 +16,29 @@ CREATE TABLE `settings` (
 class setting_model extends MY_Model
 {
   protected $_table = 'settings';
-  protected $primary_key = 'option_id';
+  protected $primary_key = 'id';
 
   protected $fields = array(
-  	'option_id' => array('field'=>'option_id','label'=>'Id','rules'=>'required|integer','filter'=>'trim|filter_int[5]|exists[settings.option_id]'),
-  	'option_name' => array('field'=>'option_name','label'=>'Name','rules'=>'required|xss_clean'),
-  	'option_value' => array('field'=>'option_value','label'=>'Value','rules'=>'xss_clean'),
-  	'option_group' => array('field'=>'option_group','label'=>'Group','rules'=>'required|xss_clean'),
-  	'option_type' => array('field'=>'option_type','label'=>'Type','rules'=>'filter_int[1]'),
-  	'auto_load' => array('field'=>'auto_load','label'=>'Autoload','rules'=>'isbol','default'=>0)
+  	'id' => array('field'=>'id','label'=>'Id','rules'=>'required|integer','filter'=>'trim|filter_int[5]|exists[settings.id]'),
+  	'name' => array('field'=>'name','label'=>'Name','rules'=>'required|xss_clean'),
+  	'value' => array('field'=>'value','label'=>'Value','rules'=>'xss_clean'),
+  	'group' => array('field'=>'group','label'=>'Group','rules'=>'required|xss_clean'),
+  	'type' => array('field'=>'type','label'=>'Type','rules'=>'filter_int[1]'),
+  	'auto_load' => array('field'=>'auto_load','label'=>'Autoload','rules'=>'isbol','default'=>0),
+  	'module_name' => array('field'=>'module_name','label'=>'Module Name','rules'=>'')
   );
 
   public function insert($data, $skip_validation = false)
   {
-  	unset($data['option_id']);
-  	unset($this->validate['option_id']);
+  	unset($data['id']);
+  	unset($this->validate['id']);
   	
   	return parent::insert($data, $skip_validation);
   }
 
   public function filter_id(&$id,$return=false)
   {
-  	return $this->input->filter($this->fields['option_id']['filter'],$id,$return);
+  	return $this->input->filter($this->fields['id']['filter'],$id,$return);
   }
 
   public function filter_mode(&$mode,$return=false)

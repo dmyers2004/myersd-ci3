@@ -35,7 +35,7 @@ if (!function_exists('gravatar'))
 			return $gravatar_url;
 		}
 
-		return '<img src="'.$gravatar_url.'" alt="Gravatar" class="gravatar" />';
+		return '<img src="'.$gravatar_url.'" alt="Gravatar" class="gravatar" width="'.$size.'" height="'.$size.'" />';
 	}
 
 }

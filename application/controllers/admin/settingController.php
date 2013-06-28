@@ -11,7 +11,7 @@ class settingController extends MY_AdminController
 	public function indexAction()
 	{
 		$this->page
-			->set('records',$this->controller_model->order_by('option_group')->get_all())
+			->set('records',$this->controller_model->order_by('group')->get_all())
 			->build();
 	}
 
@@ -20,8 +20,8 @@ class settingController extends MY_AdminController
 		$this->page
 			->set('title','New '.$this->page_title)
 			->set('action',$this->controller_path.'new')
-			->set('record',(object) array('option_id'=>-1,'auto_load'=>1,'type'=>0))
-			->set('option_group',$this->controller_model->dropdown('option_group','option_group'))
+			->set('record',(object) array('id'=>-1,'auto_load'=>1,'type'=>0))
+			->set('group',$this->controller_model->dropdown('group','group'))
 			->build($this->controller_path.'form');
 	}
 
@@ -46,20 +46,12 @@ class settingController extends MY_AdminController
 		/* if somebody is sending in bogus id's send them to a fiery death */
 		$this->controller_model->filter_id($id,false);
 
-		$record = $this->controller_model->get($id);
-
 		$this->page
 			->set('title','Edit '.$this->page_title)
 			->set('action',$this->controller_path.'edit')
-			->set('record',$record)
-			->set('option_group',$this->controller_model->dropdown('option_group','option_group'));
-			
-		if ($record->option_type == 0) {
-			$this->page->build($this->controller_path.'form');
-		} else {
-			$this->page->build($this->controller_path.'form_locked');
-		}	
-			
+			->set('record',$this->controller_model->get($id))
+			->set('group',$this->controller_model->dropdown('group','group'))
+			->build($this->controller_path.'form');
 	}
 
 	public function editValidateAjaxPostAction()
@@ -70,11 +62,11 @@ class settingController extends MY_AdminController
 	public function editPostAction()
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$id = $this->input->post('option_id');
+		$id = $this->input->post('id');
 
 		if ($this->controller_model->filter_id($id,false)) {
 			if ($this->controller_model->map($this->data)) {
-				$this->controller_model->update($this->data['option_id'], $this->data);
+				$this->controller_model->update($this->data['id'], $this->data);
 				$this->flash_msg->updated($this->page_title,$this->controller_path);
 			}
 		}

@@ -115,7 +115,7 @@ class MY_Input extends CI_Input
 		except somebody is now manually trying to send in "different" values
 		*/
 		if ($return === false && $pass === false) {
-			show_error('FAIL: Incorrect Input',404);
+			show_error('<strong>Forged Request Detected</strong> If you clicked on a link and arrived here...that is bad.',404);
 			die();
 		}
 

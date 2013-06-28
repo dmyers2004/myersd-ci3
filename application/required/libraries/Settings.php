@@ -74,7 +74,7 @@ class Settings
 			return FALSE;
 		}
 
-		$this->_ci->db->select('option_name,option_value')
+		$this->_ci->db->select('name,value')
 					->from('settings')
 					->where('auto_load', 1);
 
@@ -85,8 +85,8 @@ class Settings
 		}
 
 		foreach ($query->result() as $k => $row) {
-			$this->settings[$row->option_name] = $row->option_value;
-			$this->_ci->config->set_item($row->option_name, $row->option_value);
+			$this->settings[$row->name] = $row->value;
+			$this->_ci->config->set_item($row->name, $row->value);
 		}
 
 		return $this->settings;
@@ -110,35 +110,35 @@ class Settings
 	 * @param	string
 	 * @return	mixed
 	 */
-	public function get_setting($option_name)
+	public function get_setting($name)
 	{
-		if (! $option_name) {
+		if (! $name) {
 			return FALSE;
 		}
 
 		// First check the auto loaded settings
-		if (isset($this->settings[$option_name])) {
-			return $this->settings[$option_name];
+		if (isset($this->settings[$name])) {
+			return $this->settings[$name];
 		}
 
 		// Now lets try the settings table
-		$this->_ci->db->select('option_value')
+		$this->_ci->db->select('value')
 						->from('settings')
-						->where('option_name', $option_name);
+						->where('name', $name);
 
 		$query = $this->_ci->db->get();
 
 		if ($query->num_rows() > 0) {
 			$row = $query->row();
 			// Add it to the main settings array
-			$this->settings[$option_name] = $row->option_value;
+			$this->settings[$name] = $row->value;
 
-			return $row->option_value;
+			return $row->value;
 		}
 
 		// Still nothing. How about config?
 		// This will return FALSE if not found.
-		return $this->_ci->config->item($option_name);
+		return $this->_ci->config->item($name);
 	}
 
 	// ------------------------------------------------------------------------
@@ -151,15 +151,15 @@ class Settings
 	 * @param	string
 	 * @return	object
 	 */
-	public function get_settings_by_group($option_group = '')
+	public function get_settings_by_group($group = '')
 	{
-		if (! $option_group) {
+		if (! $group) {
 			return FALSE;
 		}
 
-		$this->_ci->db->select('option_name,option_value')
+		$this->_ci->db->select('name,value')
 						->from('settings')
-						->where('option_group', $option_group);
+						->where('group', $group);
 
 		$query = $this->_ci->db->get();
 
@@ -168,8 +168,8 @@ class Settings
 		}
 
 		foreach ($query->result() as $k => $row) {
-			$this->settings[$row->option_name] = $row->option_value;
-			$arr[$row->option_name] = $row->option_value;
+			$this->settings[$row->name] = $row->value;
+			$arr[$row->name] = $row->value;
 		}
 
 		return $arr;
@@ -180,14 +180,14 @@ class Settings
 	/**
 	 * Edit Setting
 	 *
-	 * @param	string $option_name
-	 * @param	string $option_value
+	 * @param	string $name
+	 * @param	string $value
 	 * @return	bool
 	 */
-	public function edit_setting($option_name, $option_value)
+	public function edit_setting($name, $value)
 	{
-		$this->_ci->db->where('option_name', $option_name);
-		$this->_ci->db->update('settings', array('option_value' => $option_value));
+		$this->_ci->db->where('name', $name);
+		$this->_ci->db->update('settings', array('value' => $value));
 
 		if ($this->_ci->db->affected_rows() == 0) {
 			return FALSE;
@@ -201,12 +201,12 @@ class Settings
 	/**
 	 * Delete Setting by group
 	 *
-	 * @param	string $option_group
+	 * @param	string $group
 	 * @return	bool
 	 */
-	public function delete_settings_by_group($option_group)
+	public function delete_settings_by_group($group)
 	{
-		$this->_ci->db->delete('settings', array('option_group' => $option_group));
+		$this->_ci->db->delete('settings', array('group' => $group));
 
 		if ($this->_ci->db->affected_rows() == 0) {
 			return FALSE;
@@ -222,32 +222,33 @@ class Settings
 	 *
 	 * Add a new setting but first check and make sure it doesn't exist already exit.
 	 *
-	 * @param	string $option_name
-	 * @param	string $option_value
-	 * @param	string $option_group
+	 * @param	string $name
+	 * @param	string $value
+	 * @param	string $group
 	 * @param	string $auto_load
 	 * @return	bool
 	 */
-	public function add_setting($option_name, $option_value = '', $option_group = 'addon', $auto_load = 0, $option_type = 1)
+	public function add_setting($name, $value = '', $group = 'addon', $auto_load = 0, $type = 1, $module_name = '')
 	{
 		// Check and make sure it isn't already added.
-		$this->_ci->db->select('option_value')
+		$this->_ci->db->select('value')
 					->from('settings')
-					->where('option_name', $option_name);
+					->where('name', $name);
 
 		$query = $this->_ci->db->get();
 
 		if ($query->num_rows() > 0) {
-			return $this->edit_setting($option_name, $option_value);
+			return $this->edit_setting($name, $value);
 		}
 
 		// Now insert it
 		$data = array(
-			'option_name' => $option_name,
-			'option_value' => $option_value,
-			'option_group' => $option_group,
+			'name' => $name,
+			'value' => $value,
+			'group' => $group,
 			'auto_load' => $auto_load,
-			'option_type' => $option_type
+			'type' => $type,
+			'module_name' => $module_name
 		);
 
 		$this->_ci->db->insert('settings', $data);
@@ -264,12 +265,12 @@ class Settings
 	/**
 	 * Delete Setting
 	 *
-	 * @param	string $option_group
+	 * @param	string $group
 	 * @return	bool
 	 */
-	public function delete_setting($option_name)
+	public function delete_setting($name)
 	{
-		$this->_ci->db->delete('settings', array('option_name' => $option_name));
+		$this->_ci->db->delete('settings', array('name' => $name));
 
 		if ($this->_ci->db->affected_rows() == 0) {
 			return FALSE;
