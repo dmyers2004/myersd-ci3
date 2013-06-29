@@ -17,3 +17,4 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /vendor/.htaccess
 compressor/cache
 public/thumbs
+cache

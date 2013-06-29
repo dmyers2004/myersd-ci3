@@ -12,7 +12,8 @@ class File_manager
 	public $data = array('auto_resize'=>1,'bottom_footer_offset'=>0);
 	public $config = array();
 
-	public function __construct() {
+	public function __construct()
+	{
 		$this->CI = get_instance();
 
 		$this->config = $this->CI->load->settings('file_manager');
@@ -24,7 +25,7 @@ class File_manager
     $qry = $_SERVER['REQUEST_URI'];
     parse_str(substr($qry, strpos($qry, '?') + 1), $_GET);
 
-		$this->config = $this->config + $new_config;
+	$this->config = $this->config + $new_config;
 
     $connector = new elFinderConnector(new elFinder(array('roots'=>array($this->config))));
     $connector->run();

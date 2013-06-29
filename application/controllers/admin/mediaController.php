@@ -27,19 +27,21 @@ class mediaController extends MY_AdminController
 	
 	public function wysiwygAction()
 	{
-		$this->load->library('wysiwyg');
-		
-		$this->wysiwyg
-			->addOption('filebrowserBrowseUrl','/fileManagerHandler/browser/')
-			->addOption('stylesSet','my_custom_style')
-			->addOption('height','500')
-			->addOption('width','auto')
-			->addOption('skin','moonocolor')
-			->addOption('extraPlugins','templates,youtube,htmlbuttons')
-			->addData('element_id','editor1')
-			->build();
-		
+		$wysiwyg_options = array(
+			'filebrowserBrowseUrl'=>'/fileManagerHandler/browser/',
+			'height'=>'500',
+			'width'=>'auto',
+			'skin'=>'moonocolor',
+			'extraPlugins'=>'templates,youtube,htmlbuttons',
+			'js'=>'/assets/vendor/ckeditor/ckeditor.js',
+			'style' => array(
+				"{ name: 'My Custom Block', element: 'h3', styles: { color: 'blue'} }",
+				"{ name: 'My Custom Inline', element: 'span', attributes: {'class': 'mine'} }"
+			)
+		);
+
 		$this->page
+			->set('wysiwyg_options',$wysiwyg_options)
 			->build();
 	}
 

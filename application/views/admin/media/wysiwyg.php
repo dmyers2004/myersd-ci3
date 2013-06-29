@@ -5,4 +5,4 @@
   <div class="span4 txt-ar">
   </div>
 </div>
-<textarea name="editor1"></textarea>
+<?=form_wysiwyg('wysiwyg_editor',$wysiwyg_options) ?>
