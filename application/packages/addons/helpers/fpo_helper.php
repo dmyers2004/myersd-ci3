@@ -32,8 +32,7 @@
 if ( ! function_exists('placeholder')) {
 	function placeholder( $width = 320, $height = 240, $img = true, $fgcolor = '969696', $bgcolor = 'cccccc' )
 	{
-		$color = '/' . $bgcolor . '/' . $fgcolor;
-		$url = 'http://placehold.it/' . $width . 'x' . $height . $color;
+		$url = 'http://fpoimg.com/'.$width.'x'.$height.'?bg_color='.$bgcolor.'&text_color='.$fgcolor;
 		if ($img) {
 			$url = '<img src="' . $url . '" alt="' . $width . 'x' . $height .' placeholder" />';
 		}
