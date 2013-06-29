@@ -16,5 +16,29 @@ $config['uploadAllow'] = array('image/jpeg','image/jpeg','image/gif','image/png'
 $config['uploadDeny'] = array();
 $config['uploadOrder'] = array('allow', 'deny');
 
-$config['css'] = 'http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css,/assets/vendor/elfinder/css/elfinder.min.css,/assets/vendor/elfinder/css/theme.css';
-$config['js'] = '/assets/vendor/jquery/jquery-1.10.1.min.js,http://code.jquery.com/ui/1.10.3/jquery-ui.js,/assets/vendor/elfinder/js/elfinder.min.js';
+$config['options_default'] = array(
+	'url' => '/fileManagerHandler/process/'
+);
+
+$config['standalone_js'] = array(
+	'/assets/vendor/jquery/jquery-1.10.1.min.js',
+	'/assets/vendor/jquery/jquery-ui-1.10.3.custom.min.js',
+	'/assets/vendor/elfinder/js/elfinder.min.js'
+);
+
+$config['standalone_css'] = array(
+	'/assets/vendor/jquery/smoothness/jquery-ui-1.10.3.custom.min.css',
+	'/assets/vendor/elfinder/css/elfinder.min.css',
+	'/assets/vendor/elfinder/css/theme.css'
+);
+
+$config['js'] = array(
+	'/assets/vendor/jquery/jquery-ui-1.10.3.custom.min.js',
+	'/assets/vendor/elfinder/js/elfinder.min.js'
+);
+
+$config['css'] = array(
+	'/assets/vendor/jquery/smoothness/jquery-ui-1.10.3.custom.min.css',
+	'/assets/vendor/elfinder/css/elfinder.min.css',
+	'/assets/vendor/elfinder/css/theme.css'
+);

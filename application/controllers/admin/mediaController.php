@@ -11,20 +11,13 @@ class mediaController extends MY_AdminController
 	public function indexAction()
 	{
 		$this->load->library('file_manager');
-		
-		$this->file_manager
-			->addOption('height',200)
-			->addOption('width','auto')
-			->addOption('url','/fileManagerHandler/process/')
-			->addData('element_id','elfinder')
-			->addData('bottom_footer_offset',140)
-			->addData('auto_resize',1)
-			->build();
 
 		$this->page
+			->set('options',$this->file_manager->options(array('height'=>500,'width'=>'auto')))
 			->build();
+
 	}
-	
+
 	public function wysiwygAction()
 	{
 		$wysiwyg_options = array(

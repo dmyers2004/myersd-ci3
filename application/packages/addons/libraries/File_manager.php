@@ -7,16 +7,28 @@ include_once dirname(__FILE__).DIRECTORY_SEPARATOR.'file_manager/elfinder/elFind
 
 class File_manager
 {
-	public $CI;
-	public $options = array();
-	public $data = array('auto_resize'=>1,'bottom_footer_offset'=>0);
 	public $config = array();
+	public $standalone = false;
 
 	public function __construct()
 	{
-		$this->CI = get_instance();
+		$this->config = get_instance()->load->settings('file_manager');
+		
+		events::register('pre_build',array($this,'tohtml'));
+	}
 
-		$this->config = $this->CI->load->settings('file_manager');
+	public function standalone() {
+		$this->standalone = true;
+	}
+	
+	public function options($override = array(),$group = 'default') {
+		/* you can send in standalone here as well */	
+		if ($override['standalone'] == true) {
+			$this->standalone = true;
+		}
+		unset($override['standalone']);
+	
+		return array_merge((array)$this->config['options_'.$group],$override);
 	}
 
   public function process($new_config=array())
@@ -30,104 +42,20 @@ class File_manager
     $connector = new elFinderConnector(new elFinder(array('roots'=>array($this->config))));
     $connector->run();
   }
-
-  public function build()
-  {
-		/*
-		if this is a standalone browser remove the default meta and footer stuff
-		*/
-		if ($this->data['standalone']) {
-			$this->CI->page->clear('type','css')->clear('type','js');
+  
+	public function tohtml($page)
+	{
+		$js = ($this->standalone) ? $this->config['standalone_js'] : $this->config['js'];
+		foreach ($js as $f) {
+			$page->js($f);	
 		}
-
-		foreach (explode(',',$this->config['css']) as $css) {
-			$this->CI->page->css($css);	
+		
+		$css = ($this->standalone) ? $this->config['standalone_css'] : $this->config['css'];
+		foreach ($css as $f) {
+			$page->css($f);	
 		}
-
-		foreach (explode(',',$this->config['js']) as $js) {
-			$this->CI->page->js($js);	
-		}
-
-		$this->CI->page->append('footer',$this->getScript());
-  }
-
-  public function getScript()
-  {
-  	$options = json_encode($this->options,JSON_UNESCAPED_SLASHES);
-		extract($this->data + array('options'=>$options));
-		ob_start();
-		include(dirname(__FILE__).DIRECTORY_SEPARATOR.'file_manager/elfinder.js.php');
-		return ob_get_clean();
+		
+		$page->append('footer','<script>$(document).ready(function(){qzud
+		('.(($this->standalone) ? 'true' : 'false').');})</script>');
 	}
-
-	public function addOption($name,$value) {
-		$this->options[$name] = $value;
-
-		return $this;
-	}
-
-	public function clearOptions() {
-		$this->options = array();
-
-		return $this;
-	}
-
-	public function addOptions($array) {
-		foreach ($array as $key => $value) {
-			$this->addOption($key,$value);
-		}
-
-		return $this;
-	}
-
-	public function getOptions() {
-		return $this->options;
-	}
-
-	public function addData($name=NULL,$value=NULL) {
-		if (is_array($name)) {
-			foreach ($name as $key => $value) {
-				$this->addData($key,$value);
-			}
-		}
-
-		$this->data[$name] = $value;
-
-		return $this;
-	}
-
-	public function clearData() {
-		$this->data = array();
-
-		return $this;
-	}
-
-	public function getData() {
-		return $this->data;
-	}
-
-	public function addConfig($name,$value) {
-		$this->config[$name] = $value;
-
-		return $this;
-	}
-
-	public function clearConfig() {
-		$this->config = array();
-
-		return $this;
-	}
-
-	public function addConfigs($array) {
-		foreach ($array as $key => $value) {
-			$this->addConfig($key,$value);
-		}
-
-		return $this;
-	}
-
-	public function getConfig() {
-		return $this->config;
-	}
-
 }
