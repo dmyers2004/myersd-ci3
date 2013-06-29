@@ -20,3 +20,22 @@ function form_wysiwyg($id='wysiwyg_editor',$options=array()) {
 	
 	return '<textarea name="'.$id.'"></textarea><script src="'.$options['js'].'"></script><script>window.onload = function() { CKEDITOR.stylesSet.add("'.$id.'_styles", ['.implode($styles,',').']); CKEDITOR.replace("'.$id.'", '.json_encode((array)$options,JSON_UNESCAPED_SLASHES).'); };</script>';
 }
+
+function form_file_manager($id='file_manager',$options=array()) {
+	return '<div id="'.$id.'"></div><script>
+jQuery(document).ready(function(){
+	var options = '.json_encode((array)$options,JSON_UNESCAPED_SLASHES).';
+	options.getFileCallback = function(file) {
+	  window.opener.CKEDITOR.tools.callFunction(elfinderGetUrlParam(\'CKEditorFuncNum\'), file.url);
+	  window.close();
+	}
+	var elf = jQuery("#'.$id.'").elfinder(options);
+	if ('.$options['resize'].' == 1) { adjustHeight(elf); }
+});
+</script>';
+
+}
+
+
+
+

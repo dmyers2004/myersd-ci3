@@ -26,7 +26,7 @@ class accessController extends MY_AdminController
 
 	public function newValidateAjaxPostAction()
 	{
-		$this->load->json($this->controller_model->validate());
+		$this->output->json($this->controller_model->validate());
 	}
 
 	public function newPostAction()
@@ -54,7 +54,7 @@ class accessController extends MY_AdminController
 
 	public function editValidateAjaxPostAction()
 	{
-		$this->load->json($this->controller_model->validate());
+		$this->output->json($this->controller_model->validate());
 	}
 
 	public function editPostAction()
@@ -82,7 +82,7 @@ class accessController extends MY_AdminController
 			}
 		}
 
-		$this->load->json($this->data);
+		$this->output->json($this->data);
 	}
 
 	public function deleteAjaxAction($id=null)
@@ -96,7 +96,7 @@ class accessController extends MY_AdminController
 			$this->data['err'] = false;
 		}
 
-		$this->load->json($this->data);
+		$this->output->json($this->data);
 	}
 
 }

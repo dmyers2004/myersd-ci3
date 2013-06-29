@@ -38,8 +38,8 @@ class MY_Loader extends CI_Loader
 		$partial = $this->view($view,$data,true);
 
 		/*
-		if name is provided then place directly into the view variable
-		and return to allow chaining
+		if name is provided then place directly into the view variable $name
+		and return $this (loader) to allow chaining
 		*/
 		if ($name) {
 			$this->_ci_cached_vars[$name] = $partial;
@@ -48,17 +48,6 @@ class MY_Loader extends CI_Loader
 
 		/* return the partial */
 		return $partial;
-	}
-
-	public function json($data=array())
-	{
-		get_instance()
-			->output
-			->set_header('Cache-Control: no-cache, must-revalidate')
-			->set_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT')
-			->set_header('Content-Type: application/json; charset=utf=8')
-			->set_content_type('application/json')
-			->set_output(json_encode($data));
 	}
 
 }

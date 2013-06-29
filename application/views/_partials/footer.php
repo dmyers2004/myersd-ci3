@@ -1,10 +1,9 @@
-		<?php if ($no_stats !== true) { ?>
 		<div class="stats">
-			Page rendered in <strong><?php echo $this->benchmark->elapsed_time() ?></strong> seconds.
-			Environment <strong><?php echo ENVIRONMENT ?></strong>
-			Memory <strong><?php echo $this->benchmark->memory_usage() ?></strong>
+			Page rendered in <strong><?=$this->benchmark->elapsed_time() ?></strong> seconds.
+			Environment <strong><?=ENVIRONMENT ?></strong>
+			Memory <strong><?=$this->benchmark->memory_usage() ?></strong>
+			CodeIgniter Version <strong><?=CI_VERSION ?></strong>
 		</div>
-		<?php } ?>
 		<?=$page_footer ?>
 		<?=$flash_msg ?>
 		<!-- <?=$automagic ?> -->

@@ -17,7 +17,7 @@ class authController extends MY_PublicController
 
 	public function loginValidateAjaxPostAction()
 	{
-		$this->load->json($this->user_model->validate_login());
+		$this->output->json($this->user_model->validate_login());
 	}
 
 	public function loginPostAction()
@@ -48,7 +48,7 @@ class authController extends MY_PublicController
 
 	public function registerValidateAjaxPostAction()
 	{
-		$this->load->json($this->user_model->validate_register());
+		$this->output->json($this->user_model->validate_register());
 	}
 
 	public function registerPostAction()
@@ -102,7 +102,7 @@ class authController extends MY_PublicController
 
 	public function forgotValidateAjaxPostAction()
 	{
-		$this->load->json($this->user_model->validate_email());
+		$this->output->json($this->user_model->validate_email());
 	}
 
 	public function forgotPostAction()
@@ -136,7 +136,7 @@ class authController extends MY_PublicController
 
 	public function resend_emailValidateAjaxPostAction()
 	{
-		$this->load->json($this->user_model->validate_email());
+		$this->output->json($this->user_model->validate_email());
 	}
 
 	public function resend_emailPostAction()
@@ -181,7 +181,7 @@ class authController extends MY_PublicController
 
 	public function resetValidateAjaxPostAction()
 	{
-		$this->load->json($this->user_model->validate_email());
+		$this->output->json($this->user_model->validate_email());
 	}
 
 	public function resetPostAction()

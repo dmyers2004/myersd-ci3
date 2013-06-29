@@ -27,7 +27,7 @@ class settingController extends MY_AdminController
 
 	public function newValidateAjaxPostAction()
 	{
-		$this->load->json($this->controller_model->validate());
+		$this->output->json($this->controller_model->validate());
 	}
 
 	public function newPostAction()
@@ -56,7 +56,7 @@ class settingController extends MY_AdminController
 
 	public function editValidateAjaxPostAction()
 	{
-		$this->load->json($this->controller_model->validate());
+		$this->output->json($this->controller_model->validate());
 	}
 
 	public function editPostAction()
@@ -84,7 +84,7 @@ class settingController extends MY_AdminController
 			$this->data['err'] = false;
 		}
 
-		$this->load->json($this->data);
+		$this->output->json($this->data);
 	}
 
 	public function activateAjaxAction($id=null,$mode=null)
@@ -97,6 +97,6 @@ class settingController extends MY_AdminController
 			}
 		}
 
-		$this->load->json($this->data);
+		$this->output->json($this->data);
 	}
 }

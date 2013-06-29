@@ -11,20 +11,18 @@ class filemanagerhandlerController extends MY_PublicController
 
 	/* show the stand alone file manager for ckeditor */
 	public function browserAction() {
-		$this->file_manager
-			->addOption('height',600)
-			->addOption('width','auto')
-			->addOption('url','/fileManagerHandler/process/')
-			->addOption('resizable',true)
-			->addData('standalone',true)
-			->addData('bottom_footer_offset',20)
-			->addData('element_id','elfinder')
-			->build();
-		
+		$options = array(
+			'height'=>600,
+			'width'=>'auto',
+			'url'=>'/fileManagerHandler/process/',
+			'resizable'=>true,
+			'stand_alone'=>true,
+			'bottom_footer_offset'=>20
+		);
+
 		$this->page
-			->set('container','<div id="elfinder"></div>')
-			->set('no_stats',true)
-			->build(false,'_templates/default_no_nav');
+			->set('container',file_manager('file_manager',$options))
+			->build(false,'_templates/default_basics');
 	}
 
 	/* main processor for POST actions */
@@ -38,3 +36,4 @@ class filemanagerhandlerController extends MY_PublicController
 	}
 
 }
+

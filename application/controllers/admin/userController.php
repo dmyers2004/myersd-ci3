@@ -31,7 +31,7 @@ class userController extends MY_AdminController
 	/* create new form validation */
 	public function newValidateAjaxPostAction()
 	{
-		$this->load->json($this->controller_model->validate_new());
+		$this->output->json($this->controller_model->validate_new());
 	}
 
 	/* create new form post */
@@ -44,8 +44,6 @@ class userController extends MY_AdminController
 				$this->flash_msg->created($this->page_title,$this->controller_path);
 			}
 		}
-
-		// $err = $this->auth->get_error_message();
 
 		$this->flash_msg->fail($this->page_title,$this->controller_path);
 	}
@@ -67,7 +65,7 @@ class userController extends MY_AdminController
 	/* edit form validate */
 	public function editValidateAjaxPostAction()
 	{
-		$this->load->json($this->controller_model->validate_edit());
+		$this->output->json($this->controller_model->validate_edit());
 	}
 
 	/* edit form post */
@@ -83,13 +81,15 @@ class userController extends MY_AdminController
 
 			/* we don't need these in the update because they are handled differently */
 			unset($this->data['confirm_password']);
+			/* grab a copy for later use */
+			$password = $this->data['password'];
 			unset($this->data['password']);
 
 			$this->controller_model->update_user($this->data['id'], $this->data);
 
 			/* did they change the password? update it */
-			if ($this->input->post('password') != '') {
-				$this->controller_model->change_password($this->data['id'], $this->input->post('password'));
+			if (!empty($password)) {
+				$this->controller_model->change_password($this->data['id'], $password);
 			}
 
 			$this->flash_msg->updated($this->page_title,$this->controller_path);
@@ -109,7 +109,7 @@ class userController extends MY_AdminController
 			}
 		}
 
-		$this->load->json($this->data);
+		$this->output->json($this->data);
 	}
 
 	/* ajax delete */
@@ -123,7 +123,7 @@ class userController extends MY_AdminController
 			$this->data['err'] = false;
 		}
 
-		$this->load->json($this->data);
+		$this->output->json($this->data);
 	}
 
 	/* Internal */

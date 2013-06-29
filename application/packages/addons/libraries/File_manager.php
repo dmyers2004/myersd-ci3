@@ -25,7 +25,7 @@ class File_manager
     $qry = $_SERVER['REQUEST_URI'];
     parse_str(substr($qry, strpos($qry, '?') + 1), $_GET);
 
-	$this->config = $this->config + $new_config;
+		$this->config = $this->config + $new_config;
 
     $connector = new elFinderConnector(new elFinder(array('roots'=>array($this->config))));
     $connector->run();
