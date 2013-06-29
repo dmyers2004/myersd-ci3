@@ -40,6 +40,11 @@ function getDefault($input,$default)
 	return ($input) ? $input : $default;
 }
 
+function view($file)
+{
+	get_instance()->load->view($file);
+}
+
 function after($tag,$searchthis)
 {
 	if (!is_bool(strpos($searchthis,$tag)))
