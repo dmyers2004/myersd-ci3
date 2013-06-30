@@ -49,7 +49,7 @@ class Menubar
 	{
 		$this->load->model('menubar_model');
 		
-		events::register('pre_partials/nav',array($this,'tohtml'));
+		events::register('pre_partials/header',array($this,'tohtml'));
 	}
 
 	public function tohtml($data) {

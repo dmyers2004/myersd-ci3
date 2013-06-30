@@ -51,32 +51,35 @@ $config['variable_mappings'] = array(
 );
 
 /* default */
-$config['default'] = function(&$page,&$ci) {
+$config['default'] = function(&$page) {
 	$page
 		->set('lspan',0)
 		->set('cspan',12)
 		->set('rspan',0)
+		->hide('_partials/left')
+		->hide('_partials/right')
+		->template('_templates/default')
 		->css('/assets/vendor/bootstrap/css/bootstrap.min.css')
 		->css('/assets/vendor/bootstrap/css/bootstrap-responsive.min.css')
 		->css('/assets/vendor/fontawesome/css/font-awesome.min.css')
 		->js('/assets/vendor/modernizr/modernizr-2.6.2.min.js')
 		->js('/assets/vendor/jquery/jquery-1.10.1.min.js')
-		->js('/assets/vendor/bootstrap/js/bootstrap.min.js')
-		->js('/assets/public/js/site.js');
+		->js('/assets/vendor/bootstrap/js/bootstrap.min.js');
 };
 
-$config['public'] = function(&$page,&$ci) {
+$config['public'] = function(&$page) {
 	$page
 		->append('bclass','public')
 		->css('/assets/public/css/template.css')
-		->css('/assets/public/css/style.css')
+		->css('/assets/public/css/public.css')
 		->js('/assets/vendor/spinner/jquery.spin.min.js')
 		->js('/assets/admin/js/jquery.ajax.form.js')
 		->js('/assets/public/js/plugins.js')
+		->js('/assets/public/js/public.js')
 		->js('/assets/public/js/onready.js');
 };
 
-$config['admin'] = function(&$page,&$ci) {
+$config['admin'] = function(&$page) {
 	$page
 		->append('title',' - Admin')
 		->set('admin_bar','navbar-inverse')
@@ -88,5 +91,6 @@ $config['admin'] = function(&$page,&$ci) {
 		->js('/assets/admin/js/jquery.ajax.link.js')
 		->js('/assets/admin/js/jquery.combobox.js')
 		->js('/assets/admin/js/jquery.filter_input.js')
+		->js('/assets/admin/js/admin.js')
 		->js('/assets/admin/js/onready.js');
 };

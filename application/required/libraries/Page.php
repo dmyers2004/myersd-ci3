@@ -3,14 +3,19 @@
 /*
 page events include
 
-pre/page_build
-pre/_partial/filename
+pre_page_build
+pre_partial/filename
+
+Note: All __ (double) replaced with _ (single)
 
 To not load a view
 $page->hide('_partials/filename');
 
 To allow it again (default to show all)
 $page->show('_partials/filename');
+
+You can also:
+$page->set('lspan',0);
 
 */
 
@@ -23,8 +28,7 @@ function load($file)
 	if ($show[$file] !== FALSE) {
 		/* trigger pre/[view file] to be loaded event(s) */
 		events::trigger(str_replace('__','_','pre_'.$file),null,'array');
-
-		return $ci->load->partial($file);
+		echo $ci->load->partial($file);
 	}
 }
 
@@ -57,7 +61,7 @@ class Page
   }
 	
 	public function load_config($key) {
-		$this->config[$key]($this,get_instance());
+		$this->config[$key]($this);
 		
 		return $this;
 	}
@@ -107,18 +111,21 @@ class Page
 		return $this->add($key,$value,'<','variable');
 	}
 	
+  /* add a css file */
   public function css($href='',$additional_attributes=array(),$where='>')
   {
     $merged = (is_array($href)) ? $href : array_merge($this->default_css,array('href'=>$href),$additional_attributes);
 		return $this->tag($merged,'<link',' />','css',$where,$additional_attributes);
   }  
   
+  /* add js file */
   public function js($file='',$additional_attributes=array(),$where='>')
   {
     $merged = (is_array($file)) ? $file : array_merge($this->default_js,array('src'=>$file),$additional_attributes);
 		return $this->tag($merged,'<script','></script>','js',$where,$additional_attributes);
   }  
   
+  /* add meta tag */
   public function meta($name='',$content='',$additional_attributes=array(),$where='>')
   {
     $merged = (is_array($name)) ? $name : array_merge($this->default_meta,array('name'=>$name,'content'=>$content),$additional_attributes);
@@ -160,7 +167,7 @@ class Page
 		return $this;
 	}
 	
-	/* wrapper for chain-able load view with route */
+	/* wrapper for chain-able load view with auto route */
 	public function view($view=null,$data=array(),$return=false)
 	{
 		$view = ($view) ? $view : getData('route');
@@ -179,7 +186,7 @@ class Page
   {
 
 		/* anyone need to process something before build? */
-		events::trigger('pre.page_build',null,'array');
+		events::trigger('pre_page_build',null,'array');
 
 		/* if they sent in a file path or nothing (ie null) then load the view file into the template "center" (mapped) */
 		if ($view !== false) {
@@ -205,7 +212,6 @@ class Page
     return $this->add($tag,$html,$where,$tag);
   }
 
-	/* heavy lifter */
 	private function add($key,$value=null,$where='#',$type='generic') {
 		
 		/* add it to the to be processed array - the key should (basically) keep from adding the same thing twice */

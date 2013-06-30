@@ -1,12 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-/**
- * View Data Heavy Lifter
- * add data to the view from any where with 3 modes
- * replace (default)
- * append
- * prepend
- */
+/* Set View Data Global */
 function data($name,$value,$where='#')
 {
 	$ci = get_instance();
@@ -24,7 +18,7 @@ function data($name,$value,$where='#')
 	$ci->load->_ci_cached_vars[$name] = $value;
 }
 
-/* get view data */
+/* Get View Data Global */
 function getData($name=null)
 {
 	if ($name == null) {
