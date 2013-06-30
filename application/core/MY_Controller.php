@@ -19,9 +19,22 @@ class MY_Controller extends CI_Controller
 	{
 		parent::__construct();
 
-		data('route',trim($this->router->fetch_directory().str_replace('Controller','',$this->router->fetch_class()).'/'.str_replace('Action','',$this->router->fetch_method()),'/'));
+		/* setup some view low level variables */
+		$route = trim($this->router->fetch_directory().$this->router->fetch_class().'/'.$this->router->fetch_method(),'/');
+		data('route_raw',$route);
 		
+		$route = str_replace('Controller','',str_replace('Action','',$route));
+		data('route',$route);
+
+		data('route_class',str_replace('/',' ',$route));
+		
+		$this->session->set_userdata('history-1', $this->input->server('HTTP_REFERER'));
+
+		data('user_data',$this->session->userdata('user'));
+
+		/* let's make sure all output is utf-8 */
 		$this->output->set_header('Content-Type: text/html; charset=utf-8');
+
 		//$this->output->enable_profiler(TRUE);
 
 		if ($this->config->item('site_open') === FALSE) {

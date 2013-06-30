@@ -34,53 +34,40 @@ Array key is what they are called in page library
 Array value is what they are referenced as in the view
 */
 $config['variable_mappings'] = array(
-	'title' => 'meta_title', /* base site title */
-	'meta' => 'page_meta', /* before <body> */
-	'header' => 'page_header', /* after <body> */
-	'bodyClass' => 'page_body_class', /* class attached to the <body class="#"> */
-	'center' => 'container',
-	'left' => 'page_left',
-	'right' => 'page_right',
+	'title' => 'page_title',
+	'header' => 'page_header',
+	'bclass' => 'page_body_class',
 	'footer' => 'page_footer',
 	'css' => 'page_css',
 	'meta' => 'page_meta',
+	'js' => 'page_js',
 	'nav' => 'page_nav',
-	'sub_nav' => 'page_sub_nav',
-	'js' => 'page_js', /* before </body> */
-	'pageBrand' => 'page_brand' /* Brand - Title */
+	'lspan' => 'page_lspan',
+	'left' => 'page_left',
+	'rspan' => 'page_rspan',
+	'right' => 'page_right',
+	'cspan' => 'page_cspan',
+	'center' => 'container'
 );
 
 /* default */
 $config['default'] = function(&$page,&$ci) {
-	
 	$page
-		->template('_templates/default')
-		->append('bodyClass',str_replace('/',' ',$am))
-		->append('title','Apple 64')
-		->append('pageBrand','Sample')
-		->meta(array('charset'=>'utf-8'))
-		->meta(array('http-equiv'=>'X-UA-Compatible','content'=>'IE=edge,chrome=1'))
-		->meta('description','')
-		->meta('viewport','width=device-width, initial-scale=1')
+		->set('lspan',0)
+		->set('cspan',12)
+		->set('rspan',0)
 		->css('/assets/vendor/bootstrap/css/bootstrap.min.css')
 		->css('/assets/vendor/bootstrap/css/bootstrap-responsive.min.css')
 		->css('/assets/vendor/fontawesome/css/font-awesome.min.css')
-		->append('footer','<script>var baseurl="http://ci3.vcap.me/";</script>')
 		->js('/assets/vendor/modernizr/modernizr-2.6.2.min.js')
 		->js('/assets/vendor/jquery/jquery-1.10.1.min.js')
 		->js('/assets/vendor/bootstrap/js/bootstrap.min.js')
-		->js('/assets/public/js/site.js')
-		->append('header','<!--[if lt IE 8]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p><![endif]-->');
+		->js('/assets/public/js/site.js');
 };
 
 $config['public'] = function(&$page,&$ci) {
-	$menu = $ci->menubar->get_active();
-	$roles = $ci->auth->get_user_roles();
-		
 	$page
-		->append('bodyClass',' public')
-		->set('logged_in',$ci->auth->is_logged_in())
-		->set('navigation_menu',$ci->menubar->render($roles,$menu))
+		->append('bclass','public')
 		->css('/assets/public/css/template.css')
 		->css('/assets/public/css/style.css')
 		->js('/assets/vendor/spinner/jquery.spin.min.js')
@@ -91,7 +78,6 @@ $config['public'] = function(&$page,&$ci) {
 
 $config['admin'] = function(&$page,&$ci) {
 	$page
-		->template('admin/_templates/default')
 		->append('title',' - Admin')
 		->set('admin_bar','navbar-inverse')
 		->css('/assets/admin/css/admin.css')

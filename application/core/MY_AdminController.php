@@ -21,26 +21,27 @@ class MY_AdminController extends MY_PublicController
 
 		/* check security */
 		if (!$this->auth->is_logged_in()) {
-			//redirect them to the login page
+			// redirect them to the login page
 			$this->flash_msg->denied('login');
 		}
 
-		/* !todo now let's check ACL /url/ */
-		if (!$this->auth->has_role_by_group('/nav/'.getData('route')))
+		/* can they access this page based on there permissions namespace is /url/... */
+		if (!$this->auth->has_role_by_group('/url/'.getData('route')))
 		{
-			//redirect them to the login page
-			$this->flash_msg->denied('login');
+			// redirect them to the last page they where on
+			$this->flash_msg->denied($this->session->userdata('history-1'));
 		}
 
-		/* setup a default model */
+		/* setup a default model - this is really just for the "scaffolding" built into admin */
 		if (isset($this->controller_model)) {
 			$model_name = $this->controller_model;
 			$this->load->model($model_name);
 			$this->controller_model = $this->$model_name;
 		}
 
+		/* load the page admin config */
 		$this->page
-			->load('admin');
+			->load_config('admin');
 	}
 
 } /* end MY_AdminController */

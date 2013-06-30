@@ -20,11 +20,8 @@ class MY_PublicController extends MY_Controller
 		$this->load->helpers(array('language','gravatar'));
 		$this->load->library(array('paths','form_validation','menubar','page','flash_msg'));
 
-		$session = get_instance()->session->all_userdata();
-
 		$this->page
-			->set('user',$session['user'])
-			->load('public');
+			->load_config('public');
 	}
 
 } /* end MY_PublicController */

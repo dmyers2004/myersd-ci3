@@ -1,25 +1,52 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+/*
+page events include
+
+pre/page_build
+pre/_partial/filename
+
+To not load a view
+$page->hide('_partials/filename');
+
+To allow it again (default to show all)
+$page->show('_partials/filename');
+
+*/
+
+/* global function! */
+function load($file)
+{
+	$ci = get_instance();
+	$show = $ci->page->show();
+	$file = preg_replace('/\.[^.]*$/', '', $file);
+	if ($show[$file] !== FALSE) {
+		/* trigger pre/[view file] to be loaded event(s) */
+		events::trigger(str_replace('__','_','pre_'.$file),null,'array');
+
+		return $ci->load->partial($file);
+	}
+}
+
 class Page
 {
-  public $config = NULL; /* all configs local cache */
+  private $config = NULL; /* all configs local cache */
 
-	public $template = ''; /* template to use in build method */
-	public $theme = ''; /* theme folder for views (added as a package) */
+	private $template = '_templates/default'; /* template to use in build method */
+	private $theme = ''; /* theme folder for views (added as a package) */
 
-	public $default_css = array('rel'=>'stylesheet','type'=>'text/css','href'=>'');
-	public $default_js = array('src'=>'');
-	public $default_meta = array('name'=>'','content'=>'');
-	public $default_img = array();
-	
-	public $added = array();
+	private $default_css = array('rel'=>'stylesheet','type'=>'text/css','href'=>'');
+	private $default_js = array('src'=>'');
+	private $default_meta = array('name'=>'','content'=>'');
+	private $show = array();
+	private $added = array();
 
   public function __construct()
   {
     $this->config = $this->load->settings('page');
 
 		/* load in our defaults if any */
-		$this->load('default');		
+		$this->load_config('default');		
 
 		/* load in the config as variables if it's a string */
 		foreach ($this->config as $name => $value) {
@@ -29,16 +56,28 @@ class Page
 		}
   }
 	
-	public function load($key) {
+	public function load_config($key) {
 		$this->config[$key]($this,get_instance());
 		
 		return $this;
 	}
 
+	public function hide($name=null) {
+		return $this->_show($name,false);
+	}
+
+	public function show($name=null) {
+		return $this->_show($name,true);
+	}
+
+	public function config($name) {
+		return $this->config[$name];	
+	}
+
 	/* clear already loaded data
 			options include
 			$which + $clear:
-				key + name (Common names: footer, meta, bodyClass, title, header)
+				key + name (Common names: footer, meta, bclass, title, header)
 				value + exact value
 				where + <,>, #
 				type + variable, meta, css, js
@@ -53,14 +92,17 @@ class Page
 		return $this;
 	}
 
+	/* overwrites */
 	public function set($key,$value,$where='#') {
 		return $this->add($key,$value,$where,'variable');
 	}
 
+	/* appends */
 	public function append($key,$value) {
 		return $this->add($key,$value,'>','variable');
 	}
 
+	/* prepends */
 	public function prepend($key,$value) {
 		return $this->add($key,$value,'<','variable');
 	}
@@ -84,15 +126,23 @@ class Page
 	}
 	  
   /* change the template */
-  public function template($name='')
+  public function template($name=null)
   {
+		if ($name == null) {
+			return $this->template;	
+		}
+		
     $this->template = $name;
     return $this;
   }
 	
 	/* add theme folder (CI package) */
-  public function theme($name='')
+  public function theme($name=null)
   {
+		if ($name == null) {
+			return $this->theme;
+		}
+		
   	$this->theme = $name;
 		$this->load->add_package_path(APPPATH.'themes/'.$name.'/', TRUE);
   	return $this;
@@ -127,20 +177,11 @@ class Page
 	/* final output */
   public function build($view=null,$layout=null)
   {
+
 		/* anyone need to process something before build? */
-		events::trigger('pre_build',$this,'array');
+		events::trigger('pre.page_build',null,'array');
 
-		/* for each variable trigger event */
-		foreach ($this->config['variable_mappings'] as $key => $value) {
-			events::trigger('pre_'.$key,array('this'=>$this,'key'=>$key,'value'=>$value),'array');
-		}
-
-		/* let's process our stuff */
-		foreach ($this->added as $record) {
-			data(getDefault($this->config['variable_mappings'][$record['key']],$record['key']),$record['value'],$record['where']);
-		}
-
-		/* if they sent in a file path or nothing (ie null) then load the view file into the template "container" */
+		/* if they sent in a file path or nothing (ie null) then load the view file into the template "center" (mapped) */
 		if ($view !== false) {
 			$this->load->partial((($view) ? $view : getData('route')),array(),$this->config['variable_mappings']['center']);
   	}
@@ -168,7 +209,12 @@ class Page
 	private function add($key,$value=null,$where='#',$type='generic') {
 		
 		/* add it to the to be processed array - the key should (basically) keep from adding the same thing twice */
-		$this->added[@md5($value.$key.$type.$where)] = array('key'=>$key,'value'=>$value,'where'=>$where,'type'=>$type);
+		$hash = @md5($key.$value.$where.$type);
+		
+		if (!isset($this->added[$hash])) {
+			data(getDefault($this->config['variable_mappings'][$key],$key),$value,$where);
+			$this->added[$hash] = true;
+		}
 
 		return $this;
 	}
@@ -182,6 +228,15 @@ class Page
 
     return trim($output);
   }
+
+	private function _show($name,$bol) {
+		if ($name == null) {
+			return $this->show;	
+		}
+		$this->show[preg_replace('/\.[^.]*$/', '', $name)] = $bol; 
+	
+		return $this;	
+	}
 
 	/* generic wrapper for CI instance so you can $this-> in this file */
 	public function __get($var)

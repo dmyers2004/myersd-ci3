@@ -1,8 +1,5 @@
-<?php view('_partials/meta') ?>
-<body class="fileManagerHandler">
+<?=load('_partials/start') ?>
+<?=load('_partials/header') ?>
+<?=load('_partials/body') ?>
 <?=form_file_manager('file_manager',$options) ?>
-<?=$page_footer ?>
-<?=$page_js ?>
-<!-- <?=$route ?> -->
-</body>
-</html>
+<?=load('_partials/end') ?>

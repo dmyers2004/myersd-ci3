@@ -22,7 +22,7 @@ class Flash_msg
 		$this->js = $this->config->item('js','flash_msg');
 		$this->css = $this->config->item('css','flash_msg');
 		
-		events::register('pre_build',array($this,'tohtml'));
+		events::register('pre_page_build',array($this,'tohtml'));
 	}
 	
 	/* super method! */
@@ -58,7 +58,7 @@ class Flash_msg
 		return $this;
   }
 
-	public function tohtml($page)
+	public function tohtml()
 	{
     $messages = $this->session->flashdata('custom_flash_message_storage');
 		
@@ -73,7 +73,7 @@ class Flash_msg
     	$html .= '})</script>';
     }
 
-		$page->js($this->js)->css($this->css)->set($this->view_variable,$html);
+		$this->page->js($this->js)->css($this->css)->append($this->view_variable,$html);
 	}
 	
 	/* generic wrapper for CI instance so you can $this-> in this file */

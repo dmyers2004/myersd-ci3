@@ -25,8 +25,12 @@ function data($name,$value,$where='#')
 }
 
 /* get view data */
-function getData($name)
+function getData($name=null)
 {
+	if ($name == null) {
+		return @get_instance()->load->_ci_cached_vars;
+	}
+	
 	return @get_instance()->load->_ci_cached_vars[$name];
 }
 
@@ -38,11 +42,6 @@ function getDefaultArray($array,$key,$default)
 function getDefault($input,$default)
 {
 	return ($input) ? $input : $default;
-}
-
-function view($file,$return=true)
-{
-	get_instance()->load->view($file,array(),$return);
 }
 
 function after($tag,$searchthis)

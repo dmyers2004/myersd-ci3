@@ -14,7 +14,7 @@ class File_manager
 	{
 		$this->config = get_instance()->load->settings('file_manager');
 		
-		events::register('pre_build',array($this,'tohtml'));
+		events::register('pre_page_build',array($this,'tohtml'));
 	}
 
 	public function standalone() {
@@ -43,19 +43,19 @@ class File_manager
     $connector->run();
   }
   
-	public function tohtml($page)
+	public function tohtml()
 	{
+		$ci = get_instance();
 		$js = ($this->standalone) ? $this->config['standalone_js'] : $this->config['js'];
 		foreach ($js as $f) {
-			$page->js($f);	
+			$ci->page->js($f);	
 		}
 		
 		$css = ($this->standalone) ? $this->config['standalone_css'] : $this->config['css'];
 		foreach ($css as $f) {
-			$page->css($f);	
+			$ci->page->css($f);	
 		}
 		
-		$page->append('js','<script>$(document).ready(function(){qzud
-		('.(($this->standalone) ? 'true' : 'false').');})</script>');
+		$ci->page->append('js','<script>$(document).ready(function(){qzud('.(($this->standalone) ? 'true' : 'false').');})</script>');
 	}
 }

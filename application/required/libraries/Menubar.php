@@ -48,6 +48,15 @@ class Menubar
 	public function __construct()
 	{
 		$this->load->model('menubar_model');
+		
+		events::register('pre_partials/nav',array($this,'tohtml'));
+	}
+
+	public function tohtml($data) {
+		$menu = $this->get_active();
+		$roles = get_instance()->auth->get_user_roles();
+		
+		data('navigation_menu',$this->render($roles,$menu));
 	}
 
 	public function render($privs = null,$menus = null)

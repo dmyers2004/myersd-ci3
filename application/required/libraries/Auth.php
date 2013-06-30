@@ -717,29 +717,28 @@ class Auth
 		$access = array of $roles
 		!todo run more unit tests
 	*/
-  protected function in_access($role,$access)
-  {
-
-    $exact = (substr($role,-1) == '*') ? FALSE : TRUE;
-
-    if (!is_array($access)) return FALSE;
-
-    if ($exact) {
-      return in_array($role,$access);
-    }
-
-    /* cut off the * */
-    $role = rtrim($role,'*');
-
-    foreach ($access as $a) {
-			$a = rtrim($a,'*');
-      if ($a == substr($role,0,strlen($a))) {
-        return TRUE;
-      }
-    }
-
-    return FALSE;
-  }
+	protected function in_access($role,$access)
+	{
+	  /* exact match? */
+	  if (in_array($role,$access)) {
+	  	return TRUE;
+	  }
+	
+	  foreach ($access as $a) {
+	
+			/* test them separate for a little more speed */
+			if (preg_match('#^'.str_replace('*','(.*)',$a).'$#', $role)) {
+				return TRUE;	
+			}
+			
+			if (preg_match('#^'.str_replace('*','(.*)',$role).'$#', $a)) {
+				return TRUE;	
+			}
+	
+	  }
+	
+	  return FALSE;
+	}
 
 }
 

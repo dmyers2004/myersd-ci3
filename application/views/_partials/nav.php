@@ -1,4 +1,3 @@
-<?php if (!$nav_show) { ?>
     <div class="navbar <?=$admin_bar ?> navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -14,12 +13,10 @@
 						</ul>
 						<ul class="nav pull-right">
 							<li class="working-img"></li>
-							<?php if (isset($user->email)) { ?>
-							<li class="gravatar"><?=gravatar($user->email,32) ?></li>
-							<?php } ?>
-							<?php if ($logged_in) { ?>
+							<?php if ($user_data->activated) { ?>
+							<li class="gravatar"><?=gravatar($user_data->email,32) ?></li>
 								<li class="logout">
-									Logged in as <?=$user->username ?>
+									Logged in as <?=$user_data->username ?>
 									<a href="/auth/logout">Logout</a>
 								</li>
 							<?php } else { ?>
@@ -30,4 +27,3 @@
         </div>
       </div>
     </div>
-<?php } ?>

@@ -4,9 +4,3 @@
 			Memory <strong><?=$this->benchmark->memory_usage() ?></strong>
 			CodeIgniter Version <strong><?=CI_VERSION ?></strong>
 		</div>
-		<?=$page_footer ?>
-		<?=$page_js ?>
-		<?=$flash_msg ?>
-		<!-- <?=$route ?> -->
-	</body>
-</html>
