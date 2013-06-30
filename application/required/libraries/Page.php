@@ -110,10 +110,10 @@ class Page
 		return $this;
 	}
 	
-	/* wrapper for chain-able load view with automagic */
+	/* wrapper for chain-able load view with route */
 	public function view($view=null,$data=array(),$return=false)
 	{
-		$view = ($view) ? $view : getData('automagic');
+		$view = ($view) ? $view : getData('route');
 				
 		$html = $this->load->view($view,$data,$return);
 
@@ -130,6 +130,11 @@ class Page
 		/* anyone need to process something before build? */
 		events::trigger('pre_build',$this,'array');
 
+		/* for each variable trigger event */
+		foreach ($this->config['variable_mappings'] as $key => $value) {
+			events::trigger('pre_'.$key,array('this'=>$this,'key'=>$key,'value'=>$value),'array');
+		}
+
 		/* let's process our stuff */
 		foreach ($this->added as $record) {
 			data(getDefault($this->config['variable_mappings'][$record['key']],$record['key']),$record['value'],$record['where']);
@@ -137,7 +142,7 @@ class Page
 
 		/* if they sent in a file path or nothing (ie null) then load the view file into the template "container" */
 		if ($view !== false) {
-			$this->load->partial((($view) ? $view : getData('automagic')),array(),$this->config['variable_mappings']['container']);
+			$this->load->partial((($view) ? $view : getData('route')),array(),$this->config['variable_mappings']['center']);
   	}
 
     /* final output */
@@ -156,7 +161,7 @@ class Page
 			return $html;
 		}
     
-    return $this->add($this->config['preset'][$tag],$html,$where,$tag);
+    return $this->add($tag,$html,$where,$tag);
   }
 
 	/* heavy lifter */

@@ -24,7 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
-
+newrelic_custom_metric('Apple64');
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT

@@ -40,9 +40,9 @@ function getDefault($input,$default)
 	return ($input) ? $input : $default;
 }
 
-function view($file)
+function view($file,$return=true)
 {
-	get_instance()->load->view($file);
+	get_instance()->load->view($file,array(),$return);
 }
 
 function after($tag,$searchthis)

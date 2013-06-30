@@ -27,13 +27,6 @@ if ($roles === null) {
 }
 */
 
-/* what variable (mapped) to these get added to */
-$config['preset'] = array(
-	'css' => 'meta',
-	'js' => 'footer',
-	'meta' => 'meta'
-);
-
 /*
 Map Common Names to Custom View Variables you can add more
 
@@ -45,18 +38,23 @@ $config['variable_mappings'] = array(
 	'meta' => 'page_meta', /* before <body> */
 	'header' => 'page_header', /* after <body> */
 	'bodyClass' => 'page_body_class', /* class attached to the <body class="#"> */
-	'container' => 'container',
-	'footer' => 'page_footer', /* before </body> */
+	'center' => 'container',
+	'left' => 'page_left',
+	'right' => 'page_right',
+	'footer' => 'page_footer',
+	'css' => 'page_css',
+	'meta' => 'page_meta',
+	'nav' => 'page_nav',
+	'sub_nav' => 'page_sub_nav',
+	'js' => 'page_js', /* before </body> */
 	'pageBrand' => 'page_brand' /* Brand - Title */
 );
 
 /* default */
 $config['default'] = function(&$page,&$ci) {
-	$am = trim($ci->router->fetch_directory().str_replace('Controller','',$ci->router->fetch_class()).'/'.str_replace('Action','',$ci->router->fetch_method()),'/');
 	
 	$page
 		->template('_templates/default')
-		->append('automagic',$am)
 		->append('bodyClass',str_replace('/',' ',$am))
 		->append('title','Apple 64')
 		->append('pageBrand','Sample')

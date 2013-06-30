@@ -6,4 +6,5 @@
 <head>
 	<title><?=$meta_title ?></title>
 	<?=$page_meta ?>
+	<?=$page_css ?>
 </head>

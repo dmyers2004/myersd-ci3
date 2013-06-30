@@ -55,7 +55,7 @@ class File_manager
 			$page->css($f);	
 		}
 		
-		$page->append('footer','<script>$(document).ready(function(){qzud
+		$page->append('js','<script>$(document).ready(function(){qzud
 		('.(($this->standalone) ? 'true' : 'false').');})</script>');
 	}
 }

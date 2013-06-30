@@ -5,7 +5,8 @@
 			CodeIgniter Version <strong><?=CI_VERSION ?></strong>
 		</div>
 		<?=$page_footer ?>
+		<?=$page_js ?>
 		<?=$flash_msg ?>
-		<!-- <?=$automagic ?> -->
+		<!-- <?=$route ?> -->
 	</body>
 </html>

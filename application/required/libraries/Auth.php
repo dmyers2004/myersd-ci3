@@ -663,10 +663,12 @@ class Auth
 	}
 
   /*
+  	example of roll to test
 	  $role = '/user/delete/*';
 	  $role = '/user/delete/*|/isadmin';
 	  $role = '/user/delete/*&/isadmin';
 
+		Users access
 		$access = array('/nav/test','/user/delete');
   */
   public function has_role_by_group($role=null,$access=null)
@@ -676,7 +678,7 @@ class Auth
 		}
 
 		if ($access == null) {
-			$access = $this->get_roles();
+			$access = $this->get_user_roles();
 		}
 
     /* string, string|string (or), string&string (and) */
@@ -713,9 +715,11 @@ class Auth
 		Single Test
 		$role = '/user/add'
 		$access = array of $roles
+		!todo run more unit tests
 	*/
   protected function in_access($role,$access)
   {
+
     $exact = (substr($role,-1) == '*') ? FALSE : TRUE;
 
     if (!is_array($access)) return FALSE;
@@ -724,9 +728,12 @@ class Auth
       return in_array($role,$access);
     }
 
-    $role = substr($role,0,-1);
+    /* cut off the * */
+    $role = rtrim($role,'*');
+
     foreach ($access as $a) {
-      if ($role == substr($a,0,strlen($role))) {
+			$a = rtrim($a,'*');
+      if ($a == substr($role,0,strlen($a))) {
         return TRUE;
       }
     }

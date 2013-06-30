@@ -18,6 +18,8 @@ class MY_Controller extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+
+		data('route',trim($this->router->fetch_directory().str_replace('Controller','',$this->router->fetch_class()).'/'.str_replace('Action','',$this->router->fetch_method()),'/'));
 		
 		$this->output->set_header('Content-Type: text/html; charset=utf-8');
 		//$this->output->enable_profiler(TRUE);

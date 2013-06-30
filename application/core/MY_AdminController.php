@@ -25,6 +25,13 @@ class MY_AdminController extends MY_PublicController
 			$this->flash_msg->denied('login');
 		}
 
+		/* !todo now let's check ACL /url/ */
+		if (!$this->auth->has_role_by_group('/nav/'.getData('route')))
+		{
+			//redirect them to the login page
+			$this->flash_msg->denied('login');
+		}
+
 		/* setup a default model */
 		if (isset($this->controller_model)) {
 			$model_name = $this->controller_model;

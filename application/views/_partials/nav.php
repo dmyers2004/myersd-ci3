@@ -1,3 +1,4 @@
+<?php if (!$nav_show) { ?>
     <div class="navbar <?=$admin_bar ?> navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -29,3 +30,4 @@
         </div>
       </div>
     </div>
+<?php } ?>
