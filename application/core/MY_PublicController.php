@@ -22,7 +22,7 @@ class MY_PublicController extends MY_Controller
 
 		$this->page
 			->set('v',$this->v)
-			->load_config('public');
+			->config('public');
 	}
 
 } /* end MY_PublicController */

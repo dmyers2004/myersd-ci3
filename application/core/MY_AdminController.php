@@ -41,7 +41,7 @@ class MY_AdminController extends MY_PublicController
 
 		/* load the page admin config */
 		$this->page
-			->load_config('admin');
+			->config('admin');
 	}
 
 } /* end MY_AdminController */

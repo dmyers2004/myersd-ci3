@@ -45,9 +45,6 @@ class Page
 	private $template = '_templates/default'; /* template to use in build method */
 	private $theme = ''; /* theme folder for views (added as a package) */
 
-	private $default_css = array('rel'=>'stylesheet','type'=>'text/css','href'=>'');
-	private $default_js = array('src'=>'');
-	private $default_meta = array('name'=>'','content'=>'');
 	private $show = array();
 	private $added = array();
 
@@ -56,7 +53,7 @@ class Page
     $this->config = $this->load->settings('page');
 
 		/* load in our defaults if any */
-		$this->load_config('default');		
+		$this->config('default');		
 
 		/* load in the config as variables if it's a string */
 		foreach ($this->config as $name => $value) {
@@ -72,30 +69,37 @@ class Page
 	
 		/* overwrite (#) is default */
 		switch ($where) {
-			case '<':
-				$value = $value.$ci->load->_ci_cached_vars[$name];
+			case '<': // Prepend
+				$value = $value.$this->load->_ci_cached_vars[$name];
 			break;
-			case '>':
-				$value = $ci->load->_ci_cached_vars[$name].$value;
+			case '>': // Append
+				$value = $this->load->_ci_cached_vars[$name].$value;
+			break;
+			case '-': // Remove
+				$value = str_replace($value,'',$this->load->_ci_cached_vars[$name]);
 			break;
 		}
 	
-		$this->data[$name] = $value;
+		$this->load->_ci_cached_vars[$name] = $value;
 	}
 
 	public function getData($name=null)
 	{
 		if ($name == null) {
-			return $this->data;
+			return $this->load->_ci_cached_vars;
 		}
 		
-		return $this->data[$name];
+		return $this->load->_ci_cached_vars[$name];
 	}
 	
-	public function load_config($key) {
+	public function config($key) {
 		$this->config[$key]($this);
 		
 		return $this;
+	}
+
+	public function mapped($name) {
+		return $this->config['variable_mappings'][$name];
 	}
 
 	public function hide($name=null) {
@@ -104,28 +108,6 @@ class Page
 
 	public function show($name=null) {
 		return $this->_show($name,true);
-	}
-
-	public function config($name) {
-		return $this->config[$name];	
-	}
-
-	/* clear already loaded data
-			options include
-			$which + $clear:
-				key + name (Common names: footer, meta, bclass, title, header)
-				value + exact value
-				where + <,>, #
-				type + variable, meta, css, js
-	*/
-	public function clear($which,$clear) {
-		foreach ($this->added as $hash => $record) {
-			if ($record[$which] == $clear) {
-				unset($this->added[$hash]);	
-			}
-		}
-	
-		return $this;
 	}
 
 	/* overwrites */
@@ -144,24 +126,34 @@ class Page
 	}
 	
   /* add a css file */
-  public function css($href='',$additional_attributes=array(),$where='>')
+  public function css($file='',$where='>')
   {
-    $merged = (is_array($href)) ? $href : array_merge($this->default_css,array('href'=>$href),$additional_attributes);
-		return $this->tag($merged,'<link',' />','css',$where,$additional_attributes);
+		$file = (is_string($file)) ? array('href'=>$file) : $file;
+    $merged = array_merge($this->config['default_css'],$file);
+		return $this->tag($merged,'<link',' />','css',$where);
   }  
   
   /* add js file */
-  public function js($file='',$additional_attributes=array(),$where='>')
+  public function js($file='',$where='>')
   {
-    $merged = (is_array($file)) ? $file : array_merge($this->default_js,array('src'=>$file),$additional_attributes);
-		return $this->tag($merged,'<script','></script>','js',$where,$additional_attributes);
+		$file = (is_string($file)) ? array('src'=>$file) : $file;
+    $merged = array_merge($this->config['default_js'],$file);
+		return $this->tag($merged,'<script','></script>','js',$where);
   }  
   
   /* add meta tag */
-  public function meta($name='',$content='',$additional_attributes=array(),$where='>')
+  public function meta($arg1='',$arg2='>',$agr3='>')
   {
-    $merged = (is_array($name)) ? $name : array_merge($this->default_meta,array('name'=>$name,'content'=>$content),$additional_attributes);
-		return $this->tag($merged,'<meta','>','meta',$where,$additional_attributes);
+		/* overload handler */
+		if (is_string($arg1)) {
+			$arg1 = array('name'=>$arg1,'content'=>$arg2);
+			$arg2 = $arg3;
+		} else {
+			/* array */
+			$arg3 = $arg2;
+		}
+		
+		return $this->tag($arg1,'<meta','>','meta',$where);
 	}
 	  
   /* change the template */
@@ -234,10 +226,10 @@ class Page
 
 	/* private functions */
 
-  private function tag($merged,$pre,$post,$tag,$where,$additional_attributes) {
+  private function tag($merged,$pre,$post,$tag,$where) {
 		$html = $pre.' '.$this->_ary2attr($merged).$post;
 
-		if ($where === true || $additional_attributes === true) {
+		if ($where === true) {
 			return $html;
 		}
     

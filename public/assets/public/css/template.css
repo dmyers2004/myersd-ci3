@@ -54,12 +54,13 @@ a:hover {
 	text-align: left !important;
 }
 
-div.stats {
+footer {
 	text-align: right;
 	width: 99%;
-	color: #aaa;
+	color: #828282;
 	font-size: 80%;
 }
+
 .required-txt {
 	padding-left: 128px;
 	font-size: 12px;

@@ -50,6 +50,9 @@ $config['variable_mappings'] = array(
 	'center' => 'container'
 );
 
+$config['default_css'] = array('rel'=>'stylesheet','type'=>'text/css','href'=>'');
+$config['default_js'] = array('src'=>'');
+
 /* default */
 $config['default'] = function(&$page) {
 	$page
@@ -62,7 +65,7 @@ $config['default'] = function(&$page) {
 		->css('/assets/vendor/bootstrap/css/bootstrap.min.css')
 		->css('/assets/vendor/bootstrap/css/bootstrap-responsive.min.css')
 		->css('/assets/vendor/fontawesome/css/font-awesome.min.css')
-		->js('/assets/vendor/modernizr/modernizr-2.6.2.min.js')
+		->js('/assets/vendor/modernizr/modernizr-2.6.2-respond-1.1.0.min.js')
 		->js('/assets/vendor/jquery/jquery-1.10.1.min.js')
 		->js('/assets/vendor/bootstrap/js/bootstrap.min.js');
 };
