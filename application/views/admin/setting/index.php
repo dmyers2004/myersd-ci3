@@ -20,18 +20,18 @@
 			<?=$record->name ?>
 			</td>
 			<td class="click_edit">
-			<?=shorten(htmlspecialchars($record->value),64) ?>
+			<?=v::shorten(htmlspecialchars($record->value),64) ?>
 			</td>
 			<td class="click_edit">
 			<?=$record->group ?>
 			</td>
 			<td class="txt-ac">
 				<a href="/admin/setting/activate/<?=$record->id ?>/" class="enum_handler" data-value="<?=$record->auto_load ?>" data-enum="icon-circle-blank|icon-ok-circle">
-					<i class="<?=enum($record->auto_load,"icon-circle-blank|icon-ok-circle") ?>"></i>
+					<i class="<?=v::enum($record->auto_load,"icon-circle-blank|icon-ok-circle") ?>"></i>
 				</a>
 			</td>
 			<td class="txt-ac">
-			<?=enum($record->type,'<i class="icon-user"></i>|<i class="icon-cog"></i>|<i class="icon-signin" data-toggle="tooltip" data-original-title="'.$record->module_name.'"></i>') ?>
+			<?=v::enum($record->type,'<i class="icon-user"></i>|<i class="icon-cog"></i>|<i class="icon-signin" data-toggle="tooltip" data-original-title="'.$record->module_name.'"></i>') ?>
 			</td>
 			<td>
 			<div class="btn-group">

@@ -40,6 +40,12 @@ $menu[] = array('id'=>13,'resource'=>'/windows/b','url'=>'/windows/b','text'=>'W
 $menu[] = array('id'=>14,'resource'=>'/windows/c','url'=>'/windows/c','text'=>'Window C','parent_id'=>11);
 $menu[] = array('id'=>15,'resource'=>'/windows/d','url'=>'/windows/d','text'=>'Window D','parent_id'=>11);
 
+Requires
+
+Settings Library
+Events Library
+Page Library
+
 */
 class Menubar
 {
@@ -56,7 +62,7 @@ class Menubar
 		$menu = $this->get_active();
 		$roles = get_instance()->auth->get_user_roles();
 		
-		data('navigation_menu',$this->render($roles,$menu));
+		$this->page->data('navigation_menu',$this->render($roles,$menu));
 	}
 
 	public function render($privs = null,$menus = null)

@@ -1,5 +1,22 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+/*
+wrapper to provide path (urls) from the database settings (paths) 
+and/or from the config file for matching keys
+
+if the key isn't found the key is returned
+
+$this->paths['admin dashboard'];
+
+$this->paths['/admin/dashboard'] might return /admin/dashboard/google or something?
+
+if /admin/dashboard what in the array then it would return /admin/dashboard
+
+Requires
+
+Settings Library
+
+*/
 class Paths implements arrayaccess
 {
 	private $paths = null; /* all pathss local cache */
@@ -29,8 +46,3 @@ class Paths implements arrayaccess
 	}
 
 } /* end path */
-
-/* add path "magic" redirect global function */
-function path_redirect($key) {
-	redirect(get_instance()->paths[$key]);
-}

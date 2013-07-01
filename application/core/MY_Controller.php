@@ -21,16 +21,16 @@ class MY_Controller extends CI_Controller
 
 		/* setup some view low level variables */
 		$route = trim($this->router->fetch_directory().$this->router->fetch_class().'/'.$this->router->fetch_method(),'/');
-		data('route_raw',$route);
+		$this->data['route_raw'] = $route;
 		
 		$route = str_replace('Controller','',str_replace('Action','',$route));
-		data('route',$route);
+		$this->data['route'] = $route;
 
-		data('route_class',str_replace('/',' ',$route));
-		
+		$this->data['route_class'] = str_replace('/',' ',$route);		
+
+		$this->data['user_data'] = $this->session->userdata('user');
+
 		$this->session->set_userdata('history-1', $this->input->server('HTTP_REFERER'));
-
-		data('user_data',$this->session->userdata('user'));
 
 		/* let's make sure all output is utf-8 */
 		$this->output->set_header('Content-Type: text/html; charset=utf-8');

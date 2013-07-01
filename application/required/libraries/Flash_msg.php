@@ -1,5 +1,13 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+/*
 
+Requires
+
+Settings Library
+Events Library
+Page Library
+
+*/
 class Flash_msg
 {
   public $messages = array();
@@ -52,7 +60,7 @@ class Flash_msg
 
 		/* redirect to another page immediately */
 		if ($redirect) {
-			path_redirect($redirect);
+			redirect(get_instance()->paths[$redirect]);
 		}
 
 		return $this;
@@ -73,7 +81,10 @@ class Flash_msg
     	$html .= '})</script>';
     }
 
-		$this->page->js($this->js)->css($this->css)->append($this->view_variable,$html);
+		$this->page
+			->js($this->js)
+			->css($this->css)
+			->append($this->view_variable,$html);
 	}
 	
 	/* generic wrapper for CI instance so you can $this-> in this file */

@@ -17,6 +17,12 @@ $page->show('_partials/filename');
 You can also:
 $page->set('lspan',0);
 
+Requires
+
+Data Library
+Settings Library
+Events Library
+
 */
 
 /* global function! */
@@ -59,6 +65,32 @@ class Page
 			}
 		}
   }
+
+	public function data($name,$value,$where='#')
+	{
+		$ci = get_instance();
+	
+		/* overwrite (#) is default */
+		switch ($where) {
+			case '<':
+				$value = $value.$ci->load->_ci_cached_vars[$name];
+			break;
+			case '>':
+				$value = $ci->load->_ci_cached_vars[$name].$value;
+			break;
+		}
+	
+		$this->data[$name] = $value;
+	}
+
+	public function getData($name=null)
+	{
+		if ($name == null) {
+			return $this->data;
+		}
+		
+		return $this->data[$name];
+	}
 	
 	public function load_config($key) {
 		$this->config[$key]($this);
@@ -170,7 +202,7 @@ class Page
 	/* wrapper for chain-able load view with auto route */
 	public function view($view=null,$data=array(),$return=false)
 	{
-		$view = ($view) ? $view : getData('route');
+		$view = ($view) ? $view : $this->getData('route');
 				
 		$html = $this->load->view($view,$data,$return);
 
@@ -190,7 +222,7 @@ class Page
 
 		/* if they sent in a file path or nothing (ie null) then load the view file into the template "center" (mapped) */
 		if ($view !== false) {
-			$this->load->partial((($view) ? $view : getData('route')),array(),$this->config['variable_mappings']['center']);
+			$this->load->partial((($view) ? $view : $this->getData('route')),array(),$this->config['variable_mappings']['center']);
   	}
 
     /* final output */
@@ -218,7 +250,8 @@ class Page
 		$hash = @md5($key.$value.$where.$type);
 		
 		if (!isset($this->added[$hash])) {
-			data(getDefault($this->config['variable_mappings'][$key],$key),$value,$where);
+			$key = ($this->config['variable_mappings'][$key]) ? $this->config['variable_mappings'][$key] : $key;
+			$this->data($key,$value,$where);
 			$this->added[$hash] = true;
 		}
 
