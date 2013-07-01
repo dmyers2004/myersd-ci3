@@ -21,21 +21,27 @@ class columnsController extends MY_PublicController
 		events::register('pre_partials/right',array($this,'rightcolumn'));
 		events::register('pre_partials/left',array($this,'leftcolumn'));
 
+		$lspan = 0;
+		$cspan = 12;
+		$rspan = 0;
+
 		switch($which) {
 			case 'left':
-				$this->page
-					->set('lspan',4)
-					->set('cspan',8);
-					
+				$lspan = 4;
+				$this->page->show('_partials/left');
+				$cspan = 8;
 			break;
 			case 'right':
-				$this->page
-					->set('rspan',4)
-					->set('cspan',8);
+				$rspan = 4;
+				$this->page->show('_partials/right');
+				$cspan = 8;
 			break;
 		}
 		
 		$this->page
+			->set('lspan',$lspan)
+			->set('cspan',$cspan)
+			->set('rspan',$rspan)
 			->set('msg','2 Column '.ucfirst($which))
 			->build('columns/index');
 	}
@@ -46,6 +52,8 @@ class columnsController extends MY_PublicController
 		events::register('pre_partials/left',array($this,'leftcolumn'));
 
 		$this->page
+			->show('_partials/left')
+			->show('_partials/right')
 			->set('lspan',3)
 			->set('cspan',6)
 			->set('rspan',3)

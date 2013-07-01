@@ -177,5 +177,14 @@ function dump()
 	echo '</fieldset>';
 }
 
+function print_a($ary)
+{
+	echo '<pre>';
+	echo htmlentities(print_r($ary,true));
+	die();
+}
+	
+
+
 /* End of file utility_helper.php */
 /* Location: ./application/helpers/utility_helper.php */
