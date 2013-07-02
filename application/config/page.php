@@ -41,7 +41,6 @@ $config['variable_mappings'] = array(
 	'css' => 'page_css',
 	'meta' => 'page_meta',
 	'js' => 'page_js',
-	'nav' => 'page_nav',
 	'lspan' => 'page_lspan',
 	'left' => 'page_left',
 	'rspan' => 'page_rspan',
@@ -99,7 +98,14 @@ $config['admin'] = function(&$page) {
 		->js('/assets/admin/js/jquery.combobox.js')
 		->js('/assets/admin/js/jquery.filter_input.js')
 		->js('/assets/admin/js/admin.js')
-		->js('/assets/admin/js/onready.js');
+		->js('/assets/admin/js/onready.js')
+		->func('Enum',function($input,$string,$delimiter='|') {
+				$enum = explode($delimiter,$string);
+				return $enum[(int) $input];
+			})
+		->func('Shorten',function($text,$length=64) {
+				return (strlen($text) > $length) ? substr($text,0,$length).'&hellip;' : $text;
+			});
 };
 
 /* add new config settings below */

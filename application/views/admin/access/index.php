@@ -23,11 +23,11 @@
 			</td>
 			<td class="txt-ac">
 				<a href="/admin/access/activate/<?=$record->id ?>/" class="enum_handler" data-value="<?=$record->active ?>" data-enum="icon-circle-blank|icon-ok-circle">
-					<i class="<?=v::enum($record->active,"icon-circle-blank|icon-ok-circle") ?>"></i>
+					<i class="<?=$Enum($record->active,"icon-circle-blank|icon-ok-circle") ?>"></i>
 				</a>
 			</td>
 			<td class="txt-ac">
-			<?=v::enum($record->type,'<i class="icon-user"></i>|<i class="icon-cog"></i>|<i class="icon-signin"  data-toggle="tooltip" data-original-title="'.$record->module_name.'"></i>') ?>
+			<?=$Enum($record->type,'<i class="icon-user"></i>|<i class="icon-cog"></i>|<i class="icon-signin"  data-toggle="tooltip" data-original-title="'.$record->module_name.'"></i>') ?>
 			</td>
 			<td>
 <?php if ($record->type == 0) { ?>						

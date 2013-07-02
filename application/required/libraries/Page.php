@@ -7,26 +7,115 @@ pre_partial/filename - is called when the load global function is called ie. pre
 
 Note: All __ (double) replaced with _ (single)
 
-method: config($group)
+method: config(group)
 	Load config Closure group from config file
+	#chainable
 
 method: data();
 	returns all view variables
 
-method: data($name);
+method: data(name);
 	returns this return variable
 
-method: data($name,$value);
+method: data(name,value);
 	sets this view variable to $value (overwriting)
-	returns $page
+	#chainable
 
-method: data($name,$value,$where="#")
+method: data(name,value,where="#")
 	sets this view variable to $value
 	$where = < prepends $value in front of everything already in this variable (only works with strings)
 	$where = > appends $value behind everything already in this variable (only works with strings)
-	returns $page
+	#chainable
 
-method: 
+method: func($name,closure)
+	sets a variable to a closure function
+	#chainable
+
+method: hide(name)
+	prevent a view file named name from loading
+	ex. hide('_partials/nav');
+	#chainable
+
+method: show(name)
+	allow a view file named name to load
+	ex. show('_partials/nav');
+	#chainable
+
+method: shown(name)
+	return if a loaded view is show
+
+method: set(name,value)
+	set a variable named name with value - overwrite (anything can be "set" to a variable)
+	#chainable
+
+method: append($name,value)
+	appends a value to a view variable named name (strings only)
+	(behind everything in there) 
+	#chainable
+
+method: prepend
+	prepends a value to a view variable named name (strings only)
+	(in front of everything in there) 
+	#chainable
+
+method: css([array|file],[<|>|#|-])
+	if an array it is converted into name/value pairs
+	if a string it is used as src value and merged with the page defaults
+	by default this is appended to the css variable (>)
+	other options include:
+	 prepend (<)
+	 overwrite (#)
+	 remove (-)
+	 append (>)
+	#chainable
+	
+method: js([array|file],[<|>|#|-])
+	if a array it is converted into name/value pairs
+	if a string it is used as href value and merged with the page defaults
+	by default this is appended to the js variable (>)
+	other options include:
+	 prepend (<)
+	 overwrite (#)
+	 remove (-)
+	 append (>)
+	#chainable
+
+method: meta([array|name],[content|where],where)
+	if a array it is converted into name/value pairs
+	if name & content are strings they are converted to name and content
+	by default this is appended to the meta variable (>)
+	other options include:
+	 prepend (<)
+	 overwrite (#)
+	 remove (-)
+	 append (>)
+	#chainable
+
+method: theme(name)
+	adds a new CodeIgniter Package which can be used as a "theme"
+	this package is in the format apppath/themes/#name#/view/#new view file(s)#
+	if name not included the current theme will be returned
+	#chainable unless name not included
+	
+method: template(name)
+	change the template to name
+	if name not included the current theme will be returned
+	#chainable unless name not included
+
+method: partial(view,data,variable)
+	load a view file using the data array (if included)
+	if variable is set the view file will be automatically loaded into the variable
+	if not it will be returned
+	#chainable unless variable is not used
+
+method: view(view,data,return)
+
+method: build(view,layout)
+	build and output the final page
+	if view is false the auto "content" loader won't be run
+	if view is a view file ex. /admin/view/index it will be used for the "content"
+	if layout is included it will be used for the final template
+	if layout is not included the one in the view variable will be used
 
 
 To not load a view
@@ -46,7 +135,12 @@ Events Library
 
 */
 
-/* global function! */
+/*
+Global view "include" function
+by calling this function instead of php include/require
+a trigger will be called
+in addition includes will not be called based using show/hide
+*/
 function load($file)
 {
 	$ci = get_instance();
@@ -132,12 +226,16 @@ class Page
 	public function show($name=null) {
 		return $this->_show($name,true);
 	}
-
-	/* overwrites */
-	public function set($key,$value,$where='#') {
-		return $this->add($key,$value,$where,'variable');
+	
+	public function shown($name) {
+		return $this->show[preg_replace('/\.[^.]*$/', '', $name)];
 	}
 
+	/* overwrites */
+	public function set($key,$value) {
+		return $this->add($key,$value,'#','variable');
+	}
+	
 	/* appends */
 	public function append($key,$value) {
 		return $this->add($key,$value,'>','variable');
@@ -146,6 +244,11 @@ class Page
 	/* prepends */
 	public function prepend($key,$value) {
 		return $this->add($key,$value,'<','variable');
+	}
+
+	/* overwrites */
+	public function func($key,$value) {
+		return $this->add($key,$value,'#','function');
 	}
 	
   /* add a css file */
@@ -247,7 +350,7 @@ class Page
 		return $this;
 	}
 
-	/* private functions */
+	/* !private functions */
 
   private function tag($merged,$pre,$post,$tag,$where) {
 		$html = $pre.' '.$this->_ary2attr($merged).$post;

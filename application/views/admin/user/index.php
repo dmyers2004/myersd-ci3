@@ -26,7 +26,7 @@
 			</td>
 			<td class="txt-ac">
 				<a href="/admin/user/activate/<?=$record->id ?>/" class="enum_handler" data-value="<?=$record->activated ?>" data-enum="icon-circle-blank|icon-ok-circle">
-					<i class="<?=v::enum($record->activated,"icon-circle-blank|icon-ok-circle") ?>"></i>
+					<i class="<?=$Enum($record->activated,"icon-circle-blank|icon-ok-circle") ?>"></i>
 				</a>
 			</td>
 			<td>
