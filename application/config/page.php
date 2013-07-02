@@ -50,10 +50,12 @@ $config['variable_mappings'] = array(
 	'center' => 'container'
 );
 
+
+/* these are the default settings for css <lin> and javascript <script> elements */
 $config['default_css'] = array('rel'=>'stylesheet','type'=>'text/css','href'=>'');
 $config['default_js'] = array('src'=>'');
 
-/* default */
+/* default config */
 $config['default'] = function(&$page) {
 	$page
 		->set('lspan',0)
@@ -70,6 +72,7 @@ $config['default'] = function(&$page) {
 		->js('/assets/vendor/bootstrap/js/bootstrap.min.js');
 };
 
+/* public config */
 $config['public'] = function(&$page) {
 	$page
 		->append('bclass','public')
@@ -82,6 +85,7 @@ $config['public'] = function(&$page) {
 		->js('/assets/public/js/onready.js');
 };
 
+/* admin config */
 $config['admin'] = function(&$page) {
 	$page
 		->append('title',' - Admin')
@@ -97,3 +101,5 @@ $config['admin'] = function(&$page) {
 		->js('/assets/admin/js/admin.js')
 		->js('/assets/admin/js/onready.js');
 };
+
+/* add new config settings below */

@@ -1,12 +1,33 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
-
 /*
-page events include
+page events triggered are:
 
-pre_page_build
-pre_partial/filename
+pre_page_build - when build method is called
+pre_partial/filename - is called when the load global function is called ie. pre_partials/header
 
 Note: All __ (double) replaced with _ (single)
+
+method: config($group)
+	Load config Closure group from config file
+
+method: data();
+	returns all view variables
+
+method: data($name);
+	returns this return variable
+
+method: data($name,$value);
+	sets this view variable to $value (overwriting)
+	returns $page
+
+method: data($name,$value,$where="#")
+	sets this view variable to $value
+	$where = < prepends $value in front of everything already in this variable (only works with strings)
+	$where = > appends $value behind everything already in this variable (only works with strings)
+	returns $page
+
+method: 
+
 
 To not load a view
 $page->hide('_partials/filename');
@@ -62,10 +83,19 @@ class Page
 			}
 		}
   }
-
-	public function data($name,$value,$where='#')
+	
+	/* overloaded! get and set */
+	public function data($name=null,$value=null,$where='#')
 	{
 		$ci = get_instance();
+
+		if ($value === null) {
+			if ($name == null) {
+				return $this->load->_ci_cached_vars;
+			}
+			
+			return $this->load->_ci_cached_vars[$name];
+		}
 	
 		/* overwrite (#) is default */
 		switch ($where) {
@@ -81,17 +111,10 @@ class Page
 		}
 	
 		$this->load->_ci_cached_vars[$name] = $value;
+		
+		return $this;
 	}
 
-	public function getData($name=null)
-	{
-		if ($name == null) {
-			return $this->load->_ci_cached_vars;
-		}
-		
-		return $this->load->_ci_cached_vars[$name];
-	}
-	
 	public function config($key) {
 		$this->config[$key]($this);
 		
@@ -194,7 +217,7 @@ class Page
 	/* wrapper for chain-able load view with auto route */
 	public function view($view=null,$data=array(),$return=false)
 	{
-		$view = ($view) ? $view : $this->getData('route');
+		$view = ($view) ? $view : $this->data('route');
 				
 		$html = $this->load->view($view,$data,$return);
 
@@ -214,7 +237,7 @@ class Page
 
 		/* if they sent in a file path or nothing (ie null) then load the view file into the template "center" (mapped) */
 		if ($view !== false) {
-			$this->load->partial((($view) ? $view : $this->getData('route')),array(),$this->config['variable_mappings']['center']);
+			$this->load->partial((($view) ? $view : $this->data('route')),array(),$this->config['variable_mappings']['center']);
   	}
 
     /* final output */
