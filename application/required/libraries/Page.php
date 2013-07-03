@@ -134,7 +134,6 @@ $page->set('lspan',0);
 
 Requires
 
-Data Library
 Settings Library
 Events Library
 
@@ -278,7 +277,7 @@ class Page
 			return $this->load->_ci_cached_vars;
 		}
 
-		if ($value === 'undefined') {
+		if ($value === '$uNdEfInEd$') {
 			return $this->load->_ci_cached_vars[$name];
 		}
 
@@ -374,7 +373,8 @@ class Page
 
 		/* if they sent in a file path or nothing (ie null) then load the view file into the template "center" (mapped) */
 		if ($view !== false) {
-			$this->load->partial((($view) ? $view : $this->data('route')),array(),$this->config['variable_mappings']['center']);
+			$view = ($view) ? $view : data('route');
+			$this->load->partial($view,array(),$this->config['variable_mappings']['center']);
   	}
 
     /* final output */

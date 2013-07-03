@@ -21,14 +21,13 @@ class MY_Controller extends CI_Controller
 
 		/* setup some view low level variables */
 		$route = trim($this->router->fetch_directory().$this->router->fetch_class().'/'.$this->router->fetch_method(),'/');
-		$this->data['route_raw'] = $route;
-		
+		data('route_raw',$route);
+
 		$route = str_replace('Controller','',str_replace('Action','',$route));
-		$this->data['route'] = $route;
-
-		$this->data['route_class'] = str_replace('/',' ',$route);		
-
-		$this->data['user_data'] = $this->session->userdata('user');
+		data('route',$route);
+		
+		data('route_class',str_replace('/',' ',$route));
+		data('user_data',$this->session->userdata('user'));
 
 		$this->session->set_userdata('history-1', $this->input->server('HTTP_REFERER'));
 
@@ -40,7 +39,7 @@ class MY_Controller extends CI_Controller
 		if ($this->config->item('site_open') === FALSE) {
 			show_error('Sorry the site is not open for now.');
 		}
-		
+
 		$this->load->model($this->models);
 		$this->load->helpers($this->helpers);
 		$this->load->library($this->libraries);
