@@ -34,21 +34,20 @@ Array key is what they are called in page library
 Array value is what they are referenced as in the view
 */
 $config['variable_mappings'] = array(
-	'title' => 'page_title',
-	'header' => 'page_header',
-	'bclass' => 'page_body_class',
-	'footer' => 'page_footer',
-	'css' => 'page_css',
-	'meta' => 'page_meta',
-	'js' => 'page_js',
-	'lspan' => 'page_lspan',
-	'left' => 'page_left',
-	'rspan' => 'page_rspan',
-	'right' => 'page_right',
-	'cspan' => 'page_cspan',
-	'center' => 'container'
+	'title' => 'page_title', /* using in <title> */
+	'header' => 'page_header', /* placed directly below <body> */
+	'bclass' => 'page_body_class', /* placed in <body class=""> */
+	'footer' => 'page_footer', /* placed directly above </body> in <footer></footer> tags */
+	'css' => 'page_css', /* placed in <head> section */
+	'meta' => 'page_meta', /* placed in <head> section */
+	'js' => 'page_js', /* placed directly above </body> */
+	'left_class' => 'page_lspan', /* left div class */
+	'left' => 'page_left', /* holder for left column content */
+	'right_class' => 'page_rspan', /* right div class */
+	'right' => 'page_right', /* holder for right column content */
+	'center_class' => 'page_cspan', /* center div class */
+	'center' => 'container' /* holder for all center column content */
 );
-
 
 /* these are the default settings for css <lin> and javascript <script> elements */
 $config['default_css'] = array('rel'=>'stylesheet','type'=>'text/css','href'=>'');
@@ -57,9 +56,7 @@ $config['default_js'] = array('src'=>'');
 /* default config */
 $config['default'] = function(&$page) {
 	$page
-		->set('lspan',0)
-		->set('cspan',12)
-		->set('rspan',0)
+		->set('center_class','span12')
 		->hide('_partials/left')
 		->hide('_partials/right')
 		->template('_templates/default')

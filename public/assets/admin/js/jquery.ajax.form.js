@@ -2,9 +2,7 @@ var mvc = (mvc) || {};
 
 jQuery.fn.ajaxForm = function(debug) {
 	$(this).submit(function(e) {
-		if (debug) {
-			e.preventDefault();
-		}
+		//e.preventDefault();
 
 		/* create reference to form */
 		var form = $(this);

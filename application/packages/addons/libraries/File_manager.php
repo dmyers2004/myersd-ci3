@@ -59,3 +59,14 @@ class File_manager
 		$ci->page->append('js','<script>$(document).ready(function(){qzud('.(($this->standalone) ? 'true' : 'false').');})</script>');
 	}
 }
+
+function form_file_manager($id='file_manager',$options=array()) {
+	$padding = ($options['padding']) ? $options['padding'].'px'  : '8px';
+
+	return '<script>
+	function qyxr(pn){var re=new RegExp(\'(?:[\?&]|&amp;)\'+pn+\'=([^&]+)\',\'i\');var ma=window.location.search.match(re);return(ma&&ma.length>1)?ma[1]:\'\'};
+	function qzud(s){var o='.json_encode((array)$options,JSON_UNESCAPED_SLASHES).';o.getFileCallback=function(f){window.opener.CKEDITOR.tools.callFunction(qyxr(\'CKEditorFuncNum\'),f.url);window.close();};
+	var e = jQuery("#'.$id.'").elfinder(o);
+	if(s){e.css({top:\''.$padding.'\',left:\''.$padding.'\',right:\''.$padding.'\',bottom:\''.$padding.'\',position:\'fixed\',height:\'auto\',height:\'auto\'});}};
+	</script><div id="'.$id.'"></div>';
+}

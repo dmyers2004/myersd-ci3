@@ -11,6 +11,7 @@ class mediaController extends MY_AdminController
 	public function indexAction()
 	{
 		$this->load->library('file_manager');
+		$this->load->helper('ckeditor');
 
 		$this->page
 			->set('options',$this->file_manager->options(array('height'=>500,'width'=>'auto')))

@@ -1,4 +1,4 @@
-	  <div class="span<?=$page_rspan ?> right-span">
-	  <h3>Right</h3>
-	  <?=$page_right ?>
-	  </div>
+<div class="<?=$page_rspan ?> right-span">
+<h3>Right</h3>
+<?=$page_right ?>
+</div>

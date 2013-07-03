@@ -21,10 +21,11 @@ method: data(name,value);
 	sets this view variable to $value (overwriting)
 	#chainable
 
-method: data(name,value,where="#")
+method: data(name,value,where)
 	sets this view variable to $value
-	$where = < prepends $value in front of everything already in this variable (only works with strings)
-	$where = > appends $value behind everything already in this variable (only works with strings)
+	if where is < prepends $value in front of everything already in this variable (only works with strings)
+	if where is > appends $value behind everything already in this variable (only works with strings)
+	where default is to overwrite
 	#chainable
 
 method: func($name,closure)
@@ -50,12 +51,12 @@ method: set(name,value)
 
 method: append($name,value)
 	appends a value to a view variable named name (strings only)
-	(behind everything in there) 
+	(behind everything in there)
 	#chainable
 
 method: prepend
 	prepends a value to a view variable named name (strings only)
-	(in front of everything in there) 
+	(in front of everything in there)
 	#chainable
 
 method: css([array|file],[<|>|#|-])
@@ -68,7 +69,7 @@ method: css([array|file],[<|>|#|-])
 	 remove (-)
 	 append (>)
 	#chainable
-	
+
 method: js([array|file],[<|>|#|-])
 	if a array it is converted into name/value pairs
 	if a string it is used as href value and merged with the page defaults
@@ -91,18 +92,22 @@ method: meta([array|name],[content|where],where)
 	 append (>)
 	#chainable
 
-method: theme(name)
+method: theme(name) !todo overloaded now
 	adds a new CodeIgniter Package which can be used as a "theme"
 	this package is in the format apppath/themes/#name#/view/#new view file(s)#
 	if name not included the current theme will be returned
 	#chainable unless name not included
-	
+
+@@@method: remove_theme(name)
+	remove the current method from the CodeIgniter packages
+	#chainable
+
 method: template(name)
 	change the template to name
 	if name not included the current theme will be returned
 	#chainable unless name not included
 
-method: partial(view,data,variable)
+@@@method: partial(view,data,variable)
 	load a view file using the data array (if included)
 	if variable is set the view file will be automatically loaded into the variable
 	if not it will be returned
@@ -138,87 +143,101 @@ Events Library
 /*
 Global view "include" function
 by calling this function instead of php include/require
-a trigger will be called
-in addition includes will not be called based using show/hide
+a trigger will be thrown
+in addition includes will not be loaded based show/hide values
 */
 function load($file)
 {
 	$ci = get_instance();
 	$show = $ci->page->show();
-	$file = preg_replace('/\.[^.]*$/', '', $file);
+	$file = preg_replace('/\.[^.]*$/', '', $file); /* strip extension if included */
 	if ($show[$file] !== FALSE) {
-		/* trigger pre/[view file] to be loaded event(s) */
+		/* trigger pre/[view file] event */
 		events::trigger(str_replace('__','_','pre_'.$file),null,'array');
-		echo $ci->load->partial($file);
+		/* load the file */
+		$ci->load->view($file,array(),false);
 	}
 }
 
 class Page
 {
   private $config = NULL; /* all configs local cache */
-
 	private $template = '_templates/default'; /* template to use in build method */
 	private $theme = ''; /* theme folder for views (added as a package) */
-
 	private $show = array();
-	private $added = array();
 
   public function __construct()
   {
     $this->config = $this->load->settings('page');
 
 		/* load in our defaults if any */
-		$this->config('default');		
+		$this->config('default');
 
-		/* load in the config as variables if it's a string */
-		foreach ($this->config as $name => $value) {
-			if (is_string($value)) {
-				$this->set($name,$value);
-			}
+		/* load any database settings into the views */
+		foreach ($this->settings->get_settings_by_group('page') as $name => $value) {
+			$this->data($name,$value,'#');
 		}
   }
-	
-	/* overloaded! get and set */
-	public function data($name=null,$value=null,$where='#')
+
+	/* load a config file config grouping (Closure Function) */
+	public function config($key)
 	{
-		$ci = get_instance();
+		$this->config[$key]($this);
+
+		return $this;
+	}
+
+  /* setter and getter for template */
+  public function template($name=null)
+  {
+		/* nothing sent in so return the current template */
+		if ($name === null) {
+			return $this->template;
+		}
+
+    $this->template = $name;
+    return $this;
+  }
+
+	/* getter and setter for theme folder (CI package) */
+  public function theme($name=null,$remove=false)
+  {
+		/* if remove */
+		if ($remove) {
+
+			$this->theme = null;
+  		$this->load->remove_package_path(APPPATH.'themes/'.$name.'/');
+
+		} else {
+
+			/* nothing sent in so return the current theme */
+			if ($name === null) {
+				return $this->theme;
+			}
+
+	  	$this->theme = $name;
+			$this->load->add_package_path(APPPATH.'themes/'.$name.'/', TRUE);
+		}
+
+  	return $this;
+  }
+
+	/* getter and setter for variable mappings */
+	public function map($name=null,$value=null) {
+		if ($name === null) {
+			return $this->config['variable_mappings'];
+		}
 
 		if ($value === null) {
-			if ($name == null) {
-				return $this->load->_ci_cached_vars;
-			}
-			
-			return $this->load->_ci_cached_vars[$name];
+			return $this->config['variable_mappings'][$name];
 		}
-	
-		/* overwrite (#) is default */
-		switch ($where) {
-			case '<': // Prepend
-				$value = $value.$this->load->_ci_cached_vars[$name];
-			break;
-			case '>': // Append
-				$value = $this->load->_ci_cached_vars[$name].$value;
-			break;
-			case '-': // Remove
-				$value = str_replace($value,'',$this->load->_ci_cached_vars[$name]);
-			break;
-		}
-	
-		$this->load->_ci_cached_vars[$name] = $value;
-		
+
+		$this->config['variable_mappings'][$name] = $value;
+
 		return $this;
 	}
 
-	public function config($key) {
-		$this->config[$key]($this);
-		
-		return $this;
-	}
-
-	public function mapped($name) {
-		return $this->config['variable_mappings'][$name];
-	}
-
+	/* hide/show/is shown wrappers for _show */
 	public function hide($name=null) {
 		return $this->_show($name,false);
 	}
@@ -226,47 +245,93 @@ class Page
 	public function show($name=null) {
 		return $this->_show($name,true);
 	}
-	
+
 	public function shown($name) {
-		return $this->show[preg_replace('/\.[^.]*$/', '', $name)];
+		return $this->_show($name);
 	}
 
 	/* overwrites */
 	public function set($key,$value) {
-		return $this->add($key,$value,'#','variable');
+		return $this->data($key,$value);
 	}
-	
-	/* appends */
+
+	/* appends (strings only) */
 	public function append($key,$value) {
-		return $this->add($key,$value,'>','variable');
+		return $this->data($key,$value,'>');
 	}
 
-	/* prepends */
+	/* prepends (strings only) */
 	public function prepend($key,$value) {
-		return $this->add($key,$value,'<','variable');
+		return $this->data($key,$value,'<');
 	}
 
-	/* overwrites */
+	/* overwrites - really the same as set but looks more like for "functions" */
 	public function func($key,$value) {
-		return $this->add($key,$value,'#','function');
+		return $this->data($key,$value);
 	}
+
+	/* This is majorly overloaded it is both a getting and setting */
+	public function data($name=null,$value='$uNdEfInEd$',$where='#')
+	{
+		/* handle overloading */
+		if ($name === null) {
+			return $this->load->_ci_cached_vars;
+		}
+
+		if ($value === 'undefined') {
+			return $this->load->_ci_cached_vars[$name];
+		}
+
+		/* nothing of value even sent in? bail now */
+		if ($value !== '') {
+			/* ok they must want to set something */
+			$name = ($this->config['variable_mappings'][$name]) ? $this->config['variable_mappings'][$name] : $name;
 	
+			/* overwrite (#) is default */
+			switch ($where) {
+				case '<': // Prepend
+					$current = $this->load->_ci_cached_vars[$name];
+	
+					if (strpos($current, $value) !== false) {
+						$value = $current;
+					} else {
+						$value = $value.$current;
+					}
+				break;
+				case '>': // Append
+					$current = $this->load->_ci_cached_vars[$name];
+	
+					if (strpos($current, $value) !== false) {
+						$value = $current;
+					} else {
+						$value = $current.$value;
+					}
+				break;
+				case '-': // Remove
+					$value = str_replace($value,'',$this->load->_ci_cached_vars[$name]);
+				break;
+			}
+	
+			$this->load->_ci_cached_vars[$name] = $value;
+		}
+
+		return $this;
+	}
+
   /* add a css file */
   public function css($file='',$where='>')
   {
-		$file = (is_string($file)) ? array('href'=>$file) : $file;
-    $merged = array_merge($this->config['default_css'],$file);
-		return $this->tag($merged,'<link',' />','css',$where);
-  }  
-  
+    $merged = array_merge($this->config['default_css'],((is_string($file)) ? array('href'=>$file) : $file));
+		return $this->_tag($merged,'<link',' />','css',$where);
+  }
+
   /* add js file */
   public function js($file='',$where='>')
   {
-		$file = (is_string($file)) ? array('src'=>$file) : $file;
-    $merged = array_merge($this->config['default_js'],$file);
-		return $this->tag($merged,'<script','></script>','js',$where);
-  }  
-  
+    $merged = array_merge($this->config['default_js'],((is_string($file)) ? array('src'=>$file) : $file));
+		return $this->_tag($merged,'<script','></script>','js',$where);
+  }
+
   /* add meta tag */
   public function meta($arg1='',$arg2='>',$agr3='>')
   {
@@ -278,51 +343,20 @@ class Page
 			/* array */
 			$arg3 = $arg2;
 		}
-		
-		return $this->tag($arg1,'<meta','>','meta',$where);
+
+		return $this->_tag($arg1,'<meta','>','meta',$where);
 	}
-	  
-  /* change the template */
-  public function template($name=null)
-  {
-		if ($name == null) {
-			return $this->template;	
-		}
-		
-    $this->template = $name;
-    return $this;
-  }
-	
-	/* add theme folder (CI package) */
-  public function theme($name=null)
-  {
-		if ($name == null) {
-			return $this->theme;
-		}
-		
-  	$this->theme = $name;
-		$this->load->add_package_path(APPPATH.'themes/'.$name.'/', TRUE);
-  	return $this;
-  }
-	
-	/* wrapper for chain-able load partial */
-	public function partial($view,$data=array(),$name=null)
-	{
-		$html = $this->load->partial($view,$data,$name);
-		
-		if ($name == null) {
-			return $html;	
-		}
-		
-		return $this;
-	}
-	
-	/* wrapper for chain-able load view with auto route */
+
+	/* this will load partials, views and is chainable (if return = false) */
 	public function view($view=null,$data=array(),$return=false)
 	{
 		$view = ($view) ? $view : $this->data('route');
-				
-		$html = $this->load->view($view,$data,$return);
+
+		if (is_string($return)) {
+			$this->load->partial($view,$data,$return);
+		} else {
+			$html = $this->load->view($view,$data,$return);
+		}
 
 		if ($return === true) {
 			return $html;
@@ -336,7 +370,7 @@ class Page
   {
 
 		/* anyone need to process something before build? */
-		events::trigger('pre_page_build',null,'array');
+		events::trigger('pre_page_build',null,'string');
 
 		/* if they sent in a file path or nothing (ie null) then load the view file into the template "center" (mapped) */
 		if ($view !== false) {
@@ -352,47 +386,40 @@ class Page
 
 	/* !private functions */
 
-  private function tag($merged,$pre,$post,$tag,$where) {
-		$html = $pre.' '.$this->_ary2attr($merged).$post;
+  private function _tag($merged,$pre,$post,$tag,$where) {
+		$attr = '';
+
+    foreach ($merged as $name => $value) {
+      $attr .= $name.'="'.$value.'" ';
+    }
+
+		$html = $pre.' '.trim($attr).$post;
+
+		if (is_string($html)) {
+			$html = str_replace('{theme}',$this->theme,$html);
+		}
 
 		if ($where === true) {
 			return $html;
 		}
-    
-    return $this->add($tag,$html,$where,$tag);
+
+    return $this->data($tag,$html,$where);
   }
 
-	private function add($key,$value=null,$where='#',$type='generic') {
-		
-		/* add it to the to be processed array - the key should (basically) keep from adding the same thing twice */
-		$hash = @md5($key.$value.$where.$type);
-		
-		if (!isset($this->added[$hash])) {
-			$key = ($this->config['variable_mappings'][$key]) ? $this->config['variable_mappings'][$key] : $key;
-			$this->data($key,$value,$where);
-			$this->added[$hash] = true;
+	private function _show($name,$bol=null) {
+		if ($name === null) {
+			return $this->show;
 		}
+
+		$key = preg_replace('/\.[^.]*$/', '', $name);
+
+		if ($bol === null) {
+			return $this->show[$key];
+		}
+
+		$this->show[$key] = $bol;
 
 		return $this;
-	}
-
-  private function _ary2attr($array)
-  {
-    $output = '';
-    foreach ((array) $array as $name => $value) {
-      $output .= $name.'="'.$value.'" ';
-    }
-
-    return trim($output);
-  }
-
-	private function _show($name,$bol) {
-		if ($name == null) {
-			return $this->show;	
-		}
-		$this->show[preg_replace('/\.[^.]*$/', '', $name)] = $bol; 
-	
-		return $this;	
 	}
 
 	/* generic wrapper for CI instance so you can $this-> in this file */

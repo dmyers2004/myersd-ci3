@@ -21,7 +21,6 @@ class MY_PublicController extends MY_Controller
 		$this->load->library(array('paths','form_validation','menubar','page','flash_msg'));
 
 		$this->page
-			->set('v',$this->v)
 			->config('public');
 	}
 
