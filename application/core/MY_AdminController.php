@@ -14,6 +14,7 @@ class MY_AdminController extends MY_PublicController
 	public $controller = '';
 	public $page_title = '';
 	public $page_titles = '';
+	public $controller_path = '';
 
 	public function __construct()
 	{
@@ -41,6 +42,10 @@ class MY_AdminController extends MY_PublicController
 
 		/* load the page admin config */
 		$this->page
+			->set('controller_path',$this->controller_path)
+			->set('controller',$this->controller)
+			->set('content_title',$this->content_title)
+			->set('content_titles',$this->content_titles)
 			->config('admin');
 	}
 
