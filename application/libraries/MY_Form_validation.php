@@ -145,7 +145,7 @@ class MY_Form_validation extends CI_Form_validation
 	public function hexcolor($field)
 	{
 		$this->CI->form_validation->set_message('hexcolor', 'The %s is invalid.');
-		return (!preg_match('/(^[\w\.!#$%"*+\/=?`{}|~^-]+)@(([-\w]+\.)+[A-Za-z]{2,})$/', $field)) ? false : true;
+		return (!preg_match('/^#?[a-fA-F0-9]{3,6}$/', $field)) ? false : true;
 	}
 
 	public function md5($field)

@@ -16,7 +16,6 @@ CREATE TABLE `settings` (
 class setting_model extends MY_Model
 {
   protected $_table = 'settings';
-  protected $primary_key = 'id';
 
   protected $fields = array(
   	'id' => array('field'=>'id','label'=>'Id','rules'=>'required|integer','filter'=>'trim|filter_int[5]|exists[settings.id]'),

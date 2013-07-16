@@ -3,134 +3,8 @@
 page events triggered are:
 
 pre_page_build - when build method is called
-pre_partial/filename - is called when the load global function is called ie. pre_partials/header
+pre_partial/filename - is called when the load global function (below) is called ie. pre_partials/header
 
-Note: All __ (double) replaced with _ (single)
-
-method: config(group)
-	Load config Closure group from config file
-	#chainable
-
-method: data();
-	returns all view variables
-
-method: data(name);
-	returns this return variable
-
-method: data(name,value);
-	sets this view variable to $value (overwriting)
-	#chainable
-
-method: data(name,value,where)
-	sets this view variable to $value
-	if where is < prepends $value in front of everything already in this variable (only works with strings)
-	if where is > appends $value behind everything already in this variable (only works with strings)
-	where default is to overwrite
-	#chainable
-
-method: func($name,closure)
-	sets a variable to a closure function
-	#chainable
-
-method: hide(name)
-	prevent a view file named name from loading
-	ex. hide('_partials/nav');
-	#chainable
-
-method: show(name)
-	allow a view file named name to load
-	ex. show('_partials/nav');
-	#chainable
-
-method: shown(name)
-	return if a loaded view is show
-
-method: set(name,value)
-	set a variable named name with value - overwrite (anything can be "set" to a variable)
-	#chainable
-
-method: append($name,value)
-	appends a value to a view variable named name (strings only)
-	(behind everything in there)
-	#chainable
-
-method: prepend
-	prepends a value to a view variable named name (strings only)
-	(in front of everything in there)
-	#chainable
-
-method: css([array|file],[<|>|#|-])
-	if an array it is converted into name/value pairs
-	if a string it is used as src value and merged with the page defaults
-	by default this is appended to the css variable (>)
-	other options include:
-	 prepend (<)
-	 overwrite (#)
-	 remove (-)
-	 append (>)
-	#chainable
-
-method: js([array|file],[<|>|#|-])
-	if a array it is converted into name/value pairs
-	if a string it is used as href value and merged with the page defaults
-	by default this is appended to the js variable (>)
-	other options include:
-	 prepend (<)
-	 overwrite (#)
-	 remove (-)
-	 append (>)
-	#chainable
-
-method: meta([array|name],[content|where],where)
-	if a array it is converted into name/value pairs
-	if name & content are strings they are converted to name and content
-	by default this is appended to the meta variable (>)
-	other options include:
-	 prepend (<)
-	 overwrite (#)
-	 remove (-)
-	 append (>)
-	#chainable
-
-method: theme(name) !todo overloaded now
-	adds a new CodeIgniter Package which can be used as a "theme"
-	this package is in the format apppath/themes/#name#/view/#new view file(s)#
-	if name not included the current theme will be returned
-	#chainable unless name not included
-
-@@@method: remove_theme(name)
-	remove the current method from the CodeIgniter packages
-	#chainable
-
-method: template(name)
-	change the template to name
-	if name not included the current theme will be returned
-	#chainable unless name not included
-
-@@@method: partial(view,data,variable)
-	load a view file using the data array (if included)
-	if variable is set the view file will be automatically loaded into the variable
-	if not it will be returned
-	#chainable unless variable is not used
-
-method: view(view,data,return)
-
-method: build(view,layout)
-	build and output the final page
-	if view is false the auto "content" loader won't be run
-	if view is a view file ex. /admin/view/index it will be used for the "content"
-	if layout is included it will be used for the final template
-	if layout is not included the one in the view variable will be used
-
-
-To not load a view
-$page->hide('_partials/filename');
-
-To allow it again (default to show all)
-$page->show('_partials/filename');
-
-You can also:
-$page->set('lspan',0);
 
 Requires
 
@@ -145,7 +19,7 @@ by calling this function instead of php include/require
 a trigger will be thrown
 in addition includes will not be loaded based show/hide values
 */
-function load($file)
+function load($file,$return=false)
 {
 	$ci = get_instance();
 	$show = $ci->page->show();
@@ -153,8 +27,8 @@ function load($file)
 	if ($show[$file] !== FALSE) {
 		/* trigger pre/[view file] event */
 		events::trigger(str_replace('__','_','pre_'.$file),null,'array');
-		/* load the file */
-		$ci->load->view($file,array(),false);
+		/* load and output the file */
+		$ci->load->view($file,array(),$return);
 	}
 }
 
@@ -163,6 +37,7 @@ class Page
   private $config = NULL; /* all configs local cache */
 	private $template = '_templates/default'; /* template to use in build method */
 	private $theme = ''; /* theme folder for views (added as a package) */
+	private $assets = '/assets';
 	private $show = array();
 
   public function __construct()
@@ -197,6 +72,10 @@ class Page
     $this->template = $name;
     return $this;
   }
+
+	public function assets($folder) {
+		$this->assets = $folder;	
+	}
 
 	/* getter and setter for theme folder (CI package) */
   public function theme($name=null,$remove=false)
@@ -254,6 +133,14 @@ class Page
 		return $this->data($key,$value);
 	}
 
+	public function style($style) {
+		return $this->data('style',$style,'>');
+	}
+	
+	public function script($script) {
+		return $this->data('script',$script,'>');
+	}
+
 	/* appends (strings only) */
 	public function append($key,$value) {
 		return $this->data($key,$value,'>');
@@ -273,6 +160,13 @@ class Page
 	public function data($name=null,$value='$uNdEfInEd$',$where='#')
 	{
 		/* handle overloading */
+		if (is_array($name)) {
+			foreach ($name as $key => $value) {
+				$this->data($key,$value);
+			}
+			return $this;	
+		}
+
 		if ($name === null) {
 			return $this->load->_ci_cached_vars;
 		}
@@ -329,6 +223,11 @@ class Page
   {
     $merged = array_merge($this->config['default_js'],((is_string($file)) ? array('src'=>$file) : $file));
 		return $this->_tag($merged,'<script','></script>','js',$where);
+  }
+  
+  /* add to onready */
+  public function onready($code) {
+		return $this->data('onready',$code,'>');
   }
 
   /* add meta tag */
@@ -396,7 +295,7 @@ class Page
 		$html = $pre.' '.trim($attr).$post;
 
 		if (is_string($html)) {
-			$html = str_replace('{theme}',$this->theme,$html);
+			$html = str_replace('{theme}',$this->theme,str_replace('{assets}',$this->assets,$html));
 		}
 
 		if ($where === true) {

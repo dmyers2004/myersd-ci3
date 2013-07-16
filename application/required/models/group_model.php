@@ -35,6 +35,17 @@ class group_model extends MY_Model
 		if ($group_id == $this->config->item('admin_group_id', 'auth')) {
 			/* access to everything */
 			return array('/*');
+		} else {
+			return array(
+				'/nav/dashboard',
+				'/url/admin/*',
+				'/url/ticket/*',
+				'/nav/bugz/*',
+				'/nav/*',
+				'/bugz/ticket/edit/description',
+				'/bugz/ticket/edit/title',
+				'/bugz/ticket/edit/tags'
+			);
 		}
 
     $this->db->select('resource');

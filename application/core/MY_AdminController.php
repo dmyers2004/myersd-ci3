@@ -12,8 +12,8 @@ class MY_AdminController extends MY_PublicController
 	/* your basic scaffolding */
 	public $controller_model = null;
 	public $controller = '';
-	public $page_title = '';
-	public $page_titles = '';
+	public $content_title = '';
+	public $content_titles = '';
 	public $controller_path = '';
 
 	public function __construct()
@@ -29,6 +29,7 @@ class MY_AdminController extends MY_PublicController
 		/* can they access this page based on there permissions namespace is /url/... */
 		if (!$this->auth->has_role_by_group('/url/'.$this->page->data('route')))
 		{
+			log_message('info', 'Access Denied: /url/'.$this->page->data('route'));
 			// redirect them to the last page they where on
 			$this->flash_msg->denied($this->session->userdata('history-1'));
 		}

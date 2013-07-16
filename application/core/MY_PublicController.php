@@ -8,7 +8,6 @@
 
 class MY_PublicController extends MY_Controller
 {
-	public $data = array(); /* store all controller data */
 
 	public function __construct()
 	{
@@ -21,8 +20,8 @@ class MY_PublicController extends MY_Controller
 		$this->load->helpers(array('language','gravatar'));
 		$this->load->library(array('paths','form_validation','menubar','page','flash_msg'));
 
-		$this->page
-			->config('public');
+		$this->page->config('public');
 	}
 
 } /* end MY_PublicController */
+

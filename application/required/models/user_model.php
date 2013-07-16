@@ -59,6 +59,11 @@ class User_model extends MY_Model
 		
 		return $this->input->map($rules,$output,$input,$xss);
 	}
+	
+	public function map_register(&$output,&$input = null,$xss = true) {
+		$rules = array($this->fields['username'],$this->fields['email'],$this->fields['password']);
+		return $this->input->map($rules,$output,$input,$xss);
+	}
   
 	public function validate_login()
 	{
@@ -116,6 +121,14 @@ class User_model extends MY_Model
 		return NULL;
 	}
 
+	public function get_profile($user_id) {
+		$this->db->where('id', $user_id);
+
+		$query = $this->db->get($this->profile_table_name);
+		if ($query->num_rows() == 1) return $query->row();
+		return NULL;
+	}
+	
 	/**
 	 * Get user record by Id
 	 *
@@ -131,6 +144,10 @@ class User_model extends MY_Model
 		$query = $this->db->get($this->table_name);
 		if ($query->num_rows() == 1) return $query->row();
 		return NULL;
+	}
+
+	public function get_all_profiles() {
+		return $this->db->get($this->profile_table_name)->result();
 	}
 
 	/**
