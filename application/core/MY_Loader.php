@@ -41,7 +41,7 @@ class MY_Loader extends CI_Loader
 		if name is provided then place directly into the view variable $name
 		and return $this (loader) to allow chaining
 		*/
-		if ($name) {
+		if (is_string($name)) {
 			$this->_ci_cached_vars[$name] = $partial;
 			return $this;
 		}

@@ -8,6 +8,7 @@
 
 class MY_PublicController extends MY_Controller
 {
+	public $data = array(); /* store all controller data */
 
 	public function __construct()
 	{

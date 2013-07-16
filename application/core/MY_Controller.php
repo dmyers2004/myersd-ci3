@@ -13,7 +13,6 @@ class MY_Controller extends CI_Controller
 	public $libraries = array(); /* auto load */
 	public $helpers = array(); /* auto load */
 	public $models = array(); /* auto load */
-	public $data = array(); /* store all controller data */
 
 	public function __construct()
 	{
@@ -25,7 +24,7 @@ class MY_Controller extends CI_Controller
 
 		$route = str_replace('Controller','',str_replace('Action','',$route));
 		data('route',$route);
-		
+
 		data('route_class',str_replace('/',' ',$route));
 		data('user_data',$this->session->userdata('user'));
 
