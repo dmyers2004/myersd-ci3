@@ -5,6 +5,6 @@ $config = array(
 	'forgot password' => '/auth/forgot',
 	'register' => '/auth/register',
 	'home' => '/',
-	'admin home' => '/admin',
+	'admin home' => '/ticket',
 	'resend login email' => '/auth/resend_email',
 );

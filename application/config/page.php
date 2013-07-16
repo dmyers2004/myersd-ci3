@@ -46,7 +46,10 @@ $config['variable_mappings'] = array(
 	'right_class' => 'page_rspan', /* right div class */
 	'right' => 'page_right', /* holder for right column content */
 	'center_class' => 'page_cspan', /* center div class */
-	'center' => 'container' /* holder for all center column content */
+	'center' => 'container', /* holder for all center column content */
+	'onready' => 'page_onready', /* on page jquery onready */
+	'script' => 'page_script', /* on page between <script> tags (not onready) */
+	'style' => 'page_style' /* on page between <style> tags */
 );
 
 /* these are the default settings for css <lin> and javascript <script> elements */
@@ -71,25 +74,16 @@ $config['default'] = function(&$page) {
 /* public config */
 $config['public'] = function(&$page) {
 	$page
-		->append('bclass','public')
+		->append('bclass','public admin')
 		->css('/assets/public/css/template.css')
 		->css('/assets/public/css/public.css')
 		->js('/assets/vendor/spinner/jquery.spin.min.js')
 		->js('/assets/admin/js/jquery.ajax.form.js')
 		->js('/assets/public/js/plugins.js')
 		->js('/assets/public/js/public.js')
-		->js('/assets/public/js/onready.js');
-};
-
-/* admin config */
-$config['admin'] = function(&$page) {
-	$page
-		->append('title',' - Admin')
-		->set('admin_bar','navbar-inverse')
+		->js('/assets/public/js/onready.js')
 		->css('/assets/admin/css/admin.css')
-		->css('/assets/vendor/chosen/chosen.min.css')
 		->css('/assets/vendor/table-fixed-header/table-fixed-header.min.css')
-		->js('/assets/vendor/chosen/chosen.jquery.min.js')
 		->js('/assets/vendor/table-fixed-header/table-fixed-header.min.js')
 		->js('/assets/admin/js/jquery.ajax.link.js')
 		->js('/assets/admin/js/jquery.combobox.js')
@@ -102,7 +96,23 @@ $config['admin'] = function(&$page) {
 			})
 		->func('Shorten',function($text,$length=64) {
 				return (strlen($text) > $length) ? substr($text,0,$length).'&hellip;' : $text;
-			});
+			})
+		->func('Color',function($color,$with=true) {
+				return (($with) ? '#' : '').trim($color,'#');
+			})
+		->func('CanI',function($role) {
+				return get_instance()->auth->has_role_by_group($role);
+		})
+		->css('/assets/vendor/colorpicker/css/colorpicker.css')
+		->js('/assets/vendor/colorpicker/js/bootstrap-colorpicker.js')
+		->css('/assets/vendor/select2/select2.css')
+		->js('/assets/vendor/select2/select2.js')
+		->css('/assets/vendor/mmenu/mmenu.css')
+		->js('/assets/vendor/mmenu/jquery.mmenu.js');
+};
+
+/* admin config */
+$config['admin'] = function(&$page) {
 };
 
 /* add new config settings below */
