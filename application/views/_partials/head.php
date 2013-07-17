@@ -6,4 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <?=$page_meta ?>
 <?=$page_css ?>
+<style>
+<?=$style ?>
+</style>
 </head>

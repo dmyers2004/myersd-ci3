@@ -66,7 +66,8 @@
 
 $autoload['packages'] = array(
 	APPPATH.'required',
-	APPPATH.'packages/addons'
+	APPPATH.'packages/addons',
+	APPPATH.'../public/modules'
 );
 
 /*
@@ -107,7 +108,7 @@ $autoload['drivers'] = array('session');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url','required','application');
+$autoload['helper'] = array('url','required');
 
 /*
 | -------------------------------------------------------------------

@@ -77,6 +77,7 @@ $config['public'] = function(&$page) {
 		->append('bclass','public admin')
 		->css('/assets/public/css/template.css')
 		->css('/assets/public/css/public.css')
+		->css('/assets/vendor/select2/select2.css')
 		->js('/assets/vendor/spinner/jquery.spin.min.js')
 		->js('/assets/admin/js/jquery.ajax.form.js')
 		->js('/assets/public/js/plugins.js')
@@ -88,6 +89,7 @@ $config['public'] = function(&$page) {
 		->js('/assets/admin/js/jquery.ajax.link.js')
 		->js('/assets/admin/js/jquery.combobox.js')
 		->js('/assets/admin/js/jquery.filter_input.js')
+		->js('/assets/vendor/select2/select2.min.js')
 		->js('/assets/admin/js/admin.js')
 		->js('/assets/admin/js/onready.js')
 		->func('Enum',function($input,$string,$delimiter='|') {
@@ -102,13 +104,7 @@ $config['public'] = function(&$page) {
 			})
 		->func('CanI',function($role) {
 				return get_instance()->auth->has_role_by_group($role);
-		})
-		->css('/assets/vendor/colorpicker/css/colorpicker.css')
-		->js('/assets/vendor/colorpicker/js/bootstrap-colorpicker.js')
-		->css('/assets/vendor/select2/select2.css')
-		->js('/assets/vendor/select2/select2.js')
-		->css('/assets/vendor/mmenu/mmenu.css')
-		->js('/assets/vendor/mmenu/jquery.mmenu.js');
+		});
 };
 
 /* admin config */

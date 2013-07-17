@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
-	$('.chosen').chosen();
+	$('.select2').select2({ width: 'resolve' });
+
 	$('.selectcombobox').selectcombobox();
 	$('.combobox').combobox();
 

@@ -19,6 +19,14 @@ class MY_Controller extends CI_Controller
 	{
 		parent::__construct();
 
+		if ($this->config->item('site_open') === FALSE) {
+			show_error('Sorry the site is not open for now.');
+		}
+
+		$this->load->model($this->models);
+		$this->load->helpers($this->helpers);
+		$this->load->library($this->libraries);
+
 		/* setup some view low level variables */
 		$route = trim($this->router->fetch_directory().$this->router->fetch_class().'/'.$this->router->fetch_method(),'/');
 		data('route_raw',$route);
@@ -33,16 +41,6 @@ class MY_Controller extends CI_Controller
 
 		/* let's make sure all output is utf-8 */
 		$this->output->set_header('Content-Type: text/html; charset=utf-8');
-
-		//$this->output->enable_profiler(TRUE);
-
-		if ($this->config->item('site_open') === FALSE) {
-			show_error('Sorry the site is not open for now.');
-		}
-
-		$this->load->model($this->models);
-		$this->load->helpers($this->helpers);
-		$this->load->library($this->libraries);
 	}
 
 } /* end MY_Controller */

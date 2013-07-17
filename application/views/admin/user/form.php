@@ -44,7 +44,7 @@
 			Group
 		</label>
 		<div class="controls">
-		<?=form_dropdown('group_id', $group_options, $record->group_id, 'class="chosen"') ?>
+		<?=form_dropdown('group_id', $group_options, $record->group_id, 'class="select2"') ?>
 		</div>
 	</div>
 	
