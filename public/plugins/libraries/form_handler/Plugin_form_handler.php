@@ -10,7 +10,7 @@ class Plugin_form_handler
 	public function tohtml() {
 		get_instance()->page
 			->onready("$('form[data-validate=true]').ajaxForm();")
-			->js('/plugins/libraries/form_handler/jquery.ajax.form.js');
+			->js('{plugins}form_handler/jquery.ajax.form.js');
 	}
 
 }

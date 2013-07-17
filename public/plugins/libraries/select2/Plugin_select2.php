@@ -10,8 +10,8 @@ class Plugin_select2
 	public function tohtml() {
 		get_instance()->page
 			->onready("	$('.select2').select2({ width: 'resolve' });")
-			->js('/plugins/libraries/select2/vendor/select2.min.js')
-			->css('/plugins/libraries/select2/vendor/select2.css');
+			->js('{plugins}select2/vendor/select2.min.js')
+			->css('{plugins}select2/vendor/select2.css');
 	}
 
 }

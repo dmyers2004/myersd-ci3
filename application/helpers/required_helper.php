@@ -1,11 +1,10 @@
 <?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-
-	/* This is majorly overloaded it is both a getting and setting */
+/* This is majorly overloaded it is both a getting and setting */
 function data($name=null,$value='$uNdEfInEd$',$where='#')
 {
 	$ci = get_instance();
-	
+
 	/* handle overloading */
 	if ($name === null) {
 		return $ci->load->_ci_cached_vars;

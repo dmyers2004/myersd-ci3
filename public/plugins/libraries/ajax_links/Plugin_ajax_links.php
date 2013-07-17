@@ -10,7 +10,7 @@ class Plugin_ajax_links
 	public function tohtml() {
 		get_instance()->page
 			->onready("plugins.delete_handler.init();plugins.enum_handler.init();")
-			->js('/plugins/libraries/ajax_links/jquery.ajax.link.js');
+			->js('{plugins}ajax_links/jquery.ajax.link.js');
 	}
 
 }

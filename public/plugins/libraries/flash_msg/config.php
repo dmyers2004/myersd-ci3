@@ -2,8 +2,8 @@
 
 $config['pause_for_each'] = 1000; /* micro seconds */
 $config['initial_pause'] = 3; /* # x  pause_for_each */
-$config['js'] = '/plugins/libraries/flash_msg/vendor/jquery.bootstrap.flash_msg.min.js';
-$config['css'] = '/plugins/libraries/flash_msg/vendor/flash_msg.min.css';
+$config['js'] = '{plugins}flash_msg/vendor/jquery.bootstrap.flash_msg.min.js';
+$config['css'] = '{plugins}flash_msg/vendor/flash_msg.min.css';
 
 $config['methods'] = array(
 

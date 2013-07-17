@@ -67,8 +67,21 @@ $config['default'] = function(&$page) {
 		->css('/assets/vendor/bootstrap/css/bootstrap-responsive.min.css')
 		->css('/assets/vendor/fontawesome/css/font-awesome.min.css')
 		->js('/assets/vendor/modernizr/modernizr-2.6.2-respond-1.1.0.min.js')
-		->js('/assets/vendor/jquery/jquery-1.10.1.min.js')
+		->js('/assets/vendor/jquery/jquery-1.10.2.min.js')
 		->js('/assets/vendor/bootstrap/js/bootstrap.min.js');
+};
+
+$config['javascript'] = function(&$page) {
+	get_instance()->load->library(array(
+		'table_fixed_header/Plugin_table_fixed_header',
+		'spinner/Plugin_spinner',
+		'select2/Plugin_select2',
+		'combobox/Plugin_combobox',
+		'filter_input/Plugin_filter_input',
+		'ajax_links/Plugin_ajax_links',
+		'combobox/Plugin_combobox',
+		'form_handler/Plugin_form_handler'
+	));
 };
 
 /* public config */

@@ -8,7 +8,7 @@ class Plugin_js_console{
 
 	public function tohtml() {
 		get_instance()->page
-			->js('/plugins/libraries/js_console/console.js');
+			->js('{plugins}js_console/console.js');
 	}
 
 }

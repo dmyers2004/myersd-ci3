@@ -22,10 +22,16 @@ in addition includes will not be loaded based show/hide values
 function load($file,$return=false)
 {
 	$ci = get_instance();
+
+	/* let's get the show array */
 	$show = $ci->page->show();
-	$file = preg_replace('/\.[^.]*$/', '', $file); /* strip extension if included */
+
+	/* strip extension if included */
+	$file = preg_replace('/\.[^.]*$/', '', $file);
+
+	/* if show[file] does not equal false then continue processing it */
 	if ($show[$file] !== FALSE) {
-		/* trigger pre/[view file] event */
+		/* trigger pre_[view file] event ie. pre_partial_head or pre_shopping_cart */
 		events::trigger(str_replace('__','_','pre_'.$file),null,'array');
 		/* load and output the file */
 		$ci->load->view($file,array(),$return);
@@ -38,6 +44,7 @@ class Page
 	private $template = '_templates/default'; /* template to use in build method */
 	private $theme = ''; /* theme folder for views (added as a package) */
 	private $assets = '/assets';
+	private $plugins = '/plugins/libraries/';
 	private $show = array();
 
   public function __construct()
@@ -73,8 +80,24 @@ class Page
     return $this;
   }
 
+	public function clear($name=null) {
+		if ($name != null) {
+			$this->load->_ci_cached_vars[$this->map($name)] = null;
+		} else {
+			foreach ($this->config['variable_mappings'] as $key => $val) {
+				$this->load->_ci_cached_vars[$val] = null;
+			}
+		}
+
+		return $this;
+	}
+
 	public function assets($folder) {
-		$this->assets = $folder;	
+		$this->assets = $folder;
+	}
+
+	public function plugins($folder) {
+		$this->plugins = $folder;
 	}
 
 	/* getter and setter for theme folder (CI package) */
@@ -136,7 +159,7 @@ class Page
 	public function style($style) {
 		return $this->data('style',$style,'>');
 	}
-	
+
 	public function script($script) {
 		return $this->data('script',$script,'>');
 	}
@@ -164,7 +187,7 @@ class Page
 			foreach ($name as $key => $value) {
 				$this->data($key,$value);
 			}
-			return $this;	
+			return $this;
 		}
 
 		if ($name === null) {
@@ -179,12 +202,12 @@ class Page
 		if ($value !== '') {
 			/* ok they must want to set something */
 			$name = ($this->config['variable_mappings'][$name]) ? $this->config['variable_mappings'][$name] : $name;
-	
+
 			/* overwrite (#) is default */
 			switch ($where) {
 				case '<': // Prepend
 					$current = $this->load->_ci_cached_vars[$name];
-	
+
 					if (strpos($current, $value) !== false) {
 						$value = $current;
 					} else {
@@ -193,7 +216,7 @@ class Page
 				break;
 				case '>': // Append
 					$current = $this->load->_ci_cached_vars[$name];
-	
+
 					if (strpos($current, $value) !== false) {
 						$value = $current;
 					} else {
@@ -204,7 +227,7 @@ class Page
 					$value = str_replace($value,'',$this->load->_ci_cached_vars[$name]);
 				break;
 			}
-	
+
 			$this->load->_ci_cached_vars[$name] = $value;
 		}
 
@@ -224,7 +247,7 @@ class Page
     $merged = array_merge($this->config['default_js'],((is_string($file)) ? array('src'=>$file) : $file));
 		return $this->_tag($merged,'<script','></script>','js',$where);
   }
-  
+
   /* add to onready */
   public function onready($code) {
 		return $this->data('onready',$code,'>');
@@ -295,7 +318,7 @@ class Page
 		$html = $pre.' '.trim($attr).$post;
 
 		if (is_string($html)) {
-			$html = str_replace('{theme}',$this->theme,str_replace('{assets}',$this->assets,$html));
+			$html = str_replace('{theme}',$this->theme,str_replace('{assets}',$this->assets,str_replace('{plugins}',$this->plugins,$html)));
 		}
 
 		if ($where === true) {

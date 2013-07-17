@@ -20,7 +20,9 @@ class MY_PublicController extends MY_Controller
 		$this->load->helpers(array('language','gravatar'));
 		$this->load->library(array('Paths','Form_validation','Menubar','Page','flash_msg/Flash_msg'));
 
-		$this->page->config('public');
+		$this->page
+			->config('public')
+			->config('javascript');
 	}
 
 } /* end MY_PublicController */

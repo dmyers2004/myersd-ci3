@@ -9,7 +9,7 @@ class Plugin_filter_input
 
 	public function tohtml() {
 		get_instance()->page
-			->js('/plugins/libraries/filter_input/jquery.filter_input.js');
+			->js('{plugins}filter_input/jquery.filter_input.js');
 	}
 
 }

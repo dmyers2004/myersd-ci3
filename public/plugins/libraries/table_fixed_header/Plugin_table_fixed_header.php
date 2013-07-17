@@ -10,7 +10,7 @@ class Plugin_table_fixed_header
 	public function tohtml() {
 		get_instance()->page
 			->onready("$('.table-fixed-header').fixedHeader();")
-			->js('/plugins/libraries/table_fixed_header/vendor/table-fixed-header.min.js');
+			->js('{plugins}table_fixed_header/vendor/table-fixed-header.min.js');
 	}
 
 }

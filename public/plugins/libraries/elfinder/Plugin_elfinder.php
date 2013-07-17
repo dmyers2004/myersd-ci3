@@ -46,10 +46,17 @@ class Plugin_elfinder
   }
 
 	public function tohtml() {
-		get_instance()->page
-			->js('/assets/vendor/jquery/jquery-ui-1.10.3.custom.min.js')
+		$ci = get_instance();
+		
+		if ($this->standalone) {
+			$ci->page->clear();	
+		}
+		
+		$ci->page
+			->js('/assets/vendor/jquery/jquery-1.10.2.min.js')
+			->js('/assets/vendor/jquery/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js')
 			->js('/plugins/libraries/elfinder/vendor/js/elfinder.min.js')
-			->css('/assets/vendor/jquery/smoothness/jquery-ui-1.10.3.custom.min.css')
+			->css('/assets/vendor/jquery/jquery-ui-1.10.3.custom/css/smoothness/jquery-ui-1.10.3.custom.min.css')
 			->css('/plugins/libraries/elfinder/vendor/css/elfinder.min.css')
 			->css('/plugins/libraries/elfinder/vendor/css/theme.css')
 			->onready('file_manager_init('.(($this->standalone) ? 'true' : 'false').');');
