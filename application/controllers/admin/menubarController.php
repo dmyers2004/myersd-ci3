@@ -11,11 +11,10 @@ class menubarController extends MY_AdminController
 
 	public function indexAction()
 	{
+		$this->load->library('nestable/Plugin_nestable');
+
 		$this->page
 			->set('tree',$this->controller_model->order_by('sort')->get_all())
-			->js('/assets/vendor/nestable/jquery.nestable.min.js')
-			->js('/assets/vendor/nestable/nestable.min.js')
-			->css('/assets/vendor/nestable/nestable.css')
 			->set('parent_options',array(0=>'<i class="icon-upload"></i>') + $this->controller_model->dropdown('id','text'))
 			->build();
 	}

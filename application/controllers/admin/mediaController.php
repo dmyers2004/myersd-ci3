@@ -10,24 +10,23 @@ class mediaController extends MY_AdminController
 
 	public function indexAction()
 	{
-		$this->load->library('file_manager');
-		$this->load->helper('ckeditor');
+		$this->load->library('elfinder/Plugin_elfinder');
 
 		$this->page
-			->set('options',$this->file_manager->options(array('height'=>500,'width'=>'auto')))
+			->set('options',$this->plugin_elfinder->options(array('height'=>500,'width'=>'auto')))
 			->build();
-
 	}
 
 	public function wysiwygAction()
 	{
+		$this->load->library('ckeditor/Plugin_ckeditor');
+
 		$wysiwyg_options = array(
 			'filebrowserBrowseUrl'=>'/fileManagerHandler/browser/',
 			'height'=>'500',
 			'width'=>'auto',
 			'skin'=>'moonocolor',
 			'extraPlugins'=>'templates,youtube,htmlbuttons',
-			'js'=>'/assets/vendor/ckeditor/ckeditor.js',
 			'style' => array(
 				"{ name: 'My Custom Block', element: 'h3', styles: { color: 'blue'} }",
 				"{ name: 'My Custom Inline', element: 'span', attributes: {'class': 'mine'} }"

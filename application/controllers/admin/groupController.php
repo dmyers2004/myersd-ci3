@@ -18,11 +18,12 @@ class groupController extends MY_AdminController
 	public function newAction()
 	{
 		$this->page
-			->set('title','New '.$this->page_title)
+			->set('title','New '.$this->content_title)
 			->set('action',$this->controller_path.'new')
 			->set('record',(object) array('id'=>-1))
 			->set('my_access',array())
 			->set('all_access',$this->format_privileges($this->access_model->get_all()))
+			->onready("$('#access-tabs a').click(function (e) { e.preventDefault(); $(this).tab('show'); }); $('#access-tabs a:first').tab('show');")
 			->build($this->controller_path.'form');
 	}
 
@@ -36,11 +37,11 @@ class groupController extends MY_AdminController
 		if ($this->controller_model->map($this->data)) {
 			if ($id = $this->controller_model->insert($this->data)) {
 				$this->update_privilege($id);
-				$this->flash_msg->created($this->page_title,$this->controller_path);
+				$this->flash_msg->created($this->content_title,$this->controller_path);
 			}
 		}
 
-		$this->flash_msg->fail($this->page_title,$this->controller_path);
+		$this->flash_msg->fail($this->content_title,$this->controller_path);
 	}
 
 	public function editAction($id=null)
@@ -49,10 +50,11 @@ class groupController extends MY_AdminController
 		$this->controller_model->filter_id($id,false);
 
 		$this->page
-			->set('title','Edit '.$this->page_title)
+			->set('title','Edit '.$this->content_title)
 			->set('action',$this->controller_path.'edit')
 			->set('record',$this->controller_model->get($id))
 			->set('users',$this->user_model->get_users_by_group($id))
+			->onready("$('#access-tabs a').click(function (e) { e.preventDefault(); $(this).tab('show'); }); $('#access-tabs a:first').tab('show');")
 			->set('all_access',$this->format_privileges($this->access_model->get_all()));
 
 		$privileges = $this->controller_model->get_group_access($id);
@@ -80,10 +82,10 @@ class groupController extends MY_AdminController
 		if ($this->controller_model->map($this->data)) {
 			$this->controller_model->update($this->data['id'],$this->data);
 			$this->update_privilege($this->data['id']);
-			$this->flash_msg->updated($this->page_title,$this->controller_path);
+			$this->flash_msg->updated($this->content_title,$this->controller_path);
 		}
 
-		$this->flash_msg->fail($this->page_title,$this->controller_path);
+		$this->flash_msg->fail($this->content_title,$this->controller_path);
 	}
 
 	public function deleteAjaxAction($id=null)
@@ -115,7 +117,7 @@ class groupController extends MY_AdminController
 			}
 
 			if ($len === false) {
-				$name = '<i><small>* no namespace provided</small></i>';
+				$name = 'none*';
 			}
 
 			$namespace = ($name != '') ? $name : trim(substr($resource, 0, $len),' /');
@@ -131,8 +133,11 @@ class groupController extends MY_AdminController
 	protected function update_privilege($group_id)
 	{
 		$this->controller_model->delete_group_access($group_id);
-		foreach ($this->input->post('access') as $id => $foo) {
-			$this->controller_model->insert_group_access($id, $group_id);
+		$access = $this->input->post('access');
+		if (is_array($array)) {
+			foreach ($this->input->post('access') as $id => $foo) {
+				$this->controller_model->insert_group_access($id, $group_id);
+			}
 		}
 	}
 

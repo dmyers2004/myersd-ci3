@@ -6,24 +6,24 @@ class filemanagerhandlerController extends MY_PublicController
   {
     parent::__construct();
 
-	  $this->load->library('file_manager');
+		$this->load->library('elfinder/Plugin_elfinder');
   }
 
 	/* show the stand alone file manager for ckeditor */
 	public function browserAction() {
 		$this->page
-			->set('options',$this->file_manager->options(array('standalone'=>true,'padding'=>1)))
-			->build(false,'_templates/file_manager.php');
+			->set('options',$this->plugin_elfinder->options(array('standalone'=>true,'padding'=>1)))
+			->build(false,'_templates/file_manager');
 	}
 
 	/* main processor for POST actions */
 	public function processPostAction() {
-	  $this->file_manager->process();
+	  $this->plugin_elfinder->process();
 	}
 
 	/* main processor for ajax GET actions */
 	public function processAjaxAction() {
-	  $this->file_manager->process();
+	  $this->plugin_elfinder->process();
 	}
 
 }

@@ -28,25 +28,34 @@
 		<? } ?>
 		</ul>
 	<? } ?>
-	<h4 class="group-access">Group Access</h4>
+	
+	<h4 class="group-access">Group Access <small>separated by namespace,</small></h4>
+
+	<ul class="nav nav-tabs" id="access-tabs">
 	<?php foreach ($all_access as $namespace => $foo) { ?>
-		<?=form_fieldset($namespace) ?>
-			<div class="row-fluid show-grid resource">
+		<li><a href="#<?=$namespace ?>"><?=$namespace ?></a></li>
+	<?php } ?>		
+	</ul>
+
+	<div class="tab-content">
+	<?php foreach ($all_access as $namespace => $foo) { ?>
+			<div class="tab-pane" id="<?=url_title($namespace) ?>">
 			<?php foreach ($all_access[$namespace] as $resource) { ?>
 			  <div class="span4" style="margin-left: 0">
 			  	<label class="checkbox">
-				    <?=form_checkbox('access['.$resource->id.']', 'true', $my_access[$resource->id], 'class="shift-group" data-group="'.$namespace.'"') ?>
+				    <?=form_checkbox('access['.$resource->id.']', 'true', $my_access[$resource->id], 'class="shift-group" data-group="'.url_title($namespace).'"') ?>
 				    <?=$resource->description ?>
 			    </label>
 			  </div>
 				<?php } ?>
 			</div>
 		<?php } ?>
+	</div>
 
 	<div class="form-actions">
-		<button type="submit" class="btn btn-primary">Save</button>
+		<a href="<?=$controller_path ?>" class="btn">Cancel</a>
 		&nbsp;
-		<a href="/admin/group" class="btn">Cancel</a>
+		<button type="submit" class="btn btn-primary">Save</button>
 		<span class="required-txt">Required Fields are in Bold</span>
 	</div>
 

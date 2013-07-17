@@ -65,7 +65,6 @@
 */
 
 $autoload['packages'] = array(
-	APPPATH.'required',
 	APPPATH.'../public/plugins'
 );
 

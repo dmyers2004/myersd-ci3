@@ -3,7 +3,6 @@
 
 Requires
 
-Settings Library
 Events Library
 Page Library
 
@@ -19,11 +18,14 @@ class Flash_msg
   public $pause_for_each;
 	public $js;
 	public $css;
+	public $CI;
 
 	public function __construct()
 	{
 		/* config is local to me */
-		include(__DIR__.'/config.php');
+		require __DIR__.'/config.php';
+		
+		$this->CI = get_instance();
 		
 		$this->methods = $config['methods'];
 		$this->initial_pause = $config['initial_pause'];
@@ -57,7 +59,7 @@ class Flash_msg
   public function add($msg='',$type='yellow',$sticky=FALSE,$redirect=NULL)
   {
   	$this->messages[] = array('msg'=>trim($msg),'type'=>$type,'sticky'=>$sticky);
-    $this->session->set_flashdata('custom_flash_message_storage',$this->messages);
+    $this->CI->session->set_flashdata('custom_flash_message_storage',$this->messages);
 
 		/* redirect to another page immediately */
 		if ($redirect) {
@@ -69,7 +71,7 @@ class Flash_msg
 
 	public function tohtml()
 	{
-    $messages = $this->session->flashdata('custom_flash_message_storage');
+    $messages = $this->CI->session->flashdata('custom_flash_message_storage');
 		
 		$html = '';
 		
@@ -80,16 +82,10 @@ class Flash_msg
     	}
     }
 
-		$this->page
+		$this->CI->page
 			->js($this->js)
 			->css($this->css)
 			->onready($html);
-	}
-	
-	/* generic wrapper for CI instance so you can $this-> in this file */
-	public function __get($var)
-	{
-		return get_instance()->$var;
 	}
 
 }
