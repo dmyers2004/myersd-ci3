@@ -10,8 +10,8 @@ class Colorpicker
 	public function tohtml() {
 		get_instance()->page
 			->onready("$('.input-append.color').colorpicker();")
-			->css('/modules/libraries/colorpicker/css/colorpicker.css')
-			->js('/modules/libraries/colorpicker/js/bootstrap-colorpicker.js');
+			->css('/modules/vendor/colorpicker/css/colorpicker.css')
+			->js('/modules/vendor/colorpicker/js/bootstrap-colorpicker.js');
 	}
 
 }
