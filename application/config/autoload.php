@@ -66,7 +66,6 @@
 
 $autoload['packages'] = array(
 	APPPATH.'required',
-	APPPATH.'packages/addons',
 	APPPATH.'../public/modules'
 );
 
