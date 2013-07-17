@@ -7,6 +7,6 @@
 <?=$page_meta ?>
 <?=$page_css ?>
 <style>
-<?=$style ?>
+<?=$page_style ?>
 </style>
 </head>

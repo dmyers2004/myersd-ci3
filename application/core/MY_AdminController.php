@@ -15,6 +15,13 @@ class MY_AdminController extends MY_PublicController
 	public $content_title = '';
 	public $content_titles = '';
 	public $controller_path = '';
+	public $libraries = array(
+		'table_fixed_header/Plugin_table_fixed_header',
+		'spinner/Plugin_spinner',
+		'select2/Plugin_select2',
+		'combobox/Plugin_combobox',
+		'filter_input/Plugin_filter_input'
+	);
 
 	public function __construct()
 	{

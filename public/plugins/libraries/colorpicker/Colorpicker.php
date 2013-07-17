@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Colorpicker
+class Plugin_colorpicker
 {
 
 	public function __construct() {
@@ -10,8 +10,8 @@ class Colorpicker
 	public function tohtml() {
 		get_instance()->page
 			->onready("$('.input-append.color').colorpicker();")
-			->css('/modules/vendor/colorpicker/css/colorpicker.css')
-			->js('/modules/vendor/colorpicker/js/bootstrap-colorpicker.js');
+			->css('/plugins/libraries/colorpicker/vendor/css/colorpicker.css')
+			->js('/plugins/libraries/colorpicker/vendor/js/bootstrap-colorpicker.js');
 	}
 
 }

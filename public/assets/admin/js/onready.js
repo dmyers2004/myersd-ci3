@@ -1,22 +1,9 @@
 $(document).ready(function(){
 
-	$('.select2').select2({ width: 'resolve' });
-
-	$('.selectcombobox').selectcombobox();
-	$('.combobox').combobox();
-
-	/* setup delete modal handler */
-	plugins.delete_handler.init();
-
-	/* setup the enum handler */
-	plugins.enum_handler.init();
-
 	/* patch bootstrap button */
 	$('.no-link-look').each(function(i){
 		$(this).parent().attr('onclick','location.href=\'' + $(this).attr('href') + '\'');
 	});
-
-	$('.table-fixed-header').fixedHeader()
 
 	$('input.shift-group').click(function(event) {
     if (event.shiftKey) {

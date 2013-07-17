@@ -1,9 +1,9 @@
 <?=$page_js ?>
-<?=$flash_msg ?>
-<script>var baseurl="<?=base_url() ?>"</script>
 <script>
-<?=$script ?>
-jQuery(document).ready(function() {<?=$onready ?>});
+var baseurl="<?=base_url() ?>";
+var plugins={};
+<?=$page_script ?>
+jQuery(document).ready(function() {<?=$page_onready ?>});
 </script>
 </body>
 </html>

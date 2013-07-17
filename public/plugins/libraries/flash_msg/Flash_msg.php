@@ -22,13 +22,14 @@ class Flash_msg
 
 	public function __construct()
 	{
-		$this->config->load('flash_msg', TRUE);
-		$this->methods = $this->config->item('methods','flash_msg');
-		$this->view_variable = $this->config->item('view_variable','flash_msg');
-		$this->initial_pause = $this->config->item('initial_pause','flash_msg');
-		$this->pause_for_each = $this->config->item('pause_for_each','flash_msg');
-		$this->js = $this->config->item('js','flash_msg');
-		$this->css = $this->config->item('css','flash_msg');
+		/* config is local to me */
+		include(__DIR__.'/config.php');
+		
+		$this->methods = $config['methods'];
+		$this->initial_pause = $config['initial_pause'];
+		$this->pause_for_each = $config['pause_for_each'];
+		$this->js = $config['js'];
+		$this->css = $config['css'];
 		
 		events::register('pre_page_build',array($this,'tohtml'));
 	}
@@ -73,18 +74,16 @@ class Flash_msg
 		$html = '';
 		
     if (is_array($messages)) {
-    	$html .= '<script>$(document).ready(function(){';
     	foreach ($messages as $key => $msg) {
     	  $staytime = ($msg['sticky'] == TRUE) ? '' : ',stayTime:'.($this->pause_for_each * ($this->initial_pause++));
     		$html .= '$.noticeAdd({text:\''.$msg['msg'].'\',stay:\''.$msg['sticky'].'\',type:\''.$msg['type'].'\''.$staytime.'});';
     	}
-    	$html .= '})</script>';
     }
 
 		$this->page
 			->js($this->js)
 			->css($this->css)
-			->append($this->view_variable,$html);
+			->onready($html);
 	}
 	
 	/* generic wrapper for CI instance so you can $this-> in this file */
