@@ -7,18 +7,18 @@ function data($name=null,$value='$uNdEfInEd$',$where='#')
 
 	/* handle overloading */
 	if ($name === null) {
-		return $ci->load->_ci_cached_vars;
+		return $ci->load->get_vars();
 	}
 
 	if ($value === '$uNdEfInEd$') {
-		return $ci->load->_ci_cached_vars[$name];
+		return $ci->load->get_var($name);
 	}
 
 	if ($value !== '') {
 		/* overwrite (#) is default */
 		switch ($where) {
 			case '<': // Prepend
-				$current = $ci->load->_ci_cached_vars[$name];
+				$current = $ci->load->get_var($name);
 
 				if (strpos($current, $value) !== false) {
 					$value = $current;
@@ -27,7 +27,7 @@ function data($name=null,$value='$uNdEfInEd$',$where='#')
 				}
 			break;
 			case '>': // Append
-				$current = $ci->load->_ci_cached_vars[$name];
+				$current = $ci->load->get_var($name);
 
 				if (strpos($current, $value) !== false) {
 					$value = $current;
@@ -36,11 +36,11 @@ function data($name=null,$value='$uNdEfInEd$',$where='#')
 				}
 			break;
 			case '-': // Remove
-				$value = str_replace($value,'',$ci->load->_ci_cached_vars[$name]);
+				$value = str_replace($value,'',$ci->load->get_var($name));
 			break;
 		}
 
-		$ci->load->_ci_cached_vars[$name] = $value;
+		$ci->load->vars(array($name=>$value));
 	}
 
 	return $this;
