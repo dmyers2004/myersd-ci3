@@ -289,20 +289,15 @@ if ( ! function_exists('config_item'))
 	 */
 	function config_item($item)
 	{
-		static $_config_item = array();
+		static $_config;
 
-		if ( ! isset($_config_item[$item]))
+		if (empty($_config))
 		{
-			$config =& get_config();
-
-			if ( ! isset($config[$item]))
-			{
-				return FALSE;
-			}
-			$_config_item[$item] = $config[$item];
+			// references cannot be directly assigned to static variables, so we use an array
+			$_config[0] =& get_config();
 		}
 
-		return $_config_item[$item];
+		return isset($_config[0][$item]) ? $_config[0][$item] : FALSE;
 	}
 }
 
@@ -346,7 +341,7 @@ if ( ! function_exists('is_https'))
 	 */
 	function is_https()
 	{
-		if (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) === 'on')
+		if ( ! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')
 		{
 			return TRUE;
 		}
@@ -354,7 +349,7 @@ if ( ! function_exists('is_https'))
 		{
 			return TRUE;
 		}
-		elseif (isset($_SERVER['HTTP_FRONT_END_HTTPS']) && $_SERVER['HTTP_FRONT_END_HTTPS'] === 'on')
+		elseif ( ! empty($_SERVER['HTTP_FRONT_END_HTTPS']) && strtolower($_SERVER['HTTP_FRONT_END_HTTPS']) !== 'off')
 		{
 			return TRUE;
 		}
