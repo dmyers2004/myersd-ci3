@@ -9,6 +9,7 @@ class CI_Session_database extends CI_Session_driver {
 	public $user_agent;
 	public $user_ip;
 	public $sess_table_name;
+	public $link;
 
 	/**
 	 * Initialize session driver object
@@ -249,25 +250,40 @@ class CI_Session_database extends CI_Session_driver {
 	|____/ \___||___/___/_|\___/|_| |_| |_|   \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
 	*/
 	
+	/* we need to get hacky for now because they load the driver before the libraries now? what to do? */
 	public function database_open() {
+		$this->link = @mysql_connect('localhost', 'root', 'root') or die('could not connect');
+		@mysql_select_db('ci3') or die('could not select database');
+
 		return true;
 	}
 	
 	public function database_close() {
+		mysql_close($this->link);
+		
 		return true;
 	}
 	
 	public function database_read($id) {
+		$dbc = mysql_query("select * from ".$this->sess_table_name." where session_id = '".mysql_real_escape_string($id)."'",$this->link);
+		
+		if (mysql_num_rows($dbc) === 1) {
+			$record = mysql_fetch_assoc($dbc);
+			return $record['user_data'];
+		}
+
+    /*
     $record = $this->CI->db->get_where($this->sess_table_name, array('session_id' => $id))->result();
     
 		if (count($record) === 1) {
       return $record[0]->user_data;
     }
+ 		*/
  
     return '';
 	}
 
-	function database_write($id, $data) {
+	public function database_write($id, $data) {
 		$data = array(
 			'session_id' => $id,
 			'ip_address' => $this->user_ip,
@@ -275,16 +291,26 @@ class CI_Session_database extends CI_Session_driver {
 			'last_activity' => time(),
 			'user_data' => $data
 		);
-		$this->database_destroy($id);
-    return $this->CI->db->insert($this->sess_table_name, $data);
+		return mysql_query($this->mysql_replace($this->sess_table_name,$data),$this->link);
+		/* delete then insert */
+		//$this->database_destroy($id);
+    //return $this->CI->db->insert($this->sess_table_name, $data);
 	}
 
-	function database_destroy($id) {
-    return $this->CI->db->delete($this->sess_table_name, array('session_id' => $id)); 
+	public function database_destroy($id) {
+		return mysql_query("delete from ".$this->sess_table_name." where session_id = '".mysql_real_escape_string($id)."'",$this->link);
+    //return $this->CI->db->delete($this->sess_table_name, array('session_id' => $id)); 
 	}
 
-	function database_clean($max) {
-    return $this->CI->db->where('session_id <',(time() - $max))->delete($this->sess_table_name); 
+	public function database_clean($max) {
+		return mysql_query("delete from ".$this->sess_table_name." where last_activity < '".mysql_real_escape_string(time() - $max)."'",$this->link);
+    //return $this->CI->db->where('session_id <',(time() - $max))->delete($this->sess_table_name); 
+	}
+	
+	function mysql_replace($t,$f) {
+	  foreach ($f as $key => $value) $fields .= '`'.$key.'`, ';
+	  foreach ($f as $key => $value) $values .= "'".mysql_real_escape_string($value)."', ";
+	  return 'replace into '.$t.' ('.rtrim($fields,', ').') values ('.rtrim($values,', ').')';
 	}
 	
 }
