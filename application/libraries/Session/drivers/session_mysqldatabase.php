@@ -18,7 +18,7 @@ class CI_Session_mysqldatabase extends CI_Session_driver {
 	 */
 	protected function initialize()
 	{
-		
+
 		// Get config parameters
 		$config = array();
 		$prefs = array(
@@ -51,11 +51,11 @@ class CI_Session_mysqldatabase extends CI_Session_driver {
 		$this->sess_table_name = $config['sess_table_name'];
 
 		/*
-		 ____                _               _   _                 _ _           
-		/ ___|  ___  ___ ___(_) ___  _ __   | | | | __ _ _ __   __| | | ___ _ __ 
+		 ____                _               _   _                 _ _
+		/ ___|  ___  ___ ___(_) ___  _ __   | | | | __ _ _ __   __| | | ___ _ __
 		\___ \ / _ \/ __/ __| |/ _ \| '_ \  | |_| |/ _` | '_ \ / _` | |/ _ \ '__|
-		 ___) |  __/\__ \__ \ | (_) | | | | |  _  | (_| | | | | (_| | |  __/ |   
-		|____/ \___||___/___/_|\___/|_| |_| |_| |_|\__,_|_| |_|\__,_|_|\___|_|   
+		 ___) |  __/\__ \__ \ | (_) | | | | |  _  | (_| | | | | (_| | |  __/ |
+		|____/ \___||___/___/_|\___/|_| |_| |_| |_|\__,_|_| |_|\__,_|_|\___|_|
 		*/
 		session_set_save_handler(
 			array(&$this, 'database_open'),
@@ -108,7 +108,7 @@ class CI_Session_mysqldatabase extends CI_Session_driver {
 
 		// store user agent once
 		$this->user_agent = trim(substr($this->CI->input->user_agent(), 0, 50));
-		
+
 		// store user ip once
 		$this->user_ip = $this->CI->input->ip_address();
 
@@ -241,49 +241,40 @@ class CI_Session_mysqldatabase extends CI_Session_driver {
 		// Just return reference to $_SESSION
 		return $_SESSION;
 	}
-	
+
 	/*
-	 ____                _               _____                 _   _                 
-	/ ___|  ___  ___ ___(_) ___  _ __   |  ___|   _ _ __   ___| |_(_) ___  _ __  ___ 
+	 ____                _               _____                 _   _
+	/ ___|  ___  ___ ___(_) ___  _ __   |  ___|   _ _ __   ___| |_(_) ___  _ __  ___
 	\___ \ / _ \/ __/ __| |/ _ \| '_ \  | |_ | | | | '_ \ / __| __| |/ _ \| '_ \/ __|
 	 ___) |  __/\__ \__ \ | (_) | | | | |  _|| |_| | | | | (__| |_| | (_) | | | \__ \
 	|____/ \___||___/___/_|\___/|_| |_| |_|   \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
 	*/
-	
-	/* we need to get hacky for now because they load the driver before the libraries now? what to do? */
+
 	public function database_open() {
 		$ci = get_instance();
-		$ci->config->load('session_mysqlDatabase',true);
-		$settings = $ci->config->item('session_mysqlDatabase');
+		$ci->config->load('session_mysqldatabase',true);
+		
+		$settings = $ci->config->item('session_mysqldatabase');
 
-		$this->link = @mysql_connect($settings['host'], $settings['username'], $settings['password']) or die('could not connect');
-		@mysql_select_db($settings['database']) or die('could not select database');
+		$this->link = @new mysqli($settings['host'], $settings['username'], $settings['password'], $settings['database']);
 
-		return true;
+		return !$this->link->connect_errno;
 	}
-	
+
 	public function database_close() {
-		mysql_close($this->link);
-		
+		$this->link->close();
+
 		return true;
 	}
-	
+
 	public function database_read($id) {
-		$dbc = mysql_query("select * from ".$this->sess_table_name." where session_id = '".mysql_real_escape_string($id)."'",$this->link);
-		
-		if (mysql_num_rows($dbc) === 1) {
-			$record = mysql_fetch_assoc($dbc);
+		$result = $this->link->query("select * from ".$this->sess_table_name." where session_id = '".mysql_real_escape_string($id)."'");
+
+		if ($result->num_rows === 1) {
+			$record = $result->fetch_assoc();
 			return $record['user_data'];
 		}
 
-    /*
-    $record = $this->CI->db->get_where($this->sess_table_name, array('session_id' => $id))->result();
-    
-		if (count($record) === 1) {
-      return $record[0]->user_data;
-    }
- 		*/
- 
     return '';
 	}
 
@@ -295,28 +286,23 @@ class CI_Session_mysqldatabase extends CI_Session_driver {
 			'last_activity' => time(),
 			'user_data' => $data
 		);
-		return mysql_query($this->mysql_replace($this->sess_table_name,$data),$this->link);
-		/* delete then insert */
-		//$this->database_destroy($id);
-    //return $this->CI->db->insert($this->sess_table_name, $data);
+		return $this->link->query($this->mysql_replace($this->sess_table_name,$data));
 	}
 
 	public function database_destroy($id) {
-		return mysql_query("delete from ".$this->sess_table_name." where session_id = '".mysql_real_escape_string($id)."'",$this->link);
-    //return $this->CI->db->delete($this->sess_table_name, array('session_id' => $id)); 
+		return $this->link->query("delete from ".$this->sess_table_name." where session_id = '".mysql_real_escape_string($id)."'");
 	}
 
 	public function database_clean($max) {
-		return mysql_query("delete from ".$this->sess_table_name." where last_activity < '".mysql_real_escape_string(time() - $max)."'",$this->link);
-    //return $this->CI->db->where('session_id <',(time() - $max))->delete($this->sess_table_name); 
+		return $this->link->query("delete from ".$this->sess_table_name." where last_activity < '".mysql_real_escape_string(time() - $max)."'");
 	}
-	
-	function mysql_replace($t,$f) {
+
+	private function mysql_replace($t,$f) {
 	  foreach ($f as $key => $value) $fields .= '`'.$key.'`, ';
 	  foreach ($f as $key => $value) $values .= "'".mysql_real_escape_string($value)."', ";
 	  return 'replace into '.$t.' ('.rtrim($fields,', ').') values ('.rtrim($values,', ').')';
 	}
-	
+
 }
 
 /* End of file Session_database.php */
