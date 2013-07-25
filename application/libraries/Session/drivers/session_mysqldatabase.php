@@ -4,7 +4,7 @@
 	* This is based off the native driver
 	* I simple strap on a session save handler to put it into the DB
 	*/
-class CI_Session_database extends CI_Session_driver {
+class CI_Session_mysqldatabase extends CI_Session_driver {
 
 	public $user_agent;
 	public $user_ip;
@@ -252,8 +252,12 @@ class CI_Session_database extends CI_Session_driver {
 	
 	/* we need to get hacky for now because they load the driver before the libraries now? what to do? */
 	public function database_open() {
-		$this->link = @mysql_connect('localhost', 'root', 'root') or die('could not connect');
-		@mysql_select_db('ci3') or die('could not select database');
+		$ci = get_instance();
+		$ci->config->load('session_mysqlDatabase',true);
+		$settings = $ci->config->item('session_mysqlDatabase');
+
+		$this->link = @mysql_connect($settings['host'], $settings['username'], $settings['password']) or die('could not connect');
+		@mysql_select_db($settings['database']) or die('could not select database');
 
 		return true;
 	}
