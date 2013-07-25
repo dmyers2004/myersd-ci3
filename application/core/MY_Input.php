@@ -6,31 +6,11 @@ define('FILTERINT','trim|required|filter_int[1]');
 
 class MY_Input extends CI_Input
 {
-	/**
-	* Fetch from array
-	*
-	* This is a helper function to retrieve values from global arrays
-	*
-	* @access	private
-	* @param	array
-	* @param	string
-	* @param	bool
-	* @return	string
-	*
-	* **Overridden to provide a default value (3rd value)
-	*
-	*/
-	public function _fetch_from_array(&$array, $index = '', $xss_clean = FALSE)
+	/* fetch from array with default and optional xss clean (ON by default) */
+	public function fetch_from_array(&$array, $index = '', $default = '', $xss_clean = TRUE)
 	{
-		if ( ! isset($array[$index])) {
-			return $xss_clean; /* return it as a default */
-		}
-
-		if ($xss_clean === TRUE) {
-			return $this->security->xss_clean($array[$index]);
-		}
-
-		return $array[$index];
+		$value = $this->_fetch_from_array($array, $index, $xss_clean);
+		return (isset($value)) ? $value : $default;
 	}
 
 	/*
@@ -86,7 +66,7 @@ class MY_Input extends CI_Input
 		$CI = get_instance();
 		$CI->load->library('form_validation');
 
-		$bogus = 'aaabbbccceeefff';
+		$bogus = 'FoObArPlAcEhOlDeR';
 
 		/* make sure it's reset - incase it's already loaded and used we need it empty */
 		$CI->form_validation->reset_validation();
