@@ -207,7 +207,7 @@ class MY_Form_validation extends CI_Form_validation
    * @param    string
    * @return    bool
    */
-  public function valid_date($str)
+  public function valid_date2($str)
   {
       if ( preg_match('/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2})/', $str) ) 
       {
@@ -230,7 +230,7 @@ class MY_Form_validation extends CI_Form_validation
    * @access public
    * @return boolean
    */
-  public function valid_time($str)
+  public function valid_time2($str)
   {    
       if (preg_match('/([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/', $str))
           return TRUE;
