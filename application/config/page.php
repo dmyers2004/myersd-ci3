@@ -63,12 +63,12 @@ $config['default'] = function(&$page) {
 		->hide('_partials/left')
 		->hide('_partials/right')
 		->template('_templates/default')
-		->css('/assets/vendor/bootstrap/css/bootstrap.min.css')
-		->css('/assets/vendor/bootstrap/css/bootstrap-responsive.min.css')
+		->css('/assets/vendor/flatstrap/assets/css/bootstrap.min.css')
+		->css('/assets/vendor/flatstrap/assets/css/bootstrap-responsive.min.css')
 		->css('/assets/vendor/fontawesome/css/font-awesome.min.css')
 		->js('/assets/vendor/modernizr/modernizr-2.6.2-respond-1.1.0.min.js')
 		->js('/assets/vendor/jquery/jquery-1.10.2.min.js')
-		->js('/assets/vendor/bootstrap/js/bootstrap.min.js');
+		->js('/assets/vendor/flatstrap/assets/js/bootstrap.min.js');
 };
 
 $config['javascript'] = function(&$page) {
