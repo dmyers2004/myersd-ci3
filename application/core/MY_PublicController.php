@@ -21,6 +21,7 @@ class MY_PublicController extends MY_Controller
 		$this->load->library(array('Paths','Form_validation','Menubar','Page','flash_msg/Flash_msg'));
 
 		$this->page
+			->config('theme')
 			->config('public')
 			->config('javascript');
 	}

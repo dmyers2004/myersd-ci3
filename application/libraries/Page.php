@@ -41,10 +41,10 @@ function load($file,$return=false)
 class Page
 {
   private $config = NULL; /* all configs local cache */
-	private $template = '_templates/default'; /* template to use in build method */
+	private $template = ''; /* template to use in build method */
 	private $theme = ''; /* theme folder for views (added as a package) */
-	private $assets = '/assets';
-	private $plugins = '/plugins/libraries/';
+	private $assets = ''; /* normal assets */
+	private $plugins = ''; /* plugin assets */
 	private $show = array();
 
   public function __construct()
@@ -94,10 +94,14 @@ class Page
 
 	public function assets($folder) {
 		$this->assets = $folder;
+
+		return $this;
 	}
 
 	public function plugins($folder) {
 		$this->plugins = $folder;
+		
+		return $this;
 	}
 
 	/* getter and setter for theme folder (CI package) */

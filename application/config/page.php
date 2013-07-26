@@ -63,11 +63,17 @@ $config['default'] = function(&$page) {
 		->hide('_partials/left')
 		->hide('_partials/right')
 		->template('_templates/default')
+		->plugins('/plugins/libraries/')
+		->assets('/assets')
+		->js('/assets/vendor/modernizr/modernizr-2.6.2-respond-1.1.0.min.js')
+		->js('/assets/vendor/jquery/jquery-1.10.2.min.js');
+};
+
+$config['theme'] = function(&$page) {
+	$page
 		->css('/assets/vendor/flatstrap/assets/css/bootstrap.min.css')
 		->css('/assets/vendor/flatstrap/assets/css/bootstrap-responsive.min.css')
 		->css('/assets/vendor/fontawesome/css/font-awesome.min.css')
-		->js('/assets/vendor/modernizr/modernizr-2.6.2-respond-1.1.0.min.js')
-		->js('/assets/vendor/jquery/jquery-1.10.2.min.js')
 		->js('/assets/vendor/flatstrap/assets/js/bootstrap.min.js');
 };
 
@@ -99,8 +105,8 @@ $config['public'] = function(&$page) {
 				$enum = explode($delimiter,$string);
 				return $enum[(int) $input];
 			})
-		->func('Shorten',function($text,$length=64) {
-				return (strlen($text) > $length) ? substr($text,0,$length).'&hellip;' : $text;
+		->func('Shorten',function($text,$length=64,$link=false) {
+				return (($link) ? '<a href="'.$link.'">' : '').((strlen($text) > $length) ? substr($text,0,$length).'&hellip;' : $text).(($link) ? '</a>' : '');
 			})
 		->func('Color',function($color,$with=true) {
 				return (($with) ? '#' : '').trim($color,'#');

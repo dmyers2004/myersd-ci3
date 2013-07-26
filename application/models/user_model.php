@@ -20,7 +20,7 @@ class User_model extends MY_Model
 		'username' => array('field'=>'username','label'=>'User Name','rules'=>'required|xss_clean|filter_str[50]'),
 		'email' => array('field'=>'email','label'=>'Email','rules'=>'required|valid_email|filter_email[72]'),
 		'password' => array('field'=>'password','label'=>'Password','rules'=>'required|min_length[8]|max_length[32]'),
-		'confirm_password' => array('field'=>'confirm_password','label'=>'Confirmation Password','rules'=>'required'),
+		'confirm_password' => array('field'=>'confirm_password','label'=>'Confirmation Password','rules'=>'required|matches[password]'),
 		'group_id' => array('field'=>'group_id','label'=>'Group Id','rules'=>'required|filter_int[5]'),
 		'activated' => array('field'=>'activated','label'=>'Active','rules'=>'filter_int[1]','default'=>0)
 	);
