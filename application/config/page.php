@@ -59,12 +59,12 @@ $config['default_js'] = array('src'=>'');
 /* default config */
 $config['default'] = function(&$page) {
 	$page
-		->set('center_class','span12')
-		->hide('_partials/left')
-		->hide('_partials/right')
 		->template('_templates/default')
 		->plugins('/plugins/libraries/')
 		->assets('/assets')
+		->set('center_class','span12')
+		->hide('_partials/left')
+		->hide('_partials/right')
 		->js('/assets/vendor/modernizr/modernizr-2.6.2-respond-1.1.0.min.js')
 		->js('/assets/vendor/jquery/jquery-1.10.2.min.js');
 };
