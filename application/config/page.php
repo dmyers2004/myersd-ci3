@@ -59,6 +59,7 @@ $config['default_js'] = array('src'=>'');
 /* default config */
 $config['default'] = function(&$page) {
 	$page
+		/*->theme('redrocks')*/
 		->template('_templates/default')
 		->plugins('/plugins/libraries/')
 		->assets('/assets')

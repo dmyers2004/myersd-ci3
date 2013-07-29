@@ -9,7 +9,7 @@ class Plugin_select2
 
 	public function tohtml() {
 		get_instance()->page
-			->onready("	$('.select2').select2({ width: 'resolve' });")
+			->onready("$('.select2').select2({ width: 'resolve' });")
 			->js('{plugins}select2/vendor/select2.min.js')
 			->css('{plugins}select2/vendor/select2.css');
 	}

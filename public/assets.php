@@ -1,6 +1,8 @@
 <?php
 $file = $_GET['file'];
 
+$cache_type = 'apc'; /* or file */
+
 $cache_folder = realpath(__DIR__.'/../cache/').'/';
 
 $type_map = array('css'=>'text/css','js'=>'text/javascript');
@@ -11,81 +13,70 @@ if (!file_exists($file) || !array_key_exists($type,$type_map)) {
 	exit;
 }
 
-/* if cache=no set on a single file or envirnmental variable noCache = true (effects all files) then don't cache */
-if (strpos($_SERVER['REQUEST_URI'],'cache=no') !== false || $_SERVER['noCache']  === 'true') {
+/* if cache=no set on a single file or environmental variable noCache = true (effects all files) then don't cache */
+if (strpos($_SERVER['REQUEST_URI'],'cache=no') === true || $_SERVER['noCache']  === 'true') {
+	header("content-type: ".$mime."; charset: UTF-8");
+	die(file_get_contents($file));
+}
 
-  $key = 'file:'.$file;
+//get the last-modified-date of this very file
+$lastModified = filemtime($file);
 
-	$content = get_cache($key);
+//get a unique hash of this file (etag)
+$etagFile = md5_file($file);
 
-	if ($content === null) {
-		$content = file_get_contents($file);
-		set_cache($key,$content);
-	}
+//get the HTTP_IF_MODIFIED_SINCE header if set
+$ifModifiedSince = (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
 
-} else {
+//get the HTTP_IF_NONE_MATCH header if set (etag: unique file hash)
+$etagHeader = (isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
 
-	//get the last-modified-date of this very file
-	$lastModified = filemtime($file);
+//check if page has changed. If not, send 304 and exit
+if (@strtotime($ifModifiedSince) == $lastModified || $etagHeader == $etagFile) {
+	// set last-modified header
+	header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModified)." GMT");
 
-	//get a unique hash of this file (etag)
-	$etagFile = md5_file($file);
+	// set etag-header
+	header("ETag: $etagFile");
 
-	//get the HTTP_IF_MODIFIED_SINCE header if set
-	$ifModifiedSince = (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
+	// make sure caching is turned on
+	header('Cache-Control: public, must-revalidate');
 
-	//get the HTTP_IF_NONE_MATCH header if set (etag: unique file hash)
-	$etagHeader = (isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
+	header('Expires: -1');
 
-	//check if page has changed. If not, send 304 and exit
-	if (@strtotime($ifModifiedSince) == $lastModified || $etagHeader == $etagFile) {
-		// set last-modified header
-		header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModified)." GMT");
+	// cache type
+	header('Pragma: public');
 
-		// set etag-header
-		header("ETag: $etagFile");
+	// not modifed
+	header("HTTP/1.1 304 Not Modified");
+	exit;
+}
 
-		// make sure caching is turned on
-		header('Cache-Control: public, must-revalidate');
+/* get cached data */
+$data = get_cache('cache:'.$file);
 
-		header('Expires: -1');
+/* did the file change? */
+$content = ($data['etagFile'] === $etagFile) ? $data['content'] : null;
 
-		// cache type
-		header('Pragma: public');
-
-		// not modifed
-		header("HTTP/1.1 304 Not Modified");
-		exit;
-	}
-
-	/* get cached data */
-	$data = get_cache('cache:'.$file);
-
-	/* did the file change? */
-	$content = ($data['etagFile'] === $etagFile) ? $data['content'] : null;
-
-	switch($type) {
-		case 'css':
-			if ($content === null) {
-				$compressor = new CSSmin();
-				/* if it's already minified don't reminify it */
-				$content = (strpos($file,'.min.css') === false) ? trim($compressor->run(file_get_contents($file))) :  file_get_contents($file);
-				set_cache('cache:'.$file,array('etagFile'=>$etagFile,'file'=>$file,'content'=>$content));
-			}
-		break;
-		case 'js':
-			if ($content === null) {
-				/* if it's already minified don't reminify it */
-				$content = (strpos($file,'.min.js') === false) ? trim(JSMin::minify(file_get_contents($file))) : file_get_contents($file);
-				set_cache('cache:'.$file,array('etagFile'=>$etagFile,'file'=>$file,'content'=>$content));
-			}
-		break;
-	}
+switch($type) {
+	case 'css':
+		if ($content === null) {
+			$compressor = new CSSmin();
+			/* if it's already minified don't reminify it */
+			$content = (strpos($file,'.min.css') === false) ? trim($compressor->run(file_get_contents($file))) :  file_get_contents($file);
+			set_cache('cache:'.$file,array('etagFile'=>$etagFile,'file'=>$file,'content'=>$content));
+		}
+	break;
+	case 'js':
+		if ($content === null) {
+			/* if it's already minified don't reminify it */
+			$content = (strpos($file,'.min.js') === false) ? trim(JSMin::minify(file_get_contents($file))) : file_get_contents($file);
+			set_cache('cache:'.$file,array('etagFile'=>$etagFile,'file'=>$file,'content'=>$content));
+		}
+	break;
 }
 
 /* send $content */
-$mime = $type_map[$type];
-
 session_cache_limiter('public');
 
 ob_end_clean();
@@ -106,7 +97,7 @@ header('Expires: -1');
 header('Pragma: public');
 
 // what type of file
-header("content-type: ".$mime."; charset: UTF-8");
+header("content-type: ".$type_map[$type]."; charset: UTF-8");
 
 echo($content);
 
@@ -115,38 +106,39 @@ ob_end_flush();
 exit;
 
 function get_cache($key) {
-  global $cache_folder;
+  global $cache_folder, $cache_type;
   
 	$success = false;
 
-  $var = apc_fetch($key,$success);
+  if ($cache_type == 'apc') {
+	  $var = apc_fetch($key,$success);
+  } else {
+	  $key = $cache_folder.md5($key);
+	
+	  if (!file_exists($key)) {
+	    $success = false;
+	  }
+	
+	  if (filesize($key) == 0) {
+	    $success = false;
+	  }
+	
+	  $var = (unserialize(file_get_contents($key)));
+  }
 
   return ($success === false) ? null : $var;
-/*
-  $key = $cache_folder.md5($key);
-
-  if (!file_exists($key)) {
-    return null;
-  }
-
-  if (filesize($key) == 0) {
-    return null;
-  }
-
-  return(unserialize(file_get_contents($key)));
-*/
 }
 
 function set_cache($key, $data) {
-  global $cache_folder;
+  global $cache_folder, $cache_type;
     
-	apc_store($key,$data);
-
-  /*
-  $file = $cache_folder.'temp-'.uniqid();
-  file_put_contents($file,serialize($data));
-  rename($file,$cache_folder.md5($key));
-	*/
+	if ($cache_type == 'apc') {
+		apc_store($key,$data);
+	} else {
+	  $file = $cache_folder.'temp-'.uniqid();
+	  file_put_contents($file,serialize($data));
+	  rename($file,$cache_folder.md5($key));
+	}
 }
 
 /*!

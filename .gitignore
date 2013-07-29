@@ -18,3 +18,4 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 compressor/cache
 public/thumbs
 cache
+cache/*

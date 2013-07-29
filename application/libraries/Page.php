@@ -33,6 +33,7 @@ function load($file,$return=false)
 	if ($show[$file] !== FALSE) {
 		/* trigger pre_[view file] event ie. pre_partial_head or pre_shopping_cart */
 		events::trigger(str_replace('__','_','pre_'.$file),null,'array');
+		
 		/* load and output the file */
 		$ci->load->view($file,array(),$return);
 	}
@@ -111,7 +112,7 @@ class Page
 		if ($remove) {
 
 			$this->theme = null;
-  		$this->load->remove_package_path(APPPATH.'themes/'.$name.'/');
+  		$this->load->remove_package_path($name);
 
 		} else {
 
@@ -121,7 +122,7 @@ class Page
 			}
 
 	  	$this->theme = $name;
-			$this->load->add_package_path(APPPATH.'themes/'.$name.'/', TRUE);
+			$this->load->add_package_path(APPPATH.'../themes/'.$name.'/', TRUE);
 		}
 
   	return $this;
@@ -269,7 +270,7 @@ class Page
 			$arg3 = $arg2;
 		}
 
-		return $this->_tag($arg1,'<meta','>','meta',$where);
+		return $this->_tag($arg1,'<meta','>','meta',$arg2);
 	}
 
 	/* this will load partials, views and is chainable (if return = false) */
@@ -332,11 +333,12 @@ class Page
     return $this->data($tag,$html,$where);
   }
 
-	private function _show($name,$bol=null) {
+	private function _show($name=null,$bol=null) {
 		if ($name === null) {
 			return $this->show;
 		}
 
+		/* strip extension if included */
 		$key = preg_replace('/\.[^.]*$/', '', $name);
 
 		if ($bol === null) {
