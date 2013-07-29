@@ -1,2 +1,0 @@
-a:3:{s:8:"etagFile";s:32:"3c7358d748f5c7810a8d661aa921a756";s:4:"file";s:43:"assets/ckeditor/plugins/maximize/lang/en.js";s:7:"content";s:88:"﻿
-CKEDITOR.plugins.setLang('maximize','en',{maximize:'Maximize',minimize:'Minimize'});";}

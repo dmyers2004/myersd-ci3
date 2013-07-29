@@ -1,2 +1,0 @@
-a:3:{s:8:"etagFile";s:32:"bf21ebbf9e1df64033479f0a0a662ac6";s:4:"file";s:44:"assets/ckeditor/plugins/pagebreak/lang/en.js";s:7:"content";s:107:"﻿
-CKEDITOR.plugins.setLang('pagebreak','en',{alt:'Page Break',toolbar:'Insert Page Break for Printing'});";}

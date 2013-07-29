@@ -1,2 +1,0 @@
-a:3:{s:8:"etagFile";s:32:"7dde6e2f4303ac206bccc8971bd8936f";s:4:"file";s:42:"assets/ckeditor/plugins/justify/lang/en.js";s:7:"content";s:117:"﻿
-CKEDITOR.plugins.setLang('justify','en',{block:'Justify',center:'Center',left:'Align Left',right:'Align Right'});";}

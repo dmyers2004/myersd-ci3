@@ -1,2 +1,0 @@
-a:3:{s:8:"etagFile";s:32:"56e1e6b69d350161a64fe8abdd53bc5a";s:4:"file";s:54:"assets/vendor/ckeditor/plugins/removeformat/lang/en.js";s:7:"content";s:76:"﻿
-CKEDITOR.plugins.setLang('removeformat','en',{toolbar:'Remove Format'});";}

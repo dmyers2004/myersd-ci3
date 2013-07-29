@@ -1,2 +1,0 @@
-a:3:{s:8:"etagFile";s:32:"e173252a50534e182f1f436f54f0912a";s:4:"file";s:48:"assets/vendor/ckeditor/plugins/smiley/lang/en.js";s:7:"content";s:112:"﻿
-CKEDITOR.plugins.setLang('smiley','en',{options:'Smiley Options',title:'Insert a Smiley',toolbar:'Smiley'});";}

@@ -1,2 +1,0 @@
-a:3:{s:8:"etagFile";s:32:"0ecf2fa3ae1da97ff11a976a85060719";s:4:"file";s:49:"assets/vendor/ckeditor/plugins/toolbar/lang/en.js";s:7:"content";s:360:"﻿
-CKEDITOR.plugins.setLang('toolbar','en',{toolbarCollapse:'Collapse Toolbar',toolbarExpand:'Expand Toolbar',toolbarGroups:{document:'Document',clipboard:'Clipboard/Undo',editing:'Editing',forms:'Forms',basicstyles:'Basic Styles',paragraph:'Paragraph',links:'Links',insert:'Insert',styles:'Styles',colors:'Colors',tools:'Tools'},toolbars:'Editor toolbars'});";}

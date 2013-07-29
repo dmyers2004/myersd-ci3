@@ -1,2 +1,0 @@
-a:3:{s:8:"etagFile";s:32:"85aa01ee41193f6d8c66c8b849d8c8c8";s:4:"file";s:41:"assets/ckeditor/plugins/iframe/lang/en.js";s:7:"content";s:181:"﻿
-CKEDITOR.plugins.setLang('iframe','en',{border:'Show frame border',noUrl:'Please type the iframe URL',scrolling:'Enable scrollbars',title:'IFrame Properties',toolbar:'IFrame'});";}

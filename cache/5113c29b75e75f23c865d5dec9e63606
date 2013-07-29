@@ -1,2 +1,0 @@
-a:3:{s:8:"etagFile";s:32:"a4c73f55cf72afe2f6a463c90e1005b3";s:4:"file";s:46:"assets/ckeditor/plugins/stylescombo/lang/en.js";s:7:"content";s:180:"﻿
-CKEDITOR.plugins.setLang('stylescombo','en',{label:'Styles',panelTitle:'Formatting Styles',panelTitle1:'Block Styles',panelTitle2:'Inline Styles',panelTitle3:'Object Styles'});";}

@@ -1,6 +1,0 @@
-a:3:{s:8:"etagFile";s:32:"8462f5354b4ddd311515a769ed54ed4d";s:4:"file";s:34:"assets/ckeditor/core/_bootstrap.js";s:7:"content";s:850:"﻿
-(function(){if(CKEDITOR.env.webkit)
-CKEDITOR.env.hc=false;else{var hcDetect=CKEDITOR.dom.element.createFromHtml('<div style="width:0px;height:0px;position:absolute;left:-10000px;'+'border: 1px solid;border-color: red blue;"></div>',CKEDITOR.document);hcDetect.appendTo(CKEDITOR.document.getHead());try{CKEDITOR.env.hc=hcDetect.getComputedStyle('border-top-color')==hcDetect.getComputedStyle('border-right-color');}catch(e){CKEDITOR.env.hc=false;}
-hcDetect.remove();}
-if(CKEDITOR.env.hc)
-CKEDITOR.env.cssClass+=' cke_hc';CKEDITOR.document.appendStyleText('.cke{visibility:hidden;}');CKEDITOR.status='loaded';CKEDITOR.fireOnce('loaded');var pending=CKEDITOR._.pending;if(pending){delete CKEDITOR._.pending;for(var i=0;i<pending.length;i++){CKEDITOR.editor.prototype.constructor.apply(pending[i][0],pending[i][1]);CKEDITOR.add(pending[i][0]);}}})();";}

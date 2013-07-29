@@ -1,2 +1,0 @@
-a:3:{s:8:"etagFile";s:32:"e0df5477cada5180a87e599eed1eb25f";s:4:"file";s:48:"assets/vendor/ckeditor/plugins/indent/lang/en.js";s:7:"content";s:97:"﻿
-CKEDITOR.plugins.setLang('indent','en',{indent:'Increase Indent',outdent:'Decrease Indent'});";}

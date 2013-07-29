@@ -1,2 +1,0 @@
-a:3:{s:8:"etagFile";s:32:"4f5e7ab4fe668e76b3af51bb374205fe";s:4:"file";s:39:"assets/ckeditor/plugins/undo/lang/en.js";s:7:"content";s:68:"﻿
-CKEDITOR.plugins.setLang('undo','en',{redo:'Redo',undo:'Undo'});";}
