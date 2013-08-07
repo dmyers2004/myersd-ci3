@@ -439,24 +439,15 @@ if ( ! function_exists('log_message'))
 	 */
 	function log_message($level, $message, $php_error = FALSE)
 	{
-		static $_log, $_log_threshold;
-
-		if ($_log_threshold === NULL)
-		{
-			$_log_threshold = config_item('log_threshold');
-		}
-
-		if ($_log_threshold === 0)
-		{
-			return;
-		}
+		static $_log;
 
 		if ($_log === NULL)
 		{
-			$_log =& load_class('Log', 'core');
+			// references cannot be directly assigned to static variables, so we use an array
+			$_log[0] =& load_class('Log', 'core');
 		}
 
-		$_log->write_log($level, $message, $php_error);
+		$_log[0]->write_log($level, $message, $php_error);
 	}
 }
 
@@ -538,7 +529,7 @@ if ( ! function_exists('set_status_header'))
 
 		$server_protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : FALSE;
 
-		if (strpos(php_sapi_name(), 'cgi') === 0)
+		if (strpos(PHP_SAPI, 'cgi') === 0)
 		{
 			header('Status: '.$code.' '.$text, TRUE);
 		}
@@ -556,8 +547,8 @@ if ( ! function_exists('_exception_handler'))
 	/**
 	 * Exception Handler
 	 *
-	 * This is the custom exception handler that is declaired at the top
-	 * of Codeigniter.php. The main reason we use this is to permit
+	 * This is the custom exception handler that is declared at the top
+	 * of CodeIgniter.php. The main reason we use this is to permit
 	 * PHP errors to be logged in our own log files since the user may
 	 * not have access to server logs. Since this function
 	 * effectively intercepts PHP errors, however, we also need
