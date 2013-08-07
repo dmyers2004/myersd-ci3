@@ -14,6 +14,7 @@ class MY_Router extends CI_Router
 	 * @access	private
 	 * @return	void
 	 */
+	/* override function - as marked */
 	protected function _parse_routes()
 	{
 		// Turn the segment array into a URI string

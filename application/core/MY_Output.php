@@ -2,6 +2,7 @@
 
 class MY_Output extends CI_Output {
 
+	/* new function */
 	public function json($data=array())
 	{
 		$this

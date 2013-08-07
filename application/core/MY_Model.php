@@ -7,6 +7,7 @@
  * @copyright Copyright (c) 2012, Jamie Rumbelow <http://jamierumbelow.net>
  */
 
+/* new everything */
 class MY_Model extends CI_Model
 {
 

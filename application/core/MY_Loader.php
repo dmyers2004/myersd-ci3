@@ -4,6 +4,7 @@ class MY_Loader extends CI_Loader
 {
 	public $_ci_cached_vars = array();
 
+	/* new function */
 	public function settings($group=null)
 	{
 		$settings = array();
@@ -31,6 +32,7 @@ class MY_Loader extends CI_Loader
 		return $settings;
 	}
 
+	/* new function */
 	/* load a template (always returned) optional load into view variable */
 	public function partial($view,$data=array(),$name=null)
 	{

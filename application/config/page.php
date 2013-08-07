@@ -1,19 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-/**
- * Options include
- *
- * js - (Javascript) Array() merged
- * css - (Cascading Style Sheet) Array() merged
- * meta - (Meta Tags) Array() merged
- * data - key value pairs of data to add to the view $data array Array() merged
- *
- * template - template file - path based of view folder String overwritten
- * title - base template name String overwritten
- * title_separator - when additional titles are added add this between them String overwritten
- * body_class - class added to <body> element overwritten
- */
-
 /*
 we can run php here - while not "recommended" in this case I think it fits the task
 also this could be directly in the function call below but I wanted to grab the separately.
@@ -59,7 +45,6 @@ $config['default_js'] = array('src'=>'');
 /* default config */
 $config['default'] = function(&$page) {
 	$page
-		/*->theme('redrocks')*/
 		->template('_templates/default')
 		->tag('plugins','/plugins/libraries/')
 		->tag('assets','/assets/')

@@ -7,6 +7,7 @@ define('FILTERINT','trim|required|filter_int[1]');
 class MY_Input extends CI_Input
 {
 	/* fetch from array with default and optional xss clean (ON by default) */
+	/* override function */
 	public function fetch_from_array(&$array, $index = '', $default = '', $xss_clean = TRUE)
 	{
 		$value = $this->_fetch_from_array($array, $index, $xss_clean);
@@ -21,6 +22,7 @@ class MY_Input extends CI_Input
 	returns pass (true) / fail (false)
 	*/
 
+	/* new function */
 	public function map($rules,&$output,&$input = null,$xss = true)
 	{
 		$CI = get_instance();
@@ -61,6 +63,7 @@ class MY_Input extends CI_Input
 	optionally dying or returning true (pass) false (fail)
 	*/
 
+	/* new function */
 	public function filter($rule,&$value,$return=true,$default=null)
 	{
 		$CI = get_instance();

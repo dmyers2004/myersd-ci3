@@ -81,7 +81,14 @@ class Page
 	  		$this->load->remove_package_path($this->theme);
 				$this->theme = null;
 			} else {
-				$this->load->add_package_path(APPPATH.'../themes/'.basename($value).'/', TRUE);
+				$theme_folder = APPPATH.'../themes/'.basename($value).'/';
+
+				if (file_exists($theme_folder.'config.php')) {
+					include($theme_folder.'config.php');
+					$theme($this);
+				}
+
+				$this->load->add_package_path($theme_folder, TRUE);
 		  	$this->theme = basename($value);
 			}
 		}
