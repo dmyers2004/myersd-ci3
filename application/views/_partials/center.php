@@ -1,1 +1,1 @@
-<div class="<?=$page_cspan ?> center-span"><?=$container ?></div>
+<div class="<?=$page_cspan ?> center-span"><?=$main ?></div>

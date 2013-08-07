@@ -42,6 +42,4 @@ function data($name=null,$value='$uNdEfInEd$',$where='#')
 
 		$ci->load->vars(array($name=>$value));
 	}
-
-	return $this;
 }

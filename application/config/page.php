@@ -46,7 +46,7 @@ $config['variable_mappings'] = array(
 	'right_class' => 'page_rspan', /* right div class */
 	'right' => 'page_right', /* holder for right column content */
 	'center_class' => 'page_cspan', /* center div class */
-	'center' => 'container', /* holder for all center column content */
+	'center' => 'main', /* holder for all center column content */
 	'onready' => 'page_onready', /* on page jquery onready */
 	'script' => 'page_script', /* on page between <script> tags (not onready) */
 	'style' => 'page_style' /* on page between <style> tags */
@@ -61,8 +61,9 @@ $config['default'] = function(&$page) {
 	$page
 		/*->theme('redrocks')*/
 		->template('_templates/default')
-		->plugins('/plugins/libraries/')
-		->assets('/assets')
+		->tag('plugins','/plugins/libraries/')
+		->tag('assets','/assets/')
+		->tag('theme','/themes/redrocks/')
 		->set('center_class','span12')
 		->hide('_partials/left')
 		->hide('_partials/right')

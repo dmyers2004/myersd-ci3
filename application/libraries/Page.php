@@ -47,15 +47,13 @@ class Page
 	private $assets = ''; /* normal assets */
 	private $plugins = ''; /* plugin assets */
 	private $show = array();
+	private $tags = array();
 
   public function __construct()
   {
     $this->config = $this->load->settings('page');
 
-		/* load in our defaults if any */
-		$this->config('default');
-
-		/* load any database settings into the views */
+		/* load any database settings into the views variables */
 		foreach ($this->settings->get_settings_by_group('page') as $name => $value) {
 			$this->data($name,$value,'#');
 		}
@@ -72,61 +70,31 @@ class Page
   /* setter and getter for template */
   public function template($name=null)
   {
-		/* nothing sent in so return the current template */
-		if ($name === null) {
-			return $this->template;
-		}
-
     $this->template = $name;
     return $this;
   }
 
-	public function clear($name=null) {
-		if ($name != null) {
-			$this->load->_ci_cached_vars[$this->map($name)] = null;
-		} else {
-			foreach ($this->config['variable_mappings'] as $key => $val) {
-				$this->load->_ci_cached_vars[$val] = null;
+	public function tag($name,$value=null) {
+		/* extra steps for themes */
+		if ($name == 'theme') {
+			if ($value === null) {
+	  		$this->load->remove_package_path($this->theme);
+				$this->theme = null;
+			} else {
+				$this->load->add_package_path(APPPATH.'../themes/'.basename($value).'/', TRUE);
+		  	$this->theme = basename($value);
 			}
 		}
-
-		return $this;
-	}
-
-	public function assets($folder) {
-		$this->assets = $folder;
-
-		return $this;
-	}
-
-	public function plugins($folder) {
-		$this->plugins = $folder;
 		
-		return $this;
-	}
-
-	/* getter and setter for theme folder (CI package) */
-  public function theme($name=null,$remove=false)
-  {
-		/* if remove */
-		if ($remove) {
-
-			$this->theme = null;
-  		$this->load->remove_package_path($name);
-
+		/* remove or set */
+		if ($value === null) {
+			unset($this->tags['{'.$name.'}']);
 		} else {
-
-			/* nothing sent in so return the current theme */
-			if ($name === null) {
-				return $this->theme;
-			}
-
-	  	$this->theme = $name;
-			$this->load->add_package_path(APPPATH.'../themes/'.$name.'/', TRUE);
+	    $this->tags['{'.$name.'}'] = $value;
 		}
-
-  	return $this;
-  }
+		
+    return $this;		
+	}
 
 	/* getter and setter for variable mappings */
 	public function map($name=null,$value=null) {
@@ -161,10 +129,12 @@ class Page
 		return $this->data($key,$value);
 	}
 
+	/* appends */
 	public function style($style) {
 		return $this->data('style',$style,'>');
 	}
 
+	/* appends */
 	public function script($script) {
 		return $this->data('script',$script,'>');
 	}
@@ -182,6 +152,19 @@ class Page
 	/* overwrites - really the same as set but looks more like for "functions" */
 	public function func($key,$value) {
 		return $this->data($key,$value);
+	}
+
+	/* clear view variable */
+	public function clear($name=null) {
+		if ($name != null) {
+			$this->load->_ci_cached_vars[$this->map($name)] = null;
+		} else {
+			foreach ($this->config['variable_mappings'] as $key => $val) {
+				$this->load->_ci_cached_vars[$val] = null;
+			}
+		}
+
+		return $this;
 	}
 
 	/* This is majorly overloaded it is both a getting and setting */
@@ -323,7 +306,7 @@ class Page
 		$html = $pre.' '.trim($attr).$post;
 
 		if (is_string($html)) {
-			$html = str_replace('{theme}',$this->theme,str_replace('{assets}',$this->assets,str_replace('{plugins}',$this->plugins,$html)));
+			$html = str_replace(array_keys($this->tags),array_values($this->tags),$html);
 		}
 
 		if ($where === true) {

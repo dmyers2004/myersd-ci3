@@ -298,6 +298,7 @@ class CI_Session_mysqldatabase extends CI_Session_driver {
 	}
 
 	private function mysql_replace($t,$f) {
+		$fields = $values = '';
 	  foreach ($f as $key => $value) $fields .= '`'.$key.'`, ';
 	  foreach ($f as $key => $value) $values .= "'".mysql_real_escape_string($value)."', ";
 	  return 'replace into '.$t.' ('.rtrim($fields,', ').') values ('.rtrim($values,', ').')';
