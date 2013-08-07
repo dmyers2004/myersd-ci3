@@ -1,17 +1,24 @@
 /**
- * Convert Input into a ComboBox
+ * Convert Input or select into a ComboBox
  */
-jQuery.fn.combobox = function(options){
-	return this.each(function(){
 
-  	var that = this;
+jQuery.fn.combobox = function(options) {
+	return this.each(function(){
+		if (jQuery(this).is('select')) {
+			jQuery(this).selectcombobox(options);
+		} else {
+			jQuery(this).inputcombobox(options);
+		}
+	});
+}
+
+jQuery.fn.inputcombobox = function(options){
+	return this.each(function(){
 		options = (options) ? options : {};
 
 		jQuery(this).typeahead({
 			source: options.source,
-			highlighter: function (item) {
-	  		return '<div>' + item + '</div>';
-	  	},
+			/* patch on our custom matcher */
 	  	matcher: function(item) {
 	  		if (this.query == '*') {
 	  			return true;
@@ -21,6 +28,8 @@ jQuery.fn.combobox = function(options){
 	  	}
 		});
 
+  	var that = this;
+
   	/* append on the drop arrow */
   	jQuery(this).wrap('<div class="input-append">')
 			.after('<div class="btn-group"><a class="btn dropdown-toggle"><span class="caret"></span></a></div>')
@@ -28,29 +37,29 @@ jQuery.fn.combobox = function(options){
 			.click(function(e) {
 				/* pause longer than bootstrap so the dropdown doesn't cause the input field to lose focus 150 */
 				setTimeout(function () {
-					jQuery(that).val('*').typeahead('lookup').val('').focus();
+					var current = jQuery(that).val();
+					jQuery(that).val('*').typeahead('lookup').val(current).focus();
 				}, 300);
 		});
   });
 };
 
-/**
- * Convert Select into a ComboBox
- */
 jQuery.fn.selectcombobox = function(options){
 	return this.each(function(){
+		options = (options) ? options : {};
+
 		var select = jQuery(this);
 
-  	var options = [];
+  	options.source = [];
 		jQuery('option',this).each(function(i){
-			options[i] = jQuery(this).text();
+			options.source[i] = jQuery(this).text();
 		});
 
-		var customclass = 'combopop' + Math.random().toString(36).substring(7);
+		var custom_identifier = 'combopop' + Math.random().toString(36).substring(7);
 
-  	select.after('<input type="text" autocomplete="off" class="' + customclass + ' ' +(select.attr('class') || '')+'" value="' + jQuery('option:selected',this).text() + '" placeholder="'+(select.attr('placeholder') || '')+'" id="'+(select.attr('id') || '')+'" name="'+select.attr('name')+'">').remove();
+  	select.after('<input type="text" autocomplete="off" class="' + custom_identifier + ' ' +(select.attr('class') || '')+'" value="' + jQuery('option:selected',this).text() + '" placeholder="'+(select.attr('placeholder') || '')+'" id="'+(select.attr('id') || '')+'" name="'+select.attr('name')+'">').remove();
 
 		/* call combobox */
-		jQuery('.' + customclass).combobox({ source: options });
+		jQuery('.' + custom_identifier).inputcombobox(options);
   });
 };

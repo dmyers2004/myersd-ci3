@@ -34,7 +34,7 @@
 		</label>
 		<div class="controls">
 <?php if ($record->type == 0) { ?>		
-			<?=form_dropdown('group', $group, $record->group, 'class="selectcombobox"') ?>
+			<?=form_dropdown('group', $group, $record->group, 'class="combobox"') ?>
 <?php } else { ?>
 			<label class="text">
 			<?=$record->group ?>

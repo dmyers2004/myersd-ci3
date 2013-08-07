@@ -9,7 +9,7 @@ class Plugin_combobox
 
 	public function tohtml() {
 		get_instance()->page
-			->onready("$('.selectcombobox').selectcombobox();$('.combobox').combobox();")
+			->onready("$('.combobox').combobox();")
 			->js('{plugins}combobox/jquery.combobox.js');
 	}
 
