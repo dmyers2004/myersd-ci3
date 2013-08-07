@@ -68,37 +68,38 @@ class User_model extends MY_Model
 	public function validate_login()
 	{
 		$rules = array($this->fields['email'],$this->fields['password'],$this->remember);
-		return $this->validate($rules);
+		return $this->json_validate($rules);
 	}
 	
 	public function validate_email()
 	{
 		$rules = array($this->fields['email']);
-		return $this->validate($rules);
+		return $this->json_validate($rules);
 	}
 
 	public function validate_register()
 	{
 		$rules = array($this->fields['username'],$this->fields['email'],$this->fields['password'],$this->fields['confirm_password']);
-		return $this->validate($rules);
+		return $this->json_validate($rules);
 	}
 
-	public function validate_new()
+	public function json_validate_new()
 	{
 		$rules = $this->fields;
-		return $this->validate($rules);
+		return $this->json_validate($rules);
 	}
 	
-	public function validate_edit()
+	public function json_validate_edit()
 	{
 		$rules = $this->fields;
 
+		/* password is NOT required on edit */
 		if ($this->input->post('password').$this->input->post('confirm_password') === '') {
 			unset($rules['password']);
 			unset($rules['confirm_password']);
 		}
 
-		return $this->validate($rules);
+		return $this->json_validate($rules);
 	}
 	
 	public function map_login(&$output,&$input = null,$xss = true) {

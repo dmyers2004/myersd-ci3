@@ -31,7 +31,7 @@ class userController extends MY_AdminController
 	/* create new form validation */
 	public function newValidateAjaxPostAction()
 	{
-		$this->output->json($this->controller_model->validate_new());
+		$this->output->json($this->controller_model->json_validate_new());
 	}
 
 	/* create new form post */
@@ -65,7 +65,7 @@ class userController extends MY_AdminController
 	/* edit form validate */
 	public function editValidateAjaxPostAction()
 	{
-		$this->output->json($this->controller_model->validate_edit());
+		$this->output->json($this->controller_model->json_validate_edit());
 	}
 
 	/* edit form post */

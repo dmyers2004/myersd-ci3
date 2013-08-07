@@ -50,7 +50,7 @@ class menubarController extends MY_AdminController
 
 	public function newValidateAjaxPostAction()
 	{
-		$this->output->json($this->controller_model->validate());
+		$this->output->json($this->controller_model->json_validate());
 	}
 
 	public function newPostAction()
@@ -79,7 +79,7 @@ class menubarController extends MY_AdminController
 
 	public function editValidateAjaxPostAction()
 	{
-		$this->output->json($this->controller_model->validate());
+		$this->output->json($this->controller_model->json_validate());
 	}
 
 	public function editPostAction()
