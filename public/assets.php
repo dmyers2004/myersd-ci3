@@ -79,7 +79,7 @@ switch($type) {
 /* send $content */
 session_cache_limiter('public');
 
-ob_end_clean();
+@ob_end_clean();
 ob_start('ob_gzhandler');
 
 // set last-modified header
