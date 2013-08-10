@@ -62,7 +62,7 @@ class Page
 		}
   }
 
-	/* load a config file config grouping (Closure Function) */
+	/* load a config file grouping (Closure Function) */
 	public function config($key)
 	{
 		$this->config[$key]($this);
@@ -74,6 +74,7 @@ class Page
   public function template($name=null)
   {
     $this->template = $name;
+    
     return $this;
   }
 
