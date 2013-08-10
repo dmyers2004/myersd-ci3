@@ -1,19 +1,22 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 /*
-page events triggered are:
+Page Events:
+page.build
+page.load.(partials.head) <= folder/file
 
-pre_page_build - when build method is called
-pre_partial/filename - is called when the load global function (below) is called ie. pre_partials/header
+Examples:
+page.load.partials.start
+page.load.partials.head
+page.load.partials.body
+page.load.partials.header
+page.load.partials.center
+page.load.partials.footer
+page.load.partials.end
 
-
-Requires
-
+Requires:
 Settings Library
 Events Library
 
-*/
-
-/*
 Global view "include" function
 by calling this function instead of php include/require
 a trigger will be thrown
@@ -31,8 +34,8 @@ function load($file,$return=false)
 
 	/* if show[file] does not equal false then continue processing it */
 	if ($show[$file] !== FALSE) {
-		/* trigger pre_[view file] event ie. pre_partial_head or pre_shopping_cart */
-		events::trigger(str_replace('__','_','pre_'.$file),null,'array');
+		/* trigger pre_[view file] event ie. prepartialhead or preshoppingcart */
+		events::trigger(str_replace(array('/','-','_'),array('.','',''),'page.load.'.$file),null,'array');
 		
 		/* load and output the file */
 		$ci->load->view($file,array(),$return);
@@ -284,9 +287,8 @@ class Page
 	/* final output */
   public function build($view=null,$layout=null)
   {
-
 		/* anyone need to process something before build? */
-		events::trigger('pre_page_build',null,'string');
+		events::trigger('page.build',null,'string');
 
 		/* if they sent in a file path or nothing (ie null) then load the view file into the template "center" (mapped) */
 		if ($view !== false) {

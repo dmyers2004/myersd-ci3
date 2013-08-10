@@ -33,7 +33,7 @@ class Flash_msg
 		$this->js = $config['js'];
 		$this->css = $config['css'];
 		
-		events::register('pre_page_build',array($this,'tohtml'));
+		events::register('page.build',array($this,'tohtml'));
 	}
 	
 	/* super method! */

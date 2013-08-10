@@ -4,7 +4,7 @@ class Plugin_nestable
 {
 
 	public function __construct() {
-		events::register('pre_page_build',array($this,'tohtml'));
+		events::register('page.build',array($this,'tohtml'));
 	}
 
 	public function tohtml() {

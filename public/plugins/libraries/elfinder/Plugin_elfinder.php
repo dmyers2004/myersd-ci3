@@ -16,7 +16,7 @@ class Plugin_elfinder
 
 		$this->config = $config;
 
-		events::register('pre_page_build',array($this,'tohtml'));
+		events::register('page.build',array($this,'tohtml'));
 	}
 
 	public function standalone() {

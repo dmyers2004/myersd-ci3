@@ -155,7 +155,7 @@ CREATE TABLE `nav` (
   `class` varchar(64) DEFAULT '',
   `active` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,7 +164,7 @@ CREATE TABLE `nav` (
 
 LOCK TABLES `nav` WRITE;
 /*!40000 ALTER TABLE `nav` DISABLE KEYS */;
-INSERT INTO `nav` VALUES (1,'/nav/permission','','Permission',0,13,'',1),(2,'/nav/permission/users','/admin/user','Users',1,14,'',1),(3,'/nav/permission/groups','/admin/group','Groups',1,15,'',1),(4,'/nav/permission/access','/admin/access','Access',1,16,'',1),(7,'/nav/menubar','/admin/menubar','Menubar',17,13,'',1),(9,'/nav/dashboard','/admin/dashboard','Dashboard',0,11,'',1),(14,'/nav/setting','/admin/setting','Settings',17,14,'',1),(15,'/nav/cookies','/auth','Cookie',0,16,'',0),(17,'/nav/internal','','Internal',0,12,'',1),(18,'/nav/views','/views','Views',17,17,'',0),(19,'/nav/media','/admin/media','Media Manager',17,15,'',1),(20,'/nav/wysiwyg','/admin/media/wysiwyg','WYSIWYG',17,16,'',1),(21,'/menu/here','/menu/url','Menu',0,15,'',0),(23,'/nav/apc','','APC',0,14,'',1),(24,'/nav/clear apc','/admin/utility/apcclear','Clear',23,16,'',1),(25,'/nav/apcinfo','/admin/utility/apcinfo','Info',23,15,'',1);
+INSERT INTO `nav` VALUES (1,'/nav/permission','','Permission',0,13,'',1),(2,'/nav/permission/users','/admin/user','Users',1,14,'',1),(3,'/nav/permission/groups','/admin/group','Groups',1,15,'',1),(4,'/nav/permission/access','/admin/access','Access',1,16,'',1),(7,'/nav/menubar','/admin/menubar','Menubar',17,13,'',1),(9,'/nav/dashboard','/admin/dashboard','Dashboard',0,11,'',1),(14,'/nav/setting','/admin/setting','Settings',17,14,'',1),(15,'/nav/cookies','/auth','Cookie',0,16,'',0),(17,'/nav/internal','','Internal',0,12,'',1),(18,'/nav/views','/views','Views',17,17,'',0),(19,'/nav/media','/admin/media','Media Manager',17,15,'',1),(20,'/nav/wysiwyg','/admin/media/wysiwyg','WYSIWYG',17,16,'',1),(21,'/menu/here','/menu/url','Menu',0,15,'',0),(23,'/nav/apc','','APC',0,14,'',1),(24,'/nav/clear apc','/admin/utility/apcclear','Clear',23,16,'',1),(25,'/nav/apcinfo','/admin/utility/apcinfo','Info',23,15,'',1),(26,'/nav/cookie/cookie-sub','/nav/cookie/cookie-sub','Cookie Sub',15,17,'',1),(27,'/nav/cookie/sub-menu-2','/cookies','Sub Menu 2',26,18,'',1);
 /*!40000 ALTER TABLE `nav` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,7 +184,7 @@ CREATE TABLE `settings` (
   `type` int(1) DEFAULT '1',
   `module_name` varchar(32) DEFAULT '',
   PRIMARY KEY (`id`,`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -193,7 +193,7 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'View fixer','fixer value','view',1,0,''),(2,'new','Testing','coffee',1,0,NULL),(3,'New Setting','Yes','view',1,0,NULL),(5,'settinga','settingb','new group',1,0,NULL),(6,'title','dmfw','page',1,1,NULL),(7,'page_brand','dmfw2','page',1,1,''),(8,'foo','bar','paths',1,2,'paths'),(9,'admin home','/admin/','paths',1,2,'paths'),(10,'meta_description','Example Application','page',1,1,'');
+INSERT INTO `settings` VALUES (1,'View fixer','fixer value','view',1,0,''),(2,'new','Testing','coffee',1,0,NULL),(3,'New Setting','Yes','view',1,0,NULL),(5,'settinga','settingb','new group',1,0,NULL),(6,'title','dmfw','page',1,1,NULL),(7,'page_brand','dmfw2','page',1,1,''),(8,'foo','bar','paths',1,2,'paths'),(9,'admin home','/admin/','paths',1,2,'paths'),(10,'meta_description','Example Application','page',1,1,''),(11,'Testing','New Testing setting','coffee',1,0,''),(12,'Skunk','Shoes','view',1,0,'');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,7 +283,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'dmyers','$2a$08$bWxKQ277UkI9Tjr54yTiO.qTC1sd5FnnZXxBAE5wqGl1Goc77ynpW','donmyers@me.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','2013-08-07 15:48:01','2013-04-03 19:37:06','2013-08-07 13:48:01',1),(2,'donmyers','$2a$08$W5.XVPhabGVmtUsZX4M01u2GAFrA63JD.qv5ENGzh3mVHY1KLogOi','don@myers.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-04-09 04:03:41','2013-04-29 20:47:41',1),(3,'General','$2a$08$yGAFJYB7GrNw8sLwj0fEIOJh2SpbGo2g34/soOrGotAtw2ujlEELa','general@user.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-04-09 15:26:56','2013-05-15 00:25:29',5),(5,'Joe Coffee','$2a$08$SlOHdCx4EhyQ.WxlaKEFP.5sq6jmK1c5FbRhXRs6vXRk27QQqIkhC','joe@example.com',0,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-06-05 15:19:34','2013-06-25 22:36:16',5);
+INSERT INTO `users` VALUES (1,'dmyers','$2a$08$bWxKQ277UkI9Tjr54yTiO.qTC1sd5FnnZXxBAE5wqGl1Goc77ynpW','donmyers@me.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','2013-08-07 20:06:15','2013-04-03 19:37:06','2013-08-07 18:06:15',1),(2,'donmyers','$2a$08$W5.XVPhabGVmtUsZX4M01u2GAFrA63JD.qv5ENGzh3mVHY1KLogOi','don@myers.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-04-09 04:03:41','2013-04-29 20:47:41',1),(3,'General','$2a$08$yGAFJYB7GrNw8sLwj0fEIOJh2SpbGo2g34/soOrGotAtw2ujlEELa','general@user.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-04-09 15:26:56','2013-05-15 00:25:29',5),(5,'Joe Coffee','$2a$08$SlOHdCx4EhyQ.WxlaKEFP.5sq6jmK1c5FbRhXRs6vXRk27QQqIkhC','joe@example.com',0,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-06-05 15:19:34','2013-06-25 22:36:16',5);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
