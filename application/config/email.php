@@ -14,10 +14,12 @@ $config['mailtype'] = 'html';
 $config['charset'] = 'utf-8';
 $config['newline'] = "\r\n";
 
-$config['protocol'] = 'smtp';
+$config['protocol'] = 'debug';
 $config['smtp_host'] = 'localhost';
 //$config['smtp_user'] = 'codeigniter';
 //$config['smtp_pass'] = 'password';
+
+$config['mailpath'] = APPPATH.'logs';
 
 
 /* End of file email.php */

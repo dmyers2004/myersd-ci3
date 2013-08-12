@@ -42,6 +42,7 @@ class authController extends MY_PublicController
 	public function registerAction()
 	{
 		$this->page
+			->set('password_format_txt',$this->user_model->password_format_copy)
 			->js('/assets/js/page/admin_auth_register.js')
 			->build();
 	}
@@ -75,14 +76,20 @@ class authController extends MY_PublicController
 					$this->data['template'] = 'activate';
 					$this->data['activation_period'] = $this->config->item('email_activation_expire', 'auth') / 3600;
 
-					$this->send_email($this->data);
-					$this->flash_msg->blue('Registration Processed<br>Verification Email Sent','login');
+					if ($this->send_email($this->data)) {
+						$this->flash_msg->blue('Registration Processed<br>Verification Email Sent','login');
+					} else {
+						$this->flash_msg->red('Error Sending Email','login');
+					}
 				} else {
 					if ($this->config->item('email_account_details', 'auth')) {	// send "welcome" email
 						$this->data['template'] = 'welcome';
 						
-						$this->send_email($this->data);
-						$this->flash_msg->blue('Registration Processed<br>Welcome Email Sent','login');
+						if ($this->send_email($this->data)) {
+							$this->flash_msg->blue('Registration Processed<br>Welcome Email Sent','login');
+						} else {
+							$this->flash_msg->red('Error Sending Email','login');
+						}
 					}
 				}
 				$this->flash_msg->blue('Registration Processed','login');		
@@ -107,19 +114,22 @@ class authController extends MY_PublicController
 
 	public function forgotPostAction()
 	{
-		if ($this->user_modelv->map_forgot($this->data)) {
-			if ($this->auth->forgot_password($this->data['email'])) {
+		if ($this->user_model->map_forgot($this->data)) {
+			$data = $this->auth->forgot_password($this->data['email']);
+			if ($data['user_id'] > 0) {
 
-				$this->data['from'] = $this->config->item('website_email', 'auth');
-				$this->data['to'] = $this->data['email'];
+				$this->data['from'] = $this->config->item('webmaster_email', 'auth');
+				$this->data['to'] = $data['email'];
 				$this->data['subject'] = 'Forgot email';
 				$this->data['template'] = 'forgot_password';
-				$this->data['site_name'] = $this->config->item('website_name', 'auth');
-				$this->data['link'] = base_url();
+				$this->data['link'] = site_url('/auth/reset/'.$data['user_id'].'/'.$data['new_pass_key']);
+				$this->data['username'] = $data['username'];
 				
-				$this->send_email($this->data);
-
-				$this->flash_msg->blue('Email Sent','login');
+				if ($this->send_email($this->data)) {
+					$this->flash_msg->blue('Email Sent','login');
+				} else {
+					$this->flash_msg->red('Error Sending Email','login');
+				}
 			}
 		}
 
@@ -148,10 +158,13 @@ class authController extends MY_PublicController
 				$this->data['to'] = $this->data['email'];
 				$this->data['subject'] = 'Activation Email';
 				$this->data['template'] = 'activate';
-				$this->data['site_name'] = $this->config->item('website_name', 'auth');
 				$this->data['link'] = base_url();
 				
-				$this->send_email($this->data);
+				if ($this->send_email($this->data)) {
+					$this->flash_msg->blue('Email Sent','login');
+				} else {
+					$this->flash_msg->red('Error Sending Email','login');
+				}
 
 				$this->flash_msg->blue('Email Sent','login');
 			}
@@ -174,29 +187,53 @@ class authController extends MY_PublicController
 	}
 	
 	/* reset password */
-	public function resetAction() {
+	public function resetAction($userid=null,$reset_key='unknown')
+	{
+		$this->auth->filter_key($reset_key);
+		$this->user_model->filter_id($user_id);
+		
+		/* let's look up this user & key */
+		$user = $this->user_model->get_by('new_password_key',$reset_key);
+		
+		/* get the record did this person request it? */
+		if ($user->id !== $userid) {
+			/* something fishy going on */
+			$this->input->forged();	
+		}
+		
 		$this->page
+			->set('password_format_txt',$this->user_model->password_format_copy)
+			->set('userid',$userid)
+			->set('key',$reset_key)
 			->build();
 	}
 
 	public function resetValidateAjaxPostAction()
 	{
-		$this->output->json($this->user_model->validate_email());
+		$this->output->json($this->user_model->validate_password());
 	}
 
 	public function resetPostAction()
 	{
-	
-	} 
+		if ($this->user_model->map_reset_password($this->data)) {
+			if ($this->auth->reset_password($this->data['id'],$this->data['key'],$this->data['password'])) {
+				$this->flash_msg->blue('Password Changed','login');
+			}
+		}
+
+		$this->flash_msg->red('Password Change Error. Please Try Again','login');
+	}
 
 	/* support */
 
 	private function send_email() {
 		$this->load->library('email');
+		$this->load->helper('string');
 	
 		$this->data['from_long'] = ($this->data['from_long']) ? $this->data['from_long'] : $this->data['from'];
 		$this->data['reply_to'] = ($this->data['reply_to']) ? $this->data['reply_to'] : $this->data['from'];
 		$this->data['reply_to_long'] = ($this->data['reply_to_long']) ? $this->data['reply_to_long'] : $this->data['reply_to'];
+		$this->data['site_name'] = $this->config->item('website_name','auth');
 	
 		$this->email->from($this->data['from'], $this->data['from_long']);
 		$this->email->reply_to($this->data['reply_to'], $this->data['reply_to_long']);
@@ -204,7 +241,8 @@ class authController extends MY_PublicController
 		$this->email->subject(mergeString($this->data['subject'],$this->data));
 		$this->email->message(merge('admin/_email_templates/'.$this->data['template'].'-html',$this->data));
 		$this->email->set_alt_message(merge('admin/_email_templates/'.$this->data['template'].'-txt',$this->data));
-		$this->email->send();
+
+		return $this->email->send();
 	}
 
 }

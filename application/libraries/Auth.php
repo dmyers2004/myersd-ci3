@@ -32,9 +32,9 @@ class Auth
 		$this->ci->load->model('user_model');
 	}
 
-	public function filter_activation_key($activation_key)
+	public function filter_key($activation_key)
 	{
-		$this->input->filter('required|md5',$activation_key,false);
+		$this->ci->input->filter('required|md5',$activation_key,false);
 	}
 
 	/**

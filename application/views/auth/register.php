@@ -22,6 +22,8 @@
 		</label>
 		<input type="password" id="confirm_password" name="confirm_password" value="" placeholder="password">
 
+		<p><small><?=$password_format_txt ?></small><p>
+
     <p>
 	    <button type="submit" class="btn">Submit</button>
 			<span class="required-txt">Required Fields are in Bold</span>

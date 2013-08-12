@@ -10,7 +10,7 @@
 		<label class="control-label" for="password">
 			<strong>Password</strong>
 		</label>
-		<input type="password" id="password" name="password" value="password" placeholder="password">
+		<input type="password" id="password" name="password" value="Password#1" placeholder="password">
 
     <p>
 	    <button type="submit" class="btn">Submit</button>

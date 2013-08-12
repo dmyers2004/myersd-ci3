@@ -165,7 +165,6 @@ class MY_Form_validation extends CI_Form_validation
 		// Alpha-numeric with periods, underscores, spaces and dashes
 		$this->CI->form_validation->set_message('alpha_extra', 'The %s field may only contain alpha-numeric characters, spaces, periods, underscores, and dashes.');
 		return ( ! preg_match("/^([\.\s-a-z0-9_-])+$/i", $str)) ? FALSE : TRUE;
-
 	}
 
 	public function matches_pattern($str, $pattern)
