@@ -17,7 +17,7 @@ Requires
 Settings Library
 
 */
-class Paths implements arrayaccess
+class Paths
 {
 	private $paths = null; /* all pathss local cache */
 
@@ -25,24 +25,22 @@ class Paths implements arrayaccess
 		$this->paths = get_instance()->load->settings('paths');
 	}
 
-	public function offsetSet($offset, $value) {
-		if (is_null($offset)) {
-			$this->paths[] = $value;
+	public function __set($name,$value) {
+		$this->paths[$name] = $value;
+		
+		return $this;
+	}
+	
+	public function __get($name) {
+		if (array_key_exists($name,$this->paths)) {
+			$url = $this->paths[$name];
 		} else {
-			$this->paths[$offset] = $value;
+			$url = $name;
 		}
 	}
-
-	public function offsetExists($offset) {
-		return isset($this->paths[$offset]);
-	}
-
-	public function offsetUnset($offset) {
-		unset($this->paths[$offset]);
-	}
-
-	public function offsetGet($offset) {
-		return isset($this->paths[$offset]) ? $this->paths[$offset] : $offset;
+	
+	public function redirect($name) {
+		redirect($this->__get($name));
 	}
 
 } /* end path */

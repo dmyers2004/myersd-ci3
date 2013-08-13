@@ -63,7 +63,7 @@ class Flash_msg
 
 		/* redirect to another page immediately */
 		if ($redirect) {
-			redirect(get_instance()->paths[$redirect]);
+			$this->CI->paths->redirect($redirect);
 		}
 
 		return $this;

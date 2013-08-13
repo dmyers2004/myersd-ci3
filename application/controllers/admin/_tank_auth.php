@@ -16,7 +16,7 @@ class auth extends CI_Controller
 		if ($message = $this->session->flashdata('message')) {
 			$this->load->view('auth/general_message', array('message' => $message));
 		} else {
-			redirect($this->path['login']);
+			$this->path->redirect('login');
 		}
 	}
 
@@ -28,7 +28,7 @@ class auth extends CI_Controller
 	public function login()
 	{
 		if ($this->tank_auth->is_logged_in()) {									// logged in
-			redirect($this->path['home']);
+			$this->path->redirect('home');
 
 		} elseif ($this->tank_auth->is_logged_in(FALSE)) {						// logged in, not activated
 			redirect('/auth/send_again/');
@@ -67,7 +67,7 @@ class auth extends CI_Controller
 						$this->form_validation->set_value('remember'),
 						$data['login_by_username'],
 						$data['login_by_email'])) {								// success
-					redirect($this->path['home']);
+					$this->path->redirect('home');
 
 				} else {
 					$errors = $this->tank_auth->get_error_message();
@@ -118,7 +118,7 @@ class auth extends CI_Controller
 	public function register()
 	{
 		if ($this->tank_auth->is_logged_in()) {									// logged in
-			redirect($this->path['home']);
+			$this->path->redirect('home');
 
 		} elseif ($this->tank_auth->is_logged_in(FALSE)) {						// logged in, not activated
 			redirect('/auth/send_again/');
@@ -202,7 +202,7 @@ class auth extends CI_Controller
 	public function send_again()
 	{
 		if (!$this->tank_auth->is_logged_in(FALSE)) {							// not logged in or activated
-			redirect($this->path['login']);
+			$this->path->redirect('login');
 
 		} else {
 			$this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean|valid_email');
@@ -259,7 +259,7 @@ class auth extends CI_Controller
 	public function forgot_password()
 	{
 		if ($this->tank_auth->is_logged_in()) {									// logged in
-			redirect($this->path['home']);
+			$this->path->redirect('home');
 
 		} elseif ($this->tank_auth->is_logged_in(FALSE)) {						// logged in, not activated
 			redirect('/auth/send_again/');
@@ -341,7 +341,7 @@ class auth extends CI_Controller
 	public function change_password()
 	{
 		if (!$this->tank_auth->is_logged_in()) {								// not logged in or not activated
-			redirect($this->path['login']);
+			$this->path->redirect('login');
 
 		} else {
 			$this->form_validation->set_rules('old_password', 'Old Password', 'trim|required|xss_clean');
@@ -373,7 +373,7 @@ class auth extends CI_Controller
 	public function change_email()
 	{
 		if (!$this->tank_auth->is_logged_in()) {								// not logged in or not activated
-			redirect($this->path['login']);
+			$this->path->redirect('login');
 
 		} else {
 			$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
@@ -431,7 +431,7 @@ class auth extends CI_Controller
 	public function unregister()
 	{
 		if (!$this->tank_auth->is_logged_in()) {								// not logged in or not activated
-			redirect($this->path['login']);
+			$this->path->redirect('login');
 		} else {
 			$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
 
@@ -459,7 +459,7 @@ class auth extends CI_Controller
 	public function _show_message($message)
 	{
 		$this->session->set_flashdata('message', $message);
-		redirect($this->path['login']);
+		$this->path->redirect('login');
 	}
 
 	/**
