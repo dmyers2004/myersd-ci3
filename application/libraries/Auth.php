@@ -34,7 +34,7 @@ class Auth
 
 	public function filter_key($activation_key)
 	{
-		$this->ci->input->filter('required|md5',$activation_key,false);
+		$this->ci->input->filter(FILTERMD5,$activation_key,false);
 	}
 
 	/**

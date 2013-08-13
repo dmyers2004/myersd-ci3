@@ -44,7 +44,7 @@ class MY_Input extends CI_Input
 			
 			/* run the validation if fail (false) return pronto */
 			if ($CI->form_validation->run() === false) {
-				log_message('info','MY_Input::map Field: "'.$rule['field'].'" Error: "'.validation_errors().'" Rules: '.$rule['rules']);
+				log_message('debug','MY_Input::map Field: "'.$rule['field'].'" Error: "'.validation_errors().'" Rules: '.$rule['rules']);
 				return false;
 			}
 
@@ -89,7 +89,7 @@ class MY_Input extends CI_Input
 
 		/* log the error if any */
 		if ($pass === false) {
-			log_message('info','MY_Input::filter Value:"'.$value.'" Errors:"'.validation_errors().'" Filter"'.$rule.'"');
+			log_message('debug','MY_Input::filter Value:"'.$value.'" Errors:"'.validation_errors().'" Filter"'.$rule.'"');
 		}
 
 		/*
