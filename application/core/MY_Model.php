@@ -26,9 +26,9 @@ class MY_Model extends Jamie_model
 		parent::__construct();
   }
 
-	public function map(&$output,&$input = null,$xss = true)
+	public function map(&$output,&$input = null)
 	{
-		return $this->input->map($this->validate,$output,$input,$xss);
+		return $this->input->map($this->validate,$output,$input);
 	}
 	
 	public function json_validate($validate=null)

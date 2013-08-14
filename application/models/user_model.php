@@ -49,7 +49,7 @@ class User_model extends MY_Model
   	return $this->input->filter(FILTERBOL,$mode,$return);
   }
   
-	public function map(&$output,&$input = null,$xss = true)
+	public function map(&$output,&$input = null)
 	{
 		$rules = $this->fields;
 
@@ -58,24 +58,24 @@ class User_model extends MY_Model
 			unset($rules['confirm_password']);
 		}		
 		
-		return $this->input->map($rules,$output,$input,$xss);
+		return $this->input->map($rules,$output,$input);
 	}
 	
-	public function map_register(&$output,&$input=null,$xss=true) {
+	public function map_register(&$output,&$input=null) {
 		$rules = array($this->fields['username'],$this->fields['email'],$this->fields['password']);
-		return $this->input->map($rules,$output,$input,$xss);
+		return $this->input->map($rules,$output,$input);
 	}
 	
-	public function map_forgot(&$output,&$input=null,$xss=true) {
+	public function map_forgot(&$output,&$input=null) {
 		$rules = array($this->fields['email']);
-		return $this->input->map($rules,$output,$input,$xss);
+		return $this->input->map($rules,$output,$input);
 	}
 	
-	public function map_reset_password(&$output,&$input=null,$xss=true) {
+	public function map_reset_password(&$output,&$input=null) {
 		$key = array('field'=>'key','label'=>'Change Request Key','rules'=>FILTERMD5,'filter'=>FILTERMD5);
 		$rules = array($this->fields['password'],$this->fields['id'],$key);
 		
-		return $this->input->map($rules,$output,$input,$xss);
+		return $this->input->map($rules,$output,$input);
 	}
   
 	public function validate_login()
@@ -120,9 +120,9 @@ class User_model extends MY_Model
 		return $this->json_validate($rules);
 	}
 	
-	public function map_login(&$output,&$input = null,$xss = true) {
+	public function map_login(&$output,&$input = null) {
 		$validate = array($this->fields['email'],$this->fields['password'],$this->remember);
-		return $this->input->map($validate,$output,$input,$xss);
+		return $this->input->map($validate,$output,$input);
 	}
 	
 	public function get_users()

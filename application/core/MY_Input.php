@@ -23,36 +23,23 @@ class MY_Input extends CI_Input
 	*/
 
 	/* new function */
-	public function map($rules,&$output,&$input = null,$xss = true)
+	public function map($rules,&$output,&$input = null)
 	{
-		$CI = get_instance();
-		$CI->load->library('form_validation');
-
-		/* did they send in input? if not use post with xss by default */
-		$input = ($input) ? $input : $this->post(NULL, $xss); /* XSS cleaned */
+		/* did they send in input? */
+		$input = ($input) ? $input : $this->post();
 
 		/* loop through all the form validation rules with the additional map rules! */
 		foreach ((array)$rules as $rule) {
-			/* make sure it's reset - incase it's already loaded and used we need it empty */
-			$CI->form_validation->reset_validation();
 
-			/* setup a bogus array for testing - set_data before set_rule!! */
-			$CI->form_validation->set_data($input);
-
-			/* setup our rule on the bogus array key for testing using the filter sent in - bogus name "input filter" */
-			$CI->form_validation->set_rules($rule['field'],$rule['label'],$rule['rules']);
-			
-			/* run the validation if fail (false) return pronto */
-			if ($CI->form_validation->run() === false) {
-				log_message('debug','MY_Input::map Field: "'.$rule['field'].'" Error: "'.validation_errors().'" Rules: '.$rule['rules']);
+			if (!$this->filter($rule['rules'],$input[$rule['field']],true,$rule['default'],$rule['label'])) {
 				return false;
 			}
-
-			/* if database field not filled in use form field */
-			$dbfield = ($rule['dbfield']) ? $rule['dbfield'] : $rule['field'];
+			
+			/* if dbfield not set use field */
+			$mappedfield = ($rule['dbfield']) ? $rule['dbfield'] : $rule['field'];
 
 			/* if not then build the output array (passed by ref) with the new value (prepping for example) */
-			$output[$dbfield] = set_value($rule['field'],$rule['default']);
+			$output[$mappedfield] = $input[$rule['field']];
 		}
 
 		/* return true because all validations passed */
@@ -65,7 +52,7 @@ class MY_Input extends CI_Input
 	*/
 
 	/* new function */
-	public function filter($rule,&$value,$return=true,$default=null)
+	public function filter($rule,&$value,$return=true,$default=null,$label = 'input filter')
 	{
 		$CI = get_instance();
 		$CI->load->library('form_validation');
@@ -79,7 +66,7 @@ class MY_Input extends CI_Input
 		$CI->form_validation->set_data(array($bogus=>$value));
 
 		/* setup our rule on the bogus array key for testing using the filter sent in - bogus name "input filter" */
-		$CI->form_validation->set_rules($bogus, 'input filter', $rule);
+		$CI->form_validation->set_rules($bogus, $label, $rule);
 
 		/* run the validation and capture output fail (false) */
 		$pass = $CI->form_validation->run();
