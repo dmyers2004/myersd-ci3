@@ -36,6 +36,11 @@ class MY_Form_validation extends CI_Form_validation
 		return ($row->dupe > 0) ? TRUE : FALSE;
 	}
 
+	public function default($str, $field)
+	{
+		return (empty($str)) ? $field : $str;
+	}
+
 	public function access($str, $field)
 	{
 		$this->CI->form_validation->set_message('access', 'You do not have access to %s');
