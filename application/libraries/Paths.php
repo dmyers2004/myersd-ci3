@@ -37,6 +37,8 @@ class Paths
 		} else {
 			$url = $name;
 		}
+		
+		return $url;
 	}
 	
 	public function redirect($name) {

@@ -6,14 +6,6 @@ define('FILTERINT','trim|required|filter_int[1]');
 
 class MY_Input extends CI_Input
 {
-	/* fetch from array with default and optional xss clean (ON by default) */
-	/* override function */
-	public function fetch_from_array(&$array, $index = '', $default = '', $xss_clean = TRUE)
-	{
-		$value = $this->_fetch_from_array($array, $index, $xss_clean);
-		return (isset($value)) ? $value : $default;
-	}
-
 	/*
 	capture form elements using a validation array adding
 	dbfield (defaults to field)
@@ -39,7 +31,7 @@ class MY_Input extends CI_Input
 			$mappedfield = ($rule['dbfield']) ? $rule['dbfield'] : $rule['field'];
 
 			/* if not then build the output array (passed by ref) with the new value (prepping for example) */
-			$output[$mappedfield] = $input[$rule['field']];
+			$output[$mappedfield] = &$input[$rule['field']];
 		}
 
 		/* return true because all validations passed */
