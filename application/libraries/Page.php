@@ -49,8 +49,8 @@ class Page
 	private $theme = ''; /* theme folder for views (added as a package) */
 	private $assets = ''; /* normal assets */
 	private $plugins = ''; /* plugin assets */
-	private $show = array();
-	private $tags = array();
+	private $show = array(); /* show/hide array for load function */
+	private $tags = array(); /* find/replace tags for paths etc... */
 
   public function __construct()
   {
