@@ -5,41 +5,21 @@ define('FILTERMD5','trim|required|md5|filter_str[32]');
 define('FILTERINT','trim|required|filter_int[1]');
 
 class MY_Input extends CI_Input
-{
+{	
 	public function map($rules,&$output,&$input=null,$dieonfail=true) {
-		$input = ($input) ? $input : $this->post();
-
-		foreach ($rules as $rule) {
-			$variable = $input[$rule['field']];
-
-			if ($this->_processone($rule['rules'],$variable,$rule['label'],$dieonfail,$rule['field']) === false) {
-				return false;
-			}
-
-			$mappedfield = ($rule['dbfield']) ? $rule['dbfield'] : $rule['field'];
-			$output[$mappedfield] = $variable;
-		}
-
-		return true;
+		get_instance()->load->library('form_validation');
+		
+		return $this->_processarray($rules,$output,$input,$dieonfail,'rules');
 	}
 
-	public function filter($rules,&$output,$input,$dieonfail=true) {
+	public function filter($rules,&$output,$input=null,$dieonfail=true) {
+		get_instance()->load->library('form_validation');
+
 		if (is_string($rules)) {
+			$input = ($input) ? $input : 'Filter Field';
 			return $this->_processone($rules,$output,$input,$dieonfail);
 		} else {
-			$input = ($input) ? $input : $this->post();
-
-			foreach ($rules as $rule) {
-				$variable = $input[$rule['field']];
-	
-				if ($this->_processone($rule['filter'],$variable,$rule['label'],$dieonfail,$rule['field']) === false) {
-					return false;
-				}
-				
-				$output[$rule['field']] = $variable;
-			}
-
-			return true;
+			return $this->_processarray($rules,$output,$input,$dieonfail,'filter');
 		}
 	}
 
@@ -61,7 +41,6 @@ class MY_Input extends CI_Input
 
 	private function _processone($rule,&$variable,$label,$dieonfail=true,$fieldname='FoObArPlAcEhOlDeR') {
 		$CI = get_instance();
-		$CI->load->library('form_validation');
 
 		/* does this contain default? if so we need to handle this */
 		if (empty($variable)) {
