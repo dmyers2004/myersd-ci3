@@ -47,7 +47,7 @@ class groupController extends MY_AdminController
 	public function editAction($id=null)
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->controller_model->filter_id($id,false);
+		$this->controller_model->filter_id($id);
 
 		$this->page
 			->set('title','Edit '.$this->content_title)
@@ -77,7 +77,7 @@ class groupController extends MY_AdminController
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
 		$id = $this->input->post('id');
-		$this->controller_model->filter_id($id,false);
+		$this->controller_model->filter_id($id);
 
 		if ($this->controller_model->map($this->data)) {
 			$this->controller_model->update($this->data['id'],$this->data);
@@ -132,6 +132,7 @@ class groupController extends MY_AdminController
 
 	protected function update_privilege($group_id)
 	{
+		$this->controller_model->filter_id($group_id);
 		$this->controller_model->delete_group_access($group_id);
 		$access = $this->input->post('access');
 		if (is_array($array)) {

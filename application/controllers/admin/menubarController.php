@@ -32,14 +32,14 @@ class menubarController extends MY_AdminController
 
 	public function recordAjaxAction($id=null) {
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->controller_model->filter_id($id,false);
+		$this->controller_model->filter_id($id);
 
 		$this->load->view('/admin/menubar/view',array('record'=>$this->controller_model->get($id)));
 	}
 
 	public function newAction($parent_id=0,$parent_text='Root')
 	{
-		$this->controller_model->filter_parent_id($parent_id,false);
+		$this->controller_model->filter_parent_id($parent_id);
 
 		$this->page
 			->set('title','New Menu Under '.$parent_text)
@@ -67,7 +67,7 @@ class menubarController extends MY_AdminController
 	public function editAction($id=null)
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->controller_model->filter_id($id,false);
+		$this->controller_model->filter_id($id);
 
 		$this->page
 			->set('title','Edit '.$this->page_title)
@@ -86,7 +86,7 @@ class menubarController extends MY_AdminController
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
 		$id = $this->input->post('id');
-		$this->controller_model->filter_id($id,false);
+		$this->controller_model->filter_id($id);
 
 		if ($this->controller_model->map($this->data)) {
 			$this->controller_model->update($this->data['id'], $this->data);

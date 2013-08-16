@@ -57,14 +57,14 @@ class access_model extends MY_Model
   	return parent::insert($data, $skip_validation);
   }
 
-  public function filter_id(&$id,$return=false)
+  public function filter_id(&$id,$dieonfail=true)
   {
-  	return $this->input->filter($this->fields['id']['filter'],$id,$return);
+  	return $this->input->filter($this->fields['id']['filter'],$id,$dieonfail);
   }
 
-  public function filter_mode(&$mode,$return=false)
+  public function filter_mode(&$mode,$dieonfail=true)
   {
-  	return $this->input->filter(FILTERBOL,$mode,$return);
+  	return $this->input->filter(FILTERBOL,$mode,$dieonfail);
   }
 
 }

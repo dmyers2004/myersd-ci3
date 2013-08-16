@@ -39,14 +39,14 @@ class User_model extends MY_Model
 		$this->profile_table_name	= $ci->config->item('db_table_prefix', 'auth').$this->profile_table_name;
 	}
 
-  public function filter_id(&$id,$return=false)
+  public function filter_id(&$id,$dieonfail=true)
   {
-  	return $this->input->filter($this->fields['id']['filter'],$id,$return);
+  	return $this->input->filter($this->fields['id']['filter'],$id,$dieonfail);
   }
 
-  public function filter_mode(&$mode,$return=false)
+  public function filter_mode(&$mode,$dieonfail=true)
   {
-  	return $this->input->filter(FILTERBOL,$mode,$return);
+  	return $this->input->filter(FILTERBOL,$mode,$dieonfail);
   }
   
 	public function map(&$output,&$input = null)

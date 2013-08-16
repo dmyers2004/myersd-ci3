@@ -71,19 +71,19 @@ class menubar_model extends MY_Model
 		return $this->active_cache;
 	}
 
-  public function filter_id(&$id,$return=false)
+  public function filter_id(&$id,$dieonfail=true)
   {
-  	return $this->input->filter($this->fields['id']['filter'],$id,$return);
+  	return $this->input->filter($this->fields['id']['filter'],$id,$dieonfail);
   }
 
-  public function filter_mode(&$mode,$return=false)
+  public function filter_mode(&$mode,$dieonfail=true)
   {
-  	return $this->input->filter(FILTERBOL,$mode,$return);
+  	return $this->input->filter(FILTERBOL,$mode,$dieonfail);
   }
   
-  public function filter_parent_id(&$parent_id,$return=false)
+  public function filter_parent_id(&$parent_id,$dieonfail=true)
   {
-  	return $this->input->filter($this->fields['parent_id']['filter'],$parent_id,$return);
+  	return $this->input->filter($this->fields['parent_id']['filter'],$parent_id,$dieonfail);
   }
 
 }

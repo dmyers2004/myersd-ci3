@@ -44,7 +44,7 @@ class settingController extends MY_AdminController
 	public function editAction($id=null)
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->controller_model->filter_id($id,false);
+		$this->controller_model->filter_id($id);
 
 		$this->page
 			->set('title','Edit '.$this->page_title)
@@ -64,7 +64,7 @@ class settingController extends MY_AdminController
 		/* if somebody is sending in bogus id's send them to a fiery death */
 		$id = $this->input->post('id');
 
-		if ($this->controller_model->filter_id($id,false)) {
+		if ($this->controller_model->filter_id($id)) {
 			if ($this->controller_model->map($this->data)) {
 				$this->controller_model->update($this->data['id'], $this->data);
 				$this->flash_msg->updated($this->page_title,$this->controller_path);
