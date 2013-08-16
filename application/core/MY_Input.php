@@ -17,7 +17,7 @@ class MY_Input extends CI_Input
 
 		if (is_string($rules)) {
 			$input = ($input) ? $input : 'Filter Field';
-			return $this->_processone($rules,$output,$input,$dieonfail);
+			return $this->_processone($rules,$output,$input,$dieonfail,$input);
 		} else {
 			return $this->_processarray($rules,$output,$input,$dieonfail,'filter');
 		}
@@ -33,24 +33,22 @@ class MY_Input extends CI_Input
 				return false;
 			}
 			
-			$output[$rule['field']] = $variable;
+			$mapped = ($which == 'filter') ? $rule['field'] : ($rule['dbfield']) ? $rule['dbfield'] : $rule['field']; 
+			
+			$output[$mapped] = $variable;
 		}
 
 		return true;
 	}
 
-	private function _processone($rule,&$variable,$label,$dieonfail=true,$fieldname='FoObArPlAcEhOlDeR') {
+	private function _processone($rule,&$variable,$label,$dieonfail,$fieldname) {
 		$CI = get_instance();
 
 		/* does this contain default? if so we need to handle this */
 		if (empty($variable)) {
-			$r = explode('|',$rule);
-			foreach ($r as $x) {
-				if (substr($x,0,7) === 'default') {
-					$variable = substr($x,8,-1);
-					$rule = str_replace('default[','default_dummy[',$rule);
-					break;
-				}
+			if (preg_match('/default\[(.*)\]/',$rule, $matches)) {
+				$variable = $matches[1];
+				$rule = str_replace('default[','default_dummy[',$rule);
 			}
 		}
 
@@ -68,7 +66,7 @@ class MY_Input extends CI_Input
 
 		/* log the error if any */
 		if ($pass === false) {
-			log_message('debug','MY_Input::filter Value:"'.$variable.'" Errors:"'.validation_errors().'" Filter"'.$rule.'"');
+			log_message('debug','MY_Input::filter Value:"'.$variable.'" Errors:"'.validation_errors().'" Filter"'.$rule.'" Field name:'.$fieldname);
 
 			if ($dieonfail === true) {
 				$this->forged();
