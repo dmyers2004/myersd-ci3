@@ -7,6 +7,24 @@ class miscController extends MY_PublicController
 		$this->page->build('main/index');
 	}
 
+	public function validationAction() {
+		echo '<pre>';
+
+		$output = '';
+		$input = '';
+	
+		$noerr = $this->input->_processone('default[cat]|hexcolor',$output,$input,'Test Field',false);
+			
+		if ($noerr) {
+			echo 'No Error'.chr(10);
+		} else {
+			echo 'Error'.chr(10);
+			print_r($this->form_validation->error_array());
+		}
+		
+		var_dump($output);
+	}
+
 	public function chromephpAction()
 	{
 		$this->load->helper('chromephp');

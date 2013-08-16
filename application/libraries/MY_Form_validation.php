@@ -36,13 +36,6 @@ class MY_Form_validation extends CI_Form_validation
 		return ($row->dupe > 0) ? TRUE : FALSE;
 	}
 
-	public function default(&$str, $field)
-	{
-		$str = (empty($str)) ? $field : $str;
-		
-		return true;
-	}
-
 	public function access($str, $field)
 	{
 		$this->CI->form_validation->set_message('access', 'You do not have access to %s');
@@ -151,7 +144,7 @@ class MY_Form_validation extends CI_Form_validation
 
 	public function hexcolor($field)
 	{
-		$this->CI->form_validation->set_message('hexcolor', 'The %s is invalid.');
+		$this->CI->form_validation->set_message('hexcolor', 'The %s is not a hex color.');
 		return (!preg_match('/^#?[a-fA-F0-9]{3,6}$/', $field)) ? false : true;
 	}
 
@@ -215,18 +208,15 @@ class MY_Form_validation extends CI_Form_validation
    */
   public function valid_date2($str)
   {
-      if ( preg_match('/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2})/', $str) ) 
-      {
-          $arr = explode("-", $str);
-          $yyyy = $arr[0]; 
-          $mm = $arr[1];
-          $dd = $arr[2];
-          return (checkdate($mm, $dd, $yyyy));
-      }
-      else
-      {
-          return FALSE;
-      }
+		if ( preg_match('/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2})/', $str) ) {
+			$arr = explode("-", $str);
+			$yyyy = $arr[0]; 
+			$mm = $arr[1];
+			$dd = $arr[2];
+			return (checkdate($mm, $dd, $yyyy));
+		} else {
+			return FALSE;
+		}
   }
   
   /**
@@ -238,72 +228,62 @@ class MY_Form_validation extends CI_Form_validation
    */
   public function valid_time2($str)
   {    
-      if (preg_match('/([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/', $str))
-          return TRUE;
-      else
-          return FALSE;
+		if (preg_match('/([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/', $str)) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
   }
     
 	/* PHP input filters - prepping */
-
-	public function filter_int(&$inp, $length)
+	public function filter_int($inp, $length)
 	{
-		$inp = substr(filter_var($inp,FILTER_SANITIZE_NUMBER_INT),0,$length);
-		return true;
+		return substr(filter_var($inp,FILTER_SANITIZE_NUMBER_INT),0,$length);
 	}
 
 	public function filter_bol(&$inp, $length)
 	{
-		$inp = substr(filter_var($inp,FILTER_VALIDATE_BOOLEAN),0,$length);
-		return true;
+		return substr(filter_var($inp,FILTER_VALIDATE_BOOLEAN),0,$length);
 	}
 
 	public function filter_float(&$inp, $length)
 	{
-		$inp = substr(filter_var($inp,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND | FILTER_FLAG_ALLOW_SCIENTIFIC),0,$length);
-		return true;
+		return substr(filter_var($inp,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND | FILTER_FLAG_ALLOW_SCIENTIFIC),0,$length);
 	}
 
 	public function filter_str(&$inp, $length)
 	{
-		$inp = substr(filter_var($inp,FILTER_SANITIZE_STRING),0,$length);
-		return true;
+		return substr(filter_var($inp,FILTER_SANITIZE_STRING),0,$length);
 	}
 
 	public function filter_url(&$inp, $length)
 	{
-		$inp = substr(filter_var($inp,FILTER_SANITIZE_URL),0,$length);
-		return true;
+		return substr(filter_var($inp,FILTER_SANITIZE_URL),0,$length);
 	}
 
 	public function filter_email(&$inp, $length)
 	{
-		$inp = substr(filter_var($inp,FILTER_SANITIZE_EMAIL),0,$length);
-		return true;
+		return substr(filter_var($inp,FILTER_SANITIZE_EMAIL),0,$length);
 	}
 
 	public function filter_ip(&$inp, $length)
 	{
-		$inp = substr(filter_var($inp,FILTER_VALIDATE_IP),0,$length);
-		return true;
+		return substr(filter_var($inp,FILTER_VALIDATE_IP),0,$length);
 	}
 
 	public function filter_encoded(&$inp, $length)
 	{
-		$inp = substr(filter_var($inp,FILTER_SANITIZE_ENCODED),0,$length);
-		return true;
+		return substr(filter_var($inp,FILTER_SANITIZE_ENCODED),0,$length);
 	}
 
-	public function filter_special_chars($inp, $length)
+	public function filter_special_chars(&$inp, $length)
 	{
-		$inp = substr(filter_var(&$inp,FILTER_SANITIZE_SPECIAL_CHARS),0,$length);
-		return true;
+		return substr(filter_var($inp,FILTER_SANITIZE_SPECIAL_CHARS),0,$length);
 	}
 
 	public function filter_raw(&$inp, $length)
 	{
-		$inp = substr(filter_var($inp,FILTER_UNSAFE_RAW),0,$length);
-		return true;
+		return substr(filter_var($inp,FILTER_UNSAFE_RAW),0,$length);
 	}
 
 	public function check_captcha($val)
@@ -330,6 +310,11 @@ class MY_Form_validation extends CI_Form_validation
 		}
 
 		return $this;
+	}
+	
+	/* dummy for default function */
+	public function default_dummy($str=null, $field=null) {
+		return true;	
 	}
 
 }

@@ -42,63 +42,63 @@ class CI_Form_validation {
 	 *
 	 * @var object
 	 */
-	protected $CI;
+	public $CI;
 
 	/**
 	 * Validation data for the current form submission
 	 *
 	 * @var array
 	 */
-	protected $_field_data		= array();
+	public $_field_data		= array();
 
 	/**
 	 * Validation rules for the current form
 	 *
 	 * @var array
 	 */
-	protected $_config_rules	= array();
+	public $_config_rules	= array();
 
 	/**
 	 * Array of validation errors
 	 *
 	 * @var array
 	 */
-	protected $_error_array		= array();
+	public $_error_array		= array();
 
 	/**
 	 * Array of custom error messages
 	 *
 	 * @var array
 	 */
-	protected $_error_messages	= array();
+	public $_error_messages	= array();
 
 	/**
 	 * Start tag for error wrapping
 	 *
 	 * @var string
 	 */
-	protected $_error_prefix	= '<p>';
+	public $_error_prefix	= '<p>';
 
 	/**
 	 * End tag for error wrapping
 	 *
 	 * @var string
 	 */
-	protected $_error_suffix	= '</p>';
+	public $_error_suffix	= '</p>';
 
 	/**
 	 * Custom error message
 	 *
 	 * @var string
 	 */
-	protected $error_string		= '';
+	public $error_string		= '';
 
 	/**
 	 * Whether the form data has been validated as safe
 	 *
 	 * @var bool
 	 */
-	protected $_safe_form_data	= FALSE;
+	public $_safe_form_data	= FALSE;
 
 	/**
 	 * Custom data to validate
