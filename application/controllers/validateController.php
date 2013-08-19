@@ -30,7 +30,7 @@ class validateController extends MY_PublicController
 
 		$output = '';
 
-		$rule = 'default[cat]';
+		$rule = 'default[house boat]|filter_str[7]';
 
 		$noerr = $this->input->filter($rule,$output,'Test Field',false);
 

@@ -47,7 +47,7 @@ class MY_Input extends CI_Input
 
 		/* does this contain default? if so we need to handle this */
 		if (empty($variable)) {
-			if (preg_match('/default\[(.*)\]/',$rule, $matches)) {
+			if (preg_match('/default\[(.*?)\]/',$rule, $matches)) {
 				$variable = $matches[1];
 				$rule = str_replace('default[','default_dummy[',$rule);
 			}

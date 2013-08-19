@@ -21,7 +21,10 @@ class MY_Model extends Jamie_model
 		copy fields into validate because fields now contains more then just validation input
 		it also contains mapping data
 		*/
-		$this->validate = &$this->fields;
+		if (!count($this->validate))
+		{
+			$this->validate = &$this->fields;
+		}
 
 		parent::__construct();
   }
@@ -30,7 +33,7 @@ class MY_Model extends Jamie_model
 	{
 		return $this->input->map($this->validate,$output,$input);
 	}
-	
+
 	public function json_validate($validate=null)
 	{
 		$this->load->library('form_validation');
@@ -39,7 +42,7 @@ class MY_Model extends Jamie_model
 
 		$this->form_validation->reset_validation();
 		$this->form_validation->set_rules($validate);
-		
+
 		return $this->form_validation->run_array();
 	}
 

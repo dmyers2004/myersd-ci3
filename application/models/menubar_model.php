@@ -26,9 +26,9 @@ class menubar_model extends MY_Model
   	'resource' => array('field'=>'resource','label'=>'Resource','rules'=>'required|xss_clean|filter_str[128]'),
   	'url' => array('field'=>'url','label'=>'Url','rules'=>'url|xss_clean|filter_str[128]'),
   	'parent_id' => array('field'=>'parent_id','label'=>'Parent Menu','rules'=>'required|integer|filter_int[5]','filter'=>'trim|integer|filter_int[5]'),
-  	'sort' => array('field'=>'sort','label'=>'Sort','rules'=>'numeric|max_length[6]|filter_float[6]','default'=>0),
+  	'sort' => array('field'=>'sort','label'=>'Sort','rules'=>'default[0]|numeric|max_length[6]|filter_float[6]'),
   	'class' => array('field'=>'class','label'=>'Class','rules'=>'xss_clean|filter_str[64]'),
-  	'active' => array('field'=>'active','label'=>'Active','rules'=>'bol2int','default'=>0)
+  	'active' => array('field'=>'active','label'=>'Active','rules'=>'default[0]|bol2int')
   );
 
 	public function read_parents()

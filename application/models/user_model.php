@@ -23,10 +23,10 @@ class User_model extends MY_Model
 		'password' => array('field'=>'password','label'=>'Password','rules'=>'required|regex_match[/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8}/]'),
 		'confirm_password' => array('field'=>'confirm_password','label'=>'Confirmation Password','rules'=>'required|matches[password]'),
 		'group_id' => array('field'=>'group_id','label'=>'Group Id','rules'=>'required|filter_int[5]'),
-		'activated' => array('field'=>'activated','label'=>'Active','rules'=>'filter_int[1]','default'=>0)
+		'activated' => array('field'=>'activated','label'=>'Active','rules'=>'default[0]|filter_int[1]')
 	);
 	
-	protected $remember = array('field' => 'remember','label' => 'Remember Me', 'rules' => 'bol2int','default' => 0);
+	protected $remember = array('field' => 'remember','label' => 'Remember Me', 'rules' => 'default[0]|bol2int');
 
 	public function __construct()
 	{

@@ -27,8 +27,8 @@ class access_model extends MY_Model
 		'id' => array('field'=>'id','label'=>'Id','rules'=>'required|filter_str[5]','filter'=>'trim|integer|filter_int[5]|exists[access.id]'),
 		'resource' => array('field'=>'resource','label'=>'Resource','rules'=>'required|filter_str[128]'),
 		'description' => array('field'=>'description','label'=>'Description','rules'=>'required|filter_str[128]'),
-		'active' => array('field'=>'active','label'=>'Active','rules'=>'filter_int[1]','default'=>0),
-		'type' => array('field'=>'type','label'=>'Type','rules'=>'filter_int[1]','default'=>0),
+		'active' => array('field'=>'active','label'=>'Active','rules'=>'default[0]|filter_int[1]'),
+		'type' => array('field'=>'type','label'=>'Type','rules'=>'default[0]|filter_int[1]'),
 		'module_name' => array('field'=>'module_name','label'=>'Module Name','rules'=>'filter_str[32]')
 	);
 

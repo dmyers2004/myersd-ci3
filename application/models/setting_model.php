@@ -23,7 +23,7 @@ class setting_model extends MY_Model
   	'value' => array('field'=>'value','label'=>'Value','rules'=>'required|xss_clean'),
   	'group' => array('field'=>'group','label'=>'Group','rules'=>'required|xss_clean'),
   	'type' => array('field'=>'type','label'=>'Type','rules'=>'filter_int[1]'),
-  	'auto_load' => array('field'=>'auto_load','label'=>'Autoload','rules'=>'isbol','default'=>0),
+  	'auto_load' => array('field'=>'auto_load','label'=>'Autoload','rules'=>'default[0]|isbol'),
   	'module_name' => array('field'=>'module_name','label'=>'Module Name','rules'=>'')
   );
 
@@ -40,9 +40,9 @@ class setting_model extends MY_Model
   	return $this->input->filter($this->fields['id']['filter'],$id,$dieonfail);
   }
 
-  public function filter_mode(&$mode,$return=false)
+  public function filter_mode(&$mode,$dieonfail=true)
   {
-  	return ($mode == 0 || $mode == 1);
+  	return $this->input->filter(FILTERBOL,$mode,$dieonfail);
   }
 
 }
