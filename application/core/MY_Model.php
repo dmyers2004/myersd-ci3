@@ -17,21 +17,18 @@ class MY_Model extends Jamie_model
 
 	public function __construct()
 	{
-		/*
-		copy fields into validate because fields now contains more then just validation input
-		it also contains mapping data
-		*/
-		if (!count($this->validate))
-		{
-			$this->validate = &$this->fields;
-		}
+		$this->validate = &$this->fields;
 
 		parent::__construct();
   }
 
-	public function map(&$output,&$input = null)
+	public function filter($which,$input=null,$dieonfail=true) {
+  	return $this->input->filter($this->fields[$which],$input,$dieonfail);
+	}
+
+	public function map($input=null,$dieonfail=true)
 	{
-		return $this->input->map($this->validate,$output,$input);
+		return $this->input->map($this->validate,$input,$dieonfail);
 	}
 
 	public function json_validate($validate=null)

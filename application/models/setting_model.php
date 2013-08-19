@@ -23,7 +23,7 @@ class setting_model extends MY_Model
   	'value' => array('field'=>'value','label'=>'Value','rules'=>'required|xss_clean'),
   	'group' => array('field'=>'group','label'=>'Group','rules'=>'required|xss_clean'),
   	'type' => array('field'=>'type','label'=>'Type','rules'=>'filter_int[1]'),
-  	'auto_load' => array('field'=>'auto_load','label'=>'Autoload','rules'=>'default[0]|isbol'),
+  	'auto_load' => array('field'=>'auto_load','label'=>'Autoload','rules'=>'ifempty[0]|filter_int[1]|bol2int','filter'=>'trim|required|filter_int[1]|bol2int'),
   	'module_name' => array('field'=>'module_name','label'=>'Module Name','rules'=>'')
   );
 
@@ -33,16 +33,6 @@ class setting_model extends MY_Model
   	unset($this->validate['id']);
   	
   	return parent::insert($data, $skip_validation);
-  }
-
-  public function filter_id(&$id,$dieonfail=true)
-  {
-  	return $this->input->filter($this->fields['id']['filter'],$id,$dieonfail);
-  }
-
-  public function filter_mode(&$mode,$dieonfail=true)
-  {
-  	return $this->input->filter(FILTERBOL,$mode,$dieonfail);
   }
 
 }

@@ -7,81 +7,72 @@ define('FILTERSTR','trim|required|alpha_numeric|filter_str[32]');
 
 class MY_Input extends CI_Input
 {	
-	public function map($rules,&$output,&$input=null,$dieonfail=true) {
-		get_instance()->load->library('form_validation');
+	public function map($rules,$input=null,$dieonfail=true) {
+		$CI = get_instance();
+		$CI->load->library('form_validation');
 		
-		return $this->_processarray($rules,$output,$input,$dieonfail,'rules');
-	}
-
-	public function filter($rules,&$output,$input=null,$dieonfail=true) {
-		get_instance()->load->library('form_validation');
-
-		if (is_string($rules)) {
-			$input = ($input) ? $input : 'Filter Field';
-			return $this->_processone($rules,$output,$input,$dieonfail,$input);
-		} else {
-			return $this->_processarray($rules,$output,$input,$dieonfail,'filter');
-		}
-	}
-
-	private function _processarray($rules,&$output,$input,$dieonfail,$which) {
 		$input = ($input) ? $input : $this->post();
-
+		
 		foreach ($rules as $rule) {
 			$variable = $input[$rule['field']];
+	
+			/* make sure it's reset */
+			$CI->form_validation->reset_validation();
+	
+			/* setup a bogus array for testing - set_data before set_rule!! */
+			$CI->form_validation->set_data(array($rule['field']=>$variable));
+	
+			/* setup our rule on the bogus array key for testing using the filter sent in - bogus name "input filter" */
+			$CI->form_validation->set_rules($rule['field'], $rule['label'], $rule['rules']);
+	
+			/* log the error if any */
+			if ($CI->form_validation->run() === false) {
+				log_message('debug','MY_Input::filter Value:"'.$variable.'" Errors:"'.validation_errors().'" Filter"'.$rule.'" Field name:'.$rule['field']);
+	
+				if ($dieonfail) {
+					$this->forged();
+				}
 
-			if ($this->_processone($rule[$which],$variable,$rule['label'],$dieonfail,$rule['field']) === false) {
-				return false;
+				return false;	
 			}
+	
+			$mapped = ($rule['dbfield']) ? $rule['dbfield'] : $rule['field']; 
 			
-			$mapped = ($which == 'filter') ? $rule['field'] : ($rule['dbfield']) ? $rule['dbfield'] : $rule['field']; 
-			
-			$output[$mapped] = $variable;
+			$output[$mapped] = set_value($rule['field']);
 		}
-
-		return true;
+		
+		return $output;
 	}
 
-	private function _processone($rule,&$variable,$label,$dieonfail,$fieldname) {
+	public function filter($rule,$variable=null,$dieonfail=true) {
 		$CI = get_instance();
-
-		/* does this contain default? if so we need to handle this */
-		if (empty($variable)) {
-			if (preg_match('/default\[(.*?)\]/',$rule, $matches)) {
-				$variable = $matches[1];
-				$rule = str_replace('default[','default_dummy[',$rule);
-			}
-		}
+		$CI->load->library('form_validation');
 
 		/* make sure it's reset */
 		$CI->form_validation->reset_validation();
 
+		$variable = ($variable) ? $variable : $this->post($rule['field']);
+
 		/* setup a bogus array for testing - set_data before set_rule!! */
-		$CI->form_validation->set_data(array($fieldname=>&$variable));
+		$CI->form_validation->set_data(array($rule['field']=>$variable));
 
 		/* setup our rule on the bogus array key for testing using the filter sent in - bogus name "input filter" */
-		$CI->form_validation->set_rules($fieldname, $label, $rule);
-
-		/* run the validation and capture output fail (false) */
-		$pass = $CI->form_validation->run();
+		$CI->form_validation->set_rules($rule['field'], $rule['label'], $rule['filter']);
 
 		/* log the error if any */
-		if ($pass === false) {
-			log_message('debug','MY_Input::filter Value:"'.$variable.'" Errors:"'.validation_errors().'" Filter"'.$rule.'" Field name:'.$fieldname);
+		if ($CI->form_validation->run() === false) {
+			log_message('debug','MY_Input::filter Value:"'.$variable.'" Errors:"'.validation_errors().'" Filter"'.$rule['filter'].'" Field name:'.$rule['field']);
 
-			if ($dieonfail === true) {
+			if ($dieonfail) {
 				$this->forged();
 			}
 
-			$variable = null;
-		} else {
-			/* recapture the processed variable */
-			$variable = set_value($fieldname);
+			return false;
 		}
 
 		/* return the pass boolean */
-		return $pass;
-	}
+		return set_value($rule['field']);
+	}	
 
 	public function forged() {
 		show_error('<strong>Forged Request Detected</strong> If you clicked on a link and arrived here...that is bad.',404);
@@ -89,3 +80,13 @@ class MY_Input extends CI_Input
 	}
 
 } /* end MY_Input */
+
+/* does this contain ifempty? if so we need to handle this */
+/*
+if (empty($variable)) {
+	if (preg_match('/ifempty\[(.*?)\]/',$rule, $matches)) {
+		$variable = $matches[1];
+	}
+}
+*/
+

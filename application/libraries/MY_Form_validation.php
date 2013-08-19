@@ -236,7 +236,7 @@ class MY_Form_validation extends CI_Form_validation
   }
     
 	/* PHP input filters - prepping */
-	public function filter_int($inp, $length)
+	public function filter_int(&$inp, $length)
 	{
 		return substr(filter_var($inp,FILTER_SANITIZE_NUMBER_INT),0,$length);
 	}
@@ -312,9 +312,11 @@ class MY_Form_validation extends CI_Form_validation
 		return $this;
 	}
 	
-	/* dummy for default function */
-	public function default_dummy($str=null, $field=null) {
-		return true;	
+	public function ifempty(&$str=null, $field=null)
+	{
+		$this->CI->form_validation->set_message('ifempty', '%s is empty.');
+
+		return (empty($str)) ? $field : $str;
 	}
 
 }

@@ -49,7 +49,7 @@ class User_model extends MY_Model
   	return $this->input->filter(FILTERBOL,$mode,$dieonfail);
   }
   
-	public function map(&$output,&$input = null)
+	public function map($input = NULL, $dieonfail = true)
 	{
 		$rules = $this->fields;
 
@@ -58,7 +58,7 @@ class User_model extends MY_Model
 			unset($rules['confirm_password']);
 		}		
 		
-		return $this->input->map($rules,$output,$input);
+		return $this->input->map($rules);
 	}
 	
 	public function map_register(&$output,&$input=null) {
