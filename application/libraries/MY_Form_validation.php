@@ -2,6 +2,11 @@
 
 class MY_Form_validation extends CI_Form_validation
 {
+	public function ifempty($str=null,$field=null)
+	{
+		return (empty($str)) ? $field : $str;	
+	}
+
 	/* test */
 	public function isbol($str, $field)
 	{
@@ -314,5 +319,5 @@ class MY_Form_validation extends CI_Form_validation
 
 		return $this;
 	}
-
+	
 }

@@ -44,7 +44,7 @@ class settingController extends MY_AdminController
 	public function editAction($id=null)
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->controller_model->filter_id($id,false);
+		$this->input->filter(FILTERINT,$id);
 
 		$this->page
 			->set('title','Edit '.$this->page_title)
@@ -64,7 +64,7 @@ class settingController extends MY_AdminController
 		/* if somebody is sending in bogus id's send them to a fiery death */
 		$id = $this->input->post('id');
 
-		if ($this->controller_model->filter_id($id,false)) {
+		if ($this->input->filter(FILTERINT,$id)) {
 			if ($this->controller_model->map($this->data)) {
 				$this->controller_model->update($this->data['id'], $this->data);
 				$this->flash_msg->updated($this->page_title,$this->controller_path);
@@ -79,7 +79,7 @@ class settingController extends MY_AdminController
 		$this->data['err'] = true;
 
 		/* can they delete? */
-		if ($this->controller_model->filter_id($id)) {
+		if ($this->input->filter(FILTERINT,$id)) {
 			$this->controller_model->delete($id);
 			$this->data['err'] = false;
 		}
@@ -87,16 +87,16 @@ class settingController extends MY_AdminController
 		$this->output->json($this->data);
 	}
 
-	public function activateAjaxAction($id=null,$mode=null)
+	public function activateAjaxAction($id=null,$auto_load=null)
 	{
 		$this->data['err'] = true;
 
-		if ($this->controller_model->filter_id($id) && $this->controller_model->filter_mode($mode)) {
-			if ($this->controller_model->update($id, array('auto_load'=>$mode), true)) {
+		if ($this->input->filter(FILTERINT,$id) && $this->input->filter(FILTERBOL,$auto_load)) {
+			if ($this->controller_model->update($id, array('auto_load'=>$auto_load), true)) {
 				$this->data['err'] = false;
 			}
 		}
 
 		$this->output->json($this->data);
 	}
-}
+} /* end settings */

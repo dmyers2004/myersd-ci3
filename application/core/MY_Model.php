@@ -31,6 +31,11 @@ class MY_Model extends Jamie_model
 		return $this->input->map($this->validate,$output,$input,$xss);
 	}
 	
+	public function filter($fieldname,&$field,$return=false)
+	{
+  	return $this->input->filter($this->fields[$fieldname]['filter'],$field,$return);
+	}
+	
 	public function json_validate($validate=null)
 	{
 		$this->load->library('form_validation');

@@ -55,7 +55,7 @@ class Menubar
 	{
 		$this->load->model('menubar_model');
 		
-		events::register('pre_partials/header',array($this,'tohtml'));
+		events::register('page.build',array($this,'tohtml'));
 	}
 
 	public function tohtml($data) {
