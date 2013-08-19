@@ -17,18 +17,14 @@ class MY_Model extends Jamie_model
 
 	public function __construct()
 	{
-		/*
-		copy fields into validate because fields now contains more then just validation input
-		it also contains mapping data
-		*/
 		$this->validate = &$this->fields;
 
 		parent::__construct();
   }
 
-	public function map(&$output,&$input = null,$xss = true)
+	public function map(&$output,&$input = null)
 	{
-		return $this->input->map($this->validate,$output,$input,$xss);
+		return $this->input->map($this->validate,$output,$input);
 	}
 	
 	public function filter($fieldname,&$field,$return=false)
@@ -48,4 +44,4 @@ class MY_Model extends Jamie_model
 		return $this->form_validation->run_array();
 	}
 
-}
+} /* end MY Model */
