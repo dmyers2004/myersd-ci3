@@ -32,6 +32,12 @@ class MY_Model extends Jamie_model
   	return $this->input->filter($this->fields[$fieldname]['filter'],$field,$dieonfail);
 	}
 	
+	public function primary_exists($primary_value) {
+		$row = $this->get($primary_value);
+		
+		return ($row) ? true : false;
+	}
+	
 	public function json_validate($validate=null)
 	{
 		$this->load->library('form_validation');

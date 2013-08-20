@@ -29,6 +29,15 @@ class MY_Form_validation extends CI_Form_validation
 		return FALSE;
 	}
 
+	/* this calls a primary_exists function on a model passing in a id to test */
+	public function primaryexists($str, $field) {
+		$this->CI->form_validation->set_message('exists', 'The %s that you requested is unavailable.');
+		
+		list($model, $id) = explode('.', $field, 2);
+		
+		return $this->CI->$model->primary_exists($id);
+	}
+
 	public function exists($str, $field)
 	{
 		// exists[table.column]
