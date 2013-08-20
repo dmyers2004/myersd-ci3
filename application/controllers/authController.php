@@ -178,8 +178,8 @@ class authController extends MY_PublicController
 	public function activateAction($user_id=null,$activation_key=null)
 	{
 		/* filter input die hard if somebody is messing around */
-		$this->auth->filter_activation_key($activation_key); /* the lib generated the activation key so have it filter it */
-		$this->user_model->filter_id($user_id); /* the model manages the user id format */
+		$this->input->filter(FILTERSTR,$activation_key); /* the lib generated the activation key so have it filter it */
+		$this->input->filter(FILTERINT,$user_id); /* the model manages the user id format */
 
 		$this->page
 			->set('live',$this->auth->activate_user($user_id, $activation_key))

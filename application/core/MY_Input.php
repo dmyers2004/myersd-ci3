@@ -68,6 +68,12 @@ class MY_Input extends CI_Input
 
 		$bogus = 'FoObArPlAcEhOlDeR';
 
+		if (empty($value)) {
+			if (preg_match('/ifempty\[(.*?)\]/',$rule, $matches)) {
+				$value = $matches[1];
+			}
+		}
+
 		/* make sure it's reset - incase it's already loaded and used we need it empty */
 		$CI->form_validation->reset_validation();
 

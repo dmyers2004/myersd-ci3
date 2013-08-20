@@ -27,9 +27,9 @@ class MY_Model extends Jamie_model
 		return $this->input->map($this->validate,$output,$input);
 	}
 	
-	public function filter($fieldname,&$field,$return=false)
+	public function filter($fieldname,&$field,$dieonfail=true)
 	{
-  	return $this->input->filter($this->fields[$fieldname]['filter'],$field,$return);
+  	return $this->input->filter($this->fields[$fieldname]['filter'],$field,$dieonfail);
 	}
 	
 	public function json_validate($validate=null)

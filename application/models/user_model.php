@@ -17,16 +17,16 @@ class User_model extends MY_Model
 	public $password_format_copy = 'Password must be at least: 8 characters, 1 upper, 1 lower case letter, 1 number';
 
 	protected $fields = array(
-		'id' => array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]','filter'=>'trim|integer|filter_int[5]|exists[users.id]'),
+		'id' => array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
 		'username' => array('field'=>'username','label'=>'User Name','rules'=>'required|xss_clean|filter_str[50]'),
 		'email' => array('field'=>'email','label'=>'Email','rules'=>'required|valid_email|filter_email[72]'),
 		'password' => array('field'=>'password','label'=>'Password','rules'=>'required|regex_match[/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8}/]'),
 		'confirm_password' => array('field'=>'confirm_password','label'=>'Confirmation Password','rules'=>'required|matches[password]'),
 		'group_id' => array('field'=>'group_id','label'=>'Group Id','rules'=>'required|filter_int[5]'),
-		'activated' => array('field'=>'activated','label'=>'Active','rules'=>'filter_int[1]','default'=>0)
+		'activated' => array('field'=>'activated','label'=>'Active','rules'=>'ifempty[0]|filter_int[1]')
 	);
 	
-	protected $remember = array('field' => 'remember','label' => 'Remember Me', 'rules' => 'bol2int','default' => 0);
+	protected $remember = array('field' => 'remember','label' => 'Remember Me', 'rules' => 'ifempty[0]|bol2int');
 
 	public function __construct()
 	{
@@ -39,16 +39,6 @@ class User_model extends MY_Model
 		$this->profile_table_name	= $ci->config->item('db_table_prefix', 'auth').$this->profile_table_name;
 	}
 
-  public function filter_id(&$id,$return=false)
-  {
-  	return $this->input->filter($this->fields['id']['filter'],$id,$return);
-  }
-
-  public function filter_mode(&$mode,$return=false)
-  {
-  	return $this->input->filter(FILTERBOL,$mode,$return);
-  }
-  
 	public function map(&$output,&$input = null,$xss = true)
 	{
 		$rules = $this->fields;

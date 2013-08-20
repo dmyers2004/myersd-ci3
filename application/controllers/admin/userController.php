@@ -52,7 +52,7 @@ class userController extends MY_AdminController
 	public function editAction($id=null)
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->controller_model->filter_id($id,false);
+		$this->input->filter(FILTERINT,$id);
 
 		$this->page
 			->set('title','Edit '.$this->page_title)
@@ -73,7 +73,7 @@ class userController extends MY_AdminController
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
 		$id = $this->input->post('id');
-		$this->controller_model->filter_id($id,false);
+		$this->input->filter(FILTERINT,$id);
 
 		if ($this->controller_model->validate_edit()) {
 			
@@ -103,7 +103,7 @@ class userController extends MY_AdminController
 	{
 		$this->data['err'] = true;
 
-		if ($this->controller_model->filter_id($id) && $this->controller_model->filter_mode($mode)) {
+		if ($this->input->filter(FILTERINT,$id) && $this->input->filter(FILTERBOL,$mode)) {
 			if ($this->controller_model->update_user($id, array('activated'=>$mode))) {
 				$this->data['err'] = false;
 			}
@@ -118,7 +118,7 @@ class userController extends MY_AdminController
 		$this->data['err'] = true;
 
 		/* can they delete? */
-		if ($this->controller_model->filter_id($id)) {
+		if ($this->input->filter(FILTERINT,$id)) {
 			$this->controller_model->delete_user($id);
 			$this->data['err'] = false;
 		}
