@@ -31,7 +31,7 @@ CREATE TABLE `access` (
   `module_name` varchar(32) DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `resource` (`resource`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `access` (
 
 LOCK TABLES `access` WRITE;
 /*!40000 ALTER TABLE `access` DISABLE KEYS */;
-INSERT INTO `access` VALUES (1,'/nav/*',1,'Show All Menus',0,''),(14,'/bugz/ticket/edit/title',1,'Edit Bug Title',0,''),(15,'/bugz/ticket/edit/description',1,'Edit Bug Description',0,''),(16,'/bugz/ticket/edit/priority',1,'Edit Bug Priority',0,''),(17,'/bugz/ticket/edit/status',1,'Edit Bug Status',0,''),(18,'/bugz/ticket/edit/owner',1,'Edit Bug Owner',0,''),(19,'/bugz/ticket/edit/tags',1,'Edit Bug Tags',0,''),(20,'/bugz/ticket/edit/project',1,'Edit Bug Project',0,''),(21,'/bugz/ticket/edit/assignedto',1,'Edit Bug Assigned To',0,''),(22,'/bugz/ticket/add/note',1,'Add Bug Note',0,''),(23,'/bugz/project/edit',1,'Edit Projects',0,''),(24,'/bugz/tags/edit',1,'Edit Tags',0,''),(25,'/bugz/priority/edit',1,'Edit Priorities',0,''),(26,'/bugz/status/edit',1,'Edit Statuses',0,''),(27,'/nav/internal/*',1,'See Internal Menus',0,''),(28,'/nav/permission/*',1,'See Permission Menus',0,''),(29,'/nav/bugz/*',1,'See Bugz Menus',0,''),(30,'/nav/apc/*',1,'See APC Menus',0,''),(32,'/bugz/ticket/add',1,'Create New Ticket',0,''),(33,'/bugz/ticket/delete',1,'Can Delete Tickets',0,''),(34,'/bugz/ticket/edit',1,'Can I Edit Tickets',0,''),(35,'/url/admin/*',1,'Access to Admin Urls',0,''),(36,'/url/ticket/*',1,'Access to Ticket Urls',0,''),(39,'/url/bugz/*',1,'Access to BugZ Urls',0,'');
+INSERT INTO `access` VALUES (1,'/nav/*',1,'Show All Menus',0,''),(14,'/bugz/ticket/edit/title',1,'Edit Bug Title',0,''),(15,'/bugz/ticket/edit/description',1,'Edit Bug Description',0,''),(16,'/bugz/ticket/edit/priority',1,'Edit Bug Priority',0,''),(17,'/bugz/ticket/edit/status',1,'Edit Bug Status',0,''),(18,'/bugz/ticket/edit/owner',1,'Edit Bug Owner',0,''),(19,'/bugz/ticket/edit/tags',1,'Edit Bug Tags',0,''),(20,'/bugz/ticket/edit/project',1,'Edit Bug Project',0,''),(21,'/bugz/ticket/edit/assignedto',1,'Edit Bug Assigned To',0,''),(22,'/bugz/ticket/add/note',1,'Add Bug Note',0,''),(23,'/bugz/project/edit',1,'Edit Projects',0,''),(24,'/bugz/tags/edit',1,'Edit Tags',0,''),(25,'/bugz/priority/edit',1,'Edit Priorities',0,''),(26,'/bugz/status/edit',1,'Edit Statuses',0,''),(27,'/nav/internal/*',1,'See Internal Menus',0,''),(28,'/nav/permission/*',1,'See Permission Menus',0,''),(29,'/nav/bugz/*',1,'See Bugz Menus',0,''),(30,'/nav/apc/*',1,'See APC Menus',0,''),(32,'/bugz/ticket/add',1,'Create New Ticket',0,''),(33,'/bugz/ticket/delete',1,'Can Delete Tickets',0,''),(34,'/bugz/ticket/edit',1,'Can I Edit Tickets',0,''),(35,'/url/admin/*',1,'Access to Admin Urls',0,''),(36,'/url/ticket/*',1,'Access to Ticket Urls',0,''),(39,'/url/bugz/*',1,'Access to BugZ Urls',0,''),(40,'/name/222',0,'Tyson Dog',0,'');
 /*!40000 ALTER TABLE `access` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,7 +63,7 @@ CREATE TABLE `group_access` (
 
 LOCK TABLES `group_access` WRITE;
 /*!40000 ALTER TABLE `group_access` DISABLE KEYS */;
-INSERT INTO `group_access` VALUES (1,6),(1,7),(1,11),(1,10),(1,1),(1,4),(1,5),(1,12),(1,13),(1,9),(5,1),(5,4),(5,5),(5,12),(5,13);
+INSERT INTO `group_access` VALUES (1,6),(1,7),(1,11),(1,10),(1,1),(1,4),(1,5),(1,12),(1,13),(1,9),(5,1),(5,4),(5,5),(5,12),(5,13),(7,14),(7,16),(7,17),(7,18),(7,19),(7,20),(7,22),(7,23),(7,24),(7,25),(7,26),(7,33),(7,34);
 /*!40000 ALTER TABLE `group_access` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -79,7 +79,7 @@ CREATE TABLE `groups` (
   `name` varchar(64) NOT NULL DEFAULT '',
   `description` varchar(128) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,7 +88,7 @@ CREATE TABLE `groups` (
 
 LOCK TABLES `groups` WRITE;
 /*!40000 ALTER TABLE `groups` DISABLE KEYS */;
-INSERT INTO `groups` VALUES (1,'Admin','Administrator Group'),(5,'Clients','Client group name'),(6,'Super User','Super User Not Admin');
+INSERT INTO `groups` VALUES (1,'Admin','Administrator Group'),(5,'Clients','Client group name'),(6,'Super User','Super User Not Admin'),(7,'Smoke2','Mirrors');
 /*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,7 +155,7 @@ CREATE TABLE `nav` (
   `class` varchar(64) DEFAULT '',
   `active` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,7 +164,7 @@ CREATE TABLE `nav` (
 
 LOCK TABLES `nav` WRITE;
 /*!40000 ALTER TABLE `nav` DISABLE KEYS */;
-INSERT INTO `nav` VALUES (1,'/nav/permission','','Permission',0,13,'',1),(2,'/nav/permission/users','/admin/user','Users',1,14,'',1),(3,'/nav/permission/groups','/admin/group','Groups',1,15,'',1),(4,'/nav/permission/access','/admin/access','Access',1,16,'',1),(7,'/nav/menubar','/admin/menubar','Menubar',17,13,'',1),(9,'/nav/dashboard','/admin/dashboard','Dashboard',0,11,'',1),(14,'/nav/setting','/admin/setting','Settings',17,14,'',1),(15,'/nav/cookies','/auth','Cookie',0,16,'',0),(17,'/nav/internal','','Internal',0,12,'',1),(18,'/nav/views','/views','Views',17,17,'',0),(19,'/nav/media','/admin/media','Media Manager',17,15,'',1),(20,'/nav/wysiwyg','/admin/media/wysiwyg','WYSIWYG',17,16,'',1),(21,'/menu/here','/menu/url','Menu',0,15,'',0),(23,'/nav/apc','','APC',0,14,'',1),(24,'/nav/clear apc','/admin/utility/apcclear','Clear',23,16,'',1),(25,'/nav/apcinfo','/admin/utility/apcinfo','Info',23,15,'',1),(26,'/nav/cookie/cookie-sub','/nav/cookie/cookie-sub','Cookie Sub',15,17,'',1),(27,'/nav/cookie/sub-menu-2','/cookies','Sub Menu 2',26,18,'',1);
+INSERT INTO `nav` VALUES (1,'/nav/permission','','Permission',0,14,'',1),(2,'/nav/permission/users','/admin/user','Users',1,15,'',1),(3,'/nav/permission/groups','/admin/group','Groups',1,16,'',1),(4,'/nav/permission/access','/admin/access','Access',1,17,'',1),(7,'/nav/menubar','/admin/menubar','Menubar',17,14,'',1),(9,'/nav/dashboard','/admin/dashboard','Dashboard',0,12,'',1),(14,'/nav/setting','/admin/setting','Settings',17,15,'',1),(15,'/nav/cookies','/auth','Cookie',0,17,'',0),(17,'/nav/internal','','Internal',0,13,'',1),(18,'/nav/views','/views','Views',17,18,'',0),(19,'/nav/media','/admin/media','Media Manager',17,16,'',1),(20,'/nav/wysiwyg','/admin/media/wysiwyg','WYSIWYG',17,17,'',1),(21,'/menu/here','/menu/url','Menu',0,16,'',0),(23,'/nav/apc','','APC',0,15,'',1),(24,'/nav/clear apc','/admin/utility/apcclear','Clear',23,17,'',1),(25,'/nav/apcinfo','/admin/utility/apcinfo','Info',23,16,'',1),(26,'/nav/cookie/cookie-sub','/nav/cookie/cookie-sub','Cookie Sub',15,18,'',1),(27,'/nav/cookie/sub-menu-2','/cookies','Sub Menu 2',15,19,'',1),(30,'Cookie','','New',15,0,'',1),(31,'/new/tyson','/nav/tyson','New Tyson',15,0,'',1);
 /*!40000 ALTER TABLE `nav` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,7 +184,7 @@ CREATE TABLE `settings` (
   `type` int(1) DEFAULT '1',
   `module_name` varchar(32) DEFAULT '',
   PRIMARY KEY (`id`,`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -193,7 +193,7 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'View fixer','fixer value','view',1,0,''),(2,'new','Testing','coffee',1,0,NULL),(5,'settinga','settingb','new group',1,0,NULL),(6,'title','dmfw','page',1,1,NULL),(7,'page_brand','dmfw2','page',1,1,''),(8,'foo','bar','paths',0,2,''),(9,'admin home','/admin/','paths',1,2,'paths'),(10,'meta_description','Example Application','page',1,1,''),(11,'Testing','New Testing setting','coffee',1,0,''),(12,'Shunk','Shoe','coffee',0,0,''),(13,'Monkey','Testing Monkey','new group',1,0,'');
+INSERT INTO `settings` VALUES (1,'View fixer','fixer value','view',1,0,NULL),(2,'new','Testing','coffee',1,0,NULL),(5,'settinga','settingb','new group',1,0,NULL),(6,'title','dmfw','page',1,1,NULL),(7,'page_brand','dmfw2','page',1,1,''),(8,'foo','bar','paths',0,2,''),(9,'admin home','/admin/','paths',1,2,'paths'),(10,'meta_description','Example Application','page',1,1,''),(11,'Testing','New Testing setting','coffee',1,0,''),(12,'Shunk','Shoe','coffee',0,0,''),(13,'Monkey','Testing Monkey','new group',1,0,''),(14,'New Setting','New Setting Value','bogus',0,0,NULL);
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,7 +236,7 @@ CREATE TABLE `user_profiles` (
   `country` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `website` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -245,7 +245,7 @@ CREATE TABLE `user_profiles` (
 
 LOCK TABLES `user_profiles` WRITE;
 /*!40000 ALTER TABLE `user_profiles` DISABLE KEYS */;
-INSERT INTO `user_profiles` VALUES (1,1,NULL,NULL),(2,2,NULL,NULL),(3,3,NULL,NULL),(4,4,NULL,NULL),(5,5,NULL,NULL);
+INSERT INTO `user_profiles` VALUES (1,1,NULL,NULL),(2,2,NULL,NULL),(3,3,NULL,NULL),(4,4,NULL,NULL),(5,5,NULL,NULL),(6,6,NULL,NULL),(7,7,NULL,NULL);
 /*!40000 ALTER TABLE `user_profiles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,7 +274,7 @@ CREATE TABLE `users` (
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `group_id` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -283,7 +283,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'dmyers','$2a$08$CC7FLTRNpzRJUsHXX2C1h.b8U02jUuG9.cM0.GBsHzaERHB1U8hTm','donmyers@me.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','2013-08-19 18:13:01','2013-04-03 19:37:06','2013-08-19 22:13:01',1),(2,'donmyers','$2a$08$W5.XVPhabGVmtUsZX4M01u2GAFrA63JD.qv5ENGzh3mVHY1KLogOi','don@myers.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-04-09 04:03:41','2013-04-29 20:47:41',1),(3,'General','$2a$08$yGAFJYB7GrNw8sLwj0fEIOJh2SpbGo2g34/soOrGotAtw2ujlEELa','general@user.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-04-09 15:26:56','2013-05-15 00:25:29',5),(5,'Joe Coffee','$2a$08$SlOHdCx4EhyQ.WxlaKEFP.5sq6jmK1c5FbRhXRs6vXRk27QQqIkhC','joe@example.com',0,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-06-05 15:19:34','2013-06-25 22:36:16',5);
+INSERT INTO `users` VALUES (1,'dmyers','$2a$08$CC7FLTRNpzRJUsHXX2C1h.b8U02jUuG9.cM0.GBsHzaERHB1U8hTm','donmyers@me.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','2013-08-21 15:16:02','2013-04-03 19:37:06','2013-08-21 19:16:02',1),(2,'donmyers','$2a$08$W5.XVPhabGVmtUsZX4M01u2GAFrA63JD.qv5ENGzh3mVHY1KLogOi','don@myers.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-04-09 04:03:41','2013-04-29 20:47:41',1),(3,'General','$2a$08$yGAFJYB7GrNw8sLwj0fEIOJh2SpbGo2g34/soOrGotAtw2ujlEELa','general@user.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-04-09 15:26:56','2013-05-15 00:25:29',5),(5,'Joe Coffee','','joe@example.com',0,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-06-05 15:19:34','2013-08-21 17:43:01',5),(6,'Donald','$2a$08$W1SiBCC2/XD3X2oWzi0oO.47q/gY.mlXx7uYPSHBpt8PeK26ny7re','don@me.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-08-21 14:09:00','2013-08-21 18:09:00',1),(7,'Tyson','','tyson@me.com',0,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-08-21 14:10:03','2013-08-21 18:10:14',5);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
