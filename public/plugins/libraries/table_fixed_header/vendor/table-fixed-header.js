@@ -17,10 +17,11 @@ $.fn.fixedHeader = function (options) {
 
   function processScroll() {
     if (!o.is(':visible')) return;
-	if ($('thead.header-copy').size()) {
-		$('thead.header-copy').width($('thead.header').width());
-		var i, scrollTop = $win.scrollTop();
-	}
+    
+		if ($('thead.header-copy').size()) {
+			$('thead.header-copy').width($('thead.header').width());
+			var i, scrollTop = $win.scrollTop();
+		}
     var t = $head.length && $head.offset().top - config.topOffset;
     if (!isFixed && headTop != t) { headTop = t; }
     if (scrollTop >= headTop && !isFixed) {
@@ -28,9 +29,10 @@ $.fn.fixedHeader = function (options) {
     } else if (scrollTop <= headTop && isFixed) {
       isFixed = 0;
     }
-    isFixed ? $('thead.header-copy', o).removeClass('hide')
+    isFixed ? $('thead.header-copy', o).offset({ left: $head.offset().left }).removeClass('hide')
             : $('thead.header-copy', o).addClass('hide');
   }
+  
   $win.on('scroll', processScroll);
 
   // hack sad times - holdover until rewrite for 2.1

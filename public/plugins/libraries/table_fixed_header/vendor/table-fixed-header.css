@@ -10,8 +10,22 @@ table .header-fixed {
           border-radius: 0;
 }
 thead {
-  background-color: #f3f3f3;
+  background-color: #eaeaea;
 }
 tbody {
   background-color: #fcfcfc;
 }
+
+#mynav {
+  top: 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index: 1030;
+  height:40px;
+  color:#fff;
+  background-color:#666;
+  text-align: center;
+}
+body { padding-top:60px; }

@@ -9,9 +9,9 @@ class Plugin_table_fixed_header
 
 	public function tohtml() {
 		get_instance()->page
-			->onready("$('.table-fixed-header').fixedHeader();")
-			->js('{plugins}table_fixed_header/vendor/table-fixed-header.min.js')
-			->css('{plugins}table_fixed_header/vendor/table-fixed-header.min.css');
+			->onready("$('.table-fixed-header').fixedHeader({topOffset: 40});")
+			->js('{plugins}table_fixed_header/vendor/table-fixed-header.js')
+			->css('{plugins}table_fixed_header/vendor/table-fixed-header.css');
 	}
 
 }
