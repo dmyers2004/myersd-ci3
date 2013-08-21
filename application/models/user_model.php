@@ -16,17 +16,17 @@ class User_model extends MY_Model
 	protected $profile_table_name	= 'user_profiles'; // user profiles
 	public $password_format_copy = 'Password must be at least: 8 characters, 1 upper, 1 lower case letter, 1 number';
 
-	protected $fields = array(
-		'id' => array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]','filter'=>'trim|integer|filter_int[5]|exists[users.id]'),
+	protected $validate = array(
+		'id' => array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
 		'username' => array('field'=>'username','label'=>'User Name','rules'=>'required|xss_clean|filter_str[50]'),
 		'email' => array('field'=>'email','label'=>'Email','rules'=>'required|valid_email|filter_email[72]'),
 		'password' => array('field'=>'password','label'=>'Password','rules'=>'required|regex_match[/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8}/]'),
 		'confirm_password' => array('field'=>'confirm_password','label'=>'Confirmation Password','rules'=>'required|matches[password]'),
 		'group_id' => array('field'=>'group_id','label'=>'Group Id','rules'=>'required|filter_int[5]'),
-		'activated' => array('field'=>'activated','label'=>'Active','rules'=>'default[0]|filter_int[1]')
+		'activated' => array('field'=>'activated','label'=>'Active','rules'=>'ifempty[0]|filter_int[1]')
 	);
 	
-	protected $remember = array('field' => 'remember','label' => 'Remember Me', 'rules' => 'default[0]|bol2int');
+	protected $remember = array('field' => 'remember','label' => 'Remember Me', 'rules' => 'ifempty[0]|bol2int');
 
 	public function __construct()
 	{
@@ -37,45 +37,6 @@ class User_model extends MY_Model
 		$ci =& get_instance();
 		$this->table_name = $ci->config->item('db_table_prefix', 'auth').$this->table_name;
 		$this->profile_table_name	= $ci->config->item('db_table_prefix', 'auth').$this->profile_table_name;
-	}
-
-  public function filter_id(&$id,$dieonfail=true)
-  {
-  	return $this->input->filter($this->fields['id']['filter'],$id,$dieonfail);
-  }
-
-  public function filter_mode(&$mode,$dieonfail=true)
-  {
-  	return $this->input->filter(FILTERBOL,$mode,$dieonfail);
-  }
-  
-	public function map($input = NULL, $dieonfail = true)
-	{
-		$rules = $this->fields;
-
-		if ($this->input->post('password').$this->input->post('confirm_password') === '') {
-			unset($rules['password']);
-			unset($rules['confirm_password']);
-		}		
-		
-		return $this->input->map($rules);
-	}
-	
-	public function map_register(&$output,&$input=null) {
-		$rules = array($this->fields['username'],$this->fields['email'],$this->fields['password']);
-		return $this->input->map($rules,$output,$input);
-	}
-	
-	public function map_forgot(&$output,&$input=null) {
-		$rules = array($this->fields['email']);
-		return $this->input->map($rules,$output,$input);
-	}
-	
-	public function map_reset_password(&$output,&$input=null) {
-		$key = array('field'=>'key','label'=>'Change Request Key','rules'=>FILTERMD5,'filter'=>FILTERMD5);
-		$rules = array($this->fields['password'],$this->fields['id'],$key);
-		
-		return $this->input->map($rules,$output,$input);
 	}
   
 	public function validate_login()
@@ -118,11 +79,6 @@ class User_model extends MY_Model
 		}
 
 		return $this->json_validate($rules);
-	}
-	
-	public function map_login(&$output,&$input = null) {
-		$validate = array($this->fields['email'],$this->fields['password'],$this->remember);
-		return $this->input->map($validate,$output,$input);
 	}
 	
 	public function get_users()

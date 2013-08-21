@@ -17,18 +17,14 @@ class MY_Model extends Jamie_model
 
 	public function __construct()
 	{
-		$this->validate = &$this->fields;
-
 		parent::__construct();
-  }
-
-	public function filter($which,$input=null,$dieonfail=true) {
-  	return $this->input->filter($this->fields[$which],$input,$dieonfail);
 	}
 
-	public function map($input=null,$dieonfail=true)
+	public function primary_exists($primary_value)
 	{
-		return $this->input->map($this->validate,$input,$dieonfail);
+		$row = $this->get($primary_value);
+
+		return ($row) ? true : false;
 	}
 
 	public function json_validate($validate=null)
@@ -43,4 +39,4 @@ class MY_Model extends Jamie_model
 		return $this->form_validation->run_array();
 	}
 
-}
+} /* end MY Model */

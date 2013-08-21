@@ -2,7 +2,13 @@
 
 class MY_Form_validation extends CI_Form_validation
 {
-	/* test */
+	/* this is a dummy function for run_one method */
+	public function ifempty($str=null,$field=null)
+	{
+		return true;
+	}
+
+	/* test */   
 	public function isbol($str, $field)
 	{
 		$this->CI->form_validation->set_message('isbol', 'The %s is invalid.');
@@ -22,6 +28,15 @@ class MY_Form_validation extends CI_Form_validation
 
 		$this->CI->form_validation->set_message('bol2int', 'The %s is invalid.');
 		return FALSE;
+	}
+
+	/* this calls a primary_exists function on a model passing in a id to test */
+	public function primaryexists($str, $field) {
+		$this->CI->form_validation->set_message('exists', 'The %s that you requested is unavailable.');
+		
+		list($model, $id) = explode('.', $field, 2);
+		
+		return $this->CI->$model->primary_exists($id);
 	}
 
 	public function exists($str, $field)
@@ -312,11 +327,54 @@ class MY_Form_validation extends CI_Form_validation
 		return $this;
 	}
 	
-	public function ifempty(&$str=null, $field=null)
-	{
-		$this->CI->form_validation->set_message('ifempty', '%s is empty.');
+	public function forged() {
+		events::trigger('form.forged',null,'array');
 
-		return (empty($str)) ? $field : $str;
+		show_error('<strong>Forged Request Detected</strong> If you clicked on a link and arrived here...that is bad.',404);
+		die();
 	}
 
+	public function run_one($rule,&$input,$dieonfail=true) {
+		
+		if (empty($rule)) {
+			return true;
+		}
+
+		if (empty($input)) {
+			if (preg_match('/ifempty\[(.*?)\]/',$rule, $matches)) {
+				$input = $matches[1];
+			}
+		}
+
+		$name = 'form validation run one';
+
+		/* make sure it's reset - incase it's already loaded and used we need it empty */
+		$this->reset_validation();
+
+		/* setup a bogus array for testing - set_data before set_rule!! */
+		$this->set_data(array($name=>$input));
+
+		/* setup our rule on the bogus array key for testing using the filter sent in - bogus name "input filter" */
+		$this->set_rules($name, 'form input filter', $rule);
+
+		/* run the validation and capture output fail (false) */
+		$pass = $this->run();
+
+		/* recapture the processed variable */
+		$input = set_value($name);
+
+		/* log the error if any */
+		if ($pass === false) {
+			log_message('debug','Form Library: "'.$value.'" Errors:"'.validation_errors().'" Filter"'.$rule.'"');
+
+			if ($dieonfail) {
+				$this->forged();
+			}
+		}
+
+		/* clear this out because validation isn't clearing it? bug? */
+		$this->validation_data = null;
+
+		return $pass;
+	}	
 }

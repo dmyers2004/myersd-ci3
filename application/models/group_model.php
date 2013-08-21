@@ -16,8 +16,8 @@ class group_model extends MY_Model
   protected $_table = 'groups';
   protected $group_access_table = 'group_access';
 
-  protected $fields = array(
-  	'id' => array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]','filter'=>'trim|integer|filter_int[5]|exists[groups.id]'),
+  protected $validate = array(
+  	'id' => array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
   	'name' => array('field'=>'name','label'=>'Name','rules'=>'required|filter_str[64]'),
   	'description' => array('field'=>'description','label'=>'Description','rules'=>'required|filter_str[128]')
   );
@@ -80,14 +80,5 @@ class group_model extends MY_Model
 		return true;
 	}
 
-  public function filter_id(&$id,$dieonfail=true)
-  {
-  	return $this->input->filter($this->fields['id']['filter'],$id,$dieonfail);
-  }
-
-  public function filter_mode(&$mode,$dieonfail=true)
-  {
-  	return $this->input->filter(FILTERBOL,$mode,$dieonfail);
-  }
 
 }

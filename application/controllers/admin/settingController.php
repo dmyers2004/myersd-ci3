@@ -32,7 +32,7 @@ class settingController extends MY_AdminController
 
 	public function newPostAction()
 	{
-		if ($this->controller_model->map($this->data)) {
+		if ($this->map->run($this->data)) {
 			if ($this->controller_model->insert($this->data)) {
 				$this->flash_msg->created($this->page_title,$this->controller_path);
 			}
@@ -44,7 +44,7 @@ class settingController extends MY_AdminController
 	public function editAction($id=null)
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$id = $this->controller_model->filter('id',$id);
+		$this->filter->run('primaryid',$id);
 
 		$this->page
 			->set('title','Edit '.$this->page_title)
@@ -61,18 +61,10 @@ class settingController extends MY_AdminController
 
 	public function editPostAction()
 	{
-		/* if somebody is sending in bogus id's send them to a fiery death */
-		if ($this->controller_model->filter('id')) {
-			$this->data = $this->controller_model->map();
-			if ($this->data !== false) {
-				if ($this->controller_model->update($this->data['id'], $this->data)) {
-					$this->flash_msg->updated($this->page_title,$this->controller_path);
-				} else {
-					echo '<pre>';
-					print_r($this->form_validation->run_array());
-					die();
-						
-				}
+
+		if ($this->map->run('admin/setting/form',$this->data)) {
+			if ($this->controller_model->update($this->data['id'], $this->data)) {
+				$this->flash_msg->updated($this->page_title,$this->controller_path);
 			}
 		}
 
@@ -84,7 +76,7 @@ class settingController extends MY_AdminController
 		$this->data['err'] = true;
 
 		/* can they delete? */
-		if ($this->controller_model->filter('id',$id)) {
+		if ($this->filter->run('primaryid',$id)) {
 			$this->controller_model->delete($id);
 			$this->data['err'] = false;
 		}
@@ -92,16 +84,16 @@ class settingController extends MY_AdminController
 		$this->output->json($this->data);
 	}
 
-	public function activateAjaxAction($id=null,$mode=null)
+	public function activateAjaxAction($id=null,$auto_load=null)
 	{
 		$this->data['err'] = true;
 
-		if ($this->controller_model->filter('id',$id) && $this->controller_model->filter('auto_load',$mode)) {
-			if ($this->controller_model->update($id, array('auto_load'=>$mode), true)) {
+		if ($this->filter->run('primaryid',$id) && $this->filter->run('oneorzero',$auto_load)) {
+			if ($this->controller_model->update($id, array('auto_load'=>$auto_load), true)) {
 				$this->data['err'] = false;
 			}
 		}
 
 		$this->output->json($this->data);
 	}
-}
+} /* end settings */

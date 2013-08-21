@@ -17,14 +17,14 @@ class setting_model extends MY_Model
 {
   protected $_table = 'settings';
 
-  protected $fields = array(
-  	'id' => array('field'=>'id','label'=>'Id','rules'=>'required|integer','filter'=>'trim|filter_int[5]|exists[settings.id]'),
-  	'name' => array('field'=>'name','label'=>'Name','rules'=>'required|xss_clean'),
-  	'value' => array('field'=>'value','label'=>'Value','rules'=>'required|xss_clean'),
-  	'group' => array('field'=>'group','label'=>'Group','rules'=>'required|xss_clean'),
-  	'type' => array('field'=>'type','label'=>'Type','rules'=>'filter_int[1]'),
-  	'auto_load' => array('field'=>'auto_load','label'=>'Autoload','rules'=>'ifempty[0]|filter_int[1]|bol2int','filter'=>'trim|required|filter_int[1]|bol2int'),
-  	'module_name' => array('field'=>'module_name','label'=>'Module Name','rules'=>'')
+  protected $validate = array(
+  	array('field'=>'id','label'=>'Id','rules'=>'required|integer'),
+  	array('field'=>'name','label'=>'Name','rules'=>'required|xss_clean'),
+  	array('field'=>'value','label'=>'Value','rules'=>'required|xss_clean'),
+  	array('field'=>'group','label'=>'Group','rules'=>'required|xss_clean'),
+  	array('field'=>'type','label'=>'Type','rules'=>'filter_int[1]'),
+  	array('field'=>'auto_load','label'=>'Autoload','rules'=>'ifempty[0]|filter_int[1]'),
+  	array('field'=>'module_name','label'=>'Module Name','rules'=>'')
   );
 
   public function insert($data, $skip_validation = false)
@@ -34,5 +34,5 @@ class setting_model extends MY_Model
   	
   	return parent::insert($data, $skip_validation);
   }
-
-}
+  
+} /* end setting_model */

@@ -22,7 +22,7 @@ class authController extends MY_PublicController
 
 	public function loginPostAction()
 	{
-		if ($this->user_model->map_login($this->data)) {
+		if ($this->map->run('auth/index',$this->data)) {
 			if ($this->auth->login($this->data['email'], $this->data['password'], $this->data['remember'], false, true)) {
 				$this->flash_msg->blue('Welcome','admin home');
 			}
@@ -54,7 +54,7 @@ class authController extends MY_PublicController
 
 	public function registerPostAction()
 	{
-		if ($this->user_model->map_register($this->data)) {
+		if ($this->map->run('auth/register',$this->data)) {
 			/* send activation email? */
 			$email_activation = $this->config->item('email_activation', 'auth');
 			$default_group_id = $this->config->item('default_group_id', 'auth');
@@ -114,7 +114,7 @@ class authController extends MY_PublicController
 
 	public function forgotPostAction()
 	{
-		if ($this->user_model->map_forgot($this->data)) {
+		if ($this->map->run('auth/forgot',$this->data)) {
 			$data = $this->auth->forgot_password($this->data['email']);
 			if ($data['user_id'] > 0) {
 
@@ -151,7 +151,7 @@ class authController extends MY_PublicController
 
 	public function resend_emailPostAction()
 	{
-		if ($this->user_model->map_resend_email($this->data)) {
+		if ($this->map->run('auth/resend_email',$this->data)) {
 			if ($this->auth->change_email($this->data['email'])) {
 
 				$this->data['from'] = $this->config->item('website_email', 'auth');
@@ -178,8 +178,8 @@ class authController extends MY_PublicController
 	public function activateAction($user_id=null,$activation_key=null)
 	{
 		/* filter input die hard if somebody is messing around */
-		$this->auth->filter_activation_key($activation_key); /* the lib generated the activation key so have it filter it */
-		$this->user_model->filter_id($user_id); /* the model manages the user id format */
+		$this->input->filter(FILTERSTR,$activation_key); /* the lib generated the activation key so have it filter it */
+		$this->input->filter(FILTERINT,$user_id); /* the model manages the user id format */
 
 		$this->page
 			->set('live',$this->auth->activate_user($user_id, $activation_key))
@@ -215,7 +215,7 @@ class authController extends MY_PublicController
 
 	public function resetPostAction()
 	{
-		if ($this->user_model->map_reset_password($this->data)) {
+		if ($this->map->run('auth/reset',$this->data)) {
 			if ($this->auth->reset_password($this->data['id'],$this->data['key'],$this->data['password'])) {
 				$this->flash_msg->blue('Password Changed','login');
 			}
