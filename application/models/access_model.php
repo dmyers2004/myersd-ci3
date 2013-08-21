@@ -23,7 +23,7 @@ class access_model extends MY_Model
 	/* db table */
   protected $_table = 'access';
 
-	protected $fields = array(
+	protected $validate = array(
 		'id' => array('field'=>'id','label'=>'Id','rules'=>'required|filter_str[5]'),
 		'resource' => array('field'=>'resource','label'=>'Resource','rules'=>'required|filter_str[128]'),
 		'description' => array('field'=>'description','label'=>'Description','rules'=>'required|filter_str[128]'),

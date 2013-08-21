@@ -16,7 +16,7 @@ class group_model extends MY_Model
   protected $_table = 'groups';
   protected $group_access_table = 'group_access';
 
-  protected $fields = array(
+  protected $validate = array(
   	'id' => array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
   	'name' => array('field'=>'name','label'=>'Name','rules'=>'required|filter_str[64]'),
   	'description' => array('field'=>'description','label'=>'Description','rules'=>'required|filter_str[128]')

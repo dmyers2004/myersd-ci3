@@ -17,27 +17,16 @@ class MY_Model extends Jamie_model
 
 	public function __construct()
 	{
-		$this->validate = &$this->fields;
-
 		parent::__construct();
-  }
+	}
 
-	public function map(&$output,&$input = null)
+	public function primary_exists($primary_value)
 	{
-		return $this->input->map($this->validate,$output,$input);
-	}
-	
-	public function filter($fieldname,&$field,$dieonfail=true)
-	{
-  	return $this->input->filter($this->fields[$fieldname]['filter'],$field,$dieonfail);
-	}
-	
-	public function primary_exists($primary_value) {
 		$row = $this->get($primary_value);
-		
+
 		return ($row) ? true : false;
 	}
-	
+
 	public function json_validate($validate=null)
 	{
 		$this->load->library('form_validation');
@@ -46,7 +35,7 @@ class MY_Model extends Jamie_model
 
 		$this->form_validation->reset_validation();
 		$this->form_validation->set_rules($validate);
-		
+
 		return $this->form_validation->run_array();
 	}
 

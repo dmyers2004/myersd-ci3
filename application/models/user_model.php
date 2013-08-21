@@ -16,7 +16,7 @@ class User_model extends MY_Model
 	protected $profile_table_name	= 'user_profiles'; // user profiles
 	public $password_format_copy = 'Password must be at least: 8 characters, 1 upper, 1 lower case letter, 1 number';
 
-	protected $fields = array(
+	protected $validate = array(
 		'id' => array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
 		'username' => array('field'=>'username','label'=>'User Name','rules'=>'required|xss_clean|filter_str[50]'),
 		'email' => array('field'=>'email','label'=>'Email','rules'=>'required|valid_email|filter_email[72]'),
@@ -37,35 +37,6 @@ class User_model extends MY_Model
 		$ci =& get_instance();
 		$this->table_name = $ci->config->item('db_table_prefix', 'auth').$this->table_name;
 		$this->profile_table_name	= $ci->config->item('db_table_prefix', 'auth').$this->profile_table_name;
-	}
-
-	public function map(&$output,&$input = null,$xss = true)
-	{
-		$rules = $this->fields;
-
-		if ($this->input->post('password').$this->input->post('confirm_password') === '') {
-			unset($rules['password']);
-			unset($rules['confirm_password']);
-		}		
-		
-		return $this->input->map($rules,$output,$input,$xss);
-	}
-	
-	public function map_register(&$output,&$input=null,$xss=true) {
-		$rules = array($this->fields['username'],$this->fields['email'],$this->fields['password']);
-		return $this->input->map($rules,$output,$input,$xss);
-	}
-	
-	public function map_forgot(&$output,&$input=null,$xss=true) {
-		$rules = array($this->fields['email']);
-		return $this->input->map($rules,$output,$input,$xss);
-	}
-	
-	public function map_reset_password(&$output,&$input=null,$xss=true) {
-		$key = array('field'=>'key','label'=>'Change Request Key','rules'=>FILTERMD5,'filter'=>FILTERMD5);
-		$rules = array($this->fields['password'],$this->fields['id'],$key);
-		
-		return $this->input->map($rules,$output,$input,$xss);
 	}
   
 	public function validate_login()
@@ -108,11 +79,6 @@ class User_model extends MY_Model
 		}
 
 		return $this->json_validate($rules);
-	}
-	
-	public function map_login(&$output,&$input = null,$xss = true) {
-		$validate = array($this->fields['email'],$this->fields['password'],$this->remember);
-		return $this->input->map($validate,$output,$input,$xss);
 	}
 	
 	public function get_users()

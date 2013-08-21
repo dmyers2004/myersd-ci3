@@ -32,7 +32,7 @@ class settingController extends MY_AdminController
 
 	public function newPostAction()
 	{
-		if ($this->controller_model->map($this->data)) {
+		if ($this->map->run($this->data)) {
 			if ($this->controller_model->insert($this->data)) {
 				$this->flash_msg->created($this->page_title,$this->controller_path);
 			}
@@ -44,7 +44,7 @@ class settingController extends MY_AdminController
 	public function editAction($id=null)
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->input->filter(FILTERINT,$id);
+		$this->filter->run('primaryid',$id);
 
 		$this->page
 			->set('title','Edit '.$this->page_title)
@@ -61,12 +61,9 @@ class settingController extends MY_AdminController
 
 	public function editPostAction()
 	{
-		/* if somebody is sending in bogus id's send them to a fiery death */
-		$id = $this->input->post('id');
 
-		if ($this->input->filter(FILTERINT,$id)) {
-			if ($this->controller_model->map($this->data)) {
-				$this->controller_model->update($this->data['id'], $this->data);
+		if ($this->map->run('admin/setting/form',$this->data)) {
+			if ($this->controller_model->update($this->data['id'], $this->data)) {
 				$this->flash_msg->updated($this->page_title,$this->controller_path);
 			}
 		}
@@ -79,7 +76,7 @@ class settingController extends MY_AdminController
 		$this->data['err'] = true;
 
 		/* can they delete? */
-		if ($this->input->filter(FILTERINT,$id)) {
+		if ($this->filter->run('primaryid',$id)) {
 			$this->controller_model->delete($id);
 			$this->data['err'] = false;
 		}
@@ -91,7 +88,7 @@ class settingController extends MY_AdminController
 	{
 		$this->data['err'] = true;
 
-		if ($this->input->filter(FILTERINT,$id) && $this->input->filter(FILTERBOL,$auto_load)) {
+		if ($this->filter->run('primaryid',$id) && $this->filter->run('oneorzero',$auto_load)) {
 			if ($this->controller_model->update($id, array('auto_load'=>$auto_load), true)) {
 				$this->data['err'] = false;
 			}

@@ -20,7 +20,7 @@ class menubar_model extends MY_Model
   protected $active_cache = null;
   protected $read_parents_cache = null;
 
-  protected $fields = array(
+  protected $validate = array(
   	'id' => array('field'=>'id','label'=>'Id','rules'=>'required|integer|filter_int[6]'),
   	'text' => array('field'=>'text','label'=>'Text','rules'=>'required|xss_clean|filter_str[64]'),
   	'resource' => array('field'=>'resource','label'=>'Resource','rules'=>'required|xss_clean|filter_str[128]'),
