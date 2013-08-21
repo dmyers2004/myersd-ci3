@@ -11,8 +11,38 @@ class accessController extends MY_AdminController
 	public function indexAction()
 	{
 		$this->page
-			->set('records',$this->controller_model->order_by('resource')->get_all())
+			->set('all_records',$this->format_access($this->controller_model->order_by('resource')->get_all()))
+			->onready("$('#access-tabs a').click(function (e) { e.preventDefault(); $(this).tab('show'); }); $('#access-tabs a:first').tab('show');")
 			->build();
+	}
+
+	protected function format_access($access)
+	{
+		$formatted = array();
+		
+		foreach ($access as $record) {
+
+			$name = '';
+			$resource = $record->resource;
+
+			$len = strpos($resource,'/',1);
+
+			if ($len === false) {
+				$len = strpos($resource,' ',1);
+			}
+
+			if ($len === false) {
+				$name = 'none*';
+			}
+
+			$namespace = ($name != '') ? $name : trim(substr($resource, 0, $len),' /');
+
+			$formatted[$namespace][] = $record;
+		}
+
+		ksort($formatted);
+
+		return $formatted;
 	}
 
 	public function newAction()
