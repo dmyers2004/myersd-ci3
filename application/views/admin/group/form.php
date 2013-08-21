@@ -29,7 +29,7 @@
 		</ul>
 	<? } ?>
 	
-	<h4 class="group-access">Group Access <small>separated by namespace,</small></h4>
+	<h4 class="group-access">Group Access <small>separated by namespace.</small></h4>
 
 	<ul class="nav nav-tabs" id="access-tabs">
 	<?php foreach ($all_access as $namespace => $foo) { ?>
