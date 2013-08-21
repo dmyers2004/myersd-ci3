@@ -1,7 +1,7 @@
-<h3 class="form-header"><?= $title ?></h3>
+<h3 class="form-header"><?=$section_title ?></h3>
 
 <?=form_open($action,array('class'=>'form-horizontal','data-validate'=>'true')) ?>
-<input type="hidden" name="id" value="<?=$record->id ?>" />
+	<input type="hidden" name="id" value="<?=$record->id ?>" />
 	<?=form_hidden('old_resource', $record->resource) ?>
 	<?=form_hidden('sort', $record->sort) ?>
 	<?=form_hidden('parent_id', $record->parent_id) ?>

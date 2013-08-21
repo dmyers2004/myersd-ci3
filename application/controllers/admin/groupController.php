@@ -18,7 +18,7 @@ class groupController extends MY_AdminController
 	public function newAction()
 	{
 		$this->page
-			->set('title','New '.$this->content_title)
+			->set('section_title','New '.$this->content_title)
 			->set('action',$this->controller_path.'new')
 			->set('record',(object) array('id'=>-1))
 			->set('my_access',array())
@@ -34,7 +34,7 @@ class groupController extends MY_AdminController
 
 	public function newPostAction()
 	{
-		if ($this->controller_model->map($this->data)) {
+		if ($this->map->run('admin/group/form',$this->data)) {
 			if ($id = $this->controller_model->insert($this->data)) {
 				$this->update_privilege($id);
 				$this->flash_msg->created($this->content_title,$this->controller_path);
@@ -47,10 +47,10 @@ class groupController extends MY_AdminController
 	public function editAction($id=null)
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->input->filter(FILTERINT,$id);
+		$this->filter->run('primaryid',$id);
 
 		$this->page
-			->set('title','Edit '.$this->content_title)
+			->set('section_title','Edit '.$this->content_title)
 			->set('action',$this->controller_path.'edit')
 			->set('record',$this->controller_model->get($id))
 			->set('users',$this->user_model->get_users_by_group($id))
@@ -75,14 +75,12 @@ class groupController extends MY_AdminController
 
 	public function editPostAction()
 	{
-		/* if somebody is sending in bogus id's send them to a fiery death */
-		$id = $this->input->post('id');
-		$this->input->filter(FILTERINT,$id);
-
-		if ($this->controller_model->map($this->data)) {
-			$this->controller_model->update($this->data['id'],$this->data);
-			$this->update_privilege($this->data['id']);
-			$this->flash_msg->updated($this->content_title,$this->controller_path);
+		if ($this->map->run('admin/group/form',$this->data)) {
+			if ($this->controller_model->update($this->data['id'],$this->data)) {
+				if ($this->update_privilege($this->data['id'])) {
+					$this->flash_msg->updated($this->content_title,$this->controller_path);
+				}
+			}
 		}
 
 		$this->flash_msg->fail($this->content_title,$this->controller_path);
@@ -132,14 +130,19 @@ class groupController extends MY_AdminController
 
 	protected function update_privilege($group_id)
 	{
-		$this->controller_model->filter_id($group_id);
+		$this->filter->run('primaryid',$group_id);
 		$this->controller_model->delete_group_access($group_id);
+
 		$access = $this->input->post('access');
-		if (is_array($array)) {
-			foreach ($this->input->post('access') as $id => $foo) {
-				$this->controller_model->insert_group_access($id, $group_id);
+		if (is_array($access)) {
+			foreach ($access as $id => $foo) {
+				if ($this->controller_model->insert_group_access($id, $group_id) === false) {
+					return false;	
+				}
 			}
 		}
+		
+		return true;
 	}
 
 }

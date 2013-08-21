@@ -16,6 +16,7 @@ CREATE TABLE `settings` (
 class setting_model extends MY_Model
 {
   protected $_table = 'settings';
+  protected $unset_on_insert = 'id';
 
   protected $validate = array(
   	array('field'=>'id','label'=>'Id','rules'=>'required|integer'),
@@ -26,13 +27,5 @@ class setting_model extends MY_Model
   	array('field'=>'auto_load','label'=>'Autoload','rules'=>'ifempty[0]|filter_int[1]'),
   	array('field'=>'module_name','label'=>'Module Name','rules'=>'')
   );
-
-  public function insert($data, $skip_validation = false)
-  {
-  	unset($data['id']);
-  	unset($this->validate['id']);
-  	
-  	return parent::insert($data, $skip_validation);
-  }
   
 } /* end setting_model */

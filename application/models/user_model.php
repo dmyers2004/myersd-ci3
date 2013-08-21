@@ -14,7 +14,8 @@ class User_model extends MY_Model
 {
 	protected $table_name = 'users'; // user accounts
 	protected $profile_table_name	= 'user_profiles'; // user profiles
-	public $password_format_copy = 'Password must be at least: 8 characters, 1 upper, 1 lower case letter, 1 number';
+	
+	protected $password_format_copy = 'Password must be at least: 8 characters, 1 upper, 1 lower case letter, 1 number';
 
 	protected $validate = array(
 		'id' => array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
@@ -30,47 +31,48 @@ class User_model extends MY_Model
 
 	public function __construct()
 	{
+		$this->table_name = get_instance()->config->item('db_table_prefix', 'auth').$this->table_name;
+		$this->profile_table_name	= get_instance()->config->item('db_table_prefix', 'auth').$this->profile_table_name;
+
 		parent::__construct();
-		
-		$this->validate = $this->fields;
-	
-		$ci =& get_instance();
-		$this->table_name = $ci->config->item('db_table_prefix', 'auth').$this->table_name;
-		$this->profile_table_name	= $ci->config->item('db_table_prefix', 'auth').$this->profile_table_name;
 	}
+  
+  public function password_format_copy() {
+  	return $this->password_format_copy;
+  }
   
 	public function validate_login()
 	{
-		$rules = array($this->fields['email'],$this->fields['password'],$this->remember);
+		$rules = array($this->validate['email'],$this->validate['password'],$this->remember);
 		return $this->json_validate($rules);
 	}
 	
 	public function validate_email()
 	{
-		$rules = array($this->fields['email']);
+		$rules = array($this->validate['email']);
 		return $this->json_validate($rules);
 	}
 	
 	public function validate_password() {
-		$rules = array($this->fields['password'],$this->fields['confirm_password']);
+		$rules = array($this->validate['password'],$this->validate['confirm_password']);
 		return $this->json_validate($rules);
 	}
 	
 	public function validate_register()
 	{
-		$rules = array($this->fields['username'],$this->fields['email'],$this->fields['password'],$this->fields['confirm_password']);
+		$rules = array($this->validate['username'],$this->validate['email'],$this->validate['password'],$this->validate['confirm_password']);
 		return $this->json_validate($rules);
 	}
 
 	public function json_validate_new()
 	{
-		$rules = $this->fields;
+		$rules = $this->validate;
 		return $this->json_validate($rules);
 	}
 	
 	public function json_validate_edit()
 	{
-		$rules = $this->fields;
+		$rules = $this->validate;
 
 		/* password is NOT required on edit */
 		if ($this->input->post('password').$this->input->post('confirm_password') === '') {

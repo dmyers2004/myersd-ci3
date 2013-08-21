@@ -22,6 +22,7 @@ class access_model extends MY_Model
 {
 	/* db table */
   protected $_table = 'access';
+  protected $unset_on_insert = 'id';
 
 	protected $validate = array(
 		'id' => array('field'=>'id','label'=>'Id','rules'=>'required|filter_str[5]'),
@@ -47,14 +48,6 @@ class access_model extends MY_Model
   	}
 
   	return null;
-  }
-
-  public function insert($data, $skip_validation = false)
-  {
-  	unset($data['id']);
-		unset($this->validate['id']);
-
-  	return parent::insert($data, $skip_validation);
   }
 
 }

@@ -18,7 +18,7 @@ class accessController extends MY_AdminController
 	public function newAction()
 	{
 		$this->page
-			->set('title','New '.$this->page_title)
+			->set('section_title','New '.$this->page_title)
 			->set('action',$this->controller_path.'new')
 			->set('record',(object) array('id'=>-1,'active'=>1,'type'=>0))
 			->build($this->controller_path.'form');
@@ -31,7 +31,7 @@ class accessController extends MY_AdminController
 
 	public function newPostAction()
 	{
-		if ($this->controller_model->map($this->data)) {
+		if ($this->map->run('admin/access/form',$this->data)) {
 			if ($this->controller_model->insert($this->data)) {
 				$this->flash_msg->created($this->page_title,$this->controller_path);
 			}
@@ -43,10 +43,10 @@ class accessController extends MY_AdminController
 	public function editAction($id=null)
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->input->filter(FILTERINT,$id);
+		$this->filter->run('primaryid',$id);
 
 		$this->page
-			->set('title','Edit '.$this->page_title)
+			->set('section_title','Edit '.$this->page_title)
 			->set('action',$this->controller_path.'edit')
 			->set('record',$this->controller_model->get($id))
 			->build($this->controller_path.'form');
@@ -61,11 +61,12 @@ class accessController extends MY_AdminController
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
 		$id = $this->input->post('id');
-		$this->input->filter(FILTERINT,$id);
+		$this->filter->run('primaryid',$id);
 
-		if ($this->controller_model->map($this->data)) {
-			$this->controller_model->update($this->data['id'], $this->data);
-			$this->flash_msg->updated($this->page_title,$this->controller_path);
+		if ($this->map->run('admin/access/form',$this->data)) {
+			if ($this->controller_model->update($this->data['id'], $this->data)) {
+				$this->flash_msg->updated($this->page_title,$this->controller_path);
+			}
 		}
 
 		$this->flash_msg->fail($this->page_title,$this->controller_path);
@@ -76,7 +77,7 @@ class accessController extends MY_AdminController
 	{
 		$this->data['err'] = true;
 
-		if ($this->input->filter(FILTERINT,$id) && $this->input->filter(FILTERBOL,$mode)) {
+		if ($this->filter->run('primaryid',$id) && $this->filter->run('oneorzero',$mode)) {
 			if ($this->controller_model->update($id, array('active'=>$mode), true)) {
 				$this->data['err'] = false;
 			}
@@ -90,7 +91,7 @@ class accessController extends MY_AdminController
 		$this->data['err'] = true;
 
 		/* can they delete? */
-		if ($this->input->filter(FILTERINT,$id)) {
+		if ($this->filter->run('primaryid',$id)) {
 			$this->controller_model->delete($id);
 			$this->group_model->delete_access($id);
 			$this->data['err'] = false;

@@ -42,7 +42,7 @@ class miscController extends MY_PublicController
 		$this->load->model('user_model');
 
 		$this->page
-			->set('title','New Form Test')
+			->set('section_title','New Form Test')
 			->set('record',$this->user_model->get_user(3))
 			->set('group_options',$this->_get_groups())
 			->build();

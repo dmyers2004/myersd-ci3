@@ -327,13 +327,6 @@ class MY_Form_validation extends CI_Form_validation
 		return $this;
 	}
 	
-	public function forged() {
-		events::trigger('form.forged',null,'array');
-
-		show_error('<strong>Forged Request Detected</strong> If you clicked on a link and arrived here...that is bad.',404);
-		die();
-	}
-
 	public function run_one($rule,&$input,$dieonfail=true) {
 		
 		if (empty($rule)) {
@@ -346,7 +339,7 @@ class MY_Form_validation extends CI_Form_validation
 			}
 		}
 
-		$name = 'form validation run one';
+		$name = 'form_validation::run_one';
 
 		/* make sure it's reset - incase it's already loaded and used we need it empty */
 		$this->reset_validation();
@@ -355,7 +348,7 @@ class MY_Form_validation extends CI_Form_validation
 		$this->set_data(array($name=>$input));
 
 		/* setup our rule on the bogus array key for testing using the filter sent in - bogus name "input filter" */
-		$this->set_rules($name, 'form input filter', $rule);
+		$this->set_rules($name, $name, $rule);
 
 		/* run the validation and capture output fail (false) */
 		$pass = $this->run();
@@ -376,5 +369,13 @@ class MY_Form_validation extends CI_Form_validation
 		$this->validation_data = null;
 
 		return $pass;
-	}	
+	}
+	
+	public function forged() {
+		events::trigger('form.forged',null,'array');
+
+		show_error('<strong>Forged Request Detected</strong> If you clicked on a link and arrived here...that is bad.',404);
+		die();
+	}
+		
 }

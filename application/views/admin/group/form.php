@@ -1,4 +1,4 @@
-<h3 class="form-header"><?=($record->id < 0) ? 'Create' : 'Update' ?> Group</h3>
+<h3 class="form-header"><?=$section_title ?> Group</h3>
 
 <?=form_open($action,array('class'=>'form-horizontal','data-validate'=>'true')) ?>
 <input type="hidden" name="id" value="<?=$record->id ?>" />
@@ -14,7 +14,7 @@
 	
 	<div class="control-group">
 		<label class="control-label" for="description">
-			Description
+			<strong>Description</strong>
 		</label>
 		<div class="controls">
 		<?=form_text('description',$record->description,'input-xxlarge','Description') ?>

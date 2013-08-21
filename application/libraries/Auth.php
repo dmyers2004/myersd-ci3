@@ -171,8 +171,8 @@ class Auth
 		} else {
 			// Hash password using phpass
 			$hasher = new PasswordHash(
-					$this->config['phpass_hash_strength'],
-					$this->config['phpass_hash_portable']);
+			$this->config['phpass_hash_strength'],
+			$this->config['phpass_hash_portable']);
 			$hashed_password = $hasher->HashPassword($password);
 
 			$data = array(

@@ -18,7 +18,7 @@ class settingController extends MY_AdminController
 	public function newAction()
 	{
 		$this->page
-			->set('title','New '.$this->page_title)
+			->set('section_title','New '.$this->page_title)
 			->set('action',$this->controller_path.'new')
 			->set('record',(object) array('id'=>-1,'auto_load'=>1,'type'=>0))
 			->set('group',$this->controller_model->dropdown('group','group'))
@@ -32,7 +32,7 @@ class settingController extends MY_AdminController
 
 	public function newPostAction()
 	{
-		if ($this->map->run($this->data)) {
+		if ($this->map->run('admin/setting/form',$this->data)) {
 			if ($this->controller_model->insert($this->data)) {
 				$this->flash_msg->created($this->page_title,$this->controller_path);
 			}
@@ -47,7 +47,7 @@ class settingController extends MY_AdminController
 		$this->filter->run('primaryid',$id);
 
 		$this->page
-			->set('title','Edit '.$this->page_title)
+			->set('section_title','Edit '.$this->page_title)
 			->set('action',$this->controller_path.'edit')
 			->set('record',$this->controller_model->get($id))
 			->set('group',$this->controller_model->dropdown('group','group'))

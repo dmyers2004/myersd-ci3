@@ -19,6 +19,7 @@ class menubar_model extends MY_Model
   protected $_table = 'nav';
   protected $active_cache = null;
   protected $read_parents_cache = null;
+  protected $unset_on_insert = 'id';
 
   protected $validate = array(
   	'id' => array('field'=>'id','label'=>'Id','rules'=>'required|integer|filter_int[6]'),
@@ -54,14 +55,6 @@ class menubar_model extends MY_Model
 		$this->db->where('id', $id)->delete($this->_table);
 		$this->db->where('parent_id', $id)->delete($this->_table);
 	}
-
-  public function insert($data, $skip_validation = false)
-  {
-  	unset($data['id']);
-  	unset($this->validate['id']);
-
-  	return parent::insert($data, $skip_validation);
-  }
 
 	public function get_active()
 	{

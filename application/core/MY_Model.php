@@ -19,6 +19,17 @@ class MY_Model extends Jamie_model
 	{
 		parent::__construct();
 	}
+	
+  /* turn off primary id on insert because it's not required (ie empty) */
+  public function insert($data, $skip_validation = false)
+  {
+  	if (isset($this->unset_on_insert)) {
+	  	unset($data[$this->unset_on_insert]);
+			unset($this->validate[$this->unset_on_insert]);
+  	}
+
+  	return parent::insert($data, $skip_validation);
+  }
 
 	public function primary_exists($primary_value)
 	{

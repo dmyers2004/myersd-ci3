@@ -1,4 +1,4 @@
-<h3 class="form-header"><?=($record->id < 0) ? 'Create' : 'Update' ?> User</h3>
+<h3 class="form-header"><?=$section_title ?></h3>
 
 <?=form_open($action,array('class'=>'form-horizontal','data-validate'=>'true')) ?>
 <input type="hidden" name="id" value="<?=$record->id ?>" />
@@ -27,6 +27,7 @@
 		</label>
 		<div class="controls">
 		<?=form_password('password','', 'placeholder="Password"') ?>
+		<span class="help-block"><?=$password_format_copy ?></span>
 		</div>
 	</div>
 	

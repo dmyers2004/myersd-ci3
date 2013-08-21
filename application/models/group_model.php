@@ -15,20 +15,13 @@ class group_model extends MY_Model
 {
   protected $_table = 'groups';
   protected $group_access_table = 'group_access';
+  protected $unset_on_insert = 'id';
 
   protected $validate = array(
   	'id' => array('field'=>'id','label'=>'Id','rules'=>'required|filter_int[5]'),
   	'name' => array('field'=>'name','label'=>'Name','rules'=>'required|filter_str[64]'),
   	'description' => array('field'=>'description','label'=>'Description','rules'=>'required|filter_str[128]')
   );
-
-  public function insert($data, $skip_validation = false)
-  {
-  	unset($data['id']);
-  	unset($this->validate['id']);
-
-  	return parent::insert($data, $skip_validation);
-  }
 
 	public function get_roles($group_id)
 	{

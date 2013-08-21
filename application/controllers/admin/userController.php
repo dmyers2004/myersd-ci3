@@ -21,10 +21,11 @@ class userController extends MY_AdminController
 	public function newAction()
 	{
 		$this->page
-			->set('title','New '.$this->page_title)
+			->set('section_title','New '.$this->page_title)
 			->set('action',$this->controller_path.'new')
 			->set('record',(object) array('activated'=>1,'id'=>-1))
 			->set('group_options',$this->_get_groups())
+			->set('password_format_copy',$this->user_model->password_format_copy())
 			->build($this->controller_path.'form');
 	}
 
@@ -38,9 +39,8 @@ class userController extends MY_AdminController
 	public function newPostAction()
 	{
 
-		if ($this->controller_model->map($this->data)) {
-			extract($this->data);
-			if ($this->auth->create_user($username, $email, $password, $group_id, false)) {
+		if ($this->map->run('admin/user/form',$this->data)) {
+			if ($this->auth->create_user($this->data['username'], $this->data['email'], $this->data['password'], $this->data['group_id'], false) !== null) {
 				$this->flash_msg->created($this->page_title,$this->controller_path);
 			}
 		}
@@ -52,13 +52,14 @@ class userController extends MY_AdminController
 	public function editAction($id=null)
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->input->filter(FILTERINT,$id);
+		$this->filter->run('primaryid',$id);
 
 		$this->page
-			->set('title','Edit '.$this->page_title)
+			->set('section_title','Edit '.$this->page_title)
 			->set('action',$this->controller_path.'edit')
 			->set('record',$this->controller_model->get_user($id))
 			->set('group_options',$this->_get_groups())
+			->set('password_format_copy',$this->user_model->password_format_copy())
 			->build($this->controller_path.'form');
 	}
 
@@ -71,28 +72,17 @@ class userController extends MY_AdminController
 	/* edit form post */
 	public function editPostAction()
 	{
-		/* if somebody is sending in bogus id's send them to a fiery death */
-		$id = $this->input->post('id');
-		$this->input->filter(FILTERINT,$id);
+		if ($this->map->run('admin/user/form',$this->data)) {			
+			if ($this->controller_model->update_user($this->data['id'], $this->data)) {
 
-		if ($this->controller_model->validate_edit()) {
-			
-			$this->controller_model->map($this->data);
+				/* did they change the password? update it */
+				if ($this->input->post('password') !== '') {
+					/* let the model clean it or what ever */
+					$this->controller_model->change_password($this->data['id'], $password);
+				}
 
-			/* we don't need these in the update because they are handled differently */
-			unset($this->data['confirm_password']);
-			/* grab a copy for later use */
-			$password = $this->data['password'];
-			unset($this->data['password']);
-
-			$this->controller_model->update_user($this->data['id'], $this->data);
-
-			/* did they change the password? update it */
-			if (!empty($password)) {
-				$this->controller_model->change_password($this->data['id'], $password);
+				$this->flash_msg->updated($this->page_title,$this->controller_path);
 			}
-
-			$this->flash_msg->updated($this->page_title,$this->controller_path);
 		}
 
 		$this->flash_msg->fail($this->page_title,$this->controller_path);
@@ -103,7 +93,7 @@ class userController extends MY_AdminController
 	{
 		$this->data['err'] = true;
 
-		if ($this->input->filter(FILTERINT,$id) && $this->input->filter(FILTERBOL,$mode)) {
+		if ($this->filter->run('primaryid',$id) && $this->filter->run('oneorzero',$mode)) {
 			if ($this->controller_model->update_user($id, array('activated'=>$mode))) {
 				$this->data['err'] = false;
 			}
@@ -118,7 +108,7 @@ class userController extends MY_AdminController
 		$this->data['err'] = true;
 
 		/* can they delete? */
-		if ($this->input->filter(FILTERINT,$id)) {
+		if ($this->filter->run('primaryid',$id)) {
 			$this->controller_model->delete_user($id);
 			$this->data['err'] = false;
 		}
