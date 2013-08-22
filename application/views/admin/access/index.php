@@ -12,7 +12,7 @@
 <div class="tab-content">
 <?php foreach ($all_records as $namespace => $records) { ?>
 		<div class="tab-pane" id="<?=url_title($namespace) ?>">
-			<table class="table table-hover table-fixed-header-<?=url_title($namespace) ?>">
+			<table class="table table-hover">
 			  <thead class="header">
 					<tr>
 						<th>Description</th>

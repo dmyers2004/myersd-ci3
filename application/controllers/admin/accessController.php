@@ -38,9 +38,6 @@ class accessController extends MY_AdminController
 			$namespace = ($name != '') ? $name : trim(substr($resource, 0, $len),' /');
 
 			$formatted[$namespace][] = $record;
-			
-			$this->page->onready("$('.table-fixed-header-".url_title($namespace)."').fixedHeader({topOffset: 40});");
-
 		}
 
 		ksort($formatted);
