@@ -3,52 +3,45 @@ var header;
 var fixedHeader;
 
 function resize() {
- var totalwidth = $(".tab-content").css('width');
- 
- fixedHeader.css('width', totalwidth);
- 
- var widths = [];
- 
- $('.table.table-hover:first thead th').each(function() {
-   widths.push($(this).width());
- });
- 
- var i=0;
- 
- $('#header-fixed th').each(function() {
-   this.width = widths[i];
-   i++;
- });
+	var totalwidth = $(".tab-content").css('width');
 
+	header = $(".active .table.table-hover > thead").clone();
+	fixedHeader = $("#header-fixed").html(header);
+
+	fixedHeader.css('width', totalwidth);
+
+	var widths = [];
+
+	$('.active .table.table-hover thead th').each(function() {
+		widths.push($(this).width());
+	});
+
+	var i=0;
+
+	$('#header-fixed th').each(function() {
+		this.width = widths[i];
+		i++;
+	});
+
+	fixedHeader.css('left', $(".tab-content").position().left - $(this).scrollLeft());
 }
 
 function resizeAndShow() {
- var offset = $(this).scrollTop();
+	var offset = $(this).scrollTop();
 
-//console.log(offset);
- 
- if (offset >= tableOffset && fixedHeader.is(":hidden")) {
-   fixedHeader.show();
-   resize();
- } else if (offset < tableOffset) {
-   fixedHeader.hide();
- }
- 
- fixedHeader.css('left', $(".tab-content").position().left - $(this).scrollLeft());
+	if (offset >= tableOffset && fixedHeader.is(":hidden")) {
+		resize();
+		fixedHeader.show();
+	} else if (offset < tableOffset) {
+		fixedHeader.hide();
+	}
 };
 
 $(document).ready(function() {
-  tableOffset = $(".tab-content").offset().top;
+	tableOffset = $(".tab-content").offset().top;
 
-/**
- * need to re-clone on tab switch because the columns widths changes
- */
+	resize();
 
-  header = $(".table.table-hover:first > thead").clone();
-  fixedHeader = $("#header-fixed").append(header);
-
-//console.log(tableOffset);
-
-  $(window).bind("scroll", resizeAndShow);
-  $(window).resize(resize);
+	$(window).bind("scroll", resizeAndShow);
+	$(window).resize(resize);
 });
