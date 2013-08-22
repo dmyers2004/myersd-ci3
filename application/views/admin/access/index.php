@@ -67,5 +67,4 @@
 
 <h6><i class="icon-user"></i> User Entered <img width=32 height=0><i class="icon-cog"></i> System Entered <img width=32 height=0><i class="icon-signin"></i> Module Entered</h6>
 
-
-
+<table id="header-fixed" class="table table-hover"></table>

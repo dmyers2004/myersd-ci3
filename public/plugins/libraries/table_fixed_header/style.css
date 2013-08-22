@@ -2,14 +2,17 @@ thead.header {
 	background: #eee;
 }
 
-.affix {
-	position: fixed;
-	z-index: 1010;
-	top: 40px;
-}
-
 @media (max-width: 480px) {
-   .affix {
+   #header-fixed {
      top: 0;
     }
 }
+
+#header-fixed {
+  position: fixed;
+  top: 40px;
+  display:none;
+  background-color: #eee;
+  margin: 0 auto;
+}
+
