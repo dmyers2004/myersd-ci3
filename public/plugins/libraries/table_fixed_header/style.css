@@ -1,18 +1,18 @@
-thead.header {
+.table-hover thead {
 	background: #eee;
 }
 
-@media (max-width: 480px) {
-   #header-fixed {
-     top: 0;
-    }
+@media (max-width: 979px) {
+	#magic-header-fixed {
+		top: 0 !important;
+	}
 }
 
-#header-fixed {
+#magic-header-fixed {
   position: fixed;
   top: 40px;
   display:none;
   background-color: #eee;
   margin: 0 auto;
+  z-index: 1010;
 }
-

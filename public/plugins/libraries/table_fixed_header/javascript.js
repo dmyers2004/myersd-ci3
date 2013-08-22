@@ -1,47 +1,72 @@
-var tableOffset;
-var header;
-var fixedHeader;
+var magicheader = {};
 
-function resize() {
-	var totalwidth = $(".tab-content").css('width');
+magicheader.tableOffset;
+magicheader.header;
+magicheader.fixedHeader;
+magicheader.container;
 
-	header = $(".active .table.table-hover > thead").clone();
-	fixedHeader = $("#header-fixed").html(header);
+magicheader.config = {
+	container: '.table-fixed-header'
+};
 
-	fixedHeader.css('width', totalwidth);
+/* this is tied to the tabs - other tabs not working? */
+
+magicheader.init = function(options) {
+	
+	if (options){
+		$.extend(magicheader.config, options);
+	}
+	
+	magicheader.container = $(magicheader.config.container);
+	
+	if (magicheader.container.length == 0) {
+		return;	
+	}
+	
+	magicheader.container.append('<table id="magic-header-fixed" class="table table-hover"></table>');
+
+	magicheader.tableOffset = magicheader.container.offset().top;
+
+	magicheader.resize();
+
+	$(window).bind('scroll', magicheader.resizeAndShow).resize(magicheader.resize);
+}
+
+magicheader.resize = function() {
+	var totalwidth = magicheader.container.css('width');
+
+	magicheader.header = $('.active .table-fixed-header > thead').clone();
+	magicheader.fixedHeader = $('#magic-header-fixed').html(magicheader.header);
+
+	magicheader.fixedHeader.css('width', totalwidth);
 
 	var widths = [];
 
-	$('.active .table.table-hover thead th').each(function() {
+	$('.active .table-fixed-header thead th').each(function() {
 		widths.push($(this).width());
 	});
 
 	var i=0;
 
-	$('#header-fixed th').each(function() {
+	$('#magic-header-fixed th').each(function() {
 		this.width = widths[i];
 		i++;
 	});
 
-	fixedHeader.css('left', $(".tab-content").position().left - $(this).scrollLeft());
+	magicheader.fixedHeader.css('left', magicheader.container.position().left - $(this).scrollLeft());
 }
 
-function resizeAndShow() {
+magicheader.resizeAndShow = function() {
 	var offset = $(this).scrollTop();
 
-	if (offset >= tableOffset && fixedHeader.is(":hidden")) {
-		resize();
-		fixedHeader.show();
-	} else if (offset < tableOffset) {
-		fixedHeader.hide();
+	if (offset >= magicheader.tableOffset && magicheader.fixedHeader.is(':hidden')) {
+	
+		magicheader.resize();
+		magicheader.fixedHeader.show();
+	
+	} else if (offset < magicheader.tableOffset) {
+	
+		magicheader.fixedHeader.hide();
+	
 	}
 };
-
-$(document).ready(function() {
-	tableOffset = $(".tab-content").offset().top;
-
-	resize();
-
-	$(window).bind("scroll", resizeAndShow);
-	$(window).resize(resize);
-});

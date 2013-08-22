@@ -3,7 +3,7 @@
 	<a href="/admin/group/new" class="btn btn-small add-btn"><i class="icon-magic"></i> Add Group</i></a>
 </div>
 <table class="table table-hover table-fixed-header">
-  <thead class="header">
+  <thead>
 		<tr>
 			<th>Group Name</th>
 			<th>Description</th>

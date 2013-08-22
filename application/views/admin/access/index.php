@@ -12,8 +12,8 @@
 <div class="tab-content">
 <?php foreach ($all_records as $namespace => $records) { ?>
 		<div class="tab-pane" id="<?=url_title($namespace) ?>">
-			<table class="table table-hover">
-			  <thead class="header">
+			<table class="table table-hover table-fixed-header">
+			  <thead>
 					<tr>
 						<th>Description</th>
 						<th>Resource</th>
@@ -67,4 +67,3 @@
 
 <h6><i class="icon-user"></i> User Entered <img width=32 height=0><i class="icon-cog"></i> System Entered <img width=32 height=0><i class="icon-signin"></i> Module Entered</h6>
 
-<table id="header-fixed" class="table table-hover"></table>

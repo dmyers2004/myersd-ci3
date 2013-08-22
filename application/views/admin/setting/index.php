@@ -3,7 +3,7 @@
 	<a href="/admin/setting/new" class="btn btn-small add-btn"><i class="icon-magic"></i> Add Setting</i></a>
 </div>
 <table class="table table-hover table-fixed-header">
-  <thead class="header">
+  <thead>
 		<tr>
 			<th>Name</th>
 			<th>Value</th>
