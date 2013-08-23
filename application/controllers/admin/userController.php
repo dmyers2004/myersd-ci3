@@ -60,6 +60,7 @@ class userController extends MY_AdminController
 			->set('record',$this->controller_model->get_user($id))
 			->set('group_options',$this->_get_groups())
 			->set('password_format_copy',$this->user_model->password_format_copy())
+			->onready("magicheader.init();")			
 			->build($this->controller_path.'form');
 	}
 

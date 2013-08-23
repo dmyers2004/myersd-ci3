@@ -9,7 +9,6 @@ class Plugin_table_fixed_header
 
 	public function tohtml() {
 		get_instance()->page
-			->onready("magicheader.init();")
 			->js('{plugins}table_fixed_header/javascript.js')
 			->css('{plugins}table_fixed_header/style.css');
 	}

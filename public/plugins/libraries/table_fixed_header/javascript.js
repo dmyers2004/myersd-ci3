@@ -6,10 +6,9 @@ magicheader.fixedHeader;
 magicheader.container;
 
 magicheader.config = {
-	container: '.table-fixed-header'
+	container: '.table-fixed-header',
+	active: '.table-fixed-header' /* .active .table-fixed-header */
 };
-
-/* this is tied to the tabs - other tabs not working? */
 
 magicheader.init = function(options) {
 	
@@ -35,14 +34,14 @@ magicheader.init = function(options) {
 magicheader.resize = function() {
 	var totalwidth = magicheader.container.css('width');
 
-	magicheader.header = $('.active .table-fixed-header > thead').clone();
+	magicheader.header = $(magicheader.config.active + ' > thead').clone();
 	magicheader.fixedHeader = $('#magic-header-fixed').html(magicheader.header);
 
 	magicheader.fixedHeader.css('width', totalwidth);
 
 	var widths = [];
 
-	$('.active .table-fixed-header thead th').each(function() {
+	$(magicheader.config.active + ' thead th').each(function() {
 		widths.push($(this).width());
 	});
 
@@ -53,11 +52,11 @@ magicheader.resize = function() {
 		i++;
 	});
 
-	magicheader.fixedHeader.css('left', magicheader.container.position().left - $(this).scrollLeft());
+	magicheader.fixedHeader.css('left', magicheader.container.position().left - $(window).scrollLeft());
 }
 
 magicheader.resizeAndShow = function() {
-	var offset = $(this).scrollTop();
+	var offset = $(window).scrollTop();
 
 	if (offset >= magicheader.tableOffset && magicheader.fixedHeader.is(':hidden')) {
 	

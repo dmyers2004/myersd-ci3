@@ -11,6 +11,7 @@ class settingController extends MY_AdminController
 	public function indexAction()
 	{
 		$this->page
+			->onready("magicheader.init();")
 			->set('records',$this->controller_model->order_by('group')->get_all())
 			->build();
 	}

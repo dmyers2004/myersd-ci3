@@ -12,6 +12,7 @@ class accessController extends MY_AdminController
 	{
 		$this->page
 			->set('all_records',$this->format_access($this->controller_model->order_by('resource')->get_all()))
+			->onready("magicheader.init({active: '.active .table-fixed-header', container: '.tab-content'});")
 			->onready("$('#access-tabs a').click(function (e) { e.preventDefault(); $(this).tab('show'); }); $('#access-tabs a:first').tab('show');")
 			->build();
 	}
@@ -19,7 +20,7 @@ class accessController extends MY_AdminController
 	protected function format_access($access)
 	{
 		$formatted = array();
-		
+
 		foreach ($access as $record) {
 
 			$name = '';

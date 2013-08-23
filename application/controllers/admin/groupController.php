@@ -24,6 +24,7 @@ class groupController extends MY_AdminController
 			->set('my_access',array())
 			->set('all_access',$this->format_privileges($this->access_model->get_all()))
 			->onready("$('#access-tabs a').click(function (e) { e.preventDefault(); $(this).tab('show'); }); $('#access-tabs a:first').tab('show');")
+			->onready("magicheader.init();")
 			->build($this->controller_path.'form');
 	}
 
