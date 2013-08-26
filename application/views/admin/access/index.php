@@ -5,13 +5,13 @@
 
 <ul class="nav nav-tabs" id="access-tabs">
 <?php foreach ($all_records as $namespace => $foo) { ?>
-	<li><a href="#<?=url_title($namespace) ?>"><?=$namespace ?></a></li>
+	<li><a href="#tabname-<?=url_title($namespace) ?>"><?=$namespace ?></a></li>
 <?php } ?>		
 </ul>
 
 <div class="tab-content">
 <?php foreach ($all_records as $namespace => $records) { ?>
-		<div class="tab-pane" id="<?=url_title($namespace) ?>">
+		<div class="tab-pane" id="tabname-<?=url_title($namespace) ?>">
 			<table class="table table-hover table-fixed-header">
 			  <thead>
 					<tr>

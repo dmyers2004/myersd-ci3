@@ -33,13 +33,13 @@
 
 	<ul class="nav nav-tabs" id="access-tabs">
 	<?php foreach ($all_access as $namespace => $foo) { ?>
-		<li><a href="#<?=$namespace ?>"><?=$namespace ?></a></li>
+		<li><a href="#tabname-<?=$namespace ?>"><?=$namespace ?></a></li>
 	<?php } ?>		
 	</ul>
 
 	<div class="tab-content">
 	<?php foreach ($all_access as $namespace => $foo) { ?>
-			<div class="tab-pane" id="<?=url_title($namespace) ?>">
+			<div class="tab-pane" id="tabname-<?=url_title($namespace) ?>">
 			<?php foreach ($all_access[$namespace] as $resource) { ?>
 			  <div class="span4" style="margin-left: 0">
 			  	<label class="checkbox">
