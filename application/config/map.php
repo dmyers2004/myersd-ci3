@@ -1,5 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+$config['paths'] = array(
+	'login' => '/auth',
+	'forgot password' => '/auth/forgot',
+	'register' => '/auth/register',
+	'home' => '/',
+	'admin home' => '/ticket',
+	'resend login email' => '/auth/resend_email',
+);
+
 $config['admin/setting/form'] = array(
 	'id',
 	'name',

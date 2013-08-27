@@ -39,7 +39,7 @@ class userController extends MY_AdminController
 	public function newPostAction()
 	{
 
-		if ($this->map->run('admin/user/form',$this->data)) {
+		if ($this->map->form('admin/user/form',$this->data)) {
 			if ($this->auth->create_user($this->data['username'], $this->data['email'], $this->data['password'], $this->data['group_id'], false) !== null) {
 				$this->flash_msg->created($this->page_title,$this->controller_path);
 			}
@@ -52,7 +52,7 @@ class userController extends MY_AdminController
 	public function editAction($id=null)
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->filter->run('primaryid',$id);
+		$this->input->filter('primaryid',$id);
 
 		$this->page
 			->set('section_title','Edit '.$this->page_title)
@@ -73,7 +73,7 @@ class userController extends MY_AdminController
 	/* edit form post */
 	public function editPostAction()
 	{
-		if ($this->map->run('admin/user/form',$this->data)) {			
+		if ($this->map->form('admin/user/form',$this->data)) {			
 			if ($this->controller_model->update_user($this->data['id'], $this->data)) {
 
 				/* did they change the password? update it */
@@ -94,7 +94,7 @@ class userController extends MY_AdminController
 	{
 		$this->data['err'] = true;
 
-		if ($this->filter->run('primaryid',$id) && $this->filter->run('oneorzero',$mode)) {
+		if ($this->input->filter('primaryid',$id) && $this->input->filter('oneorzero',$mode)) {
 			if ($this->controller_model->update_user($id, array('activated'=>$mode))) {
 				$this->data['err'] = false;
 			}
@@ -109,7 +109,7 @@ class userController extends MY_AdminController
 		$this->data['err'] = true;
 
 		/* can they delete? */
-		if ($this->filter->run('primaryid',$id)) {
+		if ($this->input->filter('primaryid',$id)) {
 			$this->controller_model->delete_user($id);
 			$this->data['err'] = false;
 		}

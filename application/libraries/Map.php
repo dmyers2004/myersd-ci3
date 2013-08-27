@@ -1,9 +1,22 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
+/* this library is all about mapping 1 thing to another
+map->path(); returns all current paths
+map->path('name') returns url
+map->path('name','/user/edit'); changes a url
+map->path('name',true) maps & redirects to a url
+
+map->form('config group',$form_vars)
+map->form('config group',$form_vars,$form_input)
+map->form('config group',$form_vars,$form_input,false)
+
+*/
+
 class Map
 {
 	private $CI;
 	private $config;
+	private $paths;
 
 	public function __construct()
 	{
@@ -11,24 +24,52 @@ class Map
 		$this->CI->load->library('form_validation');
 
 		$this->config = $this->CI->load->settings('map');
+
+		$db_settings = $this->CI->settings->get_settings_by_group('path');
+		
+		/* merge config file paths and database paths */
+		$this->paths = ($db_settings === false) ? $this->config['paths'] : array_merge($this->config['paths'],$db_settings);
+		
+		print_r($this->paths);
 	}
 
-	/* new function */
-	public function run($name,&$output,&$input = null,$dieonfail=true)
+	public function path($key=null,$value=null){
+		/* return all */
+		if ($key === null) {
+			return $this->paths;
+		}
+
+		/* return 1 */
+		if ($value === null) {
+			$url = empty($this->paths[$key]) ? $key : $this->config[$key];
+			
+			if ($value === true) {
+				redirect($url);
+			}
+			
+			return $url;
+		}
+
+		$this->paths[$key] = $value;
+
+		return $this;
+	}
+
+	public function form($name,&$output,&$input = null,$dieonfail=true)
 	{
 		$input = ($input) ? $input : $this->CI->input->post();
 
 		$fields = $this->config[$name];
-		
+
 		if (empty($fields)) {
 			log_message('debug','Map Library: '.$name.' Config Not Found');
-			
+
 			return true;
 		}
 
 		/* need to prep our fields array depending on it's format */
 		$formatted_fields = array();
-		
+
 		foreach ($fields as $key => $extras) {
 			if (is_integer($key)) {
 				$formatted_fields[$extras] = array($extras,'');
@@ -40,7 +81,7 @@ class Map
 				}
 			}
 		}
-		
+
 		$fields = $formatted_fields;
 
 		foreach ($fields as $field => $extras) {
@@ -52,19 +93,6 @@ class Map
 		}
 
 		return $this;
-	}
-
-	/* calls validate function on model! */
-	public function validate($classmethod,&$output)
-	{
-		if (strpos($classmethod,'::') === false) {
-			$modelname = $classmethod;
-			$method = 'validate';
-		} else {
-			list($modelname,$method) = explode('::',$classmethod);
-		}
-
-		return $this->CI->$modelname->$method($output);
 	}
 
 } /* end Form */

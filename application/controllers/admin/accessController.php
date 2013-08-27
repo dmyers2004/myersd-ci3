@@ -62,7 +62,7 @@ class accessController extends MY_AdminController
 
 	public function newPostAction()
 	{
-		if ($this->map->run('admin/access/form',$this->data)) {
+		if ($this->map->form('admin/access/form',$this->data)) {
 			if ($this->controller_model->insert($this->data)) {
 				$this->flash_msg->created($this->page_title,$this->controller_path);
 			}
@@ -74,7 +74,7 @@ class accessController extends MY_AdminController
 	public function editAction($id=null)
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
-		$this->filter->run('primaryid',$id);
+		$this->input->filter('primaryid',$id);
 
 		$this->page
 			->set('section_title','Edit '.$this->page_title)
@@ -92,9 +92,9 @@ class accessController extends MY_AdminController
 	{
 		/* if somebody is sending in bogus id's send them to a fiery death */
 		$id = $this->input->post('id');
-		$this->filter->run('primaryid',$id);
+		$this->input->filter('primaryid',$id);
 
-		if ($this->map->run('admin/access/form',$this->data)) {
+		if ($this->map->form('admin/access/form',$this->data)) {
 			if ($this->controller_model->update($this->data['id'], $this->data)) {
 				$this->flash_msg->updated($this->page_title,$this->controller_path);
 			}
@@ -108,7 +108,7 @@ class accessController extends MY_AdminController
 	{
 		$this->data['err'] = true;
 
-		if ($this->filter->run('primaryid',$id) && $this->filter->run('oneorzero',$mode)) {
+		if ($this->input->filter('primaryid',$id) && $this->input->filter('oneorzero',$mode)) {
 			if ($this->controller_model->update($id, array('active'=>$mode), true)) {
 				$this->data['err'] = false;
 			}
@@ -122,7 +122,7 @@ class accessController extends MY_AdminController
 		$this->data['err'] = true;
 
 		/* can they delete? */
-		if ($this->filter->run('primaryid',$id)) {
+		if ($this->input->filter('primaryid',$id)) {
 			$this->controller_model->delete($id);
 			$this->group_model->delete_access($id);
 			$this->data['err'] = false;
