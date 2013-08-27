@@ -1,7 +1,15 @@
 var plugins = (plugins) || {};
 
+/* how long flash msgs stay on screen */
 plugins.flash_msg = {};
 plugins.flash_msg.pause = 3000;
+
+plugins.flash_msg.show = function(type,txt) {
+	map = {green: 'success',red: 'error', yellow: 'block', 'blue': 'info', success: 'success', error: 'error', block: 'block', info: 'info'};
+	type = map[type];
+	stay = (type == 'error') ? true : false;
+	jQuery.noticeAdd({ text: txt, stay: stay, type: type, stayTime: plugins.flash_msg.pause });
+}
 
 plugins.delete_handler = {};
 
@@ -70,4 +78,5 @@ plugins.enum_handler.init = function() {
 
 	});
 };
+
 

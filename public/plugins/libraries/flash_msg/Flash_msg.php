@@ -5,6 +5,7 @@ Requires
 
 Events Library
 Page Library
+Map Library
 
 */
 class Flash_msg
@@ -63,7 +64,7 @@ class Flash_msg
 
 		/* redirect to another page immediately */
 		if ($redirect) {
-			$this->CI->paths->redirect($redirect);
+			$this->CI->map->path($redirect,true);
 		}
 
 		return $this;

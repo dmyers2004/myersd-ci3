@@ -29,8 +29,6 @@ class Map
 		
 		/* merge config file paths and database paths */
 		$this->paths = ($db_settings === false) ? $this->config['paths'] : array_merge($this->config['paths'],$db_settings);
-		
-		print_r($this->paths);
 	}
 
 	public function path($key=null,$value=null){
@@ -40,9 +38,9 @@ class Map
 		}
 
 		/* return 1 */
-		if ($value === null) {
+		if ($value === null || $value === true) {
 			$url = empty($this->paths[$key]) ? $key : $this->config[$key];
-			
+
 			if ($value === true) {
 				redirect($url);
 			}
