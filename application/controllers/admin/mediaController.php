@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class mediaController extends MY_AdminController
+class mediaController extends AdminController
 {
 	public $controller = 'media';
 	public $page_title = 'Media';

@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class accessController extends MY_AdminController
+class accessController extends AdminController
 {
 	public $controller = 'access';
 	public $page_title = 'Access';

@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class utilityController extends MY_AdminController
+class utilityController extends AdminController
 {
 	public $controller = 'utility';
 	public $page_title = 'Utility';

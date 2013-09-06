@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class miscController extends MY_PublicController
+class miscController extends PublicController
 {
 	public function indexAction()
 	{

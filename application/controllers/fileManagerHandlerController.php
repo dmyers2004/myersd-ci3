@@ -1,6 +1,6 @@
 <?php
 
-class filemanagerhandlerController extends MY_PublicController
+class filemanagerhandlerController extends PublicController
 {
   public function __construct()
   {

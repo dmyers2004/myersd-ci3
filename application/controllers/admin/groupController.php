@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class groupController extends MY_AdminController
+class groupController extends AdminController
 {
 	public $controller = 'group';
 	public $page_title = 'Group';

@@ -17,6 +17,7 @@ class Map
 	private $CI;
 	private $config;
 	private $paths;
+	private $forms;
 
 	public function __construct()
 	{
@@ -25,10 +26,13 @@ class Map
 
 		$this->config = $this->CI->load->settings('map');
 
+		$this->forms = $this->config['forms'];
+
 		$db_settings = $this->CI->settings->get_settings_by_group('path');
 		
 		/* merge config file paths and database paths */
 		$this->paths = ($db_settings === false) ? $this->config['paths'] : array_merge($this->config['paths'],$db_settings);
+		
 	}
 
 	public function path($key=null,$value=null){
@@ -57,7 +61,7 @@ class Map
 	{
 		$input = ($input) ? $input : $this->CI->input->post();
 
-		$fields = $this->config[$name];
+		$fields = $this->forms[$name];
 
 		if (empty($fields)) {
 			log_message('debug','Map Library: '.$name.' Config Not Found');

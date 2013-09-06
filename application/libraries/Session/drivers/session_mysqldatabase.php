@@ -279,14 +279,9 @@ class CI_Session_mysqldatabase extends CI_Session_driver {
 	}
 
 	public function database_write($id, $data) {
-		$data = array(
-			'session_id' => $id,
-			'ip_address' => $this->user_ip,
-			'user_agent' => $this->user_agent,
-			'last_activity' => time(),
-			'user_data' => $data
-		);
-		return $this->link->query($this->mysql_replace($this->sess_table_name,$data));
+		$sql  = 'replace into '.$this->sess_table_name.' (session_id, ip_address, user_agent, last_activity, user_data) ';
+		$sql .= "values ('".mysql_real_escape_string($id)."','".mysql_real_escape_string($this->user_ip)."','".mysql_real_escape_string($this->user_agent)."','".mysql_real_escape_string(time())."','".mysql_real_escape_string($data)."')";
+		return $this->link->query($sql);
 	}
 
 	public function database_destroy($id) {
@@ -295,13 +290,6 @@ class CI_Session_mysqldatabase extends CI_Session_driver {
 
 	public function database_clean($max) {
 		return $this->link->query("delete from ".$this->sess_table_name." where last_activity < '".mysql_real_escape_string(time() - $max)."'");
-	}
-
-	private function mysql_replace($t,$f) {
-		$fields = $values = '';
-	  foreach ($f as $key => $value) $fields .= '`'.$key.'`, ';
-	  foreach ($f as $key => $value) $values .= "'".mysql_real_escape_string($value)."', ";
-	  return 'replace into '.$t.' ('.rtrim($fields,', ').') values ('.rtrim($values,', ').')';
 	}
 
 }

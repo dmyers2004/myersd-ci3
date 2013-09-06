@@ -9,7 +9,7 @@
  */
 
 /* load jamie's model */
-require __DIR__.'/../libraries/Jamie_model.php';
+require(APPPATH.'libraries/base/Jamie_model.php');
 
 /* extend it */
 class MY_Model extends Jamie_model

@@ -1,6 +1,6 @@
 var mvc = (mvc) || {};
 
-jQuery.fn.ajaxForm = function(debug) {
+jQuery.fn.ajaxForm = function() {
 	$(this).submit(function(e) {
 		//e.preventDefault();
 

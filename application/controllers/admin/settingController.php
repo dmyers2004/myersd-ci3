@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class settingController extends MY_AdminController
+class settingController extends AdminController
 {
 	public $controller = 'setting';
 	public $page_title = 'Setting';
@@ -11,9 +11,11 @@ class settingController extends MY_AdminController
 	public function indexAction()
 	{
 		$this->page
-			->onready("magicheader.init();")
-			->set('records',$this->controller_model->order_by('group')->get_all())
+			->set('all_records',$this->format_settings($this->controller_model->order_by('group')->get_all()))
+			->onready("magicheader.init({active: '.active .table-fixed-header', container: '.tab-content'});")
+			->onready("$('#access-tabs a').click(function (e) { e.preventDefault(); $(this).tab('show'); }); $('#access-tabs a:first').tab('show');")
 			->build();
+						
 	}
 
 	public function newAction()
@@ -97,4 +99,18 @@ class settingController extends MY_AdminController
 
 		$this->output->json($this->data);
 	}
+	
+	protected function format_settings($settings)
+	{
+		$formatted = array();
+
+		foreach ($settings as $record) {
+			$formatted[$record->group][] = $record;
+		}
+
+		ksort($formatted);
+
+		return $formatted;
+	}
+	
 } /* end settings */

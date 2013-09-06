@@ -6,7 +6,7 @@
  *
  */
 
-class MY_PublicController extends MY_Controller
+class PublicController extends MY_Controller
 {
 
 	public function __construct()
@@ -27,5 +27,5 @@ class MY_PublicController extends MY_Controller
 			->config('javascript');
 	}
 
-} /* end MY_PublicController */
+} /* end PublicController */
 

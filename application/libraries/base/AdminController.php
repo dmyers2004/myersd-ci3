@@ -6,7 +6,7 @@
  *
  */
 
-class MY_AdminController extends MY_PublicController
+class AdminController extends PublicController
 {
 
 	/* your basic scaffolding */
@@ -50,4 +50,4 @@ class MY_AdminController extends MY_PublicController
 			->config('admin');
 	}
 
-} /* end MY_AdminController */
+} /* end AdminController */

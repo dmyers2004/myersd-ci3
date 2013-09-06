@@ -29,16 +29,8 @@ class group_model extends MY_Model
 			/* access to everything */
 			return array('/*');
 		} else {
-			return array(
-				'/nav/dashboard',
-				'/url/admin/*',
-				'/url/ticket/*',
-				'/nav/bugz/*',
-				'/nav/*',
-				'/bugz/ticket/edit/description',
-				'/bugz/ticket/edit/title',
-				'/bugz/ticket/edit/tags'
-			);
+			/* manual patch in other then user here */
+			/* return array( bla, bla bla ); */
 		}
 
     $this->db->select('resource');

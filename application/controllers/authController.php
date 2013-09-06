@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class authController extends MY_PublicController
+class authController extends PublicController
 {
 	public $controller_path = '/auth/';
 

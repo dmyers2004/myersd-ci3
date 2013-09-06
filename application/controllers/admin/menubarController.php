@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class menubarController extends MY_AdminController
+class menubarController extends AdminController
 {
 	public $controller = 'menubar';
 	public $page_title = 'Menu';
