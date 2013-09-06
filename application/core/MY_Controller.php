@@ -5,8 +5,8 @@
  * to inherit it's methods & parameters
  */
 
-require(APPPATH.'libraries/base/PublicController.php');
-require(APPPATH.'libraries/base/AdminController.php');
+require APPPATH.'libraries/base/PublicController.php';
+require APPPATH.'libraries/base/AdminController.php';
 
 class MY_Controller extends CI_Controller
 {
