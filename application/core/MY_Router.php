@@ -4,7 +4,7 @@ class MY_Router extends CI_Router
 {
 	/*
 	NOTE:
-	The Follow DO NOT Work
+	The follow DO NOT work when using this
 	enable_query_strings
 	directory_trigger
 	controller_trigger
@@ -15,14 +15,16 @@ class MY_Router extends CI_Router
 	{
 		/* we will do some of the stuff parent::_set_request does but hey it will be easier for _set_request and well we need to do it here */
 		$idx = 0;
+		$path = '';
 
 		/* is section a folder? then "this isn't the controller file we are looking for" */
-		while (is_dir(APPPATH.'controllers/'.$segments[$idx]))
+		while (is_dir(APPPATH.'controllers/'.$path.$segments[$idx]))
 		{
+			$path .= $segments[$idx].'/';
 			$idx++;
 		}
 
-		/* must be a controller file? */
+		/* if is't not a folder then it must be the controller file? */
 		$segments[$idx++] .= 'Controller';
 
 		/* add ajax and http method */
@@ -38,7 +40,7 @@ class MY_Router extends CI_Router
 		/* if empty we will patch in index */
 		$segments[$idx] = ($segments[$idx]) ? $segments[$idx].$ajax.$request.'Action' : 'index'.$ajax.$request.'Action';
 
-		/* call the parent */
+		/* call the parent for the heavy lifting */
 		return parent::_set_request($segments);
 	}
 
