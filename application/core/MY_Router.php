@@ -2,10 +2,18 @@
 
 class MY_Router extends CI_Router
 {
-
+	/*
+	NOTE:
+	The Follow DO NOT Work
+	enable_query_strings
+	directory_trigger
+	controller_trigger
+	function_trigger
+	*/
 	/* patch on new handler 1st then past to parent handler */
 	protected function _set_request($segments = array())
 	{
+		/* we will do some of the stuff parent::_set_request does but hey it will be easier for _set_request and well we need to do it here */
 		$idx = 0;
 
 		/* is section a folder? then "this isn't the controller file we are looking for" */
@@ -27,6 +35,7 @@ class MY_Router extends CI_Router
 			parse_str(file_get_contents('php://input'), $_POST);
 		}
 
+		/* if empty we will patch in index */
 		$segments[$idx] = ($segments[$idx]) ? $segments[$idx].$ajax.$request.'Action' : 'index'.$ajax.$request.'Action';
 
 		/* call the parent */

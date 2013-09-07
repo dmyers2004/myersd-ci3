@@ -184,7 +184,7 @@ CREATE TABLE `settings` (
   `type` int(1) DEFAULT '1',
   `module_name` varchar(32) DEFAULT '',
   PRIMARY KEY (`id`,`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -193,7 +193,7 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'View fixer','fixer value','view',1,0,NULL),(2,'new','Testing','coffee',1,0,NULL),(5,'settinga','settingb','new group',1,0,NULL),(6,'title','dmfw','page',1,1,NULL),(7,'page_brand','dmfw2','page',1,1,''),(8,'foo','bar','paths',0,2,''),(9,'admin home','/admin/','paths',1,2,'paths'),(10,'meta_description','Example Application','page',1,1,''),(11,'Testing','New Testing setting','coffee',1,0,''),(12,'Shunk','Shoe','coffee',0,0,''),(13,'Monkey','Testing Monkey','new group',1,0,''),(14,'New Setting','New Setting Value','bogus',0,0,NULL);
+INSERT INTO `settings` VALUES (1,'View fixer','fixer value','view',1,0,NULL),(2,'new','Testing','coffee',1,0,NULL),(5,'settinga','settingb','new group',1,0,NULL),(6,'title','dmfw','page',1,1,NULL),(7,'page_brand','dmfw2','page',1,1,''),(8,'foo','bar','paths',0,2,''),(9,'admin home','/admin/','paths',1,2,'paths'),(10,'meta_description','Example Application','page',1,1,''),(11,'Testing','New Testing setting','coffee',1,0,''),(12,'Shunk','Shoe','coffee',0,0,''),(13,'Monkey','Testing Monkey','new group',1,0,''),(14,'New Setting','New Setting Value','bogus',0,0,NULL),(15,'Newer Setting','This is the value','view',1,0,NULL);
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,7 +283,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'dmyers','$2a$08$CC7FLTRNpzRJUsHXX2C1h.b8U02jUuG9.cM0.GBsHzaERHB1U8hTm','donmyers@me.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','2013-08-27 08:45:05','2013-04-03 19:37:06','2013-08-27 12:45:05',1),(2,'donmyers','$2a$08$W5.XVPhabGVmtUsZX4M01u2GAFrA63JD.qv5ENGzh3mVHY1KLogOi','don@myers.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-04-09 04:03:41','2013-04-29 20:47:41',1),(3,'General','$2a$08$yGAFJYB7GrNw8sLwj0fEIOJh2SpbGo2g34/soOrGotAtw2ujlEELa','general@user.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-04-09 15:26:56','2013-05-15 00:25:29',5),(5,'Joe Coffee','','joe@example.com',0,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-06-05 15:19:34','2013-08-21 17:43:01',5),(6,'Donald','$2a$08$W1SiBCC2/XD3X2oWzi0oO.47q/gY.mlXx7uYPSHBpt8PeK26ny7re','don@me.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-08-21 14:09:00','2013-08-21 18:09:00',1),(7,'Tyson','','tyson@me.com',0,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-08-21 14:10:03','2013-08-21 18:10:14',5);
+INSERT INTO `users` VALUES (1,'dmyers','$2a$08$CC7FLTRNpzRJUsHXX2C1h.b8U02jUuG9.cM0.GBsHzaERHB1U8hTm','donmyers@me.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','2013-09-06 20:14:31','2013-04-03 19:37:06','2013-09-07 00:14:31',1),(2,'donmyers','$2a$08$W5.XVPhabGVmtUsZX4M01u2GAFrA63JD.qv5ENGzh3mVHY1KLogOi','don@myers.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-04-09 04:03:41','2013-04-29 20:47:41',1),(3,'General','$2a$08$yGAFJYB7GrNw8sLwj0fEIOJh2SpbGo2g34/soOrGotAtw2ujlEELa','general@user.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-04-09 15:26:56','2013-05-15 00:25:29',5),(5,'Joe Coffee','','joe@example.com',0,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-06-05 15:19:34','2013-08-21 17:43:01',5),(6,'Donald','$2a$08$W1SiBCC2/XD3X2oWzi0oO.47q/gY.mlXx7uYPSHBpt8PeK26ny7re','don@me.com',1,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-08-21 14:09:00','2013-08-21 18:09:00',1),(7,'Tyson','','tyson@me.com',0,0,NULL,NULL,NULL,NULL,NULL,'127.0.0.1','0000-00-00 00:00:00','2013-08-21 14:10:03','2013-08-21 18:10:14',5);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
