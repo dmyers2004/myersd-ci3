@@ -54,33 +54,15 @@
 |	$route['default_controller'] = 'welcome';
 |
 | This route indicates which controller class should be loaded if the
-| URI contains no data. In the above example, the "welcome" class
+| URI contains no data. In the above example, the 'welcome' class
 | would be loaded.
 |
 |	$route['404_override'] = 'errors/page_missing';
 |
-| This route will tell the Router which controller/method to use if those
+| This route will tell the Router which /method to use if those
 | provided in the URL cannot be matched to a valid route.
 |
 */
 
-$route['default_controller'] = 'mainController/indexAction';
+$route['default_controller'] = 'main';
 $route['404_override'] = '';
-
-/* bring in our admin defaults */
-$route['admin/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2Action/$3/$4/$5/$6/$7";
-$route['admin/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2Action/$3/$4/$5/$6";
-$route['admin/(:any)/(:any)/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2Action/$3/$4/$5";
-$route['admin/(:any)/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2Action/$3/$4";
-$route['admin/(:any)/(:any)/(:any)'] = "admin/$1Controller/$2Action/$3";
-$route['admin/(:any)/(:any)'] = "admin/$1Controller/$2Action";
-$route['admin/(:any)'] = "admin/$1Controller/indexAction";
-$route['admin'] = "admin/dashboardController/indexAction";
-
-/* bring in our defaults */
-$route['(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "$1Controller/$2Action/$3/$4/$5/$6";
-$route['(:any)/(:any)/(:any)/(:any)/(:any)'] = "$1Controller/$2Action/$3/$4/$5";
-$route['(:any)/(:any)/(:any)/(:any)'] = "$1Controller/$2Action/$3/$4";
-$route['(:any)/(:any)/(:any)'] = "$1Controller/$2Action/$3";
-$route['(:any)/(:any)'] = "$1Controller/$2Action";
-$route['(:any)'] = "$1Controller/indexAction";
