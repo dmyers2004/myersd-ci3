@@ -4,7 +4,7 @@ class MY_Router extends CI_Router
 {
 	/*
 	NOTE:
-	The follow DO NOT work when using this
+	The following DOESN"T work when using this
 	enable_query_strings
 	directory_trigger
 	controller_trigger
@@ -20,8 +20,7 @@ class MY_Router extends CI_Router
 		/* is section a folder? then "this isn't the controller file we are looking for" */
 		while (is_dir(APPPATH.'controllers/'.$path.$segments[$idx]))
 		{
-			$path .= $segments[$idx].'/';
-			$idx++;
+			$path .= $segments[$idx++].'/';
 		}
 
 		/* if is't not a folder then it must be the controller file? */
@@ -33,7 +32,8 @@ class MY_Router extends CI_Router
 
 		$ajax = ( ! empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') ? 'Ajax' : '';
 
-		if ($request == 'Put') {
+		if ($request == 'Put')
+		{
 			parse_str(file_get_contents('php://input'), $_POST);
 		}
 
